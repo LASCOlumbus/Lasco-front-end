@@ -7,14 +7,16 @@ import s from './styles.module.css';
 export const Typography: React.FC<TypographyProps> = ({ className, variant = 'body-m', render, ...rest }) => {
     const element = useRender({
         defaultTagName: 'p',
+        props: mergeProps<'p'>({ className: clsx(s.wrap, className) }, rest),
         render,
-        props: mergeProps<'p'>(
-            { className: clsx(s.wrap, className) },
-            {
-                'data-typography-variant': variant,
-            } as Record<string, unknown>,
-            rest
-        ),
+        state: {
+            variant,
+        },
+        stateAttributesMapping: {
+            variant(value) {
+                return { 'data-typography-variant': value };
+            },
+        },
     });
 
     return element;
