@@ -80,7 +80,9 @@
 }
 
 body {
-    font-family: "Syne", sans-serif;
+    position: relative;
+    font-family: "Inter", sans-serif;
+    isolation: isolate;
 }
 
 .sr-only {
@@ -141,6 +143,11 @@ body {
         var(--ring-offset-shadow),
         var(--ring-shadow),
         0 0 rgb(0 0 0 / 0);
+}
+
+::selection {
+    background: var(--color-navy-blue-500);
+    color: var(--color-gray-0);
 }
 
 @media (hover: hover) and (pointer: fine) {

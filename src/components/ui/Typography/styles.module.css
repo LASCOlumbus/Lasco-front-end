@@ -1,0 +1,68 @@
+.wrap {
+    color: var(--color-gray-1000);
+    letter-spacing: 0;
+    font-weight: 400;
+}
+
+.wrap:is([data-typography-variant^="heading"], [data-typography-variant^="button"]) {
+    font-weight: 600;
+}
+
+.wrap[data-typography-variant="heading-h1"] {
+    font-size: 2rem;
+    line-height: 2.5rem;
+}
+
+.wrap[data-typography-variant="heading-h2"] {
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.wrap[data-typography-variant="heading-h3"] {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+}
+
+.wrap[data-typography-variant="heading-h4"] {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+}
+
+.wrap[data-typography-variant="heading-h5"] {
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.wrap:is(strong, b)[data-typography-variant^="body"] {
+    font-weight: 500;
+}
+
+.wrap[data-typography-variant="body-m"] {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+}
+
+.wrap[data-typography-variant="body-s"] {
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.wrap[data-typography-variant="body-caption"] {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
+
+.wrap[data-typography-variant="button-big"] {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+}
+
+.wrap[data-typography-variant="button-medium"] {
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.wrap[data-typography-variant="button-small"] {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+}
