@@ -1,6 +1,6 @@
 .wrap {
     padding: 2rem;
-    background-color: var(--color-background, #ffffff);
+    background-color: var(--color-gray-0);
     min-height: 100vh;
 }
 
@@ -15,7 +15,7 @@
 
 .description {
     margin-top: 1rem;
-    color: var(--color-text-secondary, #666666);
+    color: var(--color-gray-600);
 }
 
 .content {
@@ -25,15 +25,15 @@
 }
 
 .variant-container {
-    border: 1px solid var(--color-border, #e0e0e0);
+    border: 1px solid var(--color-gray-300);
     border-radius: 8px;
     padding: 1.5rem;
-    background-color: var(--color-surface, #fafafa);
+    background-color: var(--color-gray-100);
 }
 
 .variant-title {
     margin-bottom: 1rem;
-    color: var(--color-text-secondary, #666666);
+    color: var(--color-gray-600);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-weight: 600;
@@ -44,6 +44,6 @@
     flex-direction: column;
     gap: 0.75rem;
     padding: 1rem;
-    background-color: var(--color-background, #ffffff);
+    background-color: var(--color-gray-0);
     border-radius: 4px;
 }
