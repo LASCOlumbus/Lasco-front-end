@@ -47,3 +47,11 @@
     background-color: var(--color-gray-0);
     border-radius: 4px;
 }
+
+.button-sizes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
