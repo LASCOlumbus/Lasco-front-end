@@ -1,5 +1,7 @@
 import type { TypographyVariant } from '@/components/ui/Typography/types';
 import clsx from 'clsx';
+import { Button } from '@/components/ui/Button';
+import { ButtonSize, ButtonVariant } from '@/components/ui/Button/types';
 import { Typography } from '@/components/ui/Typography';
 import { ComponentSection } from './components/ComponentSection';
 import s from './style.module.css';
@@ -17,6 +19,10 @@ const TYPOGRAPHY_VARIANTS: TypographyVariant[] = [
     'button-medium',
     'button-small',
 ];
+
+const BUTTON_VARIANTS: ButtonVariant[] = ['primary', 'secondary', 'link'];
+
+const BUTTON_SIZES: ButtonSize[] = ['big', 'medium', 'small'];
 
 const UiKit: React.FC = () => {
     return (
@@ -47,6 +53,36 @@ const UiKit: React.FC = () => {
                                             Bold text example
                                         </Typography>
                                         <Typography variant={variant}>Regular text example</Typography>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </ComponentSection>
+                    <ComponentSection title="Buttons">
+                        {BUTTON_VARIANTS.map((variant) => {
+                            return (
+                                <div key={variant} className={s['variant-container']}>
+                                    <Typography variant="body-s" className={s['variant-title']}>
+                                        {variant}
+                                    </Typography>
+                                    <div className={s['button-sizes']}>
+                                        {BUTTON_SIZES.map((size) => {
+                                            return (
+                                                <div className={s['button-sizes']} key={`${variant}-${size}`}>
+                                                    <Button key={`${variant}-${size}`} variant={variant} size={size}>
+                                                        {variant} {size}
+                                                    </Button>
+                                                    <Button
+                                                        key={`${variant}-${size}`}
+                                                        variant={variant}
+                                                        size={size}
+                                                        disabled
+                                                    >
+                                                        {variant} {size}
+                                                    </Button>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             );
