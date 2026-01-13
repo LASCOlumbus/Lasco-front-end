@@ -1,6 +1,6 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
-import Home from '@/modules/Home';
+import { noopReturnNull } from '@/lib/utils/noopReturnNull';
 
 export const Route = createLazyFileRoute('/')({
-    component: Home,
+    component: noopReturnNull,
 });
