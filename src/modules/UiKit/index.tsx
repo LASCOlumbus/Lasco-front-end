@@ -1,11 +1,14 @@
 import type { TypographyVariant } from '@/components/ui/Typography/types';
 import { useState } from 'react';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
+import { RadioGroup } from '@base-ui/react/radio-group';
 import clsx from 'clsx';
 import { Button } from '@/components/ui/Button';
 import { ButtonSize, ButtonVariant } from '@/components/ui/Button/types';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { CheckboxGroupItem } from '@/components/ui/CheckboxGroupItem';
+import { Radio } from '@/components/ui/Radio';
+import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { Typography } from '@/components/ui/Typography';
 import { ComponentSection } from './components/ComponentSection';
 import s from './style.module.css';
@@ -38,6 +41,8 @@ const UiKit: React.FC = () => {
     });
 
     const [checkboxGroupValue, setCheckboxGroupValue] = useState<string[]>(['item2', 'item4']);
+
+    const [radioGroupValue, setRadioGroupValue] = useState<string>('radio2');
 
     const handleCheckboxChange = (name: string, checked: boolean) => {
         setCheckboxStates((prev) => {
@@ -173,6 +178,58 @@ const UiKit: React.FC = () => {
                                         value="item5"
                                     />
                                 </CheckboxGroup>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Radio">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic Radio
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Typography variant="body-m" style={{ marginBottom: '1rem' }}>
+                                    Note: Radio buttons must be used within a RadioGroup
+                                </Typography>
+                                <RadioGroup
+                                    value={radioGroupValue}
+                                    onValueChange={(value) => {
+                                        return setRadioGroupValue(value as string);
+                                    }}
+                                >
+                                    <div className={s['button-sizes']}>
+                                        <Radio value="radio1" />
+                                        <Radio value="radio2" />
+                                        <Radio value="radio3" disabled />
+                                    </div>
+                                </RadioGroup>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Radio Group Item">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                With Labels (using RadioGroup)
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <RadioGroup
+                                    className={s['checkbox-group']}
+                                    value={radioGroupValue}
+                                    onValueChange={(value) => {
+                                        return setRadioGroupValue(value as string);
+                                    }}
+                                >
+                                    <RadioGroupItem label="Option 1" value="radio1" />
+                                    <RadioGroupItem label="Option 2 (Selected)" value="radio2" />
+                                    <RadioGroupItem label="Option 3 (Disabled)" value="radio3" disabled />
+                                    <RadioGroupItem
+                                        label={
+                                            <span>
+                                                Option 4 with <strong>custom React node</strong>
+                                            </span>
+                                        }
+                                        value="radio4"
+                                    />
+                                </RadioGroup>
                             </div>
                         </div>
                     </ComponentSection>

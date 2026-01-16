@@ -1,0 +1,9 @@
+/* Use :has() selector to check if the radio child is checked */
+.radioItem:has([role="radio"][data-checked]) {
+    border-color: var(--button-primary);
+    background-color: var(--surface-input-hover);
+}
+
+.radioItem:has([role="radio"][data-checked]):hover:not([data-disabled]) {
+    border-color: var(--button-primary-hover);
+}
