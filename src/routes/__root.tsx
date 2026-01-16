@@ -1,5 +1,6 @@
 import React from 'react';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { ToastNotificationContext } from '@/context/ToastNotificationContext';
 
 const TanStackDevtools = import.meta.env.DEV
     ? React.lazy(async () => {
@@ -38,9 +39,23 @@ const ReactQueryDevtoolsPanel = import.meta.env.DEV
       };
 
 export const Route = createRootRoute({
+    head() {
+        return {
+            meta: [
+                {
+                    name: 'title',
+                    content: 'Lasco',
+                },
+                {
+                    name: 'description',
+                    content: 'Lasco',
+                },
+            ],
+        };
+    },
     component() {
         return (
-            <>
+            <ToastNotificationContext>
                 <Outlet />
                 <React.Suspense>
                     <TanStackDevtools
@@ -61,7 +76,7 @@ export const Route = createRootRoute({
                         ]}
                     />
                 </React.Suspense>
-            </>
+            </ToastNotificationContext>
         );
     },
 });
