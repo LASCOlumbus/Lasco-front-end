@@ -1,10 +1,17 @@
-export type ObjValues<T> = T[keyof T];
+export type ObjValues<TObj> = TObj[keyof TObj];
 
-export type WithClassName<T> = T & {
+export type WithClassName<TProps = unknown> = TProps & {
     /**
         Extendable classnames of component
     */
     className?: string;
 };
 
-export type SetStateValue<T> = React.Dispatch<React.SetStateAction<T>>;
+export type WithChildren<TProps = unknown> = TProps & {
+    /**
+     * Extendable children of component
+     */
+    children?: React.ReactNode;
+};
+
+export type SetStateValue<TValue> = React.Dispatch<React.SetStateAction<TValue>>;

@@ -1,7 +1,11 @@
 import type { TypographyVariant } from '@/components/ui/Typography/types';
+import { useState } from 'react';
+import { CheckboxGroup } from '@base-ui/react/checkbox-group';
 import clsx from 'clsx';
 import { Button } from '@/components/ui/Button';
 import { ButtonSize, ButtonVariant } from '@/components/ui/Button/types';
+import { Checkbox } from '@/components/ui/Checkbox';
+import { CheckboxGroupItem } from '@/components/ui/CheckboxGroupItem';
 import { Typography } from '@/components/ui/Typography';
 import { ComponentSection } from './components/ComponentSection';
 import s from './style.module.css';
@@ -25,6 +29,27 @@ const BUTTON_VARIANTS: ButtonVariant[] = ['primary', 'secondary', 'link'];
 const BUTTON_SIZES: ButtonSize[] = ['big', 'medium', 'small'];
 
 const UiKit: React.FC = () => {
+    const [checkboxStates, setCheckboxStates] = useState({
+        basic1: false,
+        basic2: true,
+        basic3: false,
+        basic4: true,
+        indeterminate1: false,
+    });
+
+    const [checkboxGroupValue, setCheckboxGroupValue] = useState<string[]>(['item2', 'item4']);
+
+    const handleCheckboxChange = (name: string, checked: boolean) => {
+        setCheckboxStates((prev) => {
+            return { ...prev, [name]: checked };
+        });
+    };
+
+    const createCheckboxChangeHandler = (name: string) => {
+        return (checked: boolean) => {
+            handleCheckboxChange(name, checked);
+        };
+    };
     return (
         <main className={clsx(s.wrap, 'full-height')}>
             <div className={s.inner}>
@@ -87,6 +112,69 @@ const UiKit: React.FC = () => {
                                 </div>
                             );
                         })}
+                    </ComponentSection>
+                    <ComponentSection title="Checkbox">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic Checkbox
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <div className={s['button-sizes']}>
+                                    <Checkbox
+                                        checked={checkboxStates.basic1}
+                                        onCheckedChange={createCheckboxChangeHandler('basic1')}
+                                    />
+                                    <Checkbox
+                                        checked={checkboxStates.basic2}
+                                        onCheckedChange={createCheckboxChangeHandler('basic2')}
+                                    />
+                                    <Checkbox
+                                        checked={checkboxStates.basic3}
+                                        onCheckedChange={createCheckboxChangeHandler('basic3')}
+                                        disabled
+                                    />
+                                    <Checkbox
+                                        checked={checkboxStates.basic4}
+                                        onCheckedChange={createCheckboxChangeHandler('basic4')}
+                                        disabled
+                                    />
+                                    <Checkbox
+                                        checked={checkboxStates.indeterminate1}
+                                        onCheckedChange={createCheckboxChangeHandler('indeterminate1')}
+                                        indeterminate
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Checkbox Group Item">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                With Labels (using CheckboxGroup)
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <CheckboxGroup
+                                    className={s['checkbox-group']}
+                                    value={checkboxGroupValue}
+                                    onValueChange={(value) => {
+                                        return setCheckboxGroupValue(value);
+                                    }}
+                                >
+                                    <CheckboxGroupItem label="Option 1" value="item1" />
+                                    <CheckboxGroupItem label="Option 2 (Checked)" value="item2" />
+                                    <CheckboxGroupItem label="Option 3 (Disabled)" value="item3" disabled />
+                                    <CheckboxGroupItem label="Option 4 (Checked & Disabled)" value="item4" disabled />
+                                    <CheckboxGroupItem
+                                        label={
+                                            <span>
+                                                Option 5 with <strong>custom React node</strong>
+                                            </span>
+                                        }
+                                        value="item5"
+                                    />
+                                </CheckboxGroup>
+                            </div>
+                        </div>
                     </ComponentSection>
                 </section>
             </div>
