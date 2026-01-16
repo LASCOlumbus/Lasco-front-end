@@ -7,7 +7,7 @@ export const Radio: React.FC<RadioProps> = ({ className, ...rest }) => {
     return (
         <BaseRadio.Root className={clsx(s.wrap, 'focus-primary', className)} {...rest}>
             <BaseRadio.Indicator className={s.indicator}>
-                <span className={s.indicatorDot} />
+                <span className={s['indicator-dot']} />
             </BaseRadio.Indicator>
         </BaseRadio.Root>
     );

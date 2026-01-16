@@ -81,13 +81,13 @@
     }
 }
 
-.indicatorDot {
+.indicator-dot {
     width: 0.625rem;
     height: 0.625rem;
     border-radius: 50%;
     background-color: var(--button-primary);
 }
 
-.wrap[data-checked]:hover:not([data-disabled]) .indicatorDot {
+.wrap[data-checked]:hover:not([data-disabled]) .indicator-dot {
     background-color: var(--button-primary-hover);
 }
