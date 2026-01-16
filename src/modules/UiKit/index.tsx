@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import clsx from 'clsx';
+import { toastManager } from '@/lib/@toastManager';
 import { Button } from '@/components/ui/Button';
 import { ButtonSize, ButtonVariant } from '@/components/ui/Button/types';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -230,6 +231,75 @@ const UiKit: React.FC = () => {
                                         value="radio4"
                                     />
                                 </RadioGroup>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Toast">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Toast Notifications
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <div className={s['button-sizes']}>
+                                    <Button
+                                        variant="primary"
+                                        size="medium"
+                                        onClick={() => {
+                                            toastManager.add({
+                                                type: 'success',
+                                                title: 'Success',
+                                                description: 'Your action was completed successfully!',
+                                                timeout: 5000,
+                                            });
+                                        }}
+                                    >
+                                        Show Success Toast
+                                    </Button>
+                                    <Button
+                                        variant="primary"
+                                        size="medium"
+                                        onClick={() => {
+                                            toastManager.add({
+                                                type: 'error',
+                                                title: 'Error',
+                                                description: 'Something went wrong. Please try again.',
+                                                timeout: 5000,
+                                            });
+                                        }}
+                                    >
+                                        Show Error Toast
+                                    </Button>
+                                    <Button
+                                        variant="secondary"
+                                        size="medium"
+                                        onClick={() => {
+                                            toastManager.add({
+                                                type: 'success',
+                                                title: 'Custom Title',
+                                                description:
+                                                    'This is a custom success message with a longer description to test how the toast handles multiple lines of text.',
+                                                timeout: 7000,
+                                            });
+                                        }}
+                                    >
+                                        Show Custom Success
+                                    </Button>
+                                    <Button
+                                        variant="secondary"
+                                        size="medium"
+                                        onClick={() => {
+                                            toastManager.add({
+                                                type: 'error',
+                                                title: 'Validation Error',
+                                                description:
+                                                    'Please check your input and try again. Make sure all required fields are filled correctly.',
+                                                timeout: 7000,
+                                            });
+                                        }}
+                                    >
+                                        Show Custom Error
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </ComponentSection>
