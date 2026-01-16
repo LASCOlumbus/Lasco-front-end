@@ -1,0 +1,46 @@
+.wrap {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    gap: 0.5rem;
+    padding: 0.9375rem;
+    padding-right: 1.1875rem;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.75rem;
+    background-color: var(--color-gray-0);
+    cursor: pointer;
+    transition:
+        border-color 0.2s ease-in-out,
+        background-color 0.2s ease-in-out;
+}
+
+.wrap:hover:not([data-disabled]) {
+    border-color: var(--text-primary);
+    background-color: var(--surface-input-hover);
+}
+
+.wrap[data-checked] {
+    border-color: var(--button-primary);
+    background-color: var(--surface-input-hover);
+}
+
+.wrap[data-checked]:hover:not([data-disabled]) {
+    border-color: var(--button-primary-hover);
+}
+
+.wrap[data-disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.label {
+    flex: 1;
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.5rem;
+    cursor: pointer;
+}
+
+.wrap[data-disabled] .label {
+    cursor: not-allowed;
+}
