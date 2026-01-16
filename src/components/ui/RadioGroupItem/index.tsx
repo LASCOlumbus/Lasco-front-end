@@ -10,7 +10,7 @@ export const RadioGroupItem: React.FC<RadioGroupItemProps> = ({ className, label
     // to style the wrapper based on the radio's data-checked attribute.
     return (
         <ChoiceInputWithLabelWrapper
-            className={clsx(s.radioItem, className)}
+            className={clsx(s.wrap, className)}
             checked={false}
             disabled={radioProps.disabled}
             label={label}
