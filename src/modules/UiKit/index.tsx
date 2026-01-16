@@ -4,6 +4,7 @@ import { CheckboxGroup } from '@base-ui/react/checkbox-group';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import clsx from 'clsx';
 import { toastManager } from '@/lib/@toastManager';
+import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
 import { ButtonSize, ButtonVariant } from '@/components/ui/Button/types';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -300,6 +301,20 @@ const UiKit: React.FC = () => {
                                         Show Custom Error
                                     </Button>
                                 </div>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Alert">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Informational Alert
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Alert>This is an informational alert message.</Alert>
+                                <Alert>
+                                    This is a longer alert message that demonstrates how the component handles multiple
+                                    lines of text and maintains proper spacing and alignment.
+                                </Alert>
                             </div>
                         </div>
                     </ComponentSection>
