@@ -1,0 +1,43 @@
+.root {
+    position: relative;
+    overflow: hidden;
+}
+
+.viewport {
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+}
+
+.root .scrollbar {
+    display: flex !important;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.scrollbar[data-orientation="vertical"] {
+    width: var(--scrollbar-size);
+    height: 100%;
+    border-left: 1px solid transparent;
+    padding: 1px;
+}
+
+.scrollbar[data-orientation="horizontal"] {
+    width: 100%;
+    height: var(--scrollbar-size);
+    border-top: 1px solid transparent;
+    padding: 1px;
+}
+
+.thumb {
+    position: relative;
+    flex: 1;
+    border-radius: var(--radius-full);
+    background-color: var(--scrollbar-thumb-color);
+    transition: background-color 0.2s ease;
+}
+
+.scrollbar:hover .thumb {
+    background-color: var(--scrollbar-thumb-color-hover);
+}

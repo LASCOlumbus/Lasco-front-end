@@ -1,0 +1,2 @@
+export const SELECT_CONTENT_OFFSET = 4;
+export const SELECT_SEARCH_DEBOUNCE_DELAY = 300;

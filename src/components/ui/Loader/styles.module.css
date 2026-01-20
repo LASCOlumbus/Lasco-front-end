@@ -1,0 +1,12 @@
+.wrap {
+    --loader-color: currentcolor;
+
+    color: var(--loader-color);
+    animation: loader-spin 1s infinite linear;
+}
+
+@keyframes loader-spin {
+    to {
+        transform: rotate(1turn);
+    }
+}

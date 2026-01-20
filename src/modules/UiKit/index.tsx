@@ -1,3 +1,4 @@
+import type { E164Number } from 'libphonenumber-js/core';
 import type { TypographyVariant } from '@/components/ui/Typography/types';
 import { useState } from 'react';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
@@ -9,8 +10,14 @@ import { Button } from '@/components/ui/Button';
 import { ButtonSize, ButtonVariant } from '@/components/ui/Button/types';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { CheckboxGroupItem } from '@/components/ui/CheckboxGroupItem';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
+import Input from '@/components/ui/Input';
+import PhoneInput from '@/components/ui/Input/components/PhoneInput';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { Radio } from '@/components/ui/Radio';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
+import { ScrollArea } from '@/components/ui/ScrollArea';
+import Select from '@/components/ui/Select';
 import { Typography } from '@/components/ui/Typography';
 import { ComponentSection } from './components/ComponentSection';
 import s from './style.module.css';
@@ -33,6 +40,14 @@ const BUTTON_VARIANTS: ButtonVariant[] = ['primary', 'secondary', 'link'];
 
 const BUTTON_SIZES: ButtonSize[] = ['big', 'medium', 'small'];
 
+const SELECT_OPTIONS = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+    { label: 'Option 4', value: 'option4' },
+    { label: 'Option 5', value: 'option5' },
+] as const;
+
 const UiKit: React.FC = () => {
     const [checkboxStates, setCheckboxStates] = useState({
         basic1: false,
@@ -45,6 +60,17 @@ const UiKit: React.FC = () => {
     const [checkboxGroupValue, setCheckboxGroupValue] = useState<string[]>(['item2', 'item4']);
 
     const [radioGroupValue, setRadioGroupValue] = useState<string>('radio2');
+
+    const [inputValue, setInputValue] = useState<string>('');
+
+    const [phoneValue, setPhoneValue] = useState<E164Number | ''>('');
+
+    const [selectValue, setSelectValue] = useState<string | number>('option2');
+    const [selectSearch, setSelectSearch] = useState<string>('');
+
+    const [selectMultipleValue, setSelectMultipleValue] = useState<(string | number)[]>(['option1', 'option3']);
+
+    const [isDrawerOpened, setIsDrawerOpened] = useState(false);
 
     const handleCheckboxChange = (name: string, checked: boolean) => {
         setCheckboxStates((prev) => {
@@ -315,6 +341,163 @@ const UiKit: React.FC = () => {
                                     This is a longer alert message that demonstrates how the component handles multiple
                                     lines of text and maintains proper spacing and alignment.
                                 </Alert>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Input">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Input
+                                    placeholder="Type something…"
+                                    value={inputValue}
+                                    onChange={(e) => {
+                                        return setInputValue(e.target.value);
+                                    }}
+                                />
+                                <Input placeholder="Small input" size="sm" />
+                                <Input placeholder="Loading state" isLoading />
+                                <Input placeholder="Error state" errorMessage="This field is required" />
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Phone Input">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                International (react-phone-number-input)
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <PhoneInput
+                                    value={phoneValue}
+                                    onChange={(value) => {
+                                        return setPhoneValue(value ?? '');
+                                    }}
+                                />
+                                <PhoneInput
+                                    value={phoneValue}
+                                    onChange={(value) => {
+                                        return setPhoneValue(value ?? '');
+                                    }}
+                                    errorMessage="Invalid phone number"
+                                />
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Select">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Single (searchable)
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Select
+                                    type="single"
+                                    placeholder="Pick an option"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={selectValue}
+                                    onChange={setSelectValue}
+                                    isSearchable
+                                    search={selectSearch}
+                                    onSearchChange={setSelectSearch}
+                                />
+                                <Select
+                                    type="single"
+                                    placeholder="Disabled"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={selectValue}
+                                    onChange={setSelectValue}
+                                    disabled
+                                />
+                            </div>
+                        </div>
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Multiple
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Select
+                                    type="multiple"
+                                    placeholder="Pick multiple"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={selectMultipleValue}
+                                    onChange={setSelectMultipleValue}
+                                    singularPrefix="item"
+                                    pluralPrefix="items"
+                                />
+                                <Select
+                                    type="multiple"
+                                    placeholder="Error state"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={selectMultipleValue}
+                                    onChange={setSelectMultipleValue}
+                                    singularPrefix="item"
+                                    pluralPrefix="items"
+                                    errorMessage="Please select at least one"
+                                />
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Popover">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Popover>
+                                    <PopoverTrigger render={<Button variant="primary" size="medium" />}>
+                                        Open popover
+                                    </PopoverTrigger>
+                                    <PopoverContent style={{ padding: '12px' }}>
+                                        <Typography variant="body-s">Popover content</Typography>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Drawer">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Drawer open={isDrawerOpened} onOpenChange={setIsDrawerOpened}>
+                                    <DrawerTrigger asChild>
+                                        <Button variant="primary" size="medium">
+                                            Open drawer
+                                        </Button>
+                                    </DrawerTrigger>
+                                    <DrawerContent>
+                                        <div style={{ padding: '16px' }}>
+                                            <DrawerHeader>
+                                                <DrawerTitle>Drawer title</DrawerTitle>
+                                            </DrawerHeader>
+                                            <Typography variant="body-s">
+                                                This is a basic drawer example for the UI Kit.
+                                            </Typography>
+                                        </div>
+                                    </DrawerContent>
+                                </Drawer>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Scroll Area">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Always visible scrollbar
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <ScrollArea style={{ height: 160 }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingRight: 12 }}>
+                                        {Array.from({ length: 20 }).map((_, idx) => {
+                                            return (
+                                                <Typography key={idx} variant="body-s">
+                                                    Scroll item {idx + 1}
+                                                </Typography>
+                                            );
+                                        })}
+                                    </div>
+                                </ScrollArea>
                             </div>
                         </div>
                     </ComponentSection>

@@ -1,0 +1,32 @@
+.wrap {
+    display: flex;
+    width: 100%;
+    border: 1px solid var(--color-gray-500);
+    color: var(--color-gray-950);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    line-height: 1.125rem;
+    padding: var(--spacing-md);
+    background-color: var(--color-gray-50);
+    transition: border-color 0.2s ease-in-out;
+    min-height: 6.25rem;
+    max-height: 10rem;
+    resize: vertical;
+}
+
+.wrap:hover {
+    border-color: var(--color-gray-650);
+}
+
+.wrap::placeholder {
+    color: var(--color-gray-800);
+}
+
+.wrap:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.wrap.error {
+    border-color: var(--color-red-400);
+}

@@ -1,0 +1,232 @@
+.wrap:hover {
+    background-color: var(--color-gray-200);
+}
+
+.icon {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-gray-800);
+}
+
+.flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 1rem;
+    height: 1rem;
+}
+
+.flag-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2xs);
+}
+
+.list,
+.empty {
+    transition: opacity 0.2s ease;
+    flex: 1;
+}
+
+.list :global(.scroll-area-viewport) {
+    padding: var(--spacing-3xs);
+    max-height: 18.75rem;
+}
+
+.empty {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+}
+
+.trigger {
+    display: inline-flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    align-self: stretch;
+    background-color: var(--color-gray-50);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-gray-500);
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+    z-index: 5;
+    padding: calc(var(--spacing-sm) + 3px) var(--spacing-md);
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease-in-out,
+        border-color 0.2s ease-in-out;
+}
+
+.trigger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.trigger:hover,
+.trigger[data-state="open"] {
+    border-color: var(--color-gray-600);
+}
+
+.trigger:hover {
+    background-color: var(--color-gray-300);
+}
+
+.trigger[data-state="open"] {
+    background-color: var(--color-gray-400);
+}
+
+.trigger[data-size="default"] {
+    padding: 0.6875rem var(--spacing-md);
+    border-radius: var(--radius-md);
+}
+
+.trigger .flag,
+.trigger .flag .icon.phone {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.trigger .icon.indicator {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    color: var(--color-gray-650);
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+.trigger[data-state="open"] .icon.indicator {
+    color: var(--color-gray-800);
+    transform: rotate(180deg);
+}
+
+.inner {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.content {
+    width: 18.75rem;
+}
+
+.search-wrap {
+    padding: var(--spacing-2xs);
+}
+
+.list-item {
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid var(--border);
+}
+
+.list-item:hover {
+    background-color: var(--secondary-hover);
+}
+
+.option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    border: none;
+    width: 100%;
+    background-color: transparent;
+    padding: var(--spacing-sm);
+    cursor: default;
+    user-select: none;
+    border-radius: var(--radius-sm);
+    transition:
+        background-color 0.15s ease-out,
+        color 0.15s ease-out;
+}
+
+.option:hover {
+    background-color: var(--color-gray-300);
+}
+
+.option:active {
+    background-color: var(--color-gray-400);
+}
+
+.option svg {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+}
+
+.option .icon.check {
+    color: var(--color-brand-violet-500);
+}
+
+.option[aria-selected="true"] {
+    background-color: var(--color-brand-violet-100);
+}
+
+.option[aria-selected="true"]:hover {
+    background-color: var(--color-brand-violet-500);
+    color: var(--color-gray-50);
+}
+
+.option[aria-selected="true"]:hover .icon.check {
+    color: var(--color-gray-50);
+}
+
+.option[aria-selected="true"]:active {
+    background-color: var(--color-brand-violet-600);
+}
+
+.option[aria-selected="true"]:active .icon.check {
+    color: var(--color-gray-50);
+}
+
+.option > span {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.separator line {
+    stroke: var(--color-gray-500);
+    stroke-width: 1;
+}
+
+@media screen and (max-width: 767px) {
+    .option {
+        padding: var(--spacing-md) var(--spacing-sm);
+    }
+
+    .option[aria-selected="true"] {
+        background-color: var(--color-gray-50);
+    }
+
+    .list :global(.scroll-area-viewport) {
+        padding: var(--spacing-xs) var(--spacing-md);
+    }
+
+    .content {
+        width: 100%;
+        padding-bottom: var(--spacing-lg);
+    }
+
+    .content .line {
+        position: absolute;
+        left: 50%;
+        bottom: var(--spacing-sm);
+        transform: translateX(-50%);
+        width: 7.5rem;
+        height: 0.25rem;
+        background-color: var(--color-gray-650);
+        border-radius: var(--radius-full);
+    }
+}
