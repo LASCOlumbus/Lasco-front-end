@@ -352,4 +352,4 @@ const Select: React.FC<SelectProps> = ({
     );
 };
 
-export default React.memo(Select);
+export default Select;

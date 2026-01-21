@@ -408,6 +408,17 @@ const UiKit: React.FC = () => {
                                 />
                                 <Select
                                     type="single"
+                                    size="sm"
+                                    placeholder="Pick an option"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={undefined}
+                                    onChange={setSelectValue}
+                                    isSearchable
+                                    search={selectSearch}
+                                    onSearchChange={setSelectSearch}
+                                />
+                                <Select
+                                    type="single"
                                     placeholder="Pick an option"
                                     options={[...SELECT_OPTIONS]}
                                     value={selectValue}

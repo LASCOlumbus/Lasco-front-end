@@ -55,6 +55,9 @@
     transition: border-color 0.2s ease-in-out;
     background-color: var(--surface-input);
     cursor: pointer;
+    padding: 0.9375rem;
+    border-radius: 0.75rem;
+    line-height: 1.5rem;
     transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
@@ -72,16 +75,14 @@
     box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--shadow, 0 0 #00000000);
 }
 
-.trigger[data-size="default"] {
-    padding: 0.9375rem;
-    border-radius: 0.75rem;
+.trigger[data-size="default"] .value {
+    font-size: 1.125rem;
 }
 
-.trigger[data-size="sm"] {
+.trigger[data-size="sm"] .value {
     --trigger-indicator-size: 1rem;
 
-    padding: 0.625rem;
-    border-radius: 0.75rem;
+    font-size: 1rem;
 }
 
 .trigger.error {
