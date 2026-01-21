@@ -18,6 +18,7 @@ import { Radio } from '@/components/ui/Radio';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import Select from '@/components/ui/Select';
+import TextArea from '@/components/ui/TextArea';
 import { Typography } from '@/components/ui/Typography';
 import { ComponentSection } from './components/ComponentSection';
 import s from './style.module.css';
@@ -360,6 +361,17 @@ const UiKit: React.FC = () => {
                                 <Input placeholder="Small input" size="sm" />
                                 <Input placeholder="Loading state" isLoading />
                                 <Input placeholder="Error state" errorMessage="This field is required" />
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Textarea">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <TextArea placeholder="Type something…" />
+                                <TextArea placeholder="Type something…" errorMessage="This field is required" />
                             </div>
                         </div>
                     </ComponentSection>

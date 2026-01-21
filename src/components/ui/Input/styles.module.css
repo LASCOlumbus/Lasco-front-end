@@ -7,9 +7,9 @@
     display: flex;
     border-radius: 0.75rem;
     border: 1px solid var(--border-primary);
-    transition: border-color 0.2s ease-in-out;
     border-radius: 0.75rem;
     overflow: hidden;
+    transition: border-color 0.2s ease-in-out;
 }
 
 .wrap.sm {

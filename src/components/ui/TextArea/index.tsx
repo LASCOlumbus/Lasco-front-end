@@ -1,8 +1,6 @@
-'use client';
-
+import type { TextAreaProps } from './types';
 import React from 'react';
 import clsx from 'clsx';
-import type { TextAreaProps } from './types';
 import s from './styles.module.css';
 
 const TextArea: React.FC<TextAreaProps> = ({ className, errorMessage, ...rest }) => {
