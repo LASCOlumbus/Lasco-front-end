@@ -37,4 +37,4 @@ const Input: React.FC<InputProps> = ({
     );
 };
 
-export default React.memo(Input);
+export default Input;
