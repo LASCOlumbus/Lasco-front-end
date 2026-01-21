@@ -10,6 +10,25 @@
     max-height: 18.75rem;
 }
 
+.search-wrap {
+    padding: 0.25rem;
+}
+
+.search-wrap .input {
+    --input-addon-spacing: 3rem;
+    --input-addon-position: 0.9375rem;
+}
+
+.search-wrap .input :global(.input-inner) {
+    padding-block: 0.6875rem;
+}
+
+.search-wrap .input .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    color: var(--icon-primary);
+}
 
 .empty {
     width: 100%;
@@ -32,15 +51,16 @@
     justify-content: space-between;
     gap: var(--spacing-sm);
     width: 100%;
-    border: 1px solid var(--color-gray-500);
+    border: 1px solid var(--border-primary);
     transition: border-color 0.2s ease-in-out;
-    background-color: var(--color-gray-50);
-    text-transform: capitalize !important;
+    background-color: var(--surface-input);
     cursor: pointer;
+    transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-.trigger:hover {
-    border-color: var(--color-gray-650);
+.trigger:is(:hover, [data-popup-open]) {
+    border-color: var(--border-primary-hover);
+    background-color: var(--surface-input-hover);
 }
 
 .trigger:disabled {
@@ -53,19 +73,19 @@
 }
 
 .trigger[data-size="default"] {
-    padding: 0.6875rem var(--spacing-md);
-    border-radius: var(--radius-md);
+    padding: 0.9375rem;
+    border-radius: 0.75rem;
 }
 
 .trigger[data-size="sm"] {
     --trigger-indicator-size: 1rem;
 
-    padding: 0.4375rem var(--spacing-md);
-    border-radius: var(--radius-sm);
+    padding: 0.625rem;
+    border-radius: 0.75rem;
 }
 
 .trigger.error {
-    border-color: var(--color-red-500) !important;
+    border-color: var(--border-negative);
 }
 
 .trigger > svg,
@@ -80,16 +100,18 @@
 }
 
 .trigger .icon.indicator {
-    color: var(--color-gray-650);
-    transform: rotate(-90deg);
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--icon-primary);
+    transform: rotate(180deg);
     transition:
         transform 0.2s ease,
         color 0.2s ease;
 }
 
-.trigger[data-state="open"] .icon.indicator {
-    color: var(--color-gray-800);
-    transform: rotate(90deg);
+.trigger[data-popup-open] .icon.indicator {
+    transform: rotate(0deg);
 }
 
 .inner {
@@ -99,20 +121,7 @@
 }
 
 .value.placeholder {
-    color: var(--color-gray-800);
-}
-
-.search-wrap {
-    padding: var(--spacing-2xs);
-}
-
-.select-list-item {
-    transition: background-color 0.2s ease;
-    border-bottom: 1px solid var(--border);
-}
-
-.select-list-item:hover {
-    background-color: var(--secondary-hover);
+    color: var(--text-secondary);
 }
 
 .loader-wrap {
@@ -130,38 +139,14 @@
     height: 1rem;
 }
 
-.content.creatable .loader-wrap {
-    position: relative;
-}
 
-.separator line {
-    stroke: var(--color-gray-500);
-    stroke-width: 1;
-}
 
 @media screen and (max-width: 767px) {
-
-
-    .option[aria-selected="true"] {
-        background-color: var(--color-gray-50);
-    }
-
     .list :global(.scroll-area-viewport) {
         padding: var(--spacing-xs) var(--spacing-md);
     }
 
     .content {
         padding-bottom: var(--spacing-lg);
-    }
-
-    .content .line {
-        position: absolute;
-        left: 50%;
-        bottom: var(--spacing-sm);
-        transform: translateX(-50%);
-        width: 7.5rem;
-        height: 0.25rem;
-        background-color: var(--color-gray-650);
-        border-radius: var(--radius-full);
     }
 }

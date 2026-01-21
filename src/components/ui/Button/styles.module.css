@@ -51,7 +51,7 @@
     color: var(--color-gray-0);
 }
 
-.wrap[data-button-variant="primary"]:not(:disabled):hover {
+.wrap[data-button-variant="primary"]:not(:disabled):is(:hover, [data-popup-open], [data-state="open"]) {
     background-color: var(--button-primary-hover);
 }
 
@@ -65,7 +65,7 @@
     background-color: var(--button-secondary);
 }
 
-.wrap[data-button-variant="secondary"]:not(:disabled):hover {
+.wrap[data-button-variant="secondary"]:not(:disabled):is(:hover, [data-popup-open], [data-state="open"]) {
     background-color: var(--button-secondary-hover);
 }
 

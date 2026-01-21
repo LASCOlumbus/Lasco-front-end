@@ -1,6 +1,6 @@
 import type { SelectProps } from './types';
 import React from 'react';
-import { Component as ArrowUp20Icon } from '@/icons/arrow-up_20.svg?svgUse';
+import { Component as ChevronUp20Icon } from '@/icons/chevron-up_20.svg?svgUse';
 import { Component as Search16Icon } from '@/icons/search_16.svg?svgUse';
 import { useRafEffect, useToggle } from '@react-hookz/web';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -93,7 +93,7 @@ const Select: React.FC<SelectProps> = ({
                         {displayValue}
                     </Typography>
                 </span>
-                <ArrowUp20Icon className={clsx(s.icon, s.indicator)} />
+                <ChevronUp20Icon className={clsx(s.icon, s.indicator)} />
             </>
         );
     }, [displayValue, leftAddon, value]);
@@ -146,11 +146,12 @@ const Select: React.FC<SelectProps> = ({
                     {isSearchEnabled ? (
                         <div className={s['search-wrap']}>
                             <Input
+                                className={s.input}
                                 placeholder="Search"
                                 type="search"
                                 size="default"
                                 value={search}
-                                leftAddon={<Search16Icon />}
+                                leftAddon={<Search16Icon className={s.icon} />}
                                 onChange={searchChangeHandler}
                             />
                         </div>
@@ -260,17 +261,18 @@ const Select: React.FC<SelectProps> = ({
                 positionerProps={{
                     ...contentProps?.positionerProps,
                     align: 'start',
-                    alignOffset: contentProps?.positionerProps?.alignOffset ?? SELECT_CONTENT_OFFSET,
+                    sideOffset: contentProps?.positionerProps?.alignOffset ?? SELECT_CONTENT_OFFSET,
                 }}
             >
                 {isSearchEnabled ? (
                     <div className={s['search-wrap']}>
                         <Input
+                            className={s.input}
                             placeholder="Search"
                             type="search"
                             size="sm"
                             value={search}
-                            leftAddon={<Search16Icon />}
+                            leftAddon={<Search16Icon className={s.icon} />}
                             onChange={searchChangeHandler}
                         />
                     </div>

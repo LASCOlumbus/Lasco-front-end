@@ -24,8 +24,8 @@
 }
 
 .search-wrap .input .icon {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem;
+    height: 1.5rem;
     flex-shrink: 0;
     color: var(--icon-primary);
 }

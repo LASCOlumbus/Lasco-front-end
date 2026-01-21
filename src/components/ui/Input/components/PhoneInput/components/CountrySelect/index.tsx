@@ -16,6 +16,7 @@ import Input from '@/components/ui/Input';
 import Option from '@/components/ui/Option';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { ScrollArea } from '@/components/ui/ScrollArea';
+import { SELECT_CONTENT_OFFSET } from '@/components/ui/Select/constants';
 import { Typography } from '@/components/ui/Typography';
 import s from './styles.module.css';
 
@@ -24,6 +25,7 @@ const FlagComponent: React.FC<WithClassName<FlagProps>> = ({ className, country,
 
     return (
         <span className={clsx(s.flag, className)}>
+            {/* TODO: Add phone icon */}
             {/* {Flag ? <Flag title={countryName} /> :
             <Phone20Icon className={clsx(s.icon, s.phone)} aria-hidden />} */}
             {Flag ? <Flag title={countryName} /> : null}
@@ -92,11 +94,12 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                     </DrawerHeader>
                     <div className={s['search-wrap']}>
                         <Input
+                            className={s.input}
                             placeholder="Search"
                             type="search"
                             size="default"
                             value={search}
-                            leftAddon={<Search16Icon />}
+                            leftAddon={<Search16Icon className={s.icon} />}
                             onChange={searchChangeHandler}
                         />
                     </div>
@@ -185,7 +188,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                 className={s.content}
                 positionerProps={{
                     align: 'start',
-                    sideOffset: 4,
+                    sideOffset: SELECT_CONTENT_OFFSET,
                 }}
             >
                 <div className={s['search-wrap']}>
