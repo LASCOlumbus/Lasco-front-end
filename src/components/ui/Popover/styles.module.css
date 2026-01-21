@@ -1,4 +1,7 @@
 .content {
+    --easing: cubic-bezier(0.22, 1, 0.36, 1);
+    --animation-duration: 0.3s;
+
     position: relative;
     z-index: 50;
     min-width: 12.5rem;
@@ -6,23 +9,38 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-gray-500);
-    background-color: var(--color-gray-50);
-    color: var(--color-gray-950);
-    padding: var(--spacing-2xs);
-    box-shadow: var(--shadow-md);
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-primary);
+    background-color: var(--surface-input);
+    color: var(--text-primary);
+    padding: 0.3125rem;
+    box-shadow: 0 4px 11px hsl(0deg 0% 0% / 0.1);
 }
 
-.content[data-state="open"] {
-    animation: fade-in 0.15s ease-out;
+.content[data-open][data-side='bottom'] {
+    animation: slide-down-fade-in var(--animation-duration) var(--easing);
 }
 
-.content[data-state="closed"] {
-    animation: fade-out 0.15s ease-in;
+.content[data-closed][data-side='bottom'] {
+    animation: slide-down-fade-out calc(var(--animation-duration)) var(--easing);
 }
 
-@keyframes fade-in {
+.content[data-open][data-side='top'] {
+    animation: slide-up-fade-in var(--animation-duration) var(--easing);
+}
+
+.content[data-closed][data-side='top'] {
+    animation: slide-up-fade-out calc(var(--animation-duration)) var(--easing);
+}
+
+.viewport {
+    position: relative;
+    overflow: clip;
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes slide-down-fade-in {
     from {
         opacity: 0;
         transform: translateY(-10px) scale(0.95);
@@ -34,7 +52,7 @@
     }
 }
 
-@keyframes fade-out {
+@keyframes slide-down-fade-out {
     from {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -43,5 +61,29 @@
     to {
         opacity: 0;
         transform: translateY(-10px) scale(0.95);
+    }
+}
+
+@keyframes slide-up-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slide-up-fade-out {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(10px) scale(0.95);
     }
 }

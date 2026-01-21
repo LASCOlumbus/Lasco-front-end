@@ -387,13 +387,6 @@ const UiKit: React.FC = () => {
                                         return setPhoneValue(value ?? '');
                                     }}
                                 />
-                                <PhoneInput
-                                    value={phoneValue}
-                                    onChange={(value) => {
-                                        return setPhoneValue(value ?? '');
-                                    }}
-                                    errorMessage="Invalid phone number"
-                                />
                             </div>
                         </div>
                     </ComponentSection>

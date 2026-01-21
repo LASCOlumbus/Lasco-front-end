@@ -2,9 +2,7 @@ import type { Country, FlagProps } from 'react-phone-number-input';
 import type { WithClassName } from '@/lib/types';
 import type { CountrySelectProps } from './types';
 import React from 'react';
-import { Component as ArrowUp16Icon } from '@/icons/arrow-up_16.svg?svgUse';
-import { Component as Check16Icon } from '@/icons/check_16.svg?svgUse';
-// import { Component as Phone20Icon } from '@/icons/phone_20.svg?svgUse';
+import { Component as ChevronUp16Icon } from '@/icons/chevron-up_16.svg?svgUse';
 import { Component as Search16Icon } from '@/icons/search_16.svg?svgUse';
 import { useRafEffect, useToggle } from '@react-hookz/web';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -15,6 +13,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
 import Input from '@/components/ui/Input';
+import Option from '@/components/ui/Option';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
@@ -58,7 +57,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
             return selectListRef.current;
         },
         estimateSize() {
-            return isMobile ? 46 : 38;
+            return isMobile ? 46 : 40;
         },
     });
 
@@ -80,7 +79,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                 <DrawerTrigger className={clsx(s.trigger, 'focus-primary')} disabled={disabled}>
                     <FlagComponent country={value} countryName={value} aria-hidden />
                     <span className="text-muted-foreground/80">
-                        <ArrowUp16Icon className={clsx(s.icon, s.indicator)} aria-hidden />
+                        <ChevronUp16Icon className={clsx(s.icon, s.indicator)} aria-hidden />
                     </span>
                 </DrawerTrigger>
                 <DrawerContent className={s.content}>
@@ -128,11 +127,10 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                                                 transform: `translateY(${virtualItem.start}px)`,
                                             }}
                                         >
-                                            <button
-                                                className={clsx(s.option, 'focus-primary', 'truncate')}
+                                            <Option
+                                                className={s.option}
                                                 role="option"
-                                                type="button"
-                                                aria-selected={isOptionSelected}
+                                                isSelected={isOptionSelected}
                                                 title={option.label}
                                                 onClick={() => {
                                                     onChange(option.value as Country);
@@ -150,10 +148,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                                                     {option.label}&nbsp;
                                                     {option.value ? `+${getCountryCallingCode(option.value)}` : ''}
                                                 </Typography>
-                                                {isOptionSelected ? (
-                                                    <Check16Icon className={clsx(s.icon, s.check)} aria-hidden />
-                                                ) : null}
-                                            </button>
+                                            </Option>
                                             {isLastItem ? null : (
                                                 <svg
                                                     className={s.separator}
@@ -184,29 +179,28 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
         <Popover open={isPopoverOpened} onOpenChange={toggleIsPopoverOpened}>
             <PopoverTrigger className={clsx(s.trigger, 'focus-primary')} disabled={disabled}>
                 <FlagComponent country={value} countryName={value} aria-hidden />
-                <span className="text-muted-foreground/80">
-                    <ArrowUp16Icon className={clsx(s.icon, s.indicator)} aria-hidden />
-                </span>
+                <ChevronUp16Icon className={clsx(s.icon, s.indicator)} aria-hidden />
             </PopoverTrigger>
             <PopoverContent
                 className={s.content}
                 positionerProps={{
                     align: 'start',
-                    alignOffset: 4,
+                    sideOffset: 4,
                 }}
             >
                 <div className={s['search-wrap']}>
                     <Input
+                        className={s.input}
                         placeholder="Search"
                         type="search"
                         size="sm"
                         value={search}
-                        leftAddon={<Search16Icon />}
+                        leftAddon={<Search16Icon className={s.icon} />}
                         onChange={searchChangeHandler}
                     />
                 </div>
                 {filteredOptions.length ? (
-                    <ScrollArea className={s.list} render={<div ref={selectListRef} />}>
+                    <ScrollArea viewportRef={selectListRef} className={s.list}>
                         <ul
                             style={{
                                 position: 'relative',
@@ -231,18 +225,20 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                                             transform: `translateY(${virtualItem.start}px)`,
                                         }}
                                     >
-                                        <button
-                                            className={clsx(s.option, 'focus-primary', 'truncate')}
-                                            role="option"
-                                            type="button"
-                                            aria-selected={isOptionSelected}
+                                        <Option
+                                            className={clsx(s.option, 'truncate')}
+                                            isSelected={isOptionSelected}
                                             title={option.label}
                                             onClick={() => {
                                                 onChange(option.value as Country);
                                                 toggleIsPopoverOpened(false);
                                             }}
                                         >
-                                            <Typography className="truncate" variant="body-s" render={<span />}>
+                                            <Typography
+                                                className={clsx(s.label, 'truncate')}
+                                                variant="body-s"
+                                                render={<span />}
+                                            >
                                                 {option.value ? (
                                                     <FlagComponent
                                                         country={option.value}
@@ -250,13 +246,10 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                                                         aria-hidden
                                                     />
                                                 ) : null}
-                                                {option.label}&nbsp;
+                                                <span className="truncate">{option.label}</span>
                                                 {option.value ? `+${getCountryCallingCode(option.value)}` : ''}
                                             </Typography>
-                                            {isOptionSelected ? (
-                                                <Check16Icon className={clsx(s.icon, s.check)} aria-hidden />
-                                            ) : null}
-                                        </button>
+                                        </Option>
                                     </li>
                                 );
                             })}

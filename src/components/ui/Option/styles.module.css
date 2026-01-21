@@ -1,0 +1,64 @@
+.wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.4375rem 0.6875rem;
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+    transition:
+        background-color 0.15s ease-out,
+        color 0.15s ease-out,
+        border-color 0.15s ease-out;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.right .icon {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.wrap:hover {
+    background-color: var(--button-tertiary-hover);
+}
+
+.wrap:active {
+    background-color: var(--button-tertiary-pressed);
+}
+
+.wrap:focus-visible {
+    border-color: var(--border-focus);
+}
+
+.wrap .icon.check {
+    color: var(--icon-brand);
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+}
+
+.wrap[aria-selected='true'] .icon.check[data-selected='true'] {
+    opacity: 1;
+}
+
+
+

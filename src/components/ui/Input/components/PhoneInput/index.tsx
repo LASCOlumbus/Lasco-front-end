@@ -9,7 +9,7 @@ import CountrySelect, { FlagComponent } from './components/CountrySelect';
 import s from './styles.module.css';
 
 const PhoneInputComponent: React.FC<InputProps> = ({ className, ...rest }) => {
-    return <Input className={clsx(s.input, 'focus-primary', className)} {...rest} />;
+    return <Input className={clsx(s.input, className)} {...rest} />;
 };
 
 const PhoneInput: React.FC<PhoneInputProps> = ({ id, className, errorMessage, ...rest }) => {
@@ -17,7 +17,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ id, className, errorMessage, ..
 
     return (
         <RPNInput
-            className={clsx(s.wrap, 'focus-within-primary', className, {
+            className={clsx(s.wrap, className, {
                 [s.error]: !!errorMessage,
             })}
             international
@@ -36,7 +36,6 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ id, className, errorMessage, ..
         />
     );
 };
-
 PhoneInput.displayName = 'PhoneInput';
 
-export default React.memo(PhoneInput);
+export default PhoneInput;

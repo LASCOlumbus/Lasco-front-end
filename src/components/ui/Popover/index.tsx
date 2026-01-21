@@ -4,11 +4,19 @@ import { Popover as BasePopover } from '@base-ui/react/popover';
 import clsx from 'clsx';
 import s from './styles.module.css';
 
-const PopoverContent: React.FC<PopoverContentProps> = ({ className, portalProps, positionerProps, ...props }) => {
+const PopoverContent: React.FC<PopoverContentProps> = ({
+    className,
+    children,
+    portalProps,
+    positionerProps,
+    ...props
+}) => {
     return (
         <BasePopover.Portal {...portalProps}>
-            <BasePopover.Positioner {...positionerProps}>
-                <BasePopover.Popup className={clsx(s.content, className)} {...props} />
+            <BasePopover.Positioner className={s.positioner} {...positionerProps}>
+                <BasePopover.Popup className={clsx(s.content, className)} {...props}>
+                    <BasePopover.Viewport className={s.viewport}>{children}</BasePopover.Viewport>
+                </BasePopover.Popup>
             </BasePopover.Positioner>
         </BasePopover.Portal>
     );

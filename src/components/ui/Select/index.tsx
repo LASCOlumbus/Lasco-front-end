@@ -1,8 +1,6 @@
 import type { SelectProps } from './types';
 import React from 'react';
 import { Component as ArrowUp20Icon } from '@/icons/arrow-up_20.svg?svgUse';
-import { Component as Check16Icon } from '@/icons/check_16.svg?svgUse';
-// import { Component as Plus16Icon } from '@/icons/plus_16.svg?svgUse';
 import { Component as Search16Icon } from '@/icons/search_16.svg?svgUse';
 import { useRafEffect, useToggle } from '@react-hookz/web';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -12,6 +10,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
 import Loader from '@/components/ui/Loader';
+import Option from '@/components/ui/Option';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { Typography } from '@/components/ui/Typography';
 import { SELECT_CONTENT_OFFSET, SELECT_SEARCH_DEBOUNCE_DELAY } from './constants';
@@ -189,11 +188,9 @@ const Select: React.FC<SelectProps> = ({
                                                 transform: `translateY(${virtualItem.start}px)`,
                                             }}
                                         >
-                                            <button
-                                                className={clsx(s.option, 'focus-primary', 'truncate')}
-                                                role="option"
-                                                type="button"
-                                                aria-selected={isOptionSelected}
+                                            <Option
+                                                className={s.option}
+                                                isSelected={isOptionSelected}
                                                 title={option.label}
                                                 onClick={() => {
                                                     if (type === 'single') {
@@ -213,10 +210,7 @@ const Select: React.FC<SelectProps> = ({
                                                 <Typography className="truncate" variant="body-s" render={<span />}>
                                                     {option.label}
                                                 </Typography>
-                                                {isOptionSelected ? (
-                                                    <Check16Icon className={clsx(s.icon, s.check)} aria-hidden />
-                                                ) : null}
-                                            </button>
+                                            </Option>
                                             {isLastItem ? null : (
                                                 <svg
                                                     className={s.separator}
@@ -281,25 +275,6 @@ const Select: React.FC<SelectProps> = ({
                         />
                     </div>
                 ) : null}
-                {/* {isCreateOptionEnabled ? (
-                    <button
-                        className={clsx(s.option, s.create, 'focus-primary', 'truncate')}
-                        type="button"
-                        title={debouncedSearch}
-                        onClick={() => {
-                            onOptionCreate(debouncedSearch);
-                            toggleIsPopoverOpened(false);
-                        }}
-                    >
-                        <Typography className="truncate" variant="body-s" render={<span />}>
-                            <Plus16Icon />
-                            <span>
-                                Keep&nbsp;
-                                {debouncedSearch}
-                            </span>
-                        </Typography>
-                    </button>
-                ) : null} */}
                 {isLoading ? (
                     <span className={s['loader-wrap']}>
                         <Loader className={s.loader} />
@@ -332,11 +307,10 @@ const Select: React.FC<SelectProps> = ({
                                             transform: `translateY(${virtualItem.start}px)`,
                                         }}
                                     >
-                                        <button
-                                            className={clsx(s.option, 'focus-primary', 'truncate')}
+                                        <Option
+                                            className={s.option}
                                             role="option"
-                                            type="button"
-                                            aria-selected={isOptionSelected}
+                                            isSelected={isOptionSelected}
                                             title={option.label}
                                             onClick={() => {
                                                 if (type === 'single') {
@@ -356,10 +330,7 @@ const Select: React.FC<SelectProps> = ({
                                             <Typography className="truncate" variant="body-s" render={<span />}>
                                                 {option.label}
                                             </Typography>
-                                            {isOptionSelected ? (
-                                                <Check16Icon className={clsx(s.icon, s.check)} aria-hidden />
-                                            ) : null}
-                                        </button>
+                                        </Option>
                                     </li>
                                 );
                             })}
