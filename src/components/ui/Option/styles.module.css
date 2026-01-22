@@ -56,9 +56,6 @@
     transition: opacity 0.15s ease-out;
 }
 
-.wrap[aria-selected='true'] .icon.check[data-selected='true'] {
+.wrap[aria-selected="true"] .icon.check[data-selected="true"] {
     opacity: 1;
 }
-
-
-

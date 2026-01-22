@@ -4,7 +4,6 @@
     flex: 1;
 }
 
-
 .list :global(.scroll-area-viewport) {
     padding-right: 0.375rem;
     max-height: 18.75rem;
@@ -58,7 +57,9 @@
     padding: 0.9375rem;
     border-radius: 0.75rem;
     line-height: 1.5rem;
-    transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    transition:
+        border-color 0.2s ease-in-out,
+        background-color 0.2s ease-in-out;
 }
 
 .trigger:is(:hover, [data-popup-open]) {
@@ -139,8 +140,6 @@
     width: 1rem;
     height: 1rem;
 }
-
-
 
 @media screen and (max-width: 767px) {
     .list :global(.scroll-area-viewport) {

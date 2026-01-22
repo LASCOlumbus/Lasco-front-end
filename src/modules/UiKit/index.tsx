@@ -1,6 +1,7 @@
 import type { E164Number } from 'libphonenumber-js/core';
 import type { TypographyVariant } from '@/components/ui/Typography/types';
-import { useState } from 'react';
+import React from 'react';
+import { Component as Calendar20Icon } from '@/icons/calendar_20.svg?svgUse';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import clsx from 'clsx';
@@ -10,6 +11,7 @@ import { Button } from '@/components/ui/Button';
 import { ButtonSize, ButtonVariant } from '@/components/ui/Button/types';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { CheckboxGroupItem } from '@/components/ui/CheckboxGroupItem';
+import DatePicker from '@/components/ui/DatePicker';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
 import Input from '@/components/ui/Input';
 import PhoneInput from '@/components/ui/Input/components/PhoneInput';
@@ -50,7 +52,7 @@ const SELECT_OPTIONS = [
 ] as const;
 
 const UiKit: React.FC = () => {
-    const [checkboxStates, setCheckboxStates] = useState({
+    const [checkboxStates, setCheckboxStates] = React.useState({
         basic1: false,
         basic2: true,
         basic3: false,
@@ -58,20 +60,34 @@ const UiKit: React.FC = () => {
         indeterminate1: false,
     });
 
-    const [checkboxGroupValue, setCheckboxGroupValue] = useState<string[]>(['item2', 'item4']);
+    const [checkboxGroupValue, setCheckboxGroupValue] = React.useState<string[]>(['item2', 'item4']);
 
-    const [radioGroupValue, setRadioGroupValue] = useState<string>('radio2');
+    const [radioGroupValue, setRadioGroupValue] = React.useState<string>('radio2');
 
-    const [inputValue, setInputValue] = useState<string>('');
+    const [inputValue, setInputValue] = React.useState<string>('');
 
-    const [phoneValue, setPhoneValue] = useState<E164Number | ''>('');
+    const [phoneValue, setPhoneValue] = React.useState<E164Number | ''>('');
 
-    const [selectValue, setSelectValue] = useState<string | number>('option2');
-    const [selectSearch, setSelectSearch] = useState<string>('');
+    const [selectValue, setSelectValue] = React.useState<string | number>('option2');
+    const [selectSearch, setSelectSearch] = React.useState<string>('');
 
-    const [selectMultipleValue, setSelectMultipleValue] = useState<(string | number)[]>(['option1', 'option3']);
+    const [selectMultipleValue, setSelectMultipleValue] = React.useState<(string | number)[]>(['option1', 'option3']);
 
-    const [isDrawerOpened, setIsDrawerOpened] = useState(false);
+    const [isDrawerOpened, setIsDrawerOpened] = React.useState(false);
+
+    const [datePickerValue, setDatePickerValue] = React.useState<Date | null>(null);
+    const [dateRangeStart, setDateRangeStart] = React.useState<Date | null>(null);
+    const [dateRangeEnd, setDateRangeEnd] = React.useState<Date | null>(null);
+
+    const dateRangeInputValue = React.useMemo(() => {
+        if (dateRangeStart && dateRangeEnd) {
+            return `${dateRangeStart.getMonth() + 1}/${dateRangeStart.getDate()}/${dateRangeStart.getFullYear()} - ${dateRangeEnd.getMonth() + 1}/${dateRangeEnd.getDate()}/${dateRangeEnd.getFullYear()}`;
+        }
+        if (dateRangeStart) {
+            return `${dateRangeStart.getMonth() + 1}/${dateRangeStart.getDate()}/${dateRangeStart.getFullYear()} - ...`;
+        }
+        return '';
+    }, [dateRangeStart, dateRangeEnd]);
 
     const handleCheckboxChange = (name: string, checked: boolean) => {
         setCheckboxStates((prev) => {
@@ -524,6 +540,58 @@ const UiKit: React.FC = () => {
                                         })}
                                     </div>
                                 </ScrollArea>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Date Picker">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Single Date
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <DatePicker
+                                    value={datePickerValue}
+                                    onChange={setDatePickerValue}
+                                    placeholder="Select date"
+                                    trigger={
+                                        <Input
+                                            placeholder="Select date"
+                                            value={
+                                                datePickerValue
+                                                    ? `${datePickerValue.getMonth() + 1}/${datePickerValue.getDate()}/${datePickerValue.getFullYear()}`
+                                                    : ''
+                                            }
+                                            readOnly
+                                            leftAddon={<Calendar20Icon />}
+                                        />
+                                    }
+                                />
+                            </div>
+                        </div>
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Date Range
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <DatePicker
+                                    selectsRange
+                                    startDate={dateRangeStart}
+                                    endDate={dateRangeEnd}
+                                    onRangeChange={(dates) => {
+                                        const [start, end] = dates;
+                                        setDateRangeStart(start);
+                                        setDateRangeEnd(end);
+                                    }}
+                                    placeholder="Select date range"
+                                    trigger={
+                                        <Input
+                                            placeholder="Select date range"
+                                            value={dateRangeInputValue}
+                                            readOnly
+                                            leftAddon={<Calendar20Icon />}
+                                        />
+                                    }
+                                />
                             </div>
                         </div>
                     </ComponentSection>

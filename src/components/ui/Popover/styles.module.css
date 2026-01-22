@@ -18,19 +18,19 @@
     box-shadow: 0 4px 11px hsl(0deg 0% 0% / 0.1);
 }
 
-.content[data-open][data-side='bottom'] {
+.content[data-open][data-side="bottom"] {
     animation: slide-down-fade-in var(--animation-duration) var(--easing);
 }
 
-.content[data-closed][data-side='bottom'] {
+.content[data-closed][data-side="bottom"] {
     animation: slide-down-fade-out calc(var(--animation-duration)) var(--easing);
 }
 
-.content[data-open][data-side='top'] {
+.content[data-open][data-side="top"] {
     animation: slide-up-fade-in var(--animation-duration) var(--easing);
 }
 
-.content[data-closed][data-side='top'] {
+.content[data-closed][data-side="top"] {
     animation: slide-up-fade-out calc(var(--animation-duration)) var(--easing);
 }
 

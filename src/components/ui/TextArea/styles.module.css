@@ -27,7 +27,6 @@
     background-color: var(--surface-input);
 }
 
-
 .wrap::placeholder {
     color: var(--text-secondary);
 }
@@ -38,5 +37,5 @@
 }
 
 .wrap.error {
-   border-color: var(--border-negative);
+    border-color: var(--border-negative);
 }

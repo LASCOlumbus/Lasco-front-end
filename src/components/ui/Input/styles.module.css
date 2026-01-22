@@ -7,7 +7,6 @@
     display: flex;
     border-radius: 0.75rem;
     border: 1px solid var(--border-primary);
-    border-radius: 0.75rem;
     overflow: hidden;
     transition: border-color 0.2s ease-in-out;
 }
@@ -15,7 +14,6 @@
 .wrap.sm {
     --input-addon-spacing: 2.125rem;
     --input-addon-icon-size: 1rem;
-
 }
 
 .input {
