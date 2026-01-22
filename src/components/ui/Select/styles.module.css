@@ -1,0 +1,151 @@
+.list,
+.empty {
+    transition: opacity 0.2s ease;
+    flex: 1;
+}
+
+.list :global(.scroll-area-viewport) {
+    padding-right: 0.375rem;
+    max-height: 18.75rem;
+}
+
+.search-wrap {
+    padding: 0.25rem;
+}
+
+.search-wrap .input {
+    --input-addon-spacing: 3rem;
+    --input-addon-position: 0.9375rem;
+}
+
+.search-wrap .input :global(.input-inner) {
+    padding-block: 0.6875rem;
+}
+
+.search-wrap .input .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+    color: var(--icon-primary);
+}
+
+.empty {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid var(--border);
+    text-align: center;
+    padding: 1rem;
+}
+
+.trigger {
+    --trigger-indicator-size: 1.25rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    width: 100%;
+    border: 1px solid var(--border-primary);
+    background-color: var(--surface-input);
+    cursor: pointer;
+    padding: 0.9375rem;
+    border-radius: 0.75rem;
+    line-height: 1.5rem;
+    transition:
+        border-color 0.2s ease-in-out,
+        background-color 0.2s ease-in-out;
+}
+
+.trigger:is(:hover, [data-popup-open]) {
+    border-color: var(--border-primary-hover);
+    background-color: var(--surface-input-hover);
+}
+
+.trigger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.trigger[data-state="open"] {
+    box-shadow: var(--ring-offset-shadow), var(--ring-shadow), var(--shadow, 0 0 #00000000);
+}
+
+.trigger[data-size="default"] .value {
+    font-size: 1.125rem;
+}
+
+.trigger[data-size="sm"] .value {
+    --trigger-indicator-size: 1rem;
+
+    font-size: 1rem;
+}
+
+.trigger.error {
+    border-color: var(--border-negative);
+}
+
+.trigger > svg,
+.trigger .addon > svg {
+    flex-shrink: 0;
+    width: var(--trigger-indicator-size);
+    height: var(--trigger-indicator-size);
+}
+
+.trigger .addon > svg {
+    color: var(--color-gray-650);
+}
+
+.trigger .icon.indicator {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--icon-primary);
+    transform: rotate(180deg);
+    transition:
+        transform 0.2s ease,
+        color 0.2s ease;
+}
+
+.trigger[data-popup-open] .icon.indicator {
+    transform: rotate(0deg);
+}
+
+.inner {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.value.placeholder {
+    color: var(--text-secondary);
+}
+
+.loader-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-white-alpha-200);
+    padding: var(--spacing-2xl);
+}
+
+.loader {
+    width: 1rem;
+    height: 1rem;
+}
+
+@media screen and (max-width: 767px) {
+    .list :global(.scroll-area-viewport) {
+        padding: var(--spacing-xs) var(--spacing-md);
+    }
+
+    .content {
+        padding-bottom: var(--spacing-lg);
+    }
+}

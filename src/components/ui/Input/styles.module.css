@@ -1,0 +1,115 @@
+.wrap {
+    --input-addon-spacing: 2.5rem;
+    --input-addon-position: 0.75rem;
+    --input-addon-icon-size: 1.5rem;
+
+    position: relative;
+    display: flex;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-primary);
+    overflow: hidden;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.wrap.sm {
+    --input-addon-spacing: 2.125rem;
+    --input-addon-icon-size: 1rem;
+}
+
+.input {
+    display: flex;
+    width: 100%;
+    border: none;
+    border-radius: 0.75rem;
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    padding: 0.9375rem;
+    background-color: var(--surface-input);
+    outline: none;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.wrap.sm .input {
+    font-size: 1rem;
+}
+
+.wrap:hover {
+    border-color: var(--border-primary-hover);
+}
+
+.wrap:hover .input {
+    background-color: var(--surface-input-hover);
+}
+
+.wrap:focus-within {
+    border-color: var(--border-input-active);
+}
+
+.wrap:focus-within .input {
+    background-color: var(--surface-input);
+}
+
+.input::placeholder {
+    color: var(--text-secondary);
+}
+
+.input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.wrap .input.with-left-addon {
+    padding-left: var(--input-addon-spacing);
+}
+
+.wrap .input.with-right-addon {
+    padding-right: var(--input-addon-spacing);
+}
+
+.addon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-650);
+}
+
+.addon.left {
+    left: var(--input-addon-position);
+    pointer-events: none;
+}
+
+.addon.right {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    right: var(--input-addon-position);
+}
+
+.wrap .addon > svg {
+    width: var(--input-addon-icon-size);
+    height: var(--input-addon-icon-size);
+    color: var(--icon-primary);
+}
+
+.input[type="search"]::-webkit-search-cancel-button {
+    margin: 0;
+    appearance: none;
+    cursor: pointer;
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.375rem;
+    background: url("/images/x_16.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.wrap.error {
+    border-color: var(--border-negative);
+}
+
+@media screen and (max-width: 1023px) {
+    .input {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,41 @@
+.wrap {
+    display: flex;
+    width: 100%;
+    border: 1px solid var(--border-primary);
+    border-radius: 0.75rem;
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+    padding: 0.9375rem;
+    color: var(--text-primary);
+    background-color: var(--surface-input);
+    min-height: 6.25rem;
+    max-height: 10rem;
+    outline: none;
+    resize: vertical;
+    transition:
+        border-color 0.2s ease-in-out,
+        background-color 0.2s ease-in-out;
+}
+
+.wrap:hover {
+    border-color: var(--border-primary-hover);
+    background-color: var(--surface-input-hover);
+}
+
+.wrap:active {
+    border-color: var(--border-input-active);
+    background-color: var(--surface-input);
+}
+
+.wrap::placeholder {
+    color: var(--text-secondary);
+}
+
+.wrap:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.wrap.error {
+    border-color: var(--border-negative);
+}

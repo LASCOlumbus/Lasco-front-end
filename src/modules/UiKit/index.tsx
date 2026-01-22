@@ -1,5 +1,7 @@
+import type { E164Number } from 'libphonenumber-js/core';
 import type { TypographyVariant } from '@/components/ui/Typography/types';
-import { useState } from 'react';
+import React from 'react';
+import { Component as Calendar20Icon } from '@/icons/calendar_20.svg?svgUse';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import clsx from 'clsx';
@@ -9,8 +11,16 @@ import { Button } from '@/components/ui/Button';
 import { ButtonSize, ButtonVariant } from '@/components/ui/Button/types';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { CheckboxGroupItem } from '@/components/ui/CheckboxGroupItem';
+import DatePicker from '@/components/ui/DatePicker';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
+import Input from '@/components/ui/Input';
+import PhoneInput from '@/components/ui/Input/components/PhoneInput';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/Popover';
 import { Radio } from '@/components/ui/Radio';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
+import { ScrollArea } from '@/components/ui/ScrollArea';
+import Select from '@/components/ui/Select';
+import TextArea from '@/components/ui/TextArea';
 import { Typography } from '@/components/ui/Typography';
 import { ComponentSection } from './components/ComponentSection';
 import s from './style.module.css';
@@ -33,8 +43,16 @@ const BUTTON_VARIANTS: ButtonVariant[] = ['primary', 'secondary', 'link'];
 
 const BUTTON_SIZES: ButtonSize[] = ['big', 'medium', 'small'];
 
+const SELECT_OPTIONS = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+    { label: 'Option 4', value: 'option4' },
+    { label: 'Option 5', value: 'option5' },
+] as const;
+
 const UiKit: React.FC = () => {
-    const [checkboxStates, setCheckboxStates] = useState({
+    const [checkboxStates, setCheckboxStates] = React.useState({
         basic1: false,
         basic2: true,
         basic3: false,
@@ -42,9 +60,34 @@ const UiKit: React.FC = () => {
         indeterminate1: false,
     });
 
-    const [checkboxGroupValue, setCheckboxGroupValue] = useState<string[]>(['item2', 'item4']);
+    const [checkboxGroupValue, setCheckboxGroupValue] = React.useState<string[]>(['item2', 'item4']);
 
-    const [radioGroupValue, setRadioGroupValue] = useState<string>('radio2');
+    const [radioGroupValue, setRadioGroupValue] = React.useState<string>('radio2');
+
+    const [inputValue, setInputValue] = React.useState<string>('');
+
+    const [phoneValue, setPhoneValue] = React.useState<E164Number | ''>('');
+
+    const [selectValue, setSelectValue] = React.useState<string | number>('option2');
+    const [selectSearch, setSelectSearch] = React.useState<string>('');
+
+    const [selectMultipleValue, setSelectMultipleValue] = React.useState<(string | number)[]>(['option1', 'option3']);
+
+    const [isDrawerOpened, setIsDrawerOpened] = React.useState(false);
+
+    const [datePickerValue, setDatePickerValue] = React.useState<Date | null>(null);
+    const [dateRangeStart, setDateRangeStart] = React.useState<Date | null>(null);
+    const [dateRangeEnd, setDateRangeEnd] = React.useState<Date | null>(null);
+
+    const dateRangeInputValue = React.useMemo(() => {
+        if (dateRangeStart && dateRangeEnd) {
+            return `${dateRangeStart.getMonth() + 1}/${dateRangeStart.getDate()}/${dateRangeStart.getFullYear()} - ${dateRangeEnd.getMonth() + 1}/${dateRangeEnd.getDate()}/${dateRangeEnd.getFullYear()}`;
+        }
+        if (dateRangeStart) {
+            return `${dateRangeStart.getMonth() + 1}/${dateRangeStart.getDate()}/${dateRangeStart.getFullYear()} - ...`;
+        }
+        return '';
+    }, [dateRangeStart, dateRangeEnd]);
 
     const handleCheckboxChange = (name: string, checked: boolean) => {
         setCheckboxStates((prev) => {
@@ -315,6 +358,240 @@ const UiKit: React.FC = () => {
                                     This is a longer alert message that demonstrates how the component handles multiple
                                     lines of text and maintains proper spacing and alignment.
                                 </Alert>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Input">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Input
+                                    placeholder="Type something…"
+                                    value={inputValue}
+                                    onChange={(e) => {
+                                        return setInputValue(e.target.value);
+                                    }}
+                                />
+                                <Input placeholder="Small input" size="sm" />
+                                <Input placeholder="Loading state" isLoading />
+                                <Input placeholder="Error state" errorMessage="This field is required" />
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Textarea">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <TextArea placeholder="Type something…" />
+                                <TextArea placeholder="Type something…" errorMessage="This field is required" />
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Phone Input">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                International (react-phone-number-input)
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <PhoneInput
+                                    value={phoneValue}
+                                    onChange={(value) => {
+                                        return setPhoneValue(value ?? '');
+                                    }}
+                                />
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Select">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Single (searchable)
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Select
+                                    type="single"
+                                    placeholder="Pick an option"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={undefined}
+                                    onChange={setSelectValue}
+                                    isSearchable
+                                    search={selectSearch}
+                                    onSearchChange={setSelectSearch}
+                                />
+                                <Select
+                                    type="single"
+                                    size="sm"
+                                    placeholder="Pick an option"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={undefined}
+                                    onChange={setSelectValue}
+                                    isSearchable
+                                    search={selectSearch}
+                                    onSearchChange={setSelectSearch}
+                                />
+                                <Select
+                                    type="single"
+                                    placeholder="Pick an option"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={selectValue}
+                                    onChange={setSelectValue}
+                                    isSearchable
+                                    search={selectSearch}
+                                    onSearchChange={setSelectSearch}
+                                />
+                                <Select
+                                    type="single"
+                                    placeholder="Disabled"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={selectValue}
+                                    onChange={setSelectValue}
+                                    disabled
+                                />
+                            </div>
+                        </div>
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Multiple
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Select
+                                    type="multiple"
+                                    placeholder="Pick multiple"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={selectMultipleValue}
+                                    onChange={setSelectMultipleValue}
+                                    singularPrefix="item"
+                                    pluralPrefix="items"
+                                />
+                                <Select
+                                    type="multiple"
+                                    placeholder="Error state"
+                                    options={[...SELECT_OPTIONS]}
+                                    value={selectMultipleValue}
+                                    onChange={setSelectMultipleValue}
+                                    singularPrefix="item"
+                                    pluralPrefix="items"
+                                    errorMessage="Please select at least one"
+                                />
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Popover">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Popover>
+                                    <PopoverTrigger render={<Button variant="primary" size="medium" />}>
+                                        Open popover
+                                    </PopoverTrigger>
+                                    <PopoverContent style={{ padding: '12px' }}>
+                                        <Typography variant="body-s">Popover content</Typography>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Drawer">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Basic
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <Drawer open={isDrawerOpened} onOpenChange={setIsDrawerOpened}>
+                                    <DrawerTrigger asChild>
+                                        <Button variant="primary" size="medium">
+                                            Open drawer
+                                        </Button>
+                                    </DrawerTrigger>
+                                    <DrawerContent>
+                                        <div style={{ padding: '16px' }}>
+                                            <DrawerHeader>
+                                                <DrawerTitle>Drawer title</DrawerTitle>
+                                            </DrawerHeader>
+                                            <Typography variant="body-s">
+                                                This is a basic drawer example for the UI Kit.
+                                            </Typography>
+                                        </div>
+                                    </DrawerContent>
+                                </Drawer>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Scroll Area">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Always visible scrollbar
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <ScrollArea style={{ height: 160 }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingRight: 12 }}>
+                                        {Array.from({ length: 20 }).map((_, idx) => {
+                                            return (
+                                                <Typography key={idx} variant="body-s">
+                                                    Scroll item {idx + 1}
+                                                </Typography>
+                                            );
+                                        })}
+                                    </div>
+                                </ScrollArea>
+                            </div>
+                        </div>
+                    </ComponentSection>
+                    <ComponentSection title="Date Picker">
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Single Date
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <DatePicker
+                                    value={datePickerValue}
+                                    onChange={setDatePickerValue}
+                                    placeholder="Select date"
+                                    trigger={
+                                        <Input
+                                            placeholder="Select date"
+                                            value={
+                                                datePickerValue
+                                                    ? `${datePickerValue.getMonth() + 1}/${datePickerValue.getDate()}/${datePickerValue.getFullYear()}`
+                                                    : ''
+                                            }
+                                            readOnly
+                                            leftAddon={<Calendar20Icon />}
+                                        />
+                                    }
+                                />
+                            </div>
+                        </div>
+                        <div className={s['variant-container']}>
+                            <Typography variant="body-s" className={s['variant-title']}>
+                                Date Range
+                            </Typography>
+                            <div className={s['variant-content']}>
+                                <DatePicker
+                                    selectsRange
+                                    startDate={dateRangeStart}
+                                    endDate={dateRangeEnd}
+                                    onRangeChange={(dates) => {
+                                        const [start, end] = dates;
+                                        setDateRangeStart(start);
+                                        setDateRangeEnd(end);
+                                    }}
+                                    placeholder="Select date range"
+                                    trigger={
+                                        <Input
+                                            placeholder="Select date range"
+                                            value={dateRangeInputValue}
+                                            readOnly
+                                            leftAddon={<Calendar20Icon />}
+                                        />
+                                    }
+                                />
                             </div>
                         </div>
                     </ComponentSection>
