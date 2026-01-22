@@ -5,6 +5,7 @@
 }
 
 .wrap :is(.input, .input :global(.input-inner)) {
+    /* stylelint-disable-next-line length-zero-no-unit */
     --ring-offset-width: 0px;
     --ring-offset-shadow: var(--ring-inset) 0 0 0 calc(var(--ring-offset-width)) var(--ring-offset-color);
     --ring-shadow: var(--ring-inset) 0 0 0 calc(var(--ring-width) + var(--ring-offset-width)) var(--ring-color);

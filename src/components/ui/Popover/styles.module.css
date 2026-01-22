@@ -6,7 +6,6 @@
     z-index: 50;
     min-width: 12.5rem;
     width: 100%;
-    /* width: var(--radix-popover-trigger-width); */
     display: flex;
     flex-direction: column;
     overflow: hidden;
