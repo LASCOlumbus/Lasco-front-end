@@ -200,7 +200,7 @@ export const useWebcheckWaiverFormContext = () => {
 };
 
 export const useWebcheckWaiverFormStepForm = <TStepId extends keyof WebcheckWaiverForm>(stepId: TStepId) => {
-    const { formData, setFormStepData, toggleIsSubmitted, toggleIsSuccessful } = useWebcheckWaiverFormContext();
+    const { formData, setFormStepData, toggleIsSubmitted } = useWebcheckWaiverFormContext();
 
     const [isLoading, toggleIsLoading] = useToggle(true);
 
@@ -216,16 +216,13 @@ export const useWebcheckWaiverFormStepForm = <TStepId extends keyof WebcheckWaiv
             onSubmit: WEBCHECK_WAIVER_FORM_STEPS[stepId].schema,
         },
         onSubmit: (data) => {
-            console.log(data, 'data');
             if (data?.value) {
-                console.log(data.value, 'data.value');
                 setFormStepData('stepOne', data.value);
                 toggleIsSubmitted();
 
-                // eslint-disable-next-line no-constant-condition
-                if (false) {
-                    toggleIsSuccessful();
-                }
+                // if (false) {
+                //     toggleIsSuccessful();
+                // }
             }
         },
     });

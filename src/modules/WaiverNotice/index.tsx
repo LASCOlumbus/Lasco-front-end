@@ -58,8 +58,6 @@ const WaiverNoticeFormWrapper: React.FC<React.PropsWithChildren> = ({ children }
 const WaiverNoticeFormStep: React.FC<WaiverNoticeFormStepWrapperProps> = ({ children, id }) => {
     const { currentStep, isSuccessful, isSubmitted } = useWaiverNoticeFormContext();
 
-    console.log(currentStep, 'currentStep');
-
     if (currentStep.id !== (id as keyof WaiverNoticeForm)) {
         return null;
     }
@@ -105,7 +103,6 @@ const StepOneForm: React.FC = () => {
                 <form.Field
                     name="guardianName"
                     children={(field) => {
-                        console.log(field, 'field');
                         return (
                             <div className={s.input}>
                                 <Typography variant="body-m" render={<strong />}>
@@ -121,7 +118,6 @@ const StepOneForm: React.FC = () => {
                                     }}
                                     onChange={(e) => {
                                         field.handleChange(e.target.value);
-                                        console.log(form, 'form');
                                     }}
                                 />
                                 {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
@@ -201,7 +197,6 @@ const StepOneForm: React.FC = () => {
             <div className={s.footer}>
                 <form.Subscribe
                     selector={(state) => {
-                        console.log(state, 'state');
                         const isValid = state.isBlurred && state.isFieldsValid;
                         return [state.canSubmit, isValid, state.values];
                     }}
@@ -249,8 +244,6 @@ const StepTwoForm: React.FC = () => {
                 <form.Field
                     name="persons"
                     children={(field) => {
-                        console.log(field, 'field');
-                        console.log(field.state.value, 'field.state.value');
                         return (
                             <>
                                 {field.state.value.map((_, index) => {
@@ -328,7 +321,6 @@ const StepTwoForm: React.FC = () => {
                 </Button>
                 <form.Subscribe
                     selector={(state) => {
-                        console.log(state, 'state');
                         return [state.canSubmit, state.isSubmitting];
                     }}
                     children={([canSubmit, isSubmitting]) => {
