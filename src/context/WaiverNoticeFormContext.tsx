@@ -133,7 +133,7 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
     const cleanUp = React.useCallback(() => {
         resetCurrentStepIndex();
         // setFormData(JSON.stringify(WAIVER_NOTICE_FORM_INITIAL_STATE));
-    }, [resetCurrentStepIndex, setFormData]);
+    }, [resetCurrentStepIndex]);
 
     const memoizedValue = React.useMemo(() => {
         return {
@@ -205,7 +205,7 @@ export const useWaiverNoticeFormContext = () => {
 };
 
 export const useWaiverNoticeFormStepForm = <TStepId extends keyof WaiverNoticeForm>(stepId: TStepId) => {
-    const { formData, setFormStepData, toggleIsSubmitted, toggleIsSuccessful } = useWaiverNoticeFormContext();
+    const { formData, setFormStepData, toggleIsSubmitted } = useWaiverNoticeFormContext();
 
     const [isLoading, toggleIsLoading] = useToggle(true);
 
@@ -224,16 +224,13 @@ export const useWaiverNoticeFormStepForm = <TStepId extends keyof WaiverNoticeFo
             onSubmit: WAIVER_NOTICE_FORM_STEPS[stepId].schema,
         },
         onSubmit: (data) => {
-            console.log(data, 'data');
             if (data?.value) {
-                console.log(data.value, 'data.value');
                 setFormStepData('stepTwo', data.value as WaiverNoticeForm['stepTwo']);
                 toggleIsSubmitted();
 
-                // eslint-disable-next-line no-constant-condition
-                if (false) {
-                    toggleIsSuccessful();
-                }
+                // if (false) {
+                //     toggleIsSuccessful();
+                // }
             }
         },
     });
