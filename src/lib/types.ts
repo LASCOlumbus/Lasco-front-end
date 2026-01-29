@@ -1,10 +1,12 @@
-import { z } from 'zod';
 import {
     stepOneSchema,
-    stepTwoSchema,
     stepThreeSchema,
-    webcheckWaiverStepOneSchema, waiverNoticeStepOneSchema, waiverNoticeStepTwoSchema
-} from "@/schemas/multiStepFormSchemas.ts";
+    stepTwoSchema,
+    waiverNoticeStepOneSchema,
+    waiverNoticeStepTwoSchema,
+    webcheckWaiverStepOneSchema,
+} from '@/schemas/multiStepFormSchemas.ts';
+import { z } from 'zod';
 
 export type ObjValues<TObj> = TObj[keyof TObj];
 
@@ -60,7 +62,6 @@ export type IWebcheckWaiverFormStep = {
 // Waiver of Notice Form
 export type WaiverNoticeStepOneSchema = z.infer<typeof waiverNoticeStepOneSchema>;
 export type WaiverNoticeStepTwoSchema = z.infer<typeof waiverNoticeStepTwoSchema>;
-
 
 export type WaiverNoticeForm = {
     stepOne: WaiverNoticeStepOneSchema;
