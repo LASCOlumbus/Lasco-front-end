@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import { flushSync } from 'react-dom';
-import { waiverNoticeStepOneSchema, waiverNoticeStepTwoSchema } from '@/schemas/multiStepFormSchemas.ts';
+import { webcheckWaiverStepSchema } from '@/schemas/multiStepFormSchemas.ts';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { DeepKeys, DeepValue, Updater, useForm } from '@tanstack/react-form';
-import { AnimationDirection, IWaiverNoticeFormStep, WaiverNoticeForm } from '@/lib/types.ts';
+import { AnimationDirection, IWebcheckWaiverFormStep, WebcheckWaiverForm } from '@/lib/types.ts';
 
-type WaiverNoticeFormContextType = {
-    formData: WaiverNoticeForm;
-    steps: IWaiverNoticeFormStep[];
+type WebcheckWaiverFormContextType = {
+    formData: WebcheckWaiverForm;
+    steps: IWebcheckWaiverFormStep[];
     currentStepIndex: number;
-    currentStep: IWaiverNoticeFormStep;
+    currentStep: IWebcheckWaiverFormStep;
     isSubmitted: boolean;
     toggleIsSubmitted: () => void;
     isSuccessful: boolean;
@@ -20,54 +20,48 @@ type WaiverNoticeFormContextType = {
     isLastStep: boolean;
     goToNextStep: () => void;
     goToPreviousStep: () => void;
-    setFormStepData: <TField extends keyof WaiverNoticeForm>(
+    setFormStepData: <TField extends keyof WebcheckWaiverForm>(
         // eslint-disable-next-line no-unused-vars
         key: TField,
         // eslint-disable-next-line no-unused-vars
-        data: WaiverNoticeForm[TField]
+        data: WebcheckWaiverForm[TField]
     ) => void;
 };
 
-export const WAIVER_NOTICE_FORM_KEY = 'WAIVER_NOTICE_multi-step-form';
+export const WEBCHECK_WAIVER_FORM_KEY = 'WEBCHECK_WAIVER_multi-step-form';
 
-const WAIVER_NOTICE_FORM_STEPS = {
-    stepOne: {
-        id: 'stepOne',
-        label: 'Case details',
-        schema: waiverNoticeStepOneSchema,
+const WEBCHECK_WAIVER_FORM_STEPS = {
+    webcheckWaiverStep: {
+        id: 'webcheckWaiverStep',
+        label: 'Webcheck Waiver',
+        schema: webcheckWaiverStepSchema,
         enabled: true,
     },
-    stepTwo: {
-        id: 'stepTwo',
-        label: 'Waivers list',
-        schema: waiverNoticeStepTwoSchema,
-        enabled: true,
-    },
-} as const satisfies Record<keyof WaiverNoticeForm, IWaiverNoticeFormStep>;
-const WAIVER_NOTICE_FORM_STEPS_ARRAY = Object.values(WAIVER_NOTICE_FORM_STEPS).filter((step) => {
+} as const satisfies Record<keyof WebcheckWaiverForm, IWebcheckWaiverFormStep>;
+const WEBCHECK_WAIVER_FORM_STEPS_ARRAY = Object.values(WEBCHECK_WAIVER_FORM_STEPS).filter((step) => {
     return step.enabled;
 });
 
-const WAIVER_NOTICE_FORM_INITIAL_STATE: WaiverNoticeForm = {
-    stepOne: {
+const WEBCHECK_WAIVER_FORM_INITIAL_STATE: WebcheckWaiverForm = {
+    webcheckWaiverStep: {
         guardianName: '',
         caseNumber: '',
         applicantName: '',
     },
-    stepTwo: {
-        persons: [''],
-    },
 };
 
-const WaiverNoticeFormContext = React.createContext<WaiverNoticeFormContextType>({} as WaiverNoticeFormContextType);
-WaiverNoticeFormContext.displayName = 'WaiverNoticeFormContext';
+const WebcheckWaiverFormContext = React.createContext<WebcheckWaiverFormContextType>(
+    {} as WebcheckWaiverFormContextType
+);
+WebcheckWaiverFormContext.displayName = 'WebcheckWaiverFormContext';
 
-export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-    const { value: formData, set: setFormData } = useLocalStorageValue(WAIVER_NOTICE_FORM_KEY, {
+export const WebcheckWaiverFormProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+    const { value: formData, set: setFormData } = useLocalStorageValue(WEBCHECK_WAIVER_FORM_KEY, {
         defaultValue:
             typeof window === 'undefined'
-                ? JSON.stringify(WAIVER_NOTICE_FORM_INITIAL_STATE)
-                : (localStorage?.getItem(WAIVER_NOTICE_FORM_KEY) ?? JSON.stringify(WAIVER_NOTICE_FORM_INITIAL_STATE)),
+                ? JSON.stringify(WEBCHECK_WAIVER_FORM_INITIAL_STATE)
+                : (localStorage?.getItem(WEBCHECK_WAIVER_FORM_KEY) ??
+                  JSON.stringify(WEBCHECK_WAIVER_FORM_INITIAL_STATE)),
         initializeWithValue: false,
     });
 
@@ -84,18 +78,19 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
             reset: resetCurrentStepIndex,
             set: setCurrentStepIndex,
         },
-    ] = useCounter(0, WAIVER_NOTICE_FORM_STEPS_ARRAY.length - 1, 0);
+    ] = useCounter(0, WEBCHECK_WAIVER_FORM_STEPS_ARRAY.length - 1, 0);
 
-    const currentStep = WAIVER_NOTICE_FORM_STEPS_ARRAY[currentStepIndex];
-    const isLastStep = currentStep.id === WAIVER_NOTICE_FORM_STEPS_ARRAY[WAIVER_NOTICE_FORM_STEPS_ARRAY.length - 1].id;
+    const currentStep = WEBCHECK_WAIVER_FORM_STEPS_ARRAY[currentStepIndex];
+    const isLastStep =
+        currentStep.id === WEBCHECK_WAIVER_FORM_STEPS_ARRAY[WEBCHECK_WAIVER_FORM_STEPS_ARRAY.length - 1].id;
     const canGoBack = currentStepIndex > 0;
 
     const parsedFormData = React.useMemo(() => {
         if (!formData) {
-            return WAIVER_NOTICE_FORM_INITIAL_STATE;
+            return WEBCHECK_WAIVER_FORM_INITIAL_STATE;
         }
 
-        return JSON.parse(formData) as WaiverNoticeForm;
+        return JSON.parse(formData) as WebcheckWaiverForm;
     }, [formData]);
 
     const goToNextStep = React.useCallback(() => {
@@ -115,7 +110,7 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
     }, [decrementCurrentStepIndex]);
 
     const setFormStepData = React.useCallback(
-        <TField extends keyof WaiverNoticeForm>(key: TField, data: WaiverNoticeForm[TField]) => {
+        <TField extends keyof WebcheckWaiverForm>(key: TField, data: WebcheckWaiverForm[TField]) => {
             setFormData((prev) => {
                 if (!prev) {
                     return '';
@@ -132,14 +127,14 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
 
     const cleanUp = React.useCallback(() => {
         resetCurrentStepIndex();
-        // setFormData(JSON.stringify(WAIVER_NOTICE_FORM_INITIAL_STATE));
-    }, [resetCurrentStepIndex]);
+        setFormData(JSON.stringify(WEBCHECK_WAIVER_FORM_INITIAL_STATE));
+    }, [resetCurrentStepIndex, setFormData]);
 
     const memoizedValue = React.useMemo(() => {
         return {
             formData: parsedFormData,
             currentStepIndex,
-            steps: WAIVER_NOTICE_FORM_STEPS_ARRAY,
+            steps: WEBCHECK_WAIVER_FORM_STEPS_ARRAY,
             currentStep,
             isSubmitted,
             toggleIsSubmitted,
@@ -177,7 +172,7 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
 
         toggleIsLoading(true);
 
-        const lastCorrectStepIndex = WAIVER_NOTICE_FORM_STEPS_ARRAY.findIndex((step) => {
+        const lastCorrectStepIndex = WEBCHECK_WAIVER_FORM_STEPS_ARRAY.findIndex((step) => {
             const result = step.schema.safeParse(parsedFormData[step.id]);
 
             return !result.success;
@@ -195,42 +190,36 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
         cleanUp();
     });
 
-    return <WaiverNoticeFormContext value={memoizedValue}>{children}</WaiverNoticeFormContext>;
+    return <WebcheckWaiverFormContext value={memoizedValue}>{children}</WebcheckWaiverFormContext>;
 };
 
-export const useWaiverNoticeFormContext = () => {
-    const context = useContext(WaiverNoticeFormContext);
+export const useWebcheckWaiverFormContext = () => {
+    const context = useContext(WebcheckWaiverFormContext);
 
     return context;
 };
 
-export const useWaiverNoticeFormStepForm = <TStepId extends keyof WaiverNoticeForm>(stepId: TStepId) => {
-    const { formData, setFormStepData, toggleIsSubmitted } = useWaiverNoticeFormContext();
+export const useWebcheckWaiverFormStepForm = <TStepId extends keyof WebcheckWaiverForm>(stepId: TStepId) => {
+    const { formData, setFormStepData, toggleIsSubmitted, toggleIsSuccessful } = useWebcheckWaiverFormContext();
 
     const [isLoading, toggleIsLoading] = useToggle(true);
 
     const formDataValue = formData[stepId];
 
-    const defaultValues = typeof window === 'undefined' ? WAIVER_NOTICE_FORM_INITIAL_STATE[stepId] : formDataValue;
+    const defaultValues = typeof window === 'undefined' ? WEBCHECK_WAIVER_FORM_INITIAL_STATE[stepId] : formDataValue;
 
     // eslint-disable-next-line
     // @ts-ignore
-    const form = useForm<WaiverNoticeForm[TStepId]>({
-        defaultValues: formDataValue as WaiverNoticeForm[TStepId],
+    const form = useForm<WebcheckWaiverForm[TStepId]>({
+        defaultValues: formDataValue as WebcheckWaiverForm[TStepId],
         validators: {
-            onMount: WAIVER_NOTICE_FORM_STEPS[stepId].schema,
-            // onBlur: WAIVER_NOTICE_FORM_STEPS[stepId].schema,
-            onChange: WAIVER_NOTICE_FORM_STEPS[stepId].schema,
-            onSubmit: WAIVER_NOTICE_FORM_STEPS[stepId].schema,
+            onSubmit: WEBCHECK_WAIVER_FORM_STEPS[stepId].schema,
         },
         onSubmit: (data) => {
             if (data?.value) {
-                setFormStepData('stepTwo', data.value as WaiverNoticeForm['stepTwo']);
+                setFormStepData('webcheckWaiverStep', data.value);
                 toggleIsSubmitted();
-
-                // if (false) {
-                //     toggleIsSuccessful();
-                // }
+                toggleIsSuccessful();
             }
         },
     });
@@ -238,11 +227,11 @@ export const useWaiverNoticeFormStepForm = <TStepId extends keyof WaiverNoticeFo
     React.useEffect(() => {
         toggleIsLoading(true);
 
-        Object.keys(defaultValues).forEach((key) => {
+        Object.keys(defaultValues).forEach((key: string) => {
             form.setFieldValue(
-                key as DeepKeys<WaiverNoticeForm[TStepId]>,
-                defaultValues[key as keyof WaiverNoticeForm[TStepId]] as Updater<
-                    DeepValue<WaiverNoticeForm[TStepId], DeepKeys<WaiverNoticeForm[TStepId]>>
+                key as DeepKeys<WebcheckWaiverForm[TStepId]>,
+                defaultValues[key as keyof WebcheckWaiverForm[TStepId]] as Updater<
+                    DeepValue<WebcheckWaiverForm[TStepId], DeepKeys<WebcheckWaiverForm[TStepId]>>
                 >
             );
         });

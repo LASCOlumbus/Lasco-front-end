@@ -1,10 +1,7 @@
 import {
-    stepOneSchema,
-    stepThreeSchema,
-    stepTwoSchema,
-    waiverNoticeStepOneSchema,
-    waiverNoticeStepTwoSchema,
-    webcheckWaiverStepOneSchema,
+    waiverNoticeCaseDetailsStepSchema,
+    waiverNoticeWaiversListStepSchema,
+    webcheckWaiverStepSchema,
 } from '@/schemas/multiStepFormSchemas.ts';
 import { z } from 'zod';
 
@@ -28,28 +25,33 @@ export type SetStateValue<TValue> = React.Dispatch<React.SetStateAction<TValue>>
 
 export type AnimationDirection = 'next' | 'prev';
 
-export type StepOneSchema = z.infer<typeof stepOneSchema>;
-export type StepTwoSchema = z.infer<typeof stepTwoSchema>;
-export type StepThreeSchema = z.infer<typeof stepThreeSchema>;
-
-export type MultiStepForm = {
-    stepOne: StepOneSchema;
-    stepTwo: StepTwoSchema;
-    stepThree: StepThreeSchema;
+// FailureSectionProps
+export type FailureSectionProps = {
+    title: string;
+    description: string;
+    handleTryAgain?: () => void;
 };
 
-export type MultiStepFormStep = {
-    id: keyof MultiStepForm;
-    label: string;
-    schema: z.ZodSchema<MultiStepForm[keyof MultiStepForm]>;
-    enabled?: boolean;
+// SuccessSectionProps
+export type SuccessSectionProps = {
+    title: string;
+    description: string;
+    handlePrint?: () => void;
+    handleDownload?: () => void;
+};
+
+//AnimatedFormWrapperProps
+export type AnimatedFormWrapperProps = {
+    currentStepIndex: number;
+    animationDirection: AnimationDirection;
+    isLoading: boolean;
 };
 
 // Webcheck Waiver Form
-export type WebcheckWaiverStepOneSchema = z.infer<typeof webcheckWaiverStepOneSchema>;
+export type WebcheckWaiverStepSchema = z.infer<typeof webcheckWaiverStepSchema>;
 
 export type WebcheckWaiverForm = {
-    stepOne: WebcheckWaiverStepOneSchema;
+    webcheckWaiverStep: WebcheckWaiverStepSchema;
 };
 
 export type IWebcheckWaiverFormStep = {
@@ -60,12 +62,12 @@ export type IWebcheckWaiverFormStep = {
 };
 
 // Waiver of Notice Form
-export type WaiverNoticeStepOneSchema = z.infer<typeof waiverNoticeStepOneSchema>;
-export type WaiverNoticeStepTwoSchema = z.infer<typeof waiverNoticeStepTwoSchema>;
+export type WaiverNoticeCaseDetailsStepSchema = z.infer<typeof waiverNoticeCaseDetailsStepSchema>;
+export type WaiverNoticeWaiversListStepSchema = z.infer<typeof waiverNoticeWaiversListStepSchema>;
 
 export type WaiverNoticeForm = {
-    stepOne: WaiverNoticeStepOneSchema;
-    stepTwo: WaiverNoticeStepTwoSchema;
+    caseDetailsStep: WaiverNoticeCaseDetailsStepSchema;
+    waiversListStep: WaiverNoticeWaiversListStepSchema;
 };
 
 export type IWaiverNoticeFormStep = {

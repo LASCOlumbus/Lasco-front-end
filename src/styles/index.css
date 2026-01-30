@@ -70,6 +70,7 @@
     --border-contrast-low: var(--color-gray-200);
     --border-input-active: var(--color-navy-blue-400);
     --border-negative: var(--color-red-600);
+    --overlay-primary: hsl(219deg, 100%, 5%, 0.6);
 
     /* Focus Ring */
     --ring-offset-color: var(--color-gray-0);
