@@ -1,16 +1,22 @@
 import React, { useEffect } from 'react';
-import { WaiverNoticeForm } from '@/lib/types.ts';
+import { E164Number } from 'libphonenumber-js/core';
+import { AdultGuardianshipForm } from '@/lib/types.ts';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
+import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
+import PhoneInput from '@/components/ui/Input/components/PhoneInput';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
-import { useWaiverNoticeFormContext, useWaiverNoticeFormStepForm } from '../../context/WaiverNoticeFormContext.tsx';
+import {
+    useAdultGuardianshipFormContext,
+    useAdultGuardianshipFormStepForm,
+} from '../../context/AdultGuardianshipFormContext.tsx';
 import s from './styles.module.css';
 
 const CaseDetailsStep: React.FC = () => {
-    const { form, isLoading } = useWaiverNoticeFormStepForm('caseDetailsStep');
-    const { goToNextStep, setFormStepData } = useWaiverNoticeFormContext();
+    const { form, isLoading } = useAdultGuardianshipFormStepForm('caseDetailsStep');
+    const { goToNextStep, setFormStepData } = useAdultGuardianshipFormContext();
 
     useEffect(() => {
         form.validate('submit');
@@ -27,9 +33,12 @@ const CaseDetailsStep: React.FC = () => {
                 <ScrollArea>
                     <div className={s['content-description']}>
                         <Typography variant="body-m">
-                            You hereby waive the issuing and service of notice, voluntarily enter your appearance
-                            herein, and consent to the appointment of the person named below as guardian of the
-                            above-named person.
+                            Ohio law requires the person for whom guardianship is being sought to be visited and
+                            personally served notice of the guardianship application by a probate court investigator.
+                        </Typography>
+                        <Typography variant="body-m">
+                            The information you provide below helps the Court safely notify the Prospective Ward and
+                            meet the requirements of Ohio law.
                         </Typography>
                     </div>
                     <div className={s.inputs}>
@@ -99,39 +108,75 @@ const CaseDetailsStep: React.FC = () => {
                                 );
                             }}
                         />
-                        <form.Field
-                            name="applicantName"
-                            children={(field) => {
-                                return (
-                                    <div className={s.input}>
-                                        <Typography variant="body-m" render={<strong />}>
-                                            Name of person asking to be the guardian
-                                        </Typography>
-                                        <Input
-                                            errorMessage={
-                                                !!field.state.meta.errors?.length && field.state.meta.isBlurred
-                                            }
-                                            placeholder="Type full name"
-                                            value={field.state.value}
-                                            onBlur={() => {
-                                                field.handleBlur();
-                                                field.handleChange(field.state.value);
-                                            }}
-                                            onChange={(e) => {
-                                                field.handleChange(e.target.value);
-                                            }}
-                                        />
-                                        {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
-                                            <Typography className={s.error} variant="body-m">
-                                                {/*eslint-disable-next-line*/}
-                                                {/*@ts-ignore*/}
-                                                {field.state.meta.errors[0].message}
+                        <div className={s['inputs-wrapper']}>
+                            <form.Field
+                                name="contactName"
+                                children={(field) => {
+                                    return (
+                                        <div className={s.input}>
+                                            <Typography variant="body-m" render={<strong />}>
+                                                Contact person name
                                             </Typography>
-                                        ) : null}
-                                    </div>
-                                );
-                            }}
-                        />
+                                            <Input
+                                                errorMessage={
+                                                    !!field.state.meta.errors?.length && field.state.meta.isBlurred
+                                                }
+                                                placeholder="Type contact person full name"
+                                                value={field.state.value}
+                                                onBlur={() => {
+                                                    field.handleBlur();
+                                                    field.handleChange(field.state.value);
+                                                }}
+                                                onChange={(e) => {
+                                                    field.handleChange(e.target.value);
+                                                }}
+                                            />
+                                            {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
+                                                <Typography className={s.error} variant="body-m">
+                                                    {/*eslint-disable-next-line*/}
+                                                    {/*@ts-ignore*/}
+                                                    {field.state.meta.errors[0].message}
+                                                </Typography>
+                                            ) : null}
+                                        </div>
+                                    );
+                                }}
+                            />
+                            <form.Field
+                                name="contactPhone"
+                                children={(field) => {
+                                    return (
+                                        <div className={s.input}>
+                                            <Typography variant="body-m" render={<strong />}>
+                                                Contact person telephone number
+                                            </Typography>
+                                            <PhoneInput
+                                                value={field.state.value}
+                                                onChange={(value?: E164Number) => {
+                                                    field.handleChange(value ?? '');
+                                                }}
+                                                onCountryChange={(value) => {
+                                                    field.handleChange(value ?? '');
+                                                }}
+                                            />
+                                            {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
+                                                <Typography className={s.error} variant="body-m">
+                                                    {/*eslint-disable-next-line*/}
+                                                    {/*@ts-ignore*/}
+                                                    {field.state.meta.errors[0].message}
+                                                </Typography>
+                                            ) : null}
+                                        </div>
+                                    );
+                                }}
+                            />
+                        </div>
+
+                        <Alert>
+                            Please, provide the contact person information, who may be contacted by the court
+                            investigator during regular business hours (8:00 a.m. – 5:00 p.m.) if assistance is required
+                            to complete service.
+                        </Alert>
                     </div>
                 </ScrollArea>
             </div>
@@ -151,7 +196,10 @@ const CaseDetailsStep: React.FC = () => {
                                     });
                                     if (isInvalid) return;
                                     goToNextStep();
-                                    setFormStepData('caseDetailsStep', values as WaiverNoticeForm['caseDetailsStep']);
+                                    setFormStepData(
+                                        'caseDetailsStep',
+                                        values as AdultGuardianshipForm['caseDetailsStep']
+                                    );
                                 }}
                                 type="button"
                                 variant="primary"

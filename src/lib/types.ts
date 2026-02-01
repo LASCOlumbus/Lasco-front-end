@@ -1,4 +1,7 @@
 import {
+    adultGuardianshipCaseDetailsStepSchema,
+    adultGuardianshipSafetyServiceStepSchema,
+    adultGuardianshipWardLocationStepSchema,
     waiverNoticeCaseDetailsStepSchema,
     waiverNoticeWaiversListStepSchema,
     webcheckWaiverStepSchema,
@@ -74,5 +77,23 @@ export type IWaiverNoticeFormStep = {
     id: keyof WaiverNoticeForm;
     label: string;
     schema: z.ZodSchema<WaiverNoticeForm[keyof WaiverNoticeForm]>;
+    enabled?: boolean;
+};
+
+// Adult Guardianship
+export type AdultGuardianshipCaseDetailsStepSchema = z.infer<typeof adultGuardianshipCaseDetailsStepSchema>;
+export type AdultGuardianshipWardLocationStepSchema = z.infer<typeof adultGuardianshipWardLocationStepSchema>;
+export type AdultGuardianshipSafetyServiceStepSchema = z.infer<typeof adultGuardianshipSafetyServiceStepSchema>;
+
+export type AdultGuardianshipForm = {
+    caseDetailsStep: AdultGuardianshipCaseDetailsStepSchema;
+    wardLocationStep: AdultGuardianshipWardLocationStepSchema;
+    safetyServiceStep: AdultGuardianshipSafetyServiceStepSchema;
+};
+
+export type AdultGuardianshipFormStep = {
+    id: keyof AdultGuardianshipForm;
+    label: string;
+    schema: z.ZodSchema<AdultGuardianshipForm[keyof AdultGuardianshipForm]>;
     enabled?: boolean;
 };

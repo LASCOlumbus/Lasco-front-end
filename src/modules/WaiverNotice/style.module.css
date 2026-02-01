@@ -21,6 +21,7 @@
 .header {
     background-color: var(--color-gray-0);
     border-radius: 16px;
+    margin-bottom: 24px;
     padding: 16px 32px;
     display: flex;
     gap: 16px;
@@ -71,14 +72,5 @@
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    position: relative;
-    overflow: auto;
-    max-height: 100%;
-    border-radius: 16px;
-    height: 100%;
     width: 100%;
-    background-color: var(--color-gray-0);
 }

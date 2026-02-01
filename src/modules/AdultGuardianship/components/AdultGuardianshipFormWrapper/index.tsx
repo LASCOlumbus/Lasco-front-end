@@ -1,0 +1,19 @@
+import React from 'react';
+import AnimatedFormWrapper from '@/components/form/AnimatedFormWrapper';
+import { useAdultGuardianshipFormContext } from '../../context/AdultGuardianshipFormContext.tsx';
+
+const AdultGuardianshipFormWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
+    const { currentStepIndex, animationDirection, isLoading } = useAdultGuardianshipFormContext();
+
+    return (
+        <AnimatedFormWrapper
+            currentStepIndex={currentStepIndex}
+            animationDirection={animationDirection}
+            isLoading={isLoading}
+        >
+            {children}
+        </AnimatedFormWrapper>
+    );
+};
+
+export default AdultGuardianshipFormWrapper;

@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { toastManager } from '@/lib/@toastManager.ts';
 import { WaiverNoticeForm } from '@/lib/types.ts';
 import { Button } from '@/components/ui/Button';
-import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
 import { WaiverNoticeFormProvider } from './context/WaiverNoticeFormContext.tsx';
 import CaseDetailsStep from './components/CaseDetailsStep/index.tsx';
@@ -58,16 +57,14 @@ const WaiverNotice: React.FC = () => {
                     </header>
                     <div className={s['sidebar-wrapper']}>
                         <Sidebar />
-                        <ScrollArea className={s.content}>
-                            <WaiverNoticeFormWrapper>
-                                <WaiverNoticeFormStep id={'caseDetailsStep' as keyof WaiverNoticeForm}>
-                                    <CaseDetailsStep key="caseDetailsStep" />
-                                </WaiverNoticeFormStep>
-                                <WaiverNoticeFormStep id="waiversListStep">
-                                    <WaiversListStep key="waiversListStep" />
-                                </WaiverNoticeFormStep>
-                            </WaiverNoticeFormWrapper>
-                        </ScrollArea>
+                        <WaiverNoticeFormWrapper>
+                            <WaiverNoticeFormStep id={'caseDetailsStep' as keyof WaiverNoticeForm}>
+                                <CaseDetailsStep key="caseDetailsStep" />
+                            </WaiverNoticeFormStep>
+                            <WaiverNoticeFormStep id="waiversListStep">
+                                <WaiversListStep key="waiversListStep" />
+                            </WaiverNoticeFormStep>
+                        </WaiverNoticeFormWrapper>
                     </div>
                 </div>
             </WaiverNoticeFormProvider>

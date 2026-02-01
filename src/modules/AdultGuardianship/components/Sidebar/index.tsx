@@ -4,13 +4,14 @@ import { Component as EmptyCircle24Icon } from '@/icons/empty-circle_24.svg?svgU
 import { Component as Progress20Icon } from '@/icons/progress_20.svg?svgUse';
 import clsx from 'clsx';
 import { useIsTablet } from '@/hooks/useIsTablet.ts';
-import { useWaiverNoticeFormContext } from '@/modules/WaiverNotice/context/WaiverNoticeFormContext.tsx';
+import { useAdultGuardianshipFormContext } from '@/modules/AdultGuardianship/context/AdultGuardianshipFormContext.tsx';
 import { Drawer, DrawerContent, DrawerHeader, DrawerOverlay, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
 import { Typography } from '@/components/ui/Typography';
 import s from './styles.module.css';
 
 const Sidebar: React.FC = () => {
-    const { steps, currentStepIndex, isSubmitted, lastPassedStepIndex, goToSelectStep } = useWaiverNoticeFormContext();
+    const { steps, currentStepIndex, isSubmitted, lastPassedStepIndex, goToSelectStep } =
+        useAdultGuardianshipFormContext();
     const [isDrawerOpened, setIsDrawerOpened] = useState(false);
 
     const isTablet = useIsTablet();
@@ -84,7 +85,7 @@ const Sidebar: React.FC = () => {
                     </DrawerContent>
                 </Drawer>
             ) : (
-                steps.map((step, index) => {
+                steps?.map((step, index) => {
                     return (
                         <div
                             className={clsx(

@@ -1,24 +1,27 @@
 import React from 'react';
 import clsx from 'clsx';
 import { toastManager } from '@/lib/@toastManager.ts';
-import { IWebcheckWaiverFormStep } from '@/lib/types.ts';
+import { AdultGuardianshipForm } from '@/lib/types.ts';
+import AdultGuardianshipFormStep from '@/modules/AdultGuardianship/components/AdultGuardianshipFormStep';
+import AdultGuardianshipFormWrapper from '@/modules/AdultGuardianship/components/AdultGuardianshipFormWrapper';
+import SafetyServiceStep from '@/modules/AdultGuardianship/components/SafetyServiceStep';
+import WaiversListStep from '@/modules/AdultGuardianship/components/WardLocationStep/index.tsx';
 import { Button } from '@/components/ui/Button';
-import { Typography } from '@/components/ui/Typography';
-import { WebcheckWaiverFormProvider } from './context/WebcheckWaiverFormContext.tsx';
-import WebcheckWaiverFormStep from './components/WebcheckWaiverFormStep';
-import WebcheckWaiverFormWrapper from './components/WebcheckWaiverFormWrapper';
-import WebcheckWaiverStep from './components/WebcheckWaiverStep';
+import { Typography } from '@/components/ui/Typography/index.tsx';
+import { AdultGuardianshipFormProvider } from './context/AdultGuardianshipFormContext.tsx';
+import CaseDetailsStep from './components/CaseDetailsStep/index.tsx';
+import Sidebar from './components/Sidebar/index.tsx';
 import s from './style.module.css';
 
-const WebcheckWaiver: React.FC = () => {
+const AdultGuardianship: React.FC = () => {
     return (
         <main className={clsx(s.container, 'full-height')}>
-            <WebcheckWaiverFormProvider>
+            <AdultGuardianshipFormProvider>
                 <div className={s.inner}>
                     <header className={s.header}>
                         <div className={s['header-information']}>
                             <Typography variant="body-m" render={<strong />}>
-                                Webcheck waiver
+                                Waiver of notice
                             </Typography>
                             <Typography variant="body-s" className={s.description}>
                                 Probate court of Franklin County, Ohio | Judge: Jeffrey D. Mackey
@@ -53,17 +56,26 @@ const WebcheckWaiver: React.FC = () => {
                             </Button>
                         </div>
                     </header>
-                    <div className={s.content}>
-                        <WebcheckWaiverFormWrapper>
-                            <WebcheckWaiverFormStep id={'webcheckWaiverStep' as keyof IWebcheckWaiverFormStep}>
-                                <WebcheckWaiverStep key="webcheckWaiverStep" />
-                            </WebcheckWaiverFormStep>
-                        </WebcheckWaiverFormWrapper>
+                    <div className={s['sidebar-wrapper']}>
+                        <Sidebar />
+                        <div className={s.content}>
+                            <AdultGuardianshipFormWrapper>
+                                <AdultGuardianshipFormStep id={'caseDetailsStep' as keyof AdultGuardianshipForm}>
+                                    <CaseDetailsStep key="caseDetailsStep" />
+                                </AdultGuardianshipFormStep>
+                                <AdultGuardianshipFormStep id="wardLocationStep">
+                                    <WaiversListStep key="wardLocationStep" />
+                                </AdultGuardianshipFormStep>
+                                <AdultGuardianshipFormStep id="safetyServiceStep">
+                                    <SafetyServiceStep key="safetyServiceStep" />
+                                </AdultGuardianshipFormStep>
+                            </AdultGuardianshipFormWrapper>
+                        </div>
                     </div>
                 </div>
-            </WebcheckWaiverFormProvider>
+            </AdultGuardianshipFormProvider>
         </main>
     );
 };
 
-export default WebcheckWaiver;
+export default AdultGuardianship;

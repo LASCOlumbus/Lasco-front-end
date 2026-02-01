@@ -41,6 +41,7 @@
     --surface-negative-low: var(--color-red-100);
     --text-primary: var(--color-gray-900);
     --text-secondary: var(--color-gray-600);
+    --text-secondary-low: hsl(214deg, 11%, 48%, 1);
     --text-tertiary: var(--color-gray-500);
     --text-contrast: var(--color-gray-0);
     --text-contrast-secondary: var(--color-gray-200);

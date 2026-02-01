@@ -227,7 +227,7 @@ export const useWebcheckWaiverFormStepForm = <TStepId extends keyof WebcheckWaiv
     React.useEffect(() => {
         toggleIsLoading(true);
 
-        Object.keys(defaultValues).forEach((key: string) => {
+        Object.keys(defaultValues ?? {}).forEach((key: string) => {
             form.setFieldValue(
                 key as DeepKeys<WebcheckWaiverForm[TStepId]>,
                 defaultValues[key as keyof WebcheckWaiverForm[TStepId]] as Updater<

@@ -17,6 +17,9 @@ const WebcheckWaiverIndexLazyRouteImport =
   createFileRoute('/webcheck-waiver/')()
 const WaiverNoticeIndexLazyRouteImport = createFileRoute('/waiver-notice/')()
 const UiKitIndexLazyRouteImport = createFileRoute('/ui-kit/')()
+const AdultGuardianshipIndexLazyRouteImport = createFileRoute(
+  '/adult-guardianship/',
+)()
 
 const IndexLazyRoute = IndexLazyRouteImport.update({
   id: '/',
@@ -42,15 +45,25 @@ const UiKitIndexLazyRoute = UiKitIndexLazyRouteImport.update({
   path: '/ui-kit/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/ui-kit/index.lazy').then((d) => d.Route))
+const AdultGuardianshipIndexLazyRoute =
+  AdultGuardianshipIndexLazyRouteImport.update({
+    id: '/adult-guardianship/',
+    path: '/adult-guardianship/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/adult-guardianship/index.lazy').then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/adult-guardianship': typeof AdultGuardianshipIndexLazyRoute
   '/ui-kit': typeof UiKitIndexLazyRoute
   '/waiver-notice': typeof WaiverNoticeIndexLazyRoute
   '/webcheck-waiver': typeof WebcheckWaiverIndexLazyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/adult-guardianship': typeof AdultGuardianshipIndexLazyRoute
   '/ui-kit': typeof UiKitIndexLazyRoute
   '/waiver-notice': typeof WaiverNoticeIndexLazyRoute
   '/webcheck-waiver': typeof WebcheckWaiverIndexLazyRoute
@@ -58,20 +71,38 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
+  '/adult-guardianship/': typeof AdultGuardianshipIndexLazyRoute
   '/ui-kit/': typeof UiKitIndexLazyRoute
   '/waiver-notice/': typeof WaiverNoticeIndexLazyRoute
   '/webcheck-waiver/': typeof WebcheckWaiverIndexLazyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ui-kit' | '/waiver-notice' | '/webcheck-waiver'
+  fullPaths:
+    | '/'
+    | '/adult-guardianship'
+    | '/ui-kit'
+    | '/waiver-notice'
+    | '/webcheck-waiver'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ui-kit' | '/waiver-notice' | '/webcheck-waiver'
-  id: '__root__' | '/' | '/ui-kit/' | '/waiver-notice/' | '/webcheck-waiver/'
+  to:
+    | '/'
+    | '/adult-guardianship'
+    | '/ui-kit'
+    | '/waiver-notice'
+    | '/webcheck-waiver'
+  id:
+    | '__root__'
+    | '/'
+    | '/adult-guardianship/'
+    | '/ui-kit/'
+    | '/waiver-notice/'
+    | '/webcheck-waiver/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  AdultGuardianshipIndexLazyRoute: typeof AdultGuardianshipIndexLazyRoute
   UiKitIndexLazyRoute: typeof UiKitIndexLazyRoute
   WaiverNoticeIndexLazyRoute: typeof WaiverNoticeIndexLazyRoute
   WebcheckWaiverIndexLazyRoute: typeof WebcheckWaiverIndexLazyRoute
@@ -107,11 +138,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UiKitIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/adult-guardianship/': {
+      id: '/adult-guardianship/'
+      path: '/adult-guardianship'
+      fullPath: '/adult-guardianship'
+      preLoaderRoute: typeof AdultGuardianshipIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  AdultGuardianshipIndexLazyRoute: AdultGuardianshipIndexLazyRoute,
   UiKitIndexLazyRoute: UiKitIndexLazyRoute,
   WaiverNoticeIndexLazyRoute: WaiverNoticeIndexLazyRoute,
   WebcheckWaiverIndexLazyRoute: WebcheckWaiverIndexLazyRoute,

@@ -1,18 +1,19 @@
 import React, { useContext } from 'react';
 import { flushSync } from 'react-dom';
 import {
-    waiverNoticeCaseDetailsStepSchema,
-    waiverNoticeWaiversListStepSchema,
+    adultGuardianshipCaseDetailsStepSchema,
+    adultGuardianshipSafetyServiceStepSchema,
+    adultGuardianshipWardLocationStepSchema,
 } from '@/schemas/multiStepFormSchemas.ts';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { DeepKeys, DeepValue, Updater, useForm } from '@tanstack/react-form';
-import { AnimationDirection, IWaiverNoticeFormStep, WaiverNoticeForm } from '@/lib/types.ts';
+import { AdultGuardianshipForm, AdultGuardianshipFormStep, AnimationDirection } from '@/lib/types.ts';
 
-type WaiverNoticeFormContextType = {
-    formData: WaiverNoticeForm;
-    steps: IWaiverNoticeFormStep[];
+type AdultGuardianshipFormContextType = {
+    formData: AdultGuardianshipForm;
+    steps: AdultGuardianshipFormStep[];
     currentStepIndex: number;
-    currentStep: IWaiverNoticeFormStep;
+    currentStep: AdultGuardianshipFormStep;
     isSubmitted: boolean | undefined;
     toggleIsSubmitted: (_value: boolean) => void;
     isSuccessful: boolean | undefined;
@@ -24,70 +25,96 @@ type WaiverNoticeFormContextType = {
     goToNextStep: () => void;
     goToPreviousStep: () => void;
     goToSelectStep: (_step: number) => void;
-    setFormStepData: <TField extends keyof WaiverNoticeForm>(
+    setFormStepData: <TField extends keyof AdultGuardianshipForm>(
         // eslint-disable-next-line no-unused-vars
         key: TField,
         // eslint-disable-next-line no-unused-vars
-        data: WaiverNoticeForm[TField]
+        data: AdultGuardianshipForm[TField]
     ) => void;
     lastPassedStepIndex: number;
 };
 
-export const WAIVER_NOTICE_FORM_KEY = 'WAIVER_NOTICE_multi-step-form';
-export const WAIVER_NOTICE_FORM_KEY_SUBMITTED = 'WAIVER_NOTICE_multi-step-form-step_submitted';
-export const WAIVER_NOTICE_FORM_KEY_SUCCESSFUL = 'WAIVER_NOTICE_multi-step-form-step_successful';
+export const ADULT_GUARDIANSHIP_FORM_KEY = 'ADULT_GUARDIANSHIP_multi-step-form';
+export const ADULT_GUARDIANSHIP_FORM_KEY_SUBMITTED = 'ADULT_GUARDIANSHIP_multi-step-form-step_submitted';
+export const ADULT_GUARDIANSHIP_FORM_KEY_SUCCESSFUL = 'ADULT_GUARDIANSHIP_multi-step-form-step_successful';
 
-const WAIVER_NOTICE_FORM_STEPS = {
+const ADULT_GUARDIANSHIP_FORM_STEPS = {
     caseDetailsStep: {
         id: 'caseDetailsStep',
         label: 'Case details',
-        schema: waiverNoticeCaseDetailsStepSchema,
+        schema: adultGuardianshipCaseDetailsStepSchema,
         enabled: true,
     },
-    waiversListStep: {
-        id: 'waiversListStep',
-        label: 'Waivers list',
-        schema: waiverNoticeWaiversListStepSchema,
+    wardLocationStep: {
+        id: 'wardLocationStep',
+        label: 'Ward location',
+        schema: adultGuardianshipWardLocationStepSchema,
         enabled: true,
     },
-} as const satisfies Record<keyof WaiverNoticeForm, IWaiverNoticeFormStep>;
-const WAIVER_NOTICE_FORM_STEPS_ARRAY = Object.values(WAIVER_NOTICE_FORM_STEPS).filter((step) => {
+    safetyServiceStep: {
+        id: 'safetyServiceStep',
+        label: 'Safety & service',
+        schema: adultGuardianshipSafetyServiceStepSchema,
+        enabled: true,
+    },
+} as const satisfies Record<keyof AdultGuardianshipForm, AdultGuardianshipFormStep>;
+const ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY = Object.values(ADULT_GUARDIANSHIP_FORM_STEPS).filter((step) => {
     return step.enabled;
 });
 
-const WAIVER_NOTICE_FORM_INITIAL_STATE: WaiverNoticeForm = {
+const ADULT_GUARDIANSHIP_FORM_INITIAL_STATE: AdultGuardianshipForm = {
     caseDetailsStep: {
         guardianName: '',
         caseNumber: '',
-        applicantName: '',
+        contactName: '',
+        contactPhone: '',
     },
-    waiversListStep: {
-        persons: [''],
+    wardLocationStep: {
+        streetAddress: '',
+        city: '',
+        state: '',
+        zip: '',
+        wardPhone: '',
+    },
+    safetyServiceStep: {
+        answer_1: '',
+        answer_explanation_1: '',
+        answer_2: '',
+        answer_explanation_2: '',
+        answer_3: '',
+        answer_explanation_3: '',
     },
 };
 
-const WaiverNoticeFormContext = React.createContext<WaiverNoticeFormContextType>({} as WaiverNoticeFormContextType);
-WaiverNoticeFormContext.displayName = 'WaiverNoticeFormContext';
+const AdultGuardianshipFormContext = React.createContext<AdultGuardianshipFormContextType>(
+    {} as AdultGuardianshipFormContextType
+);
+AdultGuardianshipFormContext.displayName = 'AdultGuardianshipFormContext';
 
-export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-    const { value: formData, set: setFormData } = useLocalStorageValue(WAIVER_NOTICE_FORM_KEY, {
+export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+    const { value: formData, set: setFormData } = useLocalStorageValue(ADULT_GUARDIANSHIP_FORM_KEY, {
         defaultValue:
             typeof window === 'undefined'
-                ? JSON.stringify(WAIVER_NOTICE_FORM_INITIAL_STATE)
-                : (localStorage?.getItem(WAIVER_NOTICE_FORM_KEY) ?? JSON.stringify(WAIVER_NOTICE_FORM_INITIAL_STATE)),
+                ? JSON.stringify(ADULT_GUARDIANSHIP_FORM_INITIAL_STATE)
+                : (localStorage?.getItem(ADULT_GUARDIANSHIP_FORM_KEY) ??
+                  JSON.stringify(ADULT_GUARDIANSHIP_FORM_INITIAL_STATE)),
         initializeWithValue: false,
     });
 
-    const { value: isSubmitted, set: toggleIsSubmitted } = useLocalStorageValue(WAIVER_NOTICE_FORM_KEY_SUBMITTED, {
-        defaultValue: typeof window === 'undefined' ? false : !!localStorage?.getItem(WAIVER_NOTICE_FORM_KEY_SUBMITTED),
-        initializeWithValue: false,
-    });
-
-    const { value: isSuccessful, set: toggleIsSuccessful } = useLocalStorageValue(WAIVER_NOTICE_FORM_KEY_SUCCESSFUL, {
+    const { value: isSubmitted, set: toggleIsSubmitted } = useLocalStorageValue(ADULT_GUARDIANSHIP_FORM_KEY_SUBMITTED, {
         defaultValue:
-            typeof window === 'undefined' ? false : !!localStorage?.getItem(WAIVER_NOTICE_FORM_KEY_SUCCESSFUL),
+            typeof window === 'undefined' ? false : !!localStorage?.getItem(ADULT_GUARDIANSHIP_FORM_KEY_SUBMITTED),
         initializeWithValue: false,
     });
+
+    const { value: isSuccessful, set: toggleIsSuccessful } = useLocalStorageValue(
+        ADULT_GUARDIANSHIP_FORM_KEY_SUCCESSFUL,
+        {
+            defaultValue:
+                typeof window === 'undefined' ? false : !!localStorage?.getItem(ADULT_GUARDIANSHIP_FORM_KEY_SUCCESSFUL),
+            initializeWithValue: false,
+        }
+    );
 
     const [isLoading, toggleIsLoading] = useToggle(true);
     const [isInitialStepSet, toggleIsInitialStepSet] = useToggle();
@@ -100,19 +127,20 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
             reset: resetCurrentStepIndex,
             set: setCurrentStepIndex,
         },
-    ] = useCounter(0, WAIVER_NOTICE_FORM_STEPS_ARRAY.length - 1, 0);
+    ] = useCounter(0, ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY.length - 1, 0);
     const [lastPassedStepIndex, { set: setLastPassedStepIndex }] = useCounter(0);
 
-    const currentStep = WAIVER_NOTICE_FORM_STEPS_ARRAY[currentStepIndex];
-    const isLastStep = currentStep.id === WAIVER_NOTICE_FORM_STEPS_ARRAY[WAIVER_NOTICE_FORM_STEPS_ARRAY.length - 1].id;
+    const currentStep = ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY[currentStepIndex];
+    const isLastStep =
+        currentStep.id === ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY[ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY.length - 1].id;
     const canGoBack = currentStepIndex > 0;
 
     const parsedFormData = React.useMemo(() => {
         if (!formData) {
-            return WAIVER_NOTICE_FORM_INITIAL_STATE;
+            return ADULT_GUARDIANSHIP_FORM_INITIAL_STATE;
         }
 
-        return JSON.parse(formData) as WaiverNoticeForm;
+        return JSON.parse(formData) as AdultGuardianshipForm;
     }, [formData]);
 
     const goToNextStep = React.useCallback(() => {
@@ -152,7 +180,7 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
     );
 
     const setFormStepData = React.useCallback(
-        <TField extends keyof WaiverNoticeForm>(key: TField, data: WaiverNoticeForm[TField]) => {
+        <TField extends keyof AdultGuardianshipForm>(key: TField, data: AdultGuardianshipForm[TField]) => {
             setFormData((prev) => {
                 if (!prev) {
                     return '';
@@ -169,14 +197,13 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
 
     const cleanUp = React.useCallback(() => {
         resetCurrentStepIndex();
-        // setFormData(JSON.stringify(WAIVER_NOTICE_FORM_INITIAL_STATE));
     }, [resetCurrentStepIndex]);
 
     const memoizedValue = React.useMemo(() => {
         return {
             formData: parsedFormData,
             currentStepIndex,
-            steps: WAIVER_NOTICE_FORM_STEPS_ARRAY,
+            steps: ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY,
             currentStep,
             isSubmitted,
             toggleIsSubmitted,
@@ -225,7 +252,7 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
 
         toggleIsLoading(true);
 
-        const lastCorrectStepIndex = WAIVER_NOTICE_FORM_STEPS_ARRAY.findIndex((step) => {
+        const lastCorrectStepIndex = ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY.findIndex((step) => {
             const result = step.schema.safeParse(parsedFormData[step.id]);
 
             return !result.success;
@@ -245,37 +272,36 @@ export const WaiverNoticeFormProvider: React.FC<React.PropsWithChildren> = ({ ch
         cleanUp();
     });
 
-    return <WaiverNoticeFormContext value={memoizedValue}>{children}</WaiverNoticeFormContext>;
+    return <AdultGuardianshipFormContext value={memoizedValue}>{children}</AdultGuardianshipFormContext>;
 };
 
-export const useWaiverNoticeFormContext = () => {
-    const context = useContext(WaiverNoticeFormContext);
+export const useAdultGuardianshipFormContext = () => {
+    const context = useContext(AdultGuardianshipFormContext);
 
     return context;
 };
 
-export const useWaiverNoticeFormStepForm = <TStepId extends keyof WaiverNoticeForm>(stepId: TStepId) => {
-    const { formData, setFormStepData, toggleIsSubmitted } = useWaiverNoticeFormContext();
+export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuardianshipForm>(stepId: TStepId) => {
+    const { formData, setFormStepData, toggleIsSubmitted } = useAdultGuardianshipFormContext();
 
     const [isLoading, toggleIsLoading] = useToggle(true);
 
     const formDataValue = formData[stepId];
 
-    const defaultValues = typeof window === 'undefined' ? WAIVER_NOTICE_FORM_INITIAL_STATE[stepId] : formDataValue;
+    const defaultValues = typeof window === 'undefined' ? ADULT_GUARDIANSHIP_FORM_INITIAL_STATE[stepId] : formDataValue;
 
     // eslint-disable-next-line
     // @ts-ignore
-    const form = useForm<WaiverNoticeForm[TStepId]>({
-        defaultValues: formDataValue as WaiverNoticeForm[TStepId],
+    const form = useForm<AdultGuardianshipForm[TStepId]>({
+        defaultValues: formDataValue as AdultGuardianshipForm[TStepId],
         validators: {
-            onMount: WAIVER_NOTICE_FORM_STEPS[stepId].schema,
-            // onBlur: WAIVER_NOTICE_FORM_STEPS[stepId].schema,
-            onChange: WAIVER_NOTICE_FORM_STEPS[stepId].schema,
-            onSubmit: WAIVER_NOTICE_FORM_STEPS[stepId].schema,
+            onMount: ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema,
+            onChange: ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema,
+            onSubmit: ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema,
         },
         onSubmit: (data) => {
             if (data?.value) {
-                setFormStepData('waiversListStep', data.value as WaiverNoticeForm['waiversListStep']);
+                setFormStepData('safetyServiceStep', data.value as AdultGuardianshipForm['safetyServiceStep']);
                 toggleIsSubmitted(true);
 
                 // if (false) {
@@ -290,9 +316,9 @@ export const useWaiverNoticeFormStepForm = <TStepId extends keyof WaiverNoticeFo
 
         Object.keys(defaultValues ?? {}).forEach((key) => {
             form.setFieldValue(
-                key as DeepKeys<WaiverNoticeForm[TStepId]>,
-                defaultValues[key as keyof WaiverNoticeForm[TStepId]] as Updater<
-                    DeepValue<WaiverNoticeForm[TStepId], DeepKeys<WaiverNoticeForm[TStepId]>>
+                key as DeepKeys<AdultGuardianshipForm[TStepId]>,
+                defaultValues[key as keyof AdultGuardianshipForm[TStepId]] as Updater<
+                    DeepValue<AdultGuardianshipForm[TStepId], DeepKeys<AdultGuardianshipForm[TStepId]>>
                 >
             );
         });

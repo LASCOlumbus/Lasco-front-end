@@ -1,6 +1,7 @@
 .form {
     display: flex;
     flex-direction: column;
+    gap: 24px;
     border-radius: 16px;
     background-color: var(--color-gray-0);
     height: 100%;
@@ -42,10 +43,18 @@
     }
 }
 
+.inputs-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+}
+
 .input {
     display: flex;
     flex-direction: column;
     gap: 6px;
+    width: 100%;
 }
 
 .error {
@@ -53,7 +62,8 @@
 }
 
 .footer {
-    position: static;
+    position: sticky;
+    bottom: 0;
     align-items: center;
     gap: 20px;
     display: flex;

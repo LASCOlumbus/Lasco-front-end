@@ -7,14 +7,26 @@
     height: 100%;
 }
 
+.scroll-container-wrapper {
+    height: calc(100% - 113px);
+    flex-grow: 1;
+    flex-direction: column;
+    display: flex;
+    padding: 20px 0 0;
+
+    @media screen and (max-width: 900px) {
+        padding: 12px 0 0;
+    }
+}
+
 .content-description {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 40px 40px 0;
+    padding: 20px 40px 0;
 
     @media screen and (max-width: 900px) {
-        padding: 24px 20px 0;
+        padding: 12px 20px 0;
     }
 }
 
@@ -22,11 +34,11 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding: 0 40px;
+    padding: 0 40px 24px;
     margin-bottom: auto;
 
     @media screen and (max-width: 900px) {
-        padding: 0 20px;
+        padding: 0 20px 12px;
     }
 }
 
