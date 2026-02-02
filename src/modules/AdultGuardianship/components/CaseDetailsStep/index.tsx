@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { E164Number } from 'libphonenumber-js/core';
 import { AdultGuardianshipForm } from '@/lib/types.ts';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
@@ -18,7 +18,7 @@ const CaseDetailsStep: React.FC = () => {
     const { form, isLoading } = useAdultGuardianshipFormStepForm('caseDetailsStep');
     const { goToNextStep, setFormStepData } = useAdultGuardianshipFormContext();
 
-    useEffect(() => {
+    React.useEffect(() => {
         form.validate('submit');
         // eslint-disable-next-line
     }, []);

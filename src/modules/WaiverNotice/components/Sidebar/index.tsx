@@ -15,7 +15,9 @@ const Sidebar: React.FC = () => {
 
     const isTablet = useIsTablet();
 
-    if (isSubmitted) return null;
+    if (isSubmitted) {
+        return null;
+    }
 
     return (
         <div className={s.sidebar}>

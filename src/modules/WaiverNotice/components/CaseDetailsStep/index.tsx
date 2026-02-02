@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { WaiverNoticeForm } from '@/lib/types.ts';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
@@ -12,7 +12,7 @@ const CaseDetailsStep: React.FC = () => {
     const { form, isLoading } = useWaiverNoticeFormStepForm('caseDetailsStep');
     const { goToNextStep, setFormStepData } = useWaiverNoticeFormContext();
 
-    useEffect(() => {
+    React.useEffect(() => {
         form.validate('submit');
         // eslint-disable-next-line
     }, []);
