@@ -1,18 +1,18 @@
+import type { SelectOption } from '@/components/ui/Select/types';
+import type { AdultGuardianshipForm } from '@/lib/types';
 import React from 'react';
 import { E164Number } from 'libphonenumber-js/core';
-import { AdultGuardianshipForm } from '@/lib/types.ts';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import PhoneInput from '@/components/ui/Input/components/PhoneInput';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import Select from '@/components/ui/Select';
-import { SelectOption } from '@/components/ui/Select/types.ts';
 import { Typography } from '@/components/ui/Typography';
 import {
     useAdultGuardianshipFormContext,
     useAdultGuardianshipFormStepForm,
-} from '../../context/AdultGuardianshipFormContext.tsx';
+} from '../../context/AdultGuardianshipFormContext';
 import s from './styles.module.css';
 
 export const US_STATES_SELECT_OPTIONS: SelectOption[] = [
@@ -451,7 +451,9 @@ const WardLocationStep: React.FC = () => {
                                     const isInvalid = Object.values(result).some(({ onSubmit: field }) => {
                                         return Array.isArray(field) && field?.length > 0;
                                     });
-                                    if (isInvalid) return;
+                                    if (isInvalid) {
+                                        return;
+                                    }
                                     goToNextStep();
                                     setFormStepData(
                                         'wardLocationStep',

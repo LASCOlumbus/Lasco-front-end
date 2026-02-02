@@ -10,7 +10,7 @@ import { Typography } from '@/components/ui/Typography';
 import {
     useAdultGuardianshipFormContext,
     useAdultGuardianshipFormStepForm,
-} from '../../context/AdultGuardianshipFormContext.tsx';
+} from '../../context/AdultGuardianshipFormContext';
 import s from './styles.module.css';
 
 const SafetyServiceStep: React.FC = () => {

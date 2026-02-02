@@ -1,4 +1,4 @@
-import { AdultGuardianshipForm } from '@/lib/types.ts';
+import type { AdultGuardianshipForm } from '@/lib/types';
 
 export type AdultGuardianshipFormStepProps = {
     id: keyof AdultGuardianshipForm;

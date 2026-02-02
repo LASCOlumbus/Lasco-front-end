@@ -1,14 +1,16 @@
+import type { WebcheckWaiverFormStepProps } from './types';
 import React from 'react';
-import { WebcheckWaiverForm } from '@/lib/types.ts';
 import FailureSection from '@/components/FailureSection';
 import SuccessSection from '@/components/SuccessSection';
-import { useWebcheckWaiverFormContext } from '../../context/WebcheckWaiverFormContext.tsx';
-import { WebcheckWaiverFormStepProps } from './types.ts';
+import { useWebcheckWaiverFormContext } from '../../context/WebcheckWaiverFormContext';
 
-const WebcheckWaiverFormStep: React.FC<React.PropsWithChildren<WebcheckWaiverFormStepProps>> = ({ children, id }) => {
+const WebcheckWaiverFormStepWrapper: React.FC<React.PropsWithChildren<WebcheckWaiverFormStepProps>> = ({
+    children,
+    id,
+}) => {
     const { currentStep, isSuccessful, isSubmitted } = useWebcheckWaiverFormContext();
 
-    if (currentStep.id !== (id as keyof WebcheckWaiverForm)) {
+    if (currentStep.id !== id) {
         return null;
     }
 
@@ -33,4 +35,4 @@ const WebcheckWaiverFormStep: React.FC<React.PropsWithChildren<WebcheckWaiverFor
     return children;
 };
 
-export default WebcheckWaiverFormStep;
+export default WebcheckWaiverFormStepWrapper;

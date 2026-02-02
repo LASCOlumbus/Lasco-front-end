@@ -1,4 +1,4 @@
-import { WaiverNoticeForm } from '@/lib/types.ts';
+import type { WaiverNoticeForm } from '@/lib/types';
 
 export type WaiverNoticeFormStepProps = {
     id: keyof WaiverNoticeForm;

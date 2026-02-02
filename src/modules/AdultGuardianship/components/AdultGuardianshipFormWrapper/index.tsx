@@ -1,6 +1,6 @@
 import React from 'react';
 import AnimatedFormWrapper from '@/components/form/AnimatedFormWrapper';
-import { useAdultGuardianshipFormContext } from '../../context/AdultGuardianshipFormContext.tsx';
+import { useAdultGuardianshipFormContext } from '../../context/AdultGuardianshipFormContext';
 
 const AdultGuardianshipFormWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
     const { currentStepIndex, animationDirection, isLoading } = useAdultGuardianshipFormContext();

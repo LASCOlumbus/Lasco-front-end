@@ -1,11 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
-import { toastManager } from '@/lib/@toastManager.ts';
-import { IWebcheckWaiverFormStep } from '@/lib/types.ts';
+import { toastManager } from '@/lib/@toastManager';
 import { Button } from '@/components/ui/Button';
 import { Typography } from '@/components/ui/Typography';
-import { WebcheckWaiverFormProvider } from './context/WebcheckWaiverFormContext.tsx';
-import WebcheckWaiverFormStep from './components/WebcheckWaiverFormStep';
+import { WebcheckWaiverFormProvider } from './context/WebcheckWaiverFormContext';
+import WebcheckWaiverFormStepWrapper from './components/WebcheckWaiverFormStepWrapper';
 import WebcheckWaiverFormWrapper from './components/WebcheckWaiverFormWrapper';
 import WebcheckWaiverStep from './components/WebcheckWaiverStep';
 import s from './style.module.css';
@@ -55,9 +54,9 @@ const WebcheckWaiver: React.FC = () => {
                     </header>
                     <div className={s.content}>
                         <WebcheckWaiverFormWrapper>
-                            <WebcheckWaiverFormStep id={'webcheckWaiverStep' as keyof IWebcheckWaiverFormStep}>
+                            <WebcheckWaiverFormStepWrapper id={'webcheckWaiverStep'}>
                                 <WebcheckWaiverStep key="webcheckWaiverStep" />
-                            </WebcheckWaiverFormStep>
+                            </WebcheckWaiverFormStepWrapper>
                         </WebcheckWaiverFormWrapper>
                     </div>
                 </div>

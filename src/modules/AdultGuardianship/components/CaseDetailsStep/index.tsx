@@ -1,6 +1,6 @@
+import type { AdultGuardianshipForm } from '@/lib/types';
 import React from 'react';
 import { E164Number } from 'libphonenumber-js/core';
-import { AdultGuardianshipForm } from '@/lib/types.ts';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
@@ -11,7 +11,7 @@ import { Typography } from '@/components/ui/Typography';
 import {
     useAdultGuardianshipFormContext,
     useAdultGuardianshipFormStepForm,
-} from '../../context/AdultGuardianshipFormContext.tsx';
+} from '../../context/AdultGuardianshipFormContext';
 import s from './styles.module.css';
 
 const CaseDetailsStep: React.FC = () => {
@@ -194,7 +194,9 @@ const CaseDetailsStep: React.FC = () => {
                                     const isInvalid = Object.values(result).some(({ onSubmit: field }) => {
                                         return Array.isArray(field) && field?.length > 0;
                                     });
-                                    if (isInvalid) return;
+                                    if (isInvalid) {
+                                        return;
+                                    }
                                     goToNextStep();
                                     setFormStepData(
                                         'caseDetailsStep',

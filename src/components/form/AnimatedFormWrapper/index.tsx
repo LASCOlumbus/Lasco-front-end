@@ -1,6 +1,6 @@
+import type { AnimatedFormWrapperProps } from '@/lib/types';
 import React from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
-import { AnimatedFormWrapperProps } from '@/lib/types.ts';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import s from './styles.module.css';
 

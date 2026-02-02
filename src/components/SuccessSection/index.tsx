@@ -1,5 +1,5 @@
+import type { SuccessSectionProps } from '@/lib/types';
 import { Component as CheckCircleIcon } from '@/icons/check-circle_24.svg?svgUse';
-import { SuccessSectionProps } from '@/lib/types.ts';
 import { Button } from '@/components/ui/Button';
 import { Typography } from '@/components/ui/Typography';
 import s from './styles.module.css';

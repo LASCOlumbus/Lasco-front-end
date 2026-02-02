@@ -1,14 +1,13 @@
+import type { WaiverNoticeFormStepProps } from './types';
 import React from 'react';
-import { WaiverNoticeForm } from '@/lib/types.ts';
 import FailureSection from '@/components/FailureSection';
 import SuccessSection from '@/components/SuccessSection';
-import { useWaiverNoticeFormContext } from '../../context/WaiverNoticeFormContext.tsx';
-import { WaiverNoticeFormStepProps } from './types.ts';
+import { useWaiverNoticeFormContext } from '../../context/WaiverNoticeFormContext';
 
 const WaiverNoticeFormStep: React.FC<React.PropsWithChildren<WaiverNoticeFormStepProps>> = ({ children, id }) => {
     const { currentStep, isSuccessful, isSubmitted } = useWaiverNoticeFormContext();
 
-    if (currentStep.id !== (id as keyof WaiverNoticeForm)) {
+    if (currentStep.id !== id) {
         return null;
     }
 

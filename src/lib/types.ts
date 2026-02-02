@@ -1,12 +1,14 @@
+import { z } from 'zod';
 import {
     adultGuardianshipCaseDetailsStepSchema,
     adultGuardianshipSafetyServiceStepSchema,
     adultGuardianshipWardLocationStepSchema,
+} from '@/modules/AdultGuardianship/schemas/adultGuardianshipFormSchemas';
+import {
     waiverNoticeCaseDetailsStepSchema,
     waiverNoticeWaiversListStepSchema,
-    webcheckWaiverStepSchema,
-} from '@/schemas/multiStepFormSchemas.ts';
-import { z } from 'zod';
+} from '@/modules/WaiverNotice/schemas/waiverNoticeFormSchemas';
+import { webcheckWaiverStepSchema } from '@/modules/WebcheckWaiver/schemas/webcheckWaiverFormSchemas';
 
 export type ObjValues<TObj> = TObj[keyof TObj];
 
@@ -57,7 +59,7 @@ export type WebcheckWaiverForm = {
     webcheckWaiverStep: WebcheckWaiverStepSchema;
 };
 
-export type IWebcheckWaiverFormStep = {
+export type WebcheckWaiverFormStep = {
     id: keyof WebcheckWaiverForm;
     label: string;
     schema: z.ZodSchema<WebcheckWaiverForm[keyof WebcheckWaiverForm]>;

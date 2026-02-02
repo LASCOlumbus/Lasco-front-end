@@ -3,7 +3,7 @@ import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { Typography } from '@/components/ui/Typography';
-import { useWebcheckWaiverFormStepForm } from '../../context/WebcheckWaiverFormContext.tsx';
+import { useWebcheckWaiverFormStepForm } from '../../context/WebcheckWaiverFormContext';
 import s from './styles.module.css';
 
 const WebcheckWaiverStep: React.FC = () => {
@@ -23,7 +23,7 @@ const WebcheckWaiverStep: React.FC = () => {
                 </Typography>
                 <Typography variant="body-m">
                     Further, you understand that your criminal history information received from BCI&I will be filed as
-                    a confidential record in the. Court’s record keeping system and you will not receive a copy.
+                    a confidential record in the. Court&apos;s record keeping system and you will not receive a copy.
                 </Typography>
             </div>
             <div className={s.inputs}>

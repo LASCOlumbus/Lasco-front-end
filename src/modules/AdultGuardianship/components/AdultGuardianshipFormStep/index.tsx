@@ -1,9 +1,8 @@
+import type { AdultGuardianshipFormStepProps } from './types';
 import React from 'react';
-import { AdultGuardianshipForm } from '@/lib/types.ts';
 import FailureSection from '@/components/FailureSection';
 import SuccessSection from '@/components/SuccessSection';
-import { useAdultGuardianshipFormContext } from '../../context/AdultGuardianshipFormContext.tsx';
-import { AdultGuardianshipFormStepProps } from './types.ts';
+import { useAdultGuardianshipFormContext } from '../../context/AdultGuardianshipFormContext';
 
 const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardianshipFormStepProps>> = ({
     children,
@@ -11,7 +10,7 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
 }) => {
     const { currentStep, isSuccessful, isSubmitted } = useAdultGuardianshipFormContext();
 
-    if (currentStep.id !== (id as keyof AdultGuardianshipForm)) {
+    if (currentStep.id !== id) {
         return null;
     }
 

@@ -1,16 +1,15 @@
 import React from 'react';
 import clsx from 'clsx';
-import { toastManager } from '@/lib/@toastManager.ts';
-import { AdultGuardianshipForm } from '@/lib/types.ts';
+import { toastManager } from '@/lib/@toastManager';
 import AdultGuardianshipFormStep from '@/modules/AdultGuardianship/components/AdultGuardianshipFormStep';
 import AdultGuardianshipFormWrapper from '@/modules/AdultGuardianship/components/AdultGuardianshipFormWrapper';
 import SafetyServiceStep from '@/modules/AdultGuardianship/components/SafetyServiceStep';
-import WaiversListStep from '@/modules/AdultGuardianship/components/WardLocationStep/index.tsx';
+import WaiversListStep from '@/modules/AdultGuardianship/components/WardLocationStep/index';
 import { Button } from '@/components/ui/Button';
-import { Typography } from '@/components/ui/Typography/index.tsx';
-import { AdultGuardianshipFormProvider } from './context/AdultGuardianshipFormContext.tsx';
-import CaseDetailsStep from './components/CaseDetailsStep/index.tsx';
-import Sidebar from './components/Sidebar/index.tsx';
+import { Typography } from '@/components/ui/Typography';
+import { AdultGuardianshipFormProvider } from './context/AdultGuardianshipFormContext';
+import CaseDetailsStep from './components/CaseDetailsStep/index';
+import Sidebar from './components/Sidebar/index';
 import s from './style.module.css';
 
 const AdultGuardianship: React.FC = () => {
@@ -60,7 +59,7 @@ const AdultGuardianship: React.FC = () => {
                         <Sidebar />
                         <div className={s.content}>
                             <AdultGuardianshipFormWrapper>
-                                <AdultGuardianshipFormStep id={'caseDetailsStep' as keyof AdultGuardianshipForm}>
+                                <AdultGuardianshipFormStep id={'caseDetailsStep'}>
                                     <CaseDetailsStep key="caseDetailsStep" />
                                 </AdultGuardianshipFormStep>
                                 <AdultGuardianshipFormStep id="wardLocationStep">
