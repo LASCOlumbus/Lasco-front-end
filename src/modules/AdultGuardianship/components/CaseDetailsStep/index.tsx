@@ -155,9 +155,6 @@ const CaseDetailsStep: React.FC = () => {
                                                 onChange={(value?: E164Number) => {
                                                     field.handleChange(value ?? '');
                                                 }}
-                                                onCountryChange={(value) => {
-                                                    field.handleChange(value ?? '');
-                                                }}
                                             />
                                             {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
                                                 <Typography className={s.error} variant="body-m">
