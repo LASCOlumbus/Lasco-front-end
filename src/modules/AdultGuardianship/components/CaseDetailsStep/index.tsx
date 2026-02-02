@@ -151,11 +151,11 @@ const CaseDetailsStep: React.FC = () => {
                                                 Contact person telephone number
                                             </Typography>
                                             <PhoneInput
-                                                value={field.state.value}
+                                                value={field.state.value ?? ''}
                                                 onChange={(value?: E164Number) => {
                                                     field.handleChange(value ?? '');
                                                 }}
-                                                onCountryChange={(value: string) => {
+                                                onCountryChange={(value) => {
                                                     field.handleChange(value ?? '');
                                                 }}
                                             />
