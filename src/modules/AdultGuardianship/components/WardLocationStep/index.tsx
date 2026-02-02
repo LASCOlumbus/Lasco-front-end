@@ -1,5 +1,6 @@
 import React from 'react';
 import { E164Number } from 'libphonenumber-js/core';
+import { US_STATES_SELECT_OPTIONS } from '@/lib/constants.ts';
 import { AdultGuardianshipForm } from '@/lib/types.ts';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
@@ -7,252 +8,12 @@ import Input from '@/components/ui/Input';
 import PhoneInput from '@/components/ui/Input/components/PhoneInput';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import Select from '@/components/ui/Select';
-import { SelectOption } from '@/components/ui/Select/types.ts';
 import { Typography } from '@/components/ui/Typography';
 import {
     useAdultGuardianshipFormContext,
     useAdultGuardianshipFormStepForm,
 } from '../../context/AdultGuardianshipFormContext.tsx';
 import s from './styles.module.css';
-
-export const US_STATES_SELECT_OPTIONS: SelectOption[] = [
-    {
-        label: 'Alabama',
-        value: 'AL',
-    },
-    {
-        label: 'Alaska',
-        value: 'AK',
-    },
-    {
-        label: 'American Samoa',
-        value: 'AS',
-    },
-    {
-        label: 'Arizona',
-        value: 'AZ',
-    },
-    {
-        label: 'Arkansas',
-        value: 'AR',
-    },
-    {
-        label: 'California',
-        value: 'CA',
-    },
-    {
-        label: 'Colorado',
-        value: 'CO',
-    },
-    {
-        label: 'Connecticut',
-        value: 'CT',
-    },
-    {
-        label: 'Delaware',
-        value: 'DE',
-    },
-    {
-        label: 'District Of Columbia',
-        value: 'DC',
-    },
-    {
-        label: 'Federated States Of Micronesia',
-        value: 'FM',
-    },
-    {
-        label: 'Florida',
-        value: 'FL',
-    },
-    {
-        label: 'Georgia',
-        value: 'GA',
-    },
-    {
-        label: 'Guam',
-        value: 'GU',
-    },
-    {
-        label: 'Hawaii',
-        value: 'HI',
-    },
-    {
-        label: 'Idaho',
-        value: 'ID',
-    },
-    {
-        label: 'Illinois',
-        value: 'IL',
-    },
-    {
-        label: 'Indiana',
-        value: 'IN',
-    },
-    {
-        label: 'Iowa',
-        value: 'IA',
-    },
-    {
-        label: 'Kansas',
-        value: 'KS',
-    },
-    {
-        label: 'Kentucky',
-        value: 'KY',
-    },
-    {
-        label: 'Louisiana',
-        value: 'LA',
-    },
-    {
-        label: 'Maine',
-        value: 'ME',
-    },
-    {
-        label: 'Marshall Islands',
-        value: 'MH',
-    },
-    {
-        label: 'Maryland',
-        value: 'MD',
-    },
-    {
-        label: 'Massachusetts',
-        value: 'MA',
-    },
-    {
-        label: 'Michigan',
-        value: 'MI',
-    },
-    {
-        label: 'Minnesota',
-        value: 'MN',
-    },
-    {
-        label: 'Mississippi',
-        value: 'MS',
-    },
-    {
-        label: 'Missouri',
-        value: 'MO',
-    },
-    {
-        label: 'Montana',
-        value: 'MT',
-    },
-    {
-        label: 'Nebraska',
-        value: 'NE',
-    },
-    {
-        label: 'Nevada',
-        value: 'NV',
-    },
-    {
-        label: 'New Hampshire',
-        value: 'NH',
-    },
-    {
-        label: 'New Jersey',
-        value: 'NJ',
-    },
-    {
-        label: 'New Mexico',
-        value: 'NM',
-    },
-    {
-        label: 'New York',
-        value: 'NY',
-    },
-    {
-        label: 'North Carolina',
-        value: 'NC',
-    },
-    {
-        label: 'North Dakota',
-        value: 'ND',
-    },
-    {
-        label: 'Northern Mariana Islands',
-        value: 'MP',
-    },
-    {
-        label: 'Ohio',
-        value: 'OH',
-    },
-    {
-        label: 'Oklahoma',
-        value: 'OK',
-    },
-    {
-        label: 'Oregon',
-        value: 'OR',
-    },
-    {
-        label: 'Palau',
-        value: 'PW',
-    },
-    {
-        label: 'Pennsylvania',
-        value: 'PA',
-    },
-    {
-        label: 'Puerto Rico',
-        value: 'PR',
-    },
-    {
-        label: 'Rhode Island',
-        value: 'RI',
-    },
-    {
-        label: 'South Carolina',
-        value: 'SC',
-    },
-    {
-        label: 'South Dakota',
-        value: 'SD',
-    },
-    {
-        label: 'Tennessee',
-        value: 'TN',
-    },
-    {
-        label: 'Texas',
-        value: 'TX',
-    },
-    {
-        label: 'Utah',
-        value: 'UT',
-    },
-    {
-        label: 'Vermont',
-        value: 'VT',
-    },
-    {
-        label: 'Virgin Islands',
-        value: 'VI',
-    },
-    {
-        label: 'Virginia',
-        value: 'VA',
-    },
-    {
-        label: 'Washington',
-        value: 'WA',
-    },
-    {
-        label: 'West Virginia',
-        value: 'WV',
-    },
-    {
-        label: 'Wisconsin',
-        value: 'WI',
-    },
-    {
-        label: 'Wyoming',
-        value: 'WY',
-    },
-];
 
 const WardLocationStep: React.FC = () => {
     const { form, isLoading } = useAdultGuardianshipFormStepForm('wardLocationStep');
@@ -344,12 +105,19 @@ const WardLocationStep: React.FC = () => {
                                     return (
                                         <div className={s.input}>
                                             <Typography variant="body-m" render={<strong />}>
-                                                Contact person name
+                                                State
                                             </Typography>
                                             <Select
                                                 type="single"
                                                 placeholder="Select state"
-                                                options={[...US_STATES_SELECT_OPTIONS]}
+                                                options={[
+                                                    ...US_STATES_SELECT_OPTIONS.map((state) => {
+                                                        return {
+                                                            label: `${state.value} - ${state.label}`,
+                                                            value: state.value,
+                                                        };
+                                                    }),
+                                                ]}
                                                 value={field.state.value}
                                                 onChange={(value) => {
                                                     field.handleChange(value as string);
@@ -411,7 +179,7 @@ const WardLocationStep: React.FC = () => {
                                                 Telephone number of prospective ward
                                             </Typography>
                                             <PhoneInput
-                                                value={field.state.value}
+                                                value={field.state.value ?? ''}
                                                 onChange={(value: E164Number) => {
                                                     field.handleChange(value ?? '');
                                                 }}

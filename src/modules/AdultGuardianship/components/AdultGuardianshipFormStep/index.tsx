@@ -9,7 +9,8 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
     children,
     id,
 }) => {
-    const { currentStep, isSuccessful, isSubmitted } = useAdultGuardianshipFormContext();
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep } =
+        useAdultGuardianshipFormContext();
 
     if (currentStep.id !== (id as keyof AdultGuardianshipForm)) {
         return null;
@@ -29,6 +30,10 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
             <FailureSection
                 title="Waiver of notice form has not been submitted"
                 description="Something went wrong while submitting your form. Your answers are saved. Please try again."
+                handleTryAgain={() => {
+                    goToSelectStep(0);
+                    toggleIsSubmitted(false);
+                }}
             />
         );
     }

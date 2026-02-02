@@ -6,7 +6,7 @@ import { useWaiverNoticeFormContext } from '../../context/WaiverNoticeFormContex
 import { WaiverNoticeFormStepProps } from './types.ts';
 
 const WaiverNoticeFormStep: React.FC<React.PropsWithChildren<WaiverNoticeFormStepProps>> = ({ children, id }) => {
-    const { currentStep, isSuccessful, isSubmitted } = useWaiverNoticeFormContext();
+    const { currentStep, isSuccessful, isSubmitted, goToSelectStep, toggleIsSubmitted } = useWaiverNoticeFormContext();
 
     if (currentStep.id !== (id as keyof WaiverNoticeForm)) {
         return null;
@@ -26,6 +26,10 @@ const WaiverNoticeFormStep: React.FC<React.PropsWithChildren<WaiverNoticeFormSte
             <FailureSection
                 title="Waiver of notice form has not been submitted"
                 description="Something went wrong while submitting your form. Your answers are saved. Please try again."
+                handleTryAgain={() => {
+                    goToSelectStep(0);
+                    toggleIsSubmitted(false);
+                }}
             />
         );
     }

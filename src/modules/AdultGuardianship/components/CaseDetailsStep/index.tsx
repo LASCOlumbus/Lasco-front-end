@@ -155,7 +155,7 @@ const CaseDetailsStep: React.FC = () => {
                                                 onChange={(value?: E164Number) => {
                                                     field.handleChange(value ?? '');
                                                 }}
-                                                onCountryChange={(value) => {
+                                                onCountryChange={(value: string) => {
                                                     field.handleChange(value ?? '');
                                                 }}
                                             />

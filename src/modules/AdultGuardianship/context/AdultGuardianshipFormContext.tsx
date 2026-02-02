@@ -4,7 +4,7 @@ import {
     adultGuardianshipCaseDetailsStepSchema,
     adultGuardianshipSafetyServiceStepSchema,
     adultGuardianshipWardLocationStepSchema,
-} from '@/schemas/multiStepFormSchemas.ts';
+} from '@/schemas/formSchemas.ts';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { DeepKeys, DeepValue, Updater, useForm } from '@tanstack/react-form';
 import { AdultGuardianshipForm, AdultGuardianshipFormStep, AnimationDirection } from '@/lib/types.ts';
@@ -77,12 +77,15 @@ const ADULT_GUARDIANSHIP_FORM_INITIAL_STATE: AdultGuardianshipForm = {
         wardPhone: '',
     },
     safetyServiceStep: {
-        answer_1: '',
-        answer_explanation_1: '',
-        answer_2: '',
-        answer_explanation_2: '',
-        answer_3: '',
-        answer_explanation_3: '',
+        isProspectiveWardLeaveDuringDay: {
+            answer: null,
+        },
+        specialCircumstances: {
+            answer: null,
+        },
+        isProspectiveWardHasCommunicationIssues: {
+            answer: null,
+        },
     },
 };
 

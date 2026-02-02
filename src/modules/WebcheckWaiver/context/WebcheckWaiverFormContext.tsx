@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { flushSync } from 'react-dom';
-import { webcheckWaiverStepSchema } from '@/schemas/multiStepFormSchemas.ts';
+import { webcheckWaiverStepSchema } from '@/schemas/formSchemas.ts';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { DeepKeys, DeepValue, Updater, useForm } from '@tanstack/react-form';
 import { AnimationDirection, IWebcheckWaiverFormStep, WebcheckWaiverForm } from '@/lib/types.ts';

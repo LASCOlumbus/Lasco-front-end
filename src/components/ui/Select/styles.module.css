@@ -125,6 +125,10 @@
     color: var(--text-secondary);
 }
 
+.content {
+    width: var(--anchor-width, fit-content);
+}
+
 .loader-wrap {
     position: absolute;
     inset: 0;

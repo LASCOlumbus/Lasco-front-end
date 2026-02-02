@@ -5,7 +5,7 @@ import {
     waiverNoticeCaseDetailsStepSchema,
     waiverNoticeWaiversListStepSchema,
     webcheckWaiverStepSchema,
-} from '@/schemas/multiStepFormSchemas.ts';
+} from '@/schemas/formSchemas.ts';
 import { z } from 'zod';
 
 export type ObjValues<TObj> = TObj[keyof TObj];
@@ -81,9 +81,19 @@ export type IWaiverNoticeFormStep = {
 };
 
 // Adult Guardianship
+type AllowNullForSubProperties<T> = {
+    [Property in keyof T]: T[Property] extends object
+        ? {
+              [SubProperty in keyof T[Property]]: T[Property][SubProperty] | null;
+          }
+        : T[Property] | null;
+};
+
 export type AdultGuardianshipCaseDetailsStepSchema = z.infer<typeof adultGuardianshipCaseDetailsStepSchema>;
 export type AdultGuardianshipWardLocationStepSchema = z.infer<typeof adultGuardianshipWardLocationStepSchema>;
-export type AdultGuardianshipSafetyServiceStepSchema = z.infer<typeof adultGuardianshipSafetyServiceStepSchema>;
+export type AdultGuardianshipSafetyServiceStepSchema = AllowNullForSubProperties<
+    z.infer<typeof adultGuardianshipSafetyServiceStepSchema>
+>;
 
 export type AdultGuardianshipForm = {
     caseDetailsStep: AdultGuardianshipCaseDetailsStepSchema;

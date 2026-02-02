@@ -21,7 +21,7 @@ const AdultGuardianship: React.FC = () => {
                     <header className={s.header}>
                         <div className={s['header-information']}>
                             <Typography variant="body-m" render={<strong />}>
-                                Waiver of notice
+                                Adult guardianship
                             </Typography>
                             <Typography variant="body-s" className={s.description}>
                                 Probate court of Franklin County, Ohio | Judge: Jeffrey D. Mackey

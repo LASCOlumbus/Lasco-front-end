@@ -32,7 +32,7 @@ const SafetyServiceStep: React.FC = () => {
                     </div>
                     <div className={s.inputs}>
                         <form.Field
-                            name="answer_1"
+                            name="isProspectiveWardLeaveDuringDay.answer"
                             children={(field) => {
                                 return (
                                     <div className={s.input}>
@@ -45,20 +45,20 @@ const SafetyServiceStep: React.FC = () => {
                                             value={field.state.value}
                                             onBlur={field.handleBlur}
                                             onValueChange={(value) => {
-                                                field.handleChange(value as string);
+                                                field.handleChange(value as boolean);
                                             }}
                                         >
-                                            <RadioGroupItem label="Yes" value="yes" />
-                                            <RadioGroupItem label="No" value="no" />
+                                            <RadioGroupItem label="Yes" value={true} />
+                                            <RadioGroupItem label="No" value={false} />
                                         </RadioGroup>
-                                        {field.state.value === 'yes' && (
+                                        {field.state.value && (
                                             <form.Field
-                                                name="answer_explanation_1"
+                                                name="isProspectiveWardLeaveDuringDay.explanation"
                                                 children={(field) => {
                                                     return (
                                                         <div className={s.input}>
                                                             <TextArea
-                                                                value={field.state.value}
+                                                                value={field.state.value as string}
                                                                 onBlur={field.handleBlur}
                                                                 onChange={(e) => {
                                                                     field.handleChange(e.target.value);
@@ -91,7 +91,7 @@ const SafetyServiceStep: React.FC = () => {
                         />
 
                         <form.Field
-                            name="answer_2"
+                            name="specialCircumstances.answer"
                             children={(field) => {
                                 return (
                                     <div className={s.input}>
@@ -105,20 +105,20 @@ const SafetyServiceStep: React.FC = () => {
                                             value={field.state.value}
                                             onBlur={field.handleBlur}
                                             onValueChange={(value) => {
-                                                field.handleChange(value as string);
+                                                field.handleChange(value as boolean);
                                             }}
                                         >
-                                            <RadioGroupItem label="Yes" value="yes" />
-                                            <RadioGroupItem label="No" value="no" />
+                                            <RadioGroupItem label="Yes" value={true} />
+                                            <RadioGroupItem label="No" value={false} />
                                         </RadioGroup>
-                                        {field.state.value === 'yes' && (
+                                        {field.state.value && (
                                             <form.Field
-                                                name="answer_explanation_2"
+                                                name="specialCircumstances.explanation"
                                                 children={(field) => {
                                                     return (
                                                         <div className={s.input}>
                                                             <TextArea
-                                                                value={field.state.value}
+                                                                value={field.state.value as string}
                                                                 onBlur={field.handleBlur}
                                                                 onChange={(e) => {
                                                                     field.handleChange(e.target.value);
@@ -151,7 +151,7 @@ const SafetyServiceStep: React.FC = () => {
                         />
 
                         <form.Field
-                            name="answer_3"
+                            name="isProspectiveWardHasCommunicationIssues.answer"
                             children={(field) => {
                                 return (
                                     <div className={s.input}>
@@ -165,20 +165,20 @@ const SafetyServiceStep: React.FC = () => {
                                             value={field.state.value}
                                             onBlur={field.handleBlur}
                                             onValueChange={(value) => {
-                                                field.handleChange(value as string);
+                                                field.handleChange(value as boolean);
                                             }}
                                         >
-                                            <RadioGroupItem label="Yes" value="yes" />
-                                            <RadioGroupItem label="No" value="no" />
+                                            <RadioGroupItem label="Yes" value={true} />
+                                            <RadioGroupItem label="No" value={false} />
                                         </RadioGroup>
-                                        {field.state.value === 'yes' && (
+                                        {field.state.value && (
                                             <form.Field
-                                                name="answer_explanation_3"
+                                                name="isProspectiveWardHasCommunicationIssues.explanation"
                                                 children={(field) => {
                                                     return (
                                                         <div className={s.input}>
                                                             <TextArea
-                                                                value={field.state.value}
+                                                                value={field.state.value as string}
                                                                 onBlur={field.handleBlur}
                                                                 onChange={(e) => {
                                                                     field.handleChange(e.target.value);
