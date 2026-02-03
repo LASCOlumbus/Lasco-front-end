@@ -5,7 +5,6 @@ import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import PhoneInput from '@/components/ui/Input/components/PhoneInput';
-import Select from '@/components/ui/Select';
 import { Typography } from '@/components/ui/Typography';
 import {
     useAdultGuardianshipFormContext,
@@ -16,8 +15,6 @@ import s from './styles.module.css';
 const WardLocationStep: React.FC = () => {
     const { form, isLoading } = useAdultGuardianshipFormStepForm('wardLocationStep');
     const { goToPreviousStep } = useAdultGuardianshipFormContext();
-
-    const [stateSearch, setStateSearch] = React.useState('');
 
     if (isLoading) {
         return <ResponsiveLoader />;
@@ -37,112 +34,56 @@ const WardLocationStep: React.FC = () => {
                     <Typography variant="body-m">Enter the physical location of the prospective ward.</Typography>
                 </div>
                 <div className={s.inputs}>
-                    <form.Field
+                    <form.AppField
                         name="streetAddress"
                         children={(field) => {
                             return (
-                                <div className={s.input}>
-                                    <Typography variant="body-m" render={<strong />}>
-                                        Street address of prospective ward
-                                    </Typography>
-                                    <Input
-                                        errorMessage={!!field.state.meta.errors?.length}
-                                        placeholder="Type street address"
-                                        value={field.state.value}
-                                        onBlur={() => {
-                                            field.handleBlur();
-                                        }}
-                                        onChange={(e) => {
-                                            field.handleChange(e.target.value);
-                                        }}
-                                    />
-                                    {field.state.meta.errors?.length ? (
-                                        <Typography className={s.error} variant="body-m">
-                                            {/*eslint-disable-next-line*/}
-                                            {/*@ts-ignore*/}
-                                            {field.state.meta.errors[0].message}
-                                        </Typography>
-                                    ) : null}
-                                </div>
+                                <field.InputField
+                                    name="streetAddress"
+                                    label={<>Street address of prospective ward</>}
+                                    placeholder="Type street address"
+                                    onBlur={field.handleBlur}
+                                />
                             );
                         }}
                     />
-
                     <div className={s['inputs-wrapper']}>
-                        <form.Field
+                        <form.AppField
                             name="city"
                             children={(field) => {
                                 return (
-                                    <div className={s.input}>
-                                        <Typography variant="body-m" render={<strong />}>
-                                            City
-                                        </Typography>
-                                        <Input
-                                            errorMessage={!!field.state.meta.errors?.length}
-                                            placeholder="Type city"
-                                            value={field.state.value}
-                                            onBlur={() => {
-                                                field.handleBlur();
-                                            }}
-                                            onChange={(e) => {
-                                                field.handleChange(e.target.value);
-                                            }}
-                                        />
-                                        {field.state.meta.errors?.length ? (
-                                            <Typography className={s.error} variant="body-m">
-                                                {/*eslint-disable-next-line*/}
-                                                {/*@ts-ignore*/}
-                                                {field.state.meta.errors[0].message}
-                                            </Typography>
-                                        ) : null}
-                                    </div>
+                                    <field.InputField
+                                        name="city"
+                                        label={<>City</>}
+                                        placeholder="Type city"
+                                        onBlur={field.handleBlur}
+                                    />
                                 );
                             }}
                         />
-                        <form.Field
+                        <form.AppField
                             name="state"
                             children={(field) => {
                                 return (
-                                    <div className={s.input}>
-                                        <Typography variant="body-m" render={<strong />}>
-                                            State
-                                        </Typography>
-                                        <Select
-                                            type="single"
-                                            placeholder="Select state"
-                                            isSearchable
-                                            search={stateSearch}
-                                            onSearchChange={(value) => {
-                                                setStateSearch(value);
-                                            }}
-                                            errorMessage={!!field.state.meta.errors?.length}
-                                            options={[
-                                                ...US_STATES_SELECT_OPTIONS.map((state) => {
-                                                    return {
-                                                        label: `${state.value} - ${state.label}`,
-                                                        value: state.value,
-                                                    };
-                                                }),
-                                            ]}
-                                            value={field.state.value}
-                                            onChange={(value) => {
-                                                setStateSearch('');
-                                                field.handleChange(value as string);
-                                            }}
-                                        />
-                                        {field.state.meta.errors?.length ? (
-                                            <Typography className={s.error} variant="body-m">
-                                                {/*eslint-disable-next-line*/}
-                                                {/*@ts-ignore*/}
-                                                {field.state.meta.errors[0].message}
-                                            </Typography>
-                                        ) : null}
-                                    </div>
+                                    <field.SelectField
+                                        name="state"
+                                        type="single"
+                                        label={<>State</>}
+                                        placeholder="Select state"
+                                        isSearchable
+                                        options={[
+                                            ...US_STATES_SELECT_OPTIONS.map((state) => {
+                                                return {
+                                                    label: `${state.value} - ${state.label}`,
+                                                    value: state.value,
+                                                };
+                                            }),
+                                        ]}
+                                    />
                                 );
                             }}
                         />
                     </div>
-
                     <div className={s['inputs-wrapper']}>
                         <form.Field
                             name="zip"
