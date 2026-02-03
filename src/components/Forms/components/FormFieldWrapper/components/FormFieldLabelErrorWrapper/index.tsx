@@ -12,13 +12,9 @@ const FormFieldLabelErrorWrapper: React.FC<FormFieldLabelErrorWrapperProps> = ({
     children,
 }) => {
     return (
-        <div className={clsx(s.wrap, className)}>
+        <label className={clsx(s.wrap, className)} htmlFor={name}>
             {label ? (
-                <Typography
-                    className={clsx(s.label, 'form-field-label')}
-                    variant="body-m"
-                    render={<label htmlFor={name} />}
-                >
+                <Typography className={clsx(s.label, 'form-field-label')} variant="body-m" render={<strong />}>
                     {label}
                 </Typography>
             ) : null}
@@ -28,7 +24,7 @@ const FormFieldLabelErrorWrapper: React.FC<FormFieldLabelErrorWrapperProps> = ({
                     {errorMessage}
                 </Typography>
             )}
-        </div>
+        </label>
     );
 };
 

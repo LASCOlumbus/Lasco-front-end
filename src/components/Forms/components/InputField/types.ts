@@ -12,4 +12,4 @@ export type InputFieldProps = FormFieldProps<{
      */
     numericFormatProps?: Omit<NumericFormatProps, 'size'>;
 }> &
-    Omit<InputProps, 'defaultValue' | 'type' | 'size'>;
+    Omit<InputProps, 'value' | 'onChange' | 'defaultValue' | 'type' | 'size'>;

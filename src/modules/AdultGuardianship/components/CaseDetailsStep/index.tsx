@@ -1,9 +1,7 @@
-import type { E164Number } from 'libphonenumber-js/core';
 import React from 'react';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
-import PhoneInput from '@/components/ui/Input/components/PhoneInput';
 import { Typography } from '@/components/ui/Typography';
 import { useAdultGuardianshipFormStepForm } from '../../context/AdultGuardianshipFormContext';
 import s from './styles.module.css';
@@ -44,13 +42,7 @@ const CaseDetailsStep: React.FC = () => {
                                     name="guardianName"
                                     label={<>In the matter of the guardianship of</>}
                                     placeholder="Type your guardianship full name"
-                                    value={field.state.value}
-                                    onBlur={() => {
-                                        field.handleBlur();
-                                    }}
-                                    onChange={(e) => {
-                                        field.handleChange(e.target.value);
-                                    }}
+                                    onBlur={field.handleBlur}
                                 />
                             );
                         }}
@@ -63,13 +55,7 @@ const CaseDetailsStep: React.FC = () => {
                                     name="caseNumber"
                                     label={<>Case number</>}
                                     placeholder="Type case number"
-                                    value={field.state.value}
-                                    onBlur={() => {
-                                        field.handleBlur();
-                                    }}
-                                    onChange={(e) => {
-                                        field.handleChange(e.target.value);
-                                    }}
+                                    onBlur={field.handleBlur}
                                 />
                             );
                         }}
@@ -83,40 +69,19 @@ const CaseDetailsStep: React.FC = () => {
                                         name="contactName"
                                         label={<>Contact person name</>}
                                         placeholder="Type contact person full name"
-                                        value={field.state.value}
-                                        onBlur={() => {
-                                            field.handleBlur();
-                                        }}
-                                        onChange={(e) => {
-                                            field.handleChange(e.target.value);
-                                        }}
+                                        onBlur={field.handleBlur}
                                     />
                                 );
                             }}
                         />
-                        <form.Field
+                        <form.AppField
                             name="contactPhone"
                             children={(field) => {
                                 return (
-                                    <div className={s.input}>
-                                        <Typography variant="body-m" render={<strong />}>
-                                            Contact person telephone number
-                                        </Typography>
-                                        <PhoneInput
-                                            value={field.state.value ?? ''}
-                                            errorMessage={!!field.state.meta.errors?.length}
-                                            onChange={(value?: E164Number) => {
-                                                field.handleChange(value ?? '');
-                                            }}
-                                        />
-                                        {field.state.meta.errors?.length ? (
-                                            <Typography className={s.error} variant="body-m">
-                                                {/*eslint-disable-next-line*/}
-                                                {/*@ts-ignore*/}
-                                                {field.state.meta.errorMap?.onChange?.[0]?.message}
-                                            </Typography>
-                                        ) : null}
-                                    </div>
+                                    <field.PhoneInputField
+                                        name="contactPhone"
+                                        label={<>Contact person telephone number</>}
+                                    />
                                 );
                             }}
                         />
