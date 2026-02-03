@@ -316,7 +316,6 @@ export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuar
             onSubmit: ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema,
         },
         onSubmit: (data) => {
-            console.log(data?.value);
             if (data?.value) {
                 setFormStepData(stepId, data.value as AdultGuardianshipForm[TStepId]);
 
