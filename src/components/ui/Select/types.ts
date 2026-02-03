@@ -55,6 +55,7 @@ export type MultipleOptionSelectProps = {
 };
 
 export type SelectProps = WithClassName<{
+    contentClassName?: string;
     /**
      * Placeholder of the select
      */
@@ -100,7 +101,7 @@ export type SelectProps = WithClassName<{
     /**
      * Error message of the select
      */
-    errorMessage?: string;
+    errorMessage?: string | boolean;
     /**
      * Additional props of the popover content
      */

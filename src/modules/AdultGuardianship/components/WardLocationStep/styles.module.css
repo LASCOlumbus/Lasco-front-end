@@ -24,6 +24,7 @@
     flex-direction: column;
     gap: 8px;
     padding: 20px 40px 0;
+    margin-bottom: 24px;
 
     @media screen and (max-width: 900px) {
         padding: 12px 20px 0;
@@ -90,5 +91,11 @@
 .footer button {
     @media screen and (max-width: 900px) {
         width: 100%;
+    }
+}
+
+@media screen and (max-width: 1109px) {
+    .inputs-wrapper {
+        flex-direction: column;
     }
 }

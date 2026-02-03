@@ -86,7 +86,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                 </DrawerTrigger>
                 <DrawerContent className={s.content}>
                     <span className={s.line} />
-                    <DrawerHeader>
+                    <DrawerHeader className={s.header}>
                         <DrawerTitle>
                             {/* <Phone20Icon /> */}
                             Select country
@@ -115,7 +115,6 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                                 {virtualizer.getVirtualItems().map((virtualItem) => {
                                     const option = filteredOptions[virtualItem.index];
                                     const isOptionSelected = option.value === value;
-                                    const isLastItem = virtualItem.index === filteredOptions.length - 1;
 
                                     return (
                                         <li
@@ -140,7 +139,11 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                                                     toggleIsPopoverOpened(false);
                                                 }}
                                             >
-                                                <Typography className="truncate" variant="body-s" render={<span />}>
+                                                <Typography
+                                                    className={clsx(s.label, 'truncate')}
+                                                    variant="body-s"
+                                                    render={<span />}
+                                                >
                                                     {option.value ? (
                                                         <FlagComponent
                                                             country={option.value}
@@ -152,17 +155,6 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                                                     {option.value ? `+${getCountryCallingCode(option.value)}` : ''}
                                                 </Typography>
                                             </Option>
-                                            {isLastItem ? null : (
-                                                <svg
-                                                    className={s.separator}
-                                                    width="768"
-                                                    height="2"
-                                                    version="1.1"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <line strokeDasharray="6, 6" x1="0" y1="1" x2="600" y2="1" />
-                                                </svg>
-                                            )}
                                         </li>
                                     );
                                 })}
@@ -180,7 +172,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
 
     return (
         <Popover open={isPopoverOpened} onOpenChange={toggleIsPopoverOpened}>
-            <PopoverTrigger className={clsx(s.trigger, 'focus-primary')} disabled={disabled}>
+            <PopoverTrigger className={clsx(s.trigger, 'country-select-trigger', 'focus-primary')} disabled={disabled}>
                 <FlagComponent country={value} countryName={value} aria-hidden />
                 <ChevronUp16Icon className={clsx(s.icon, s.indicator)} aria-hidden />
             </PopoverTrigger>

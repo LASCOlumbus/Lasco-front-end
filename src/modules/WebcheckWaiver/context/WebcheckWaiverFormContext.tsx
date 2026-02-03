@@ -1,9 +1,9 @@
 import type { AnimationDirection, WebcheckWaiverForm, WebcheckWaiverFormStep } from '@/lib/types';
 import React, { useContext } from 'react';
 import { flushSync } from 'react-dom';
+import { webcheckWaiverStepSchema } from '@/schemas/formSchemas';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { DeepKeys, DeepValue, Updater, useForm } from '@tanstack/react-form';
-import { webcheckWaiverStepSchema } from '../schemas/webcheckWaiverFormSchemas';
 
 type WebcheckWaiverFormContextType = {
     formData: WebcheckWaiverForm;

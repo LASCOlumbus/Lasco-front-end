@@ -4,12 +4,13 @@ import { toastManager } from '@/lib/@toastManager';
 import AdultGuardianshipFormStep from '@/modules/AdultGuardianship/components/AdultGuardianshipFormStep';
 import AdultGuardianshipFormWrapper from '@/modules/AdultGuardianship/components/AdultGuardianshipFormWrapper';
 import SafetyServiceStep from '@/modules/AdultGuardianship/components/SafetyServiceStep';
-import WaiversListStep from '@/modules/AdultGuardianship/components/WardLocationStep/index';
+import WaiversListStep from '@/modules/AdultGuardianship/components/WardLocationStep';
 import { Button } from '@/components/ui/Button';
+import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
 import { AdultGuardianshipFormProvider } from './context/AdultGuardianshipFormContext';
-import CaseDetailsStep from './components/CaseDetailsStep/index';
-import Sidebar from './components/Sidebar/index';
+import CaseDetailsStep from './components/CaseDetailsStep';
+import Sidebar from './components/Sidebar';
 import s from './style.module.css';
 
 const AdultGuardianship: React.FC = () => {
@@ -20,7 +21,7 @@ const AdultGuardianship: React.FC = () => {
                     <header className={s.header}>
                         <div className={s['header-information']}>
                             <Typography variant="body-m" render={<strong />}>
-                                Waiver of notice
+                                Adult guardianship
                             </Typography>
                             <Typography variant="body-s" className={s.description}>
                                 Probate court of Franklin County, Ohio | Judge: Jeffrey D. Mackey
@@ -57,19 +58,21 @@ const AdultGuardianship: React.FC = () => {
                     </header>
                     <div className={s['sidebar-wrapper']}>
                         <Sidebar />
-                        <div className={s.content}>
-                            <AdultGuardianshipFormWrapper>
-                                <AdultGuardianshipFormStep id={'caseDetailsStep'}>
-                                    <CaseDetailsStep key="caseDetailsStep" />
-                                </AdultGuardianshipFormStep>
-                                <AdultGuardianshipFormStep id="wardLocationStep">
-                                    <WaiversListStep key="wardLocationStep" />
-                                </AdultGuardianshipFormStep>
-                                <AdultGuardianshipFormStep id="safetyServiceStep">
-                                    <SafetyServiceStep key="safetyServiceStep" />
-                                </AdultGuardianshipFormStep>
-                            </AdultGuardianshipFormWrapper>
-                        </div>
+                        <ScrollArea className={s.scroll}>
+                            <div className={s.content}>
+                                <AdultGuardianshipFormWrapper>
+                                    <AdultGuardianshipFormStep id="caseDetailsStep">
+                                        <CaseDetailsStep key="caseDetailsStep" />
+                                    </AdultGuardianshipFormStep>
+                                    <AdultGuardianshipFormStep id="wardLocationStep">
+                                        <WaiversListStep key="wardLocationStep" />
+                                    </AdultGuardianshipFormStep>
+                                    <AdultGuardianshipFormStep id="safetyServiceStep">
+                                        <SafetyServiceStep key="safetyServiceStep" />
+                                    </AdultGuardianshipFormStep>
+                                </AdultGuardianshipFormWrapper>
+                            </div>
+                        </ScrollArea>
                     </div>
                 </div>
             </AdultGuardianshipFormProvider>

@@ -1,16 +1,16 @@
-import { z } from 'zod';
 import {
     adultGuardianshipCaseDetailsStepSchema,
     adultGuardianshipSafetyServiceStepSchema,
     adultGuardianshipWardLocationStepSchema,
-} from '@/modules/AdultGuardianship/schemas/adultGuardianshipFormSchemas';
-import {
     waiverNoticeCaseDetailsStepSchema,
     waiverNoticeWaiversListStepSchema,
-} from '@/modules/WaiverNotice/schemas/waiverNoticeFormSchemas';
-import { webcheckWaiverStepSchema } from '@/modules/WebcheckWaiver/schemas/webcheckWaiverFormSchemas';
+    webcheckWaiverStepSchema,
+} from '@/schemas/formSchemas';
+import { z } from 'zod';
 
 export type ObjValues<TObj> = TObj[keyof TObj];
+
+export type StringWithAutocompleteUnion<TUnion extends string> = TUnion | (string & {});
 
 export type WithClassName<TProps = unknown> = TProps & {
     /**
@@ -83,9 +83,19 @@ export type IWaiverNoticeFormStep = {
 };
 
 // Adult Guardianship
+type AllowNullForSubProperties<T> = {
+    [Property in keyof T]: T[Property] extends object
+        ? {
+              [SubProperty in keyof T[Property]]: T[Property][SubProperty] | null;
+          }
+        : T[Property] | null;
+};
+
 export type AdultGuardianshipCaseDetailsStepSchema = z.infer<typeof adultGuardianshipCaseDetailsStepSchema>;
 export type AdultGuardianshipWardLocationStepSchema = z.infer<typeof adultGuardianshipWardLocationStepSchema>;
-export type AdultGuardianshipSafetyServiceStepSchema = z.infer<typeof adultGuardianshipSafetyServiceStepSchema>;
+export type AdultGuardianshipSafetyServiceStepSchema = AllowNullForSubProperties<
+    z.infer<typeof adultGuardianshipSafetyServiceStepSchema>
+>;
 
 export type AdultGuardianshipForm = {
     caseDetailsStep: AdultGuardianshipCaseDetailsStepSchema;

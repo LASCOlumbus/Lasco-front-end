@@ -11,6 +11,7 @@
 
 .search-wrap {
     padding: 0.25rem;
+    padding-bottom: 0.75rem;
 }
 
 .search-wrap .input {
@@ -125,6 +126,12 @@
     color: var(--text-secondary);
 }
 
+.content {
+    --select-drawer-content-height: 90vh;
+
+    width: var(--anchor-width, fit-content);
+}
+
 .loader-wrap {
     position: absolute;
     inset: 0;
@@ -143,9 +150,20 @@
 @media screen and (max-width: 767px) {
     .list :global(.scroll-area-viewport) {
         padding: var(--spacing-xs) var(--spacing-md);
+        overflow: hidden;
+        max-height: none;
+    }
+
+    .list {
+        padding: 0.375rem;
+        padding-right: 0.5rem;
+        border: 1px solid var(--border-primary);
+        border-radius: 0.75rem;
     }
 
     .content {
+        width: 100%;
         padding-bottom: var(--spacing-lg);
+        height: var(--select-drawer-content-height);
     }
 }

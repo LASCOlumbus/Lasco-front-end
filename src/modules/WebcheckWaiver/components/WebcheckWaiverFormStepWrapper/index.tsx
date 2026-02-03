@@ -8,7 +8,7 @@ const WebcheckWaiverFormStepWrapper: React.FC<React.PropsWithChildren<WebcheckWa
     children,
     id,
 }) => {
-    const { currentStep, isSuccessful, isSubmitted } = useWebcheckWaiverFormContext();
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted } = useWebcheckWaiverFormContext();
 
     if (currentStep.id !== id) {
         return null;
@@ -28,6 +28,9 @@ const WebcheckWaiverFormStepWrapper: React.FC<React.PropsWithChildren<WebcheckWa
             <FailureSection
                 title="Waiver of notice form has not been submitted"
                 description="Something went wrong while submitting your form. Your answers are saved. Please try again."
+                handleTryAgain={() => {
+                    toggleIsSubmitted();
+                }}
             />
         );
     }

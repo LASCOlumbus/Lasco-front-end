@@ -1,12 +1,9 @@
 import type { AnimationDirection, IWaiverNoticeFormStep, WaiverNoticeForm } from '@/lib/types';
 import React, { useContext } from 'react';
 import { flushSync } from 'react-dom';
+import { waiverNoticeCaseDetailsStepSchema, waiverNoticeWaiversListStepSchema } from '@/schemas/formSchemas';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { DeepKeys, DeepValue, Updater, useForm } from '@tanstack/react-form';
-import {
-    waiverNoticeCaseDetailsStepSchema,
-    waiverNoticeWaiversListStepSchema,
-} from '../schemas/waiverNoticeFormSchemas';
 
 type WaiverNoticeFormContextType = {
     formData: WaiverNoticeForm;

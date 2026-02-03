@@ -8,7 +8,8 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
     children,
     id,
 }) => {
-    const { currentStep, isSuccessful, isSubmitted } = useAdultGuardianshipFormContext();
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep } =
+        useAdultGuardianshipFormContext();
 
     if (currentStep.id !== id) {
         return null;
@@ -17,7 +18,7 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
     if (isSubmitted && isSuccessful) {
         return (
             <SuccessSection
-                title="Webcheck waiver form has been submitted"
+                title="Guardianship credibility application form has been submitted"
                 description="To finish your filing, please download the generated document, print it, and sign it. The court requires a physical signature. Unsigned documents cannot be processed."
             />
         );
@@ -26,8 +27,12 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
     if (isSubmitted && !isSuccessful) {
         return (
             <FailureSection
-                title="Waiver of notice form has not been submitted"
+                title="Guardianship credibility application form has not been submitted"
                 description="Something went wrong while submitting your form. Your answers are saved. Please try again."
+                handleTryAgain={() => {
+                    goToSelectStep(0);
+                    toggleIsSubmitted(false);
+                }}
             />
         );
     }
