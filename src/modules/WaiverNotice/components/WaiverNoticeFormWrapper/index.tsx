@@ -1,6 +1,6 @@
 import React from 'react';
 import AnimatedFormWrapper from '@/components/form/AnimatedFormWrapper';
-import { useWaiverNoticeFormContext } from '../../context/WaiverNoticeFormContext.tsx';
+import { useWaiverNoticeFormContext } from '../../context/WaiverNoticeFormContext';
 
 const WaiverNoticeFormWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
     const { currentStepIndex, animationDirection, isLoading } = useWaiverNoticeFormContext();

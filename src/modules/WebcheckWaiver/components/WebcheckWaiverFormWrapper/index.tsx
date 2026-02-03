@@ -1,6 +1,6 @@
 import React from 'react';
 import AnimatedFormWrapper from '@/components/form/AnimatedFormWrapper';
-import { useWebcheckWaiverFormContext } from '../../context/WebcheckWaiverFormContext.tsx';
+import { useWebcheckWaiverFormContext } from '../../context/WebcheckWaiverFormContext';
 
 const WebcheckWaiverFormWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {
     const { currentStepIndex, animationDirection, isLoading } = useWebcheckWaiverFormContext();

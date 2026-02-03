@@ -1,6 +1,6 @@
+import type { E164Number } from 'libphonenumber-js/core';
 import React from 'react';
-import { E164Number } from 'libphonenumber-js/core';
-import { US_STATES_SELECT_OPTIONS } from '@/lib/constants.ts';
+import { US_STATES_SELECT_OPTIONS } from '@/lib/constants';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -10,7 +10,7 @@ import { Typography } from '@/components/ui/Typography';
 import {
     useAdultGuardianshipFormContext,
     useAdultGuardianshipFormStepForm,
-} from '../../context/AdultGuardianshipFormContext.tsx';
+} from '../../context/AdultGuardianshipFormContext';
 import s from './styles.module.css';
 
 const WardLocationStep: React.FC = () => {

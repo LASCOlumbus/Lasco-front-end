@@ -1,12 +1,12 @@
+import type { E164Number } from 'libphonenumber-js/core';
 import React from 'react';
-import { E164Number } from 'libphonenumber-js/core';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import PhoneInput from '@/components/ui/Input/components/PhoneInput';
 import { Typography } from '@/components/ui/Typography';
-import { useAdultGuardianshipFormStepForm } from '../../context/AdultGuardianshipFormContext.tsx';
+import { useAdultGuardianshipFormStepForm } from '../../context/AdultGuardianshipFormContext';
 import s from './styles.module.css';
 
 const CaseDetailsStep: React.FC = () => {

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
-import { useWaiverNoticeFormContext, useWaiverNoticeFormStepForm } from '../../context/WaiverNoticeFormContext.tsx';
+import { useWaiverNoticeFormContext, useWaiverNoticeFormStepForm } from '../../context/WaiverNoticeFormContext';
 import s from './styles.module.css';
 
 const WaiversListStep: React.FC = () => {

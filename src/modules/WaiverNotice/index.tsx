@@ -1,15 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
-import { toastManager } from '@/lib/@toastManager.ts';
-import { WaiverNoticeForm } from '@/lib/types.ts';
+import { toastManager } from '@/lib/@toastManager';
 import { Button } from '@/components/ui/Button';
 import { Typography } from '@/components/ui/Typography';
-import { WaiverNoticeFormProvider } from './context/WaiverNoticeFormContext.tsx';
-import CaseDetailsStep from './components/CaseDetailsStep/index.tsx';
-import Sidebar from './components/Sidebar/index.tsx';
-import WaiverNoticeFormStep from './components/WaiverNoticeFormStep/index.tsx';
-import WaiverNoticeFormWrapper from './components/WaiverNoticeFormWrapper/index.tsx';
-import WaiversListStep from './components/WaiversListStep/index.tsx';
+import { WaiverNoticeFormProvider } from './context/WaiverNoticeFormContext';
+import CaseDetailsStep from './components/CaseDetailsStep/index';
+import Sidebar from './components/Sidebar/index';
+import WaiverNoticeFormStep from './components/WaiverNoticeFormStep/index';
+import WaiverNoticeFormWrapper from './components/WaiverNoticeFormWrapper/index';
+import WaiversListStep from './components/WaiversListStep/index';
 import s from './style.module.css';
 
 const WaiverNotice: React.FC = () => {
@@ -58,7 +57,7 @@ const WaiverNotice: React.FC = () => {
                     <div className={s['sidebar-wrapper']}>
                         <Sidebar />
                         <WaiverNoticeFormWrapper>
-                            <WaiverNoticeFormStep id={'caseDetailsStep' as keyof WaiverNoticeForm}>
+                            <WaiverNoticeFormStep id={'caseDetailsStep'}>
                                 <CaseDetailsStep key="caseDetailsStep" />
                             </WaiverNoticeFormStep>
                             <WaiverNoticeFormStep id="waiversListStep">

@@ -1,15 +1,15 @@
+import type { AnimationDirection, WebcheckWaiverForm, WebcheckWaiverFormStep } from '@/lib/types';
 import React, { useContext } from 'react';
 import { flushSync } from 'react-dom';
-import { webcheckWaiverStepSchema } from '@/schemas/formSchemas.ts';
+import { webcheckWaiverStepSchema } from '@/schemas/formSchemas';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { DeepKeys, DeepValue, Updater, useForm } from '@tanstack/react-form';
-import { AnimationDirection, IWebcheckWaiverFormStep, WebcheckWaiverForm } from '@/lib/types.ts';
 
 type WebcheckWaiverFormContextType = {
     formData: WebcheckWaiverForm;
-    steps: IWebcheckWaiverFormStep[];
+    steps: WebcheckWaiverFormStep[];
     currentStepIndex: number;
-    currentStep: IWebcheckWaiverFormStep;
+    currentStep: WebcheckWaiverFormStep;
     isSubmitted: boolean;
     toggleIsSubmitted: () => void;
     isSuccessful: boolean;
@@ -37,7 +37,7 @@ const WEBCHECK_WAIVER_FORM_STEPS = {
         schema: webcheckWaiverStepSchema,
         enabled: true,
     },
-} as const satisfies Record<keyof WebcheckWaiverForm, IWebcheckWaiverFormStep>;
+} as const satisfies Record<keyof WebcheckWaiverForm, WebcheckWaiverFormStep>;
 const WEBCHECK_WAIVER_FORM_STEPS_ARRAY = Object.values(WEBCHECK_WAIVER_FORM_STEPS).filter((step) => {
     return step.enabled;
 });

@@ -1,11 +1,11 @@
+import type { WaiverNoticeForm } from '@/lib/types';
 import React from 'react';
-import { WaiverNoticeForm } from '@/lib/types.ts';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
-import { useWaiverNoticeFormContext, useWaiverNoticeFormStepForm } from '../../context/WaiverNoticeFormContext.tsx';
+import { useWaiverNoticeFormContext, useWaiverNoticeFormStepForm } from '../../context/WaiverNoticeFormContext';
 import s from './styles.module.css';
 
 const CaseDetailsStep: React.FC = () => {
@@ -149,7 +149,9 @@ const CaseDetailsStep: React.FC = () => {
                                     const isInvalid = Object.values(result).some(({ onSubmit: field }) => {
                                         return Array.isArray(field) && field?.length > 0;
                                     });
-                                    if (isInvalid) return;
+                                    if (isInvalid) {
+                                        return;
+                                    }
                                     goToNextStep();
                                     setFormStepData('caseDetailsStep', values as WaiverNoticeForm['caseDetailsStep']);
                                 }}

@@ -1,5 +1,5 @@
+import type { FailureSectionProps } from '@/lib/types';
 import { Component as DangerIcon } from '@/icons/danger_72.svg?svgUse';
-import { FailureSectionProps } from '@/lib/types.ts';
 import { Button } from '@/components/ui/Button';
 import { Typography } from '@/components/ui/Typography';
 import s from './styles.module.css';

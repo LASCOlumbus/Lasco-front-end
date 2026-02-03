@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Component as CheckCircle20Icon } from '@/icons/check-circle_24.svg?svgUse';
 import { Component as EmptyCircle24Icon } from '@/icons/empty-circle_24.svg?svgUse';
 import { Component as Progress20Icon } from '@/icons/progress_20.svg?svgUse';
 import clsx from 'clsx';
-import { useIsTablet } from '@/hooks/useIsTablet.ts';
-import { useAdultGuardianshipFormContext } from '@/modules/AdultGuardianship/context/AdultGuardianshipFormContext.tsx';
+import { useIsTablet } from '@/hooks/useIsTablet';
+import StatusIcon from '@/modules/AdultGuardianship/components/StatusIcon';
+import { useAdultGuardianshipFormContext } from '@/modules/AdultGuardianship/context/AdultGuardianshipFormContext';
 import { Drawer, DrawerContent, DrawerHeader, DrawerOverlay, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
 import { Typography } from '@/components/ui/Typography';
 import s from './styles.module.css';
@@ -12,11 +13,13 @@ import s from './styles.module.css';
 const Sidebar: React.FC = () => {
     const { steps, currentStepIndex, isSubmitted, lastPassedStepIndex, goToSelectStep } =
         useAdultGuardianshipFormContext();
-    const [isDrawerOpened, setIsDrawerOpened] = useState(false);
+    const [isDrawerOpened, setIsDrawerOpened] = React.useState(false);
 
     const isTablet = useIsTablet();
 
-    if (isSubmitted) return null;
+    if (isSubmitted) {
+        return null;
+    }
 
     return (
         <div className={s.sidebar}>
@@ -33,15 +36,14 @@ const Sidebar: React.FC = () => {
                                 </Typography>
                             </div>
                             {currentStepIndex < lastPassedStepIndex ? (
-                                <CheckCircle20Icon width={22} height={22} color={'#39981F'} />
+                                <CheckCircle20Icon width={22} height={22} />
                             ) : (
-                                <Progress20Icon width={22} height={22} color={'#184482'} />
+                                <Progress20Icon width={22} height={22} className={s['progress-icon']} />
                             )}
                         </div>
                     </DrawerTrigger>
                     <DrawerOverlay className={s['sidebar-overlay']} />
                     <DrawerContent className={s['sidebar-drawer-content']}>
-                        {/* <div className={s['sidebar-drawer-content']}> */}
                         <DrawerHeader className={s['sidebar-tablet-header']}>
                             <DrawerTitle>Form steps</DrawerTitle>
                         </DrawerHeader>
@@ -88,11 +90,10 @@ const Sidebar: React.FC = () => {
                 steps?.map((step, index) => {
                     return (
                         <div
-                            className={clsx(
-                                s['sidebar-item'],
-                                index === currentStepIndex && s.active,
-                                index > lastPassedStepIndex && s.inactive
-                            )}
+                            className={clsx(s['sidebar-item'], {
+                                [s.active]: index === currentStepIndex,
+                                [s.inactive]: index > lastPassedStepIndex,
+                            })}
                             key={step.id}
                             onClick={() => {
                                 if (index <= lastPassedStepIndex) {
@@ -103,14 +104,7 @@ const Sidebar: React.FC = () => {
                             <Typography variant="body-m" render={<strong />}>
                                 {step.label}
                             </Typography>
-                            {/* eslint-disable-next-line no-nested-ternary */}
-                            {index === currentStepIndex ? (
-                                <Progress20Icon width={24} height={24} color={'white'} />
-                            ) : index < lastPassedStepIndex ? (
-                                <CheckCircle20Icon width={24} height={24} color={'#39981F'} />
-                            ) : (
-                                <EmptyCircle24Icon width={24} height={24} />
-                            )}
+                            <StatusIcon index={index} />
                         </div>
                     );
                 })

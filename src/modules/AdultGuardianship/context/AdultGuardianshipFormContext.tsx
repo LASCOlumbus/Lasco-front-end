@@ -1,13 +1,14 @@
-import React, { useContext } from 'react';
+import type { DeepKeys, DeepValue, Updater } from '@tanstack/react-form';
+import type { AdultGuardianshipForm, AdultGuardianshipFormStep, AnimationDirection } from '@/lib/types';
+import React from 'react';
 import { flushSync } from 'react-dom';
 import {
     adultGuardianshipCaseDetailsStepSchema,
     adultGuardianshipSafetyServiceStepSchema,
     adultGuardianshipWardLocationStepSchema,
-} from '@/schemas/formSchemas.ts';
+} from '@/schemas/formSchemas';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
-import { DeepKeys, DeepValue, Updater, useForm } from '@tanstack/react-form';
-import { AdultGuardianshipForm, AdultGuardianshipFormStep, AnimationDirection } from '@/lib/types.ts';
+import { useForm } from '@tanstack/react-form';
 
 type AdultGuardianshipFormContextType = {
     formData: AdultGuardianshipForm;
@@ -292,7 +293,7 @@ export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = 
 };
 
 export const useAdultGuardianshipFormContext = () => {
-    const context = useContext(AdultGuardianshipFormContext);
+    const context = React.useContext(AdultGuardianshipFormContext);
 
     return context;
 };
