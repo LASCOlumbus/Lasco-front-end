@@ -3,7 +3,6 @@ import React from 'react';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
 import PhoneInput from '@/components/ui/Input/components/PhoneInput';
 import { Typography } from '@/components/ui/Typography';
 import { useAdultGuardianshipFormStepForm } from '../../context/AdultGuardianshipFormContext';
@@ -37,94 +36,61 @@ const CaseDetailsStep: React.FC = () => {
                     </Typography>
                 </div>
                 <div className={s.inputs}>
-                    <form.Field
+                    <form.AppField
                         name="guardianName"
                         children={(field) => {
                             return (
-                                <div className={s.input}>
-                                    <Typography variant="body-m" render={<strong />}>
-                                        In the matter of the guardianship of
-                                    </Typography>
-                                    <Input
-                                        errorMessage={!!field.state.meta.errors?.length}
-                                        placeholder="Type your guardianship full name"
-                                        value={field.state.value}
-                                        onBlur={() => {
-                                            field.handleBlur();
-                                        }}
-                                        onChange={(e) => {
-                                            field.handleChange(e.target.value);
-                                        }}
-                                    />
-                                    {field.state.meta.errors?.length ? (
-                                        <Typography className={s.error} variant="body-m">
-                                            {/*eslint-disable-next-line*/}
-                                            {/*@ts-ignore*/}
-                                            {field.state.meta.errorMap?.onChange?.[0]?.message}
-                                        </Typography>
-                                    ) : null}
-                                </div>
+                                <field.InputField
+                                    name="guardianName"
+                                    label={<>In the matter of the guardianship of</>}
+                                    placeholder="Type your guardianship full name"
+                                    value={field.state.value}
+                                    onBlur={() => {
+                                        field.handleBlur();
+                                    }}
+                                    onChange={(e) => {
+                                        field.handleChange(e.target.value);
+                                    }}
+                                />
                             );
                         }}
                     />
-                    <form.Field
+                    <form.AppField
                         name="caseNumber"
                         children={(field) => {
                             return (
-                                <div className={s.input}>
-                                    <Typography variant="body-m" render={<strong />}>
-                                        Case number
-                                    </Typography>
-                                    <Input
-                                        errorMessage={!!field.state.meta.errors?.length}
-                                        placeholder="Type case number"
-                                        value={field.state.value}
-                                        onBlur={() => {
-                                            field.handleBlur();
-                                        }}
-                                        onChange={(e) => {
-                                            field.handleChange(e.target.value);
-                                        }}
-                                    />
-                                    {field.state.meta.errors?.length ? (
-                                        <Typography className={s.error} variant="body-m">
-                                            {/*eslint-disable-next-line*/}
-                                            {/*@ts-ignore*/}
-                                            {field.state.meta.errorMap?.onChange?.[0]?.message}
-                                        </Typography>
-                                    ) : null}
-                                </div>
+                                <field.InputField
+                                    name="caseNumber"
+                                    label={<>Case number</>}
+                                    placeholder="Type case number"
+                                    value={field.state.value}
+                                    onBlur={() => {
+                                        field.handleBlur();
+                                    }}
+                                    onChange={(e) => {
+                                        field.handleChange(e.target.value);
+                                    }}
+                                />
                             );
                         }}
                     />
                     <div className={s['inputs-wrapper']}>
-                        <form.Field
+                        <form.AppField
                             name="contactName"
                             children={(field) => {
                                 return (
-                                    <div className={s.input}>
-                                        <Typography variant="body-m" render={<strong />}>
-                                            Contact person name
-                                        </Typography>
-                                        <Input
-                                            errorMessage={!!field.state.meta.errors?.length}
-                                            placeholder="Type contact person full name"
-                                            value={field.state.value}
-                                            onBlur={() => {
-                                                field.handleBlur();
-                                            }}
-                                            onChange={(e) => {
-                                                field.handleChange(e.target.value);
-                                            }}
-                                        />
-                                        {field.state.meta.errors?.length ? (
-                                            <Typography className={s.error} variant="body-m">
-                                                {/*eslint-disable-next-line*/}
-                                                {/*@ts-ignore*/}
-                                                {field.state.meta.errorMap?.onChange?.[0]?.message}
-                                            </Typography>
-                                        ) : null}
-                                    </div>
+                                    <field.InputField
+                                        name="contactName"
+                                        label={<>Contact person name</>}
+                                        placeholder="Type contact person full name"
+                                        value={field.state.value}
+                                        onBlur={() => {
+                                            field.handleBlur();
+                                        }}
+                                        onChange={(e) => {
+                                            field.handleChange(e.target.value);
+                                        }}
+                                    />
                                 );
                             }}
                         />

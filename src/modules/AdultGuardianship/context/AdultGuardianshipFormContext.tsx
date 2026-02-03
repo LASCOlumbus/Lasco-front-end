@@ -8,7 +8,7 @@ import {
     adultGuardianshipWardLocationStepSchema,
 } from '@/schemas/formSchemas';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
-import { useForm } from '@tanstack/react-form';
+import { useAppForm } from '@/components/Forms/hooks/useAppForm';
 
 type AdultGuardianshipFormContextType = {
     formData: AdultGuardianshipForm;
@@ -307,7 +307,7 @@ export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuar
     const stepValues = formData[stepId] as AdultGuardianshipForm[TStepId];
     const defaultValues = typeof window === 'undefined' ? ADULT_GUARDIANSHIP_FORM_INITIAL_STATE[stepId] : stepValues;
 
-    const form = useForm({
+    const form = useAppForm({
         defaultValues: stepValues,
         validators: {
             onMount: stepSchema,
