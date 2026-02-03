@@ -1,11 +1,12 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import clsx from 'clsx';
+import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
+import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
-import TextArea from '@/components/ui/TextArea';
 import { Typography } from '@/components/ui/Typography';
 import {
     useAdultGuardianshipFormContext,
@@ -42,128 +43,110 @@ const SafetyServiceStep: React.FC = () => {
                     <form.Field
                         name="isProspectiveWardLeaveDuringDay.answer"
                         children={(field) => {
+                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
                             return (
-                                <div className={s.input}>
-                                    <Typography variant="heading-h4" render={<strong />}>
-                                        Does the prospective ward leave the above location on a regular basis (school,
-                                        work, vacation, etc.) during the day?
-                                    </Typography>
+                                <FormFieldLabelErrorWrapper
+                                    className={s['field-wrap']}
+                                    name="isProspectiveWardLeaveDuringDay.answer"
+                                    label={
+                                        <>
+                                            Does the prospective ward leave the above location on a regular basis
+                                            (school, work, vacation, etc.) during the day?
+                                        </>
+                                    }
+                                    errorMessage={errorMessage}
+                                >
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
                                         onValueChange={(value) => {
                                             field.handleChange(value as boolean);
+                                            form.setFieldValue('isProspectiveWardLeaveDuringDay.explanation', '');
                                         }}
                                     >
                                         <RadioGroupItem label="Yes" value={true} />
                                         <RadioGroupItem label="No" value={false} />
                                     </RadioGroup>
                                     {field.state.value && (
-                                        <form.Field
+                                        <form.AppField
                                             name="isProspectiveWardLeaveDuringDay.explanation"
                                             children={(field) => {
                                                 return (
-                                                    <div className={s.input}>
-                                                        <TextArea
-                                                            value={field.state.value as string}
-                                                            onChange={(e) => {
-                                                                field.handleChange(e.target.value);
-                                                            }}
-                                                            placeholder="Describe when and where the ward leaves during the day."
-                                                            errorMessage={!!field.state.meta.errors?.length}
-                                                        />
-                                                        {field.state.meta.errors?.length ? (
-                                                            <Typography className={s.error} variant="body-m">
-                                                                {/*eslint-disable-next-line*/}
-                                                                {/*@ts-ignore*/}
-                                                                {field.state.meta.errorMap?.onChange?.[0]?.message}
-                                                            </Typography>
-                                                        ) : null}
-                                                    </div>
+                                                    <field.TextAreaField
+                                                        name="isProspectiveWardLeaveDuringDay.explanation"
+                                                        placeholder="Describe when and where the ward leaves during the day."
+                                                    />
                                                 );
                                             }}
                                         />
                                     )}
-                                    {field.state.meta.errors?.length ? (
-                                        <Typography className={s.error} variant="body-m">
-                                            {/*eslint-disable-next-line*/}
-                                            {/*@ts-ignore*/}
-                                            {field.state.meta.errors[0].message}
-                                        </Typography>
-                                    ) : null}
-                                </div>
+                                </FormFieldLabelErrorWrapper>
                             );
                         }}
                     />
-
                     <form.Field
                         name="specialCircumstances.answer"
                         children={(field) => {
+                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
                             return (
-                                <div className={s.input}>
-                                    <Typography variant="heading-h4" render={<strong />}>
-                                        Is there a situation or special circumstance of which the investigator should be
-                                        aware such as weapons in the home, dangerous situations, contagious diseases,
-                                        etc.?
-                                    </Typography>
+                                <FormFieldLabelErrorWrapper
+                                    name="specialCircumstances.answer"
+                                    label={
+                                        <>
+                                            Is there a situation or special circumstance of which the investigator
+                                            should be aware such as weapons in the home, dangerous situations,
+                                            contagious diseases, etc.?
+                                        </>
+                                    }
+                                    errorMessage={errorMessage}
+                                >
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
                                         onValueChange={(value) => {
                                             field.handleChange(value as boolean);
+                                            form.setFieldValue('specialCircumstances.explanation', '');
                                         }}
                                     >
                                         <RadioGroupItem label="Yes" value={true} />
                                         <RadioGroupItem label="No" value={false} />
                                     </RadioGroup>
                                     {field.state.value && (
-                                        <form.Field
+                                        <form.AppField
                                             name="specialCircumstances.explanation"
                                             children={(field) => {
                                                 return (
-                                                    <div className={s.input}>
-                                                        <TextArea
-                                                            value={field.state.value as string}
-                                                            onChange={(e) => {
-                                                                field.handleChange(e.target.value);
-                                                            }}
-                                                            placeholder="Describe any safety concerns or special circumstances"
-                                                            errorMessage={!!field.state.meta.errors?.length}
-                                                        />
-                                                        {field.state.meta.errors?.length ? (
-                                                            <Typography className={s.error} variant="body-m">
-                                                                {/*eslint-disable-next-line*/}
-                                                                {/*@ts-ignore*/}
-                                                                {field.state.meta.errorMap?.onChange?.[0]?.message}
-                                                            </Typography>
-                                                        ) : null}
-                                                    </div>
+                                                    <field.TextAreaField
+                                                        name="specialCircumstances.explanation"
+                                                        placeholder="Describe any safety concerns or special circumstances"
+                                                    />
                                                 );
                                             }}
                                         />
                                     )}
-                                    {field.state.meta.errors?.length ? (
-                                        <Typography className={s.error} variant="body-m">
-                                            {/*eslint-disable-next-line*/}
-                                            {/*@ts-ignore*/}
-                                            {field.state.meta.errors[0].message}
-                                        </Typography>
-                                    ) : null}
-                                </div>
+                                </FormFieldLabelErrorWrapper>
                             );
                         }}
                     />
-
                     <form.Field
                         name="isProspectiveWardHasCommunicationIssues.answer"
                         children={(field) => {
+                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
                             return (
-                                <div className={s.input}>
-                                    <Typography variant="heading-h4" render={<strong />}>
-                                        Does the Prospective Ward speak a foreign language or have any medical issues or
-                                        other communication issues which would prevent them from communicating with the
-                                        investigator?
-                                    </Typography>
+                                <FormFieldLabelErrorWrapper
+                                    name="isProspectiveWardHasCommunicationIssues.answer"
+                                    label={
+                                        <>
+                                            Does the Prospective Ward speak a foreign language or have any medical
+                                            issues or other communication issues which would prevent them from
+                                            communicating with the investigator?
+                                        </>
+                                    }
+                                    errorMessage={errorMessage}
+                                >
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -175,39 +158,19 @@ const SafetyServiceStep: React.FC = () => {
                                         <RadioGroupItem label="No" value={false} />
                                     </RadioGroup>
                                     {field.state.value && (
-                                        <form.Field
+                                        <form.AppField
                                             name="isProspectiveWardHasCommunicationIssues.explanation"
                                             children={(field) => {
                                                 return (
-                                                    <div className={s.input}>
-                                                        <TextArea
-                                                            value={field.state.value as string}
-                                                            onChange={(e) => {
-                                                                field.handleChange(e.target.value);
-                                                            }}
-                                                            placeholder="Provide details about language or medical communication needs."
-                                                            errorMessage={!!field.state.meta.errors?.length}
-                                                        />
-                                                        {field.state.meta.errors?.length ? (
-                                                            <Typography className={s.error} variant="body-m">
-                                                                {/*eslint-disable-next-line*/}
-                                                                {/*@ts-ignore*/}
-                                                                {field.state.meta.errorMap?.onChange?.[0]?.message}
-                                                            </Typography>
-                                                        ) : null}
-                                                    </div>
+                                                    <field.TextAreaField
+                                                        name="isProspectiveWardHasCommunicationIssues.explanation"
+                                                        placeholder="Provide details about language or medical communication needs."
+                                                    />
                                                 );
                                             }}
                                         />
                                     )}
-                                    {field.state.meta.errors?.length ? (
-                                        <Typography className={s.error} variant="body-m">
-                                            {/*eslint-disable-next-line*/}
-                                            {/*@ts-ignore*/}
-                                            {field.state.meta.errors[0].message}
-                                        </Typography>
-                                    ) : null}
-                                </div>
+                                </FormFieldLabelErrorWrapper>
                             );
                         }}
                     />
@@ -218,8 +181,8 @@ const SafetyServiceStep: React.FC = () => {
                         it is the Applicant&apos;s responsibility to notify the court investigator at{' '}
                         <a className={clsx(s.link, 'focus-primary')} href="tel:+16145256109">
                             (614) 525-6109
-                        </a>{' '}
-                        or{' '}
+                        </a>
+                        or
                         <a className={clsx(s.link, 'focus-primary')} href="tel:+16145256296">
                             (614) 525-6296
                         </a>

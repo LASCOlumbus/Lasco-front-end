@@ -10,6 +10,8 @@ import { z } from 'zod';
 
 export type ObjValues<TObj> = TObj[keyof TObj];
 
+export type StringWithAutocompleteUnion<TUnion extends string> = TUnion | (string & {});
+
 export type WithClassName<TProps = unknown> = TProps & {
     /**
         Extendable classnames of component

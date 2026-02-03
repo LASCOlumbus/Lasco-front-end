@@ -38,7 +38,7 @@ const Select: React.FC<SelectProps> = ({
     onChange,
     onOptionCreate,
     onSearchChange,
-    drawerLabel = 'Select',
+    drawerLabel = placeholder,
 }) => {
     const isMobile = useIsMobile();
 

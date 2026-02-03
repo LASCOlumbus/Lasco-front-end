@@ -1,5 +1,5 @@
 import React from 'react';
-import AnimatedFormWrapper from '@/components/form/AnimatedFormWrapper';
+import AnimatedFormWrapper from '@/components/Forms/components/AnimatedFormWrapper';
 import { useAdultGuardianshipFormContext } from '../../context/AdultGuardianshipFormContext';
 
 const AdultGuardianshipFormWrapper: React.FC<React.PropsWithChildren> = ({ children }) => {

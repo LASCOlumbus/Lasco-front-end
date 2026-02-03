@@ -1,9 +1,11 @@
 import { PhoneNumberUtil } from 'google-libphonenumber';
 import { z } from 'zod';
+import { ZIP_CODE_REGEX } from '@/lib/constants';
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
 export const requiredStringSchema = z.string().min(1, 'This field is required');
+export const zipCodeSchema = requiredStringSchema.regex(ZIP_CODE_REGEX, 'Invalid zip code');
 
 export const phoneSchema = requiredStringSchema
     .nullable()
@@ -51,7 +53,7 @@ export const adultGuardianshipWardLocationStepSchema = z.object({
     streetAddress: requiredStringSchema,
     city: requiredStringSchema,
     state: requiredStringSchema,
-    zip: requiredStringSchema,
+    zip: zipCodeSchema,
     wardPhone: phoneSchema,
 });
 

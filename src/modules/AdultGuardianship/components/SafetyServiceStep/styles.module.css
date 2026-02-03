@@ -114,6 +114,10 @@
     text-decoration: underline;
 }
 
+.inputs .field-wrap {
+    gap: 0.75rem;
+}
+
 @media screen and (max-width: 1109px) {
     .inputs-wrapper {
         flex-direction: column;
