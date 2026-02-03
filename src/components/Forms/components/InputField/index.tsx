@@ -23,16 +23,16 @@ export const InputField: React.FC<InputFieldProps> = ({
                 <NumericFormat
                     className={className}
                     {...rest}
+                    thousandSeparator
+                    allowNegative={false}
                     {...numericFormatProps}
                     value={field.state.value}
-                    allowNegative={false}
-                    thousandSeparator
                     id={name || field.name}
                     name={name || field.name}
                     errorMessage={fieldErrorMessage}
                     customInput={Input}
-                    onValueChange={({ floatValue }) => {
-                        field.handleChange(floatValue);
+                    onValueChange={({ floatValue, value }) => {
+                        field.handleChange(numericFormatProps?.valueIsNumericString ? value : floatValue);
                     }}
                 />
             </FormFieldWrapper>

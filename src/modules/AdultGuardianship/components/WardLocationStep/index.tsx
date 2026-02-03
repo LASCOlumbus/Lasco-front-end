@@ -1,10 +1,7 @@
-import type { E164Number } from 'libphonenumber-js/core';
 import React from 'react';
 import { US_STATES_SELECT_OPTIONS } from '@/lib/constants';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
-import PhoneInput from '@/components/ui/Input/components/PhoneInput';
 import { Typography } from '@/components/ui/Typography';
 import {
     useAdultGuardianshipFormContext,
@@ -85,59 +82,33 @@ const WardLocationStep: React.FC = () => {
                         />
                     </div>
                     <div className={s['inputs-wrapper']}>
-                        <form.Field
+                        <form.AppField
                             name="zip"
                             children={(field) => {
                                 return (
-                                    <div className={s.input}>
-                                        <Typography variant="body-m" render={<strong />}>
-                                            ZIP code
-                                        </Typography>
-                                        <Input
-                                            errorMessage={!!field.state.meta.errors?.length}
-                                            placeholder="Ex. 43215"
-                                            value={field.state.value}
-                                            onBlur={() => {
-                                                field.handleBlur();
-                                            }}
-                                            onChange={(e) => {
-                                                field.handleChange(e.target.value);
-                                            }}
-                                        />
-                                        {field.state.meta.errors?.length ? (
-                                            <Typography className={s.error} variant="body-m">
-                                                {/*eslint-disable-next-line*/}
-                                                {/*@ts-ignore*/}
-                                                {field.state.meta.errors[0].message}
-                                            </Typography>
-                                        ) : null}
-                                    </div>
+                                    <field.InputField
+                                        name="zip"
+                                        type="number"
+                                        label={<>ZIP code</>}
+                                        placeholder="Ex. 43215"
+                                        numericFormatProps={{
+                                            thousandSeparator: false,
+                                            allowLeadingZeros: true,
+                                            valueIsNumericString: true,
+                                        }}
+                                        onBlur={field.handleBlur}
+                                    />
                                 );
                             }}
                         />
-                        <form.Field
+                        <form.AppField
                             name="wardPhone"
                             children={(field) => {
                                 return (
-                                    <div className={s.input}>
-                                        <Typography variant="body-m" render={<strong />}>
-                                            Telephone number of prospective ward
-                                        </Typography>
-                                        <PhoneInput
-                                            value={field.state.value ?? ''}
-                                            errorMessage={!!field.state.meta.errors?.length}
-                                            onChange={(value: E164Number) => {
-                                                field.handleChange(value ?? '');
-                                            }}
-                                        />
-                                        {field.state.meta.errors?.length ? (
-                                            <Typography className={s.error} variant="body-m">
-                                                {/*eslint-disable-next-line*/}
-                                                {/*@ts-ignore*/}
-                                                {field.state.meta.errors[0].message}
-                                            </Typography>
-                                        ) : null}
-                                    </div>
+                                    <field.PhoneInputField
+                                        name="wardPhone"
+                                        label={<>Telephone number of prospective ward</>}
+                                    />
                                 );
                             }}
                         />

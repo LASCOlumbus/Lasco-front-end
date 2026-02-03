@@ -6,6 +6,8 @@ export const ONE_SECOND = 1_000;
 export const ONE_MINUTE = 60 * ONE_SECOND;
 export const COMMON_ERROR_MESSAGE = 'Uh-oh, something went wrong.';
 
+export const ZIP_CODE_REGEX = /^[a-zA-Z0-9\s]{3,}$/;
+
 export const US_STATES_SELECT_OPTIONS: SelectOption[] = [
     {
         label: 'Alabama',
