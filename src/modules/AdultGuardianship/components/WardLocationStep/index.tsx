@@ -1,12 +1,10 @@
 import React from 'react';
 import { E164Number } from 'libphonenumber-js/core';
 import { US_STATES_SELECT_OPTIONS } from '@/lib/constants.ts';
-import { AdultGuardianshipForm } from '@/lib/types.ts';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import PhoneInput from '@/components/ui/Input/components/PhoneInput';
-import { ScrollArea } from '@/components/ui/ScrollArea';
 import Select from '@/components/ui/Select';
 import { Typography } from '@/components/ui/Typography';
 import {
@@ -17,43 +15,80 @@ import s from './styles.module.css';
 
 const WardLocationStep: React.FC = () => {
     const { form, isLoading } = useAdultGuardianshipFormStepForm('wardLocationStep');
-    const { goToPreviousStep, canGoBack, goToNextStep, setFormStepData } = useAdultGuardianshipFormContext();
+    const { goToPreviousStep } = useAdultGuardianshipFormContext();
+
+    const [stateSearch, setStateSearch] = React.useState('');
 
     if (isLoading) {
         return <ResponsiveLoader />;
     }
 
     return (
-        <form className={s.form}>
+        <form
+            className={s.form}
+            onSubmit={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                form.handleSubmit();
+            }}
+        >
             <div className={s['scroll-container-wrapper']}>
-                <ScrollArea>
-                    <div className={s['content-description']}>
-                        <Typography variant="body-m">Enter the physical location of the prospective ward.</Typography>
-                    </div>
-                    <div className={s.inputs}>
+                <div className={s['content-description']}>
+                    <Typography variant="body-m">Enter the physical location of the prospective ward.</Typography>
+                </div>
+                <div className={s.inputs}>
+                    <form.Field
+                        name="streetAddress"
+                        children={(field) => {
+                            return (
+                                <div className={s.input}>
+                                    <Typography variant="body-m" render={<strong />}>
+                                        Street address of prospective ward
+                                    </Typography>
+                                    <Input
+                                        errorMessage={!!field.state.meta.errors?.length}
+                                        placeholder="Type street address"
+                                        value={field.state.value}
+                                        onBlur={() => {
+                                            field.handleBlur();
+                                        }}
+                                        onChange={(e) => {
+                                            field.handleChange(e.target.value);
+                                        }}
+                                    />
+                                    {field.state.meta.errors?.length ? (
+                                        <Typography className={s.error} variant="body-m">
+                                            {/*eslint-disable-next-line*/}
+                                            {/*@ts-ignore*/}
+                                            {field.state.meta.errors[0].message}
+                                        </Typography>
+                                    ) : null}
+                                </div>
+                            );
+                        }}
+                    />
+
+                    <div className={s['inputs-wrapper']}>
                         <form.Field
-                            name="streetAddress"
+                            name="city"
                             children={(field) => {
                                 return (
                                     <div className={s.input}>
                                         <Typography variant="body-m" render={<strong />}>
-                                            Street address of prospective ward
+                                            City
                                         </Typography>
                                         <Input
-                                            errorMessage={
-                                                !!field.state.meta.errors?.length && field.state.meta.isBlurred
-                                            }
-                                            placeholder="Type street address"
+                                            errorMessage={!!field.state.meta.errors?.length}
+                                            placeholder="Type city"
                                             value={field.state.value}
                                             onBlur={() => {
                                                 field.handleBlur();
-                                                field.handleChange(field.state.value);
                                             }}
                                             onChange={(e) => {
                                                 field.handleChange(e.target.value);
                                             }}
                                         />
-                                        {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
+                                        {field.state.meta.errors?.length ? (
                                             <Typography className={s.error} variant="body-m">
                                                 {/*eslint-disable-next-line*/}
                                                 {/*@ts-ignore*/}
@@ -64,170 +99,124 @@ const WardLocationStep: React.FC = () => {
                                 );
                             }}
                         />
-
-                        <div className={s['inputs-wrapper']}>
-                            <form.Field
-                                name="city"
-                                children={(field) => {
-                                    return (
-                                        <div className={s.input}>
-                                            <Typography variant="body-m" render={<strong />}>
-                                                City
+                        <form.Field
+                            name="state"
+                            children={(field) => {
+                                return (
+                                    <div className={s.input}>
+                                        <Typography variant="body-m" render={<strong />}>
+                                            State
+                                        </Typography>
+                                        <Select
+                                            type="single"
+                                            placeholder="Select state"
+                                            isSearchable
+                                            search={stateSearch}
+                                            onSearchChange={(value) => {
+                                                setStateSearch(value);
+                                            }}
+                                            errorMessage={!!field.state.meta.errors?.length}
+                                            options={[
+                                                ...US_STATES_SELECT_OPTIONS.map((state) => {
+                                                    return {
+                                                        label: `${state.value} - ${state.label}`,
+                                                        value: state.value,
+                                                    };
+                                                }),
+                                            ]}
+                                            value={field.state.value}
+                                            onChange={(value) => {
+                                                setStateSearch('');
+                                                field.handleChange(value as string);
+                                            }}
+                                        />
+                                        {field.state.meta.errors?.length ? (
+                                            <Typography className={s.error} variant="body-m">
+                                                {/*eslint-disable-next-line*/}
+                                                {/*@ts-ignore*/}
+                                                {field.state.meta.errors[0].message}
                                             </Typography>
-                                            <Input
-                                                errorMessage={
-                                                    !!field.state.meta.errors?.length && field.state.meta.isBlurred
-                                                }
-                                                placeholder="Type city"
-                                                value={field.state.value}
-                                                onBlur={() => {
-                                                    field.handleBlur();
-                                                    field.handleChange(field.state.value);
-                                                }}
-                                                onChange={(e) => {
-                                                    field.handleChange(e.target.value);
-                                                }}
-                                            />
-                                            {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
-                                                <Typography className={s.error} variant="body-m">
-                                                    {/*eslint-disable-next-line*/}
-                                                    {/*@ts-ignore*/}
-                                                    {field.state.meta.errors[0].message}
-                                                </Typography>
-                                            ) : null}
-                                        </div>
-                                    );
-                                }}
-                            />
-                            <form.Field
-                                name="state"
-                                children={(field) => {
-                                    return (
-                                        <div className={s.input}>
-                                            <Typography variant="body-m" render={<strong />}>
-                                                State
-                                            </Typography>
-                                            <Select
-                                                type="single"
-                                                placeholder="Select state"
-                                                options={[
-                                                    ...US_STATES_SELECT_OPTIONS.map((state) => {
-                                                        return {
-                                                            label: `${state.value} - ${state.label}`,
-                                                            value: state.value,
-                                                        };
-                                                    }),
-                                                ]}
-                                                value={field.state.value}
-                                                onChange={(value) => {
-                                                    field.handleChange(value as string);
-                                                }}
-                                            />
-                                            {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
-                                                <Typography className={s.error} variant="body-m">
-                                                    {/*eslint-disable-next-line*/}
-                                                    {/*@ts-ignore*/}
-                                                    {field.state.meta.errors[0].message}
-                                                </Typography>
-                                            ) : null}
-                                        </div>
-                                    );
-                                }}
-                            />
-                        </div>
-
-                        <div className={s['inputs-wrapper']}>
-                            <form.Field
-                                name="zip"
-                                children={(field) => {
-                                    return (
-                                        <div className={s.input}>
-                                            <Typography variant="body-m" render={<strong />}>
-                                                ZIP code
-                                            </Typography>
-                                            <Input
-                                                errorMessage={
-                                                    !!field.state.meta.errors?.length && field.state.meta.isBlurred
-                                                }
-                                                placeholder="Ex. 43215"
-                                                value={field.state.value}
-                                                onBlur={() => {
-                                                    field.handleBlur();
-                                                    field.handleChange(field.state.value);
-                                                }}
-                                                onChange={(e) => {
-                                                    field.handleChange(e.target.value);
-                                                }}
-                                            />
-                                            {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
-                                                <Typography className={s.error} variant="body-m">
-                                                    {/*eslint-disable-next-line*/}
-                                                    {/*@ts-ignore*/}
-                                                    {field.state.meta.errors[0].message}
-                                                </Typography>
-                                            ) : null}
-                                        </div>
-                                    );
-                                }}
-                            />
-                            <form.Field
-                                name="wardPhone"
-                                children={(field) => {
-                                    return (
-                                        <div className={s.input}>
-                                            <Typography variant="body-m" render={<strong />}>
-                                                Telephone number of prospective ward
-                                            </Typography>
-                                            <PhoneInput
-                                                value={field.state.value ?? ''}
-                                                onChange={(value: E164Number) => {
-                                                    field.handleChange(value ?? '');
-                                                }}
-                                            />
-                                            {field.state.meta.errors?.length && field.state.meta.isBlurred ? (
-                                                <Typography className={s.error} variant="body-m">
-                                                    {/*eslint-disable-next-line*/}
-                                                    {/*@ts-ignore*/}
-                                                    {field.state.meta.errors[0].message}
-                                                </Typography>
-                                            ) : null}
-                                        </div>
-                                    );
-                                }}
-                            />
-                        </div>
+                                        ) : null}
+                                    </div>
+                                );
+                            }}
+                        />
                     </div>
-                </ScrollArea>
+
+                    <div className={s['inputs-wrapper']}>
+                        <form.Field
+                            name="zip"
+                            children={(field) => {
+                                return (
+                                    <div className={s.input}>
+                                        <Typography variant="body-m" render={<strong />}>
+                                            ZIP code
+                                        </Typography>
+                                        <Input
+                                            errorMessage={!!field.state.meta.errors?.length}
+                                            placeholder="Ex. 43215"
+                                            value={field.state.value}
+                                            onBlur={() => {
+                                                field.handleBlur();
+                                            }}
+                                            onChange={(e) => {
+                                                field.handleChange(e.target.value);
+                                            }}
+                                        />
+                                        {field.state.meta.errors?.length ? (
+                                            <Typography className={s.error} variant="body-m">
+                                                {/*eslint-disable-next-line*/}
+                                                {/*@ts-ignore*/}
+                                                {field.state.meta.errors[0].message}
+                                            </Typography>
+                                        ) : null}
+                                    </div>
+                                );
+                            }}
+                        />
+                        <form.Field
+                            name="wardPhone"
+                            children={(field) => {
+                                return (
+                                    <div className={s.input}>
+                                        <Typography variant="body-m" render={<strong />}>
+                                            Telephone number of prospective ward
+                                        </Typography>
+                                        <PhoneInput
+                                            value={field.state.value ?? ''}
+                                            errorMessage={!!field.state.meta.errors?.length}
+                                            onChange={(value: E164Number) => {
+                                                field.handleChange(value ?? '');
+                                            }}
+                                        />
+                                        {field.state.meta.errors?.length ? (
+                                            <Typography className={s.error} variant="body-m">
+                                                {/*eslint-disable-next-line*/}
+                                                {/*@ts-ignore*/}
+                                                {field.state.meta.errors[0].message}
+                                            </Typography>
+                                        ) : null}
+                                    </div>
+                                );
+                            }}
+                        />
+                    </div>
+                </div>
             </div>
             <div className={s.footer}>
-                <Button variant="secondary" size="big" onClick={goToPreviousStep} disabled={!canGoBack} type="button">
+                <Button variant="secondary" size="big" onClick={goToPreviousStep} type="button">
                     Back
                 </Button>
                 <form.Subscribe
                     selector={(state) => {
-                        const isValid = state.isFieldsValid;
-                        return [state.canSubmit, isValid, state.values];
+                        const isValid = state.isFieldsValid && state.isFormValid;
+                        const canSubmit = state.isTouched && state.isValid && !state.isPristine && state.canSubmit;
+
+                        return [canSubmit, isValid];
                     }}
-                    children={([canSubmit, isValid, values]) => {
+                    children={([canSubmit, isValid]) => {
                         return (
-                            <Button
-                                onClick={async () => {
-                                    const result = await form.validate('submit');
-                                    const isInvalid = Object.values(result).some(({ onSubmit: field }) => {
-                                        return Array.isArray(field) && field?.length > 0;
-                                    });
-                                    if (isInvalid) return;
-                                    goToNextStep();
-                                    setFormStepData(
-                                        'wardLocationStep',
-                                        values as AdultGuardianshipForm['wardLocationStep']
-                                    );
-                                }}
-                                type="button"
-                                variant="primary"
-                                size="big"
-                                disabled={!canSubmit || !isValid}
-                            >
+                            <Button type="submit" variant="primary" size="big" disabled={!canSubmit || !isValid}>
                                 Next step
                             </Button>
                         );

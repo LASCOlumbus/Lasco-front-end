@@ -135,9 +135,8 @@ const Select: React.FC<SelectProps> = ({
                 >
                     {triggerJSX}
                 </DrawerTrigger>
-                <DrawerContent className={s.content}>
-                    <span className={s.line} />
-                    <DrawerHeader>
+                <DrawerContent className={clsx(s.content, 'select-drawer-content')}>
+                    <DrawerHeader className={s.header}>
                         <DrawerTitle>
                             {leftAddon}
                             {drawerLabel}
