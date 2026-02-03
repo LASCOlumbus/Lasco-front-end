@@ -25,6 +25,6 @@
     border-radius: 0.75rem;
 }
 
-.wrap.error {
+.wrap.error :is(:global(.country-select-trigger), .input) {
     border-color: var(--border-negative);
 }

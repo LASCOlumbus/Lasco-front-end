@@ -38,7 +38,7 @@ export const ADULT_GUARDIANSHIP_FORM_KEY = 'ADULT_GUARDIANSHIP_multi-step-form';
 export const ADULT_GUARDIANSHIP_FORM_KEY_SUBMITTED = 'ADULT_GUARDIANSHIP_multi-step-form-step_submitted';
 export const ADULT_GUARDIANSHIP_FORM_KEY_SUCCESSFUL = 'ADULT_GUARDIANSHIP_multi-step-form-step_successful';
 
-const ADULT_GUARDIANSHIP_FORM_STEPS = {
+export const ADULT_GUARDIANSHIP_FORM_STEPS = {
     caseDetailsStep: {
         id: 'caseDetailsStep',
         label: 'Case details',
@@ -79,12 +79,15 @@ const ADULT_GUARDIANSHIP_FORM_INITIAL_STATE: AdultGuardianshipForm = {
     safetyServiceStep: {
         isProspectiveWardLeaveDuringDay: {
             answer: null,
+            explanation: '',
         },
         specialCircumstances: {
             answer: null,
+            explanation: '',
         },
         isProspectiveWardHasCommunicationIssues: {
             answer: null,
+            explanation: '',
         },
     },
 };
@@ -151,16 +154,26 @@ export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = 
             setAnimationDirection('next');
         });
 
+        const isLastStepBeforeIncrement = currentStepIndex === ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY.length - 1;
+
         incrementCurrentStepIndex();
-    }, [incrementCurrentStepIndex]);
+
+        if (isLastStepBeforeIncrement) {
+            toggleIsSubmitted(true);
+        }
+    }, [currentStepIndex, incrementCurrentStepIndex, toggleIsSubmitted]);
 
     const goToPreviousStep = React.useCallback(() => {
+        if (!canGoBack) {
+            return;
+        }
+
         flushSync(() => {
             setAnimationDirection('prev');
         });
 
         decrementCurrentStepIndex();
-    }, [decrementCurrentStepIndex]);
+    }, [canGoBack, decrementCurrentStepIndex]);
 
     const goToSelectStep = React.useCallback(
         (step: number) => {
@@ -169,12 +182,12 @@ export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = 
                     flushSync(() => {
                         setAnimationDirection('prev');
                     });
-                }
-                if (currentStepIndex < step) {
+                } else if (currentStepIndex < step) {
                     flushSync(() => {
                         setAnimationDirection('next');
                     });
                 }
+
                 setCurrentStepIndex(step);
             }
         },
@@ -285,7 +298,7 @@ export const useAdultGuardianshipFormContext = () => {
 };
 
 export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuardianshipForm>(stepId: TStepId) => {
-    const { formData, setFormStepData, toggleIsSubmitted } = useAdultGuardianshipFormContext();
+    const { formData, setFormStepData, goToNextStep } = useAdultGuardianshipFormContext();
 
     const [isLoading, toggleIsLoading] = useToggle(true);
 
@@ -303,9 +316,12 @@ export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuar
             onSubmit: ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema,
         },
         onSubmit: (data) => {
+            console.log(data?.value);
             if (data?.value) {
-                setFormStepData('safetyServiceStep', data.value as AdultGuardianshipForm['safetyServiceStep']);
-                toggleIsSubmitted(true);
+                setFormStepData(stepId, data.value as AdultGuardianshipForm[TStepId]);
+
+                goToNextStep();
+                // toggleIsSubmitted(true);
 
                 // if (false) {
                 //     toggleIsSuccessful();

@@ -103,3 +103,19 @@
         width: 100%;
     }
 }
+
+.alert .link {
+    color: inherit;
+    text-decoration: none;
+    border-radius: 0.25rem;
+}
+
+.alert .link:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 1109px) {
+    .inputs-wrapper {
+        flex-direction: column;
+    }
+}

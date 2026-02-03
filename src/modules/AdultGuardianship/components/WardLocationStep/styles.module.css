@@ -93,3 +93,9 @@
         width: 100%;
     }
 }
+
+@media screen and (max-width: 1109px) {
+    .inputs-wrapper {
+        flex-direction: column;
+    }
+}

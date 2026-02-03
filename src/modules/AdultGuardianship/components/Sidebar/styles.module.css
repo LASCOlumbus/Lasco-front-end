@@ -5,6 +5,7 @@
     max-width: 360px;
     width: 100%;
     height: max-content;
+    z-index: 10;
 
     @media screen and (max-width: 900px) {
         max-width: 100%;
@@ -35,6 +36,10 @@
     background-color: #184482;
 }
 
+.sidebar-drawer-content {
+    padding-inline: 1rem;
+}
+
 .sidebar-item.active strong {
     color: var(--color-gray-0);
 }
@@ -46,10 +51,6 @@
 
 .sidebar-overlay {
     background: var(--overlay-primary);
-}
-
-.sidebar-drawer-content {
-    padding: 1rem;
 }
 
 .sidebar-tablet-wrapper {

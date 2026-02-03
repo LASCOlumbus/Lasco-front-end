@@ -9,5 +9,5 @@ export type PhoneInputProps = WithClassName<
     /**
      * Error message
      */
-    errorMessage?: string;
+    errorMessage?: string | boolean;
 };

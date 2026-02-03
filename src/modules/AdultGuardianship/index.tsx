@@ -7,6 +7,7 @@ import AdultGuardianshipFormWrapper from '@/modules/AdultGuardianship/components
 import SafetyServiceStep from '@/modules/AdultGuardianship/components/SafetyServiceStep';
 import WaiversListStep from '@/modules/AdultGuardianship/components/WardLocationStep/index.tsx';
 import { Button } from '@/components/ui/Button';
+import { ScrollArea } from '@/components/ui/ScrollArea/index.tsx';
 import { Typography } from '@/components/ui/Typography/index.tsx';
 import { AdultGuardianshipFormProvider } from './context/AdultGuardianshipFormContext.tsx';
 import CaseDetailsStep from './components/CaseDetailsStep/index.tsx';
@@ -58,19 +59,21 @@ const AdultGuardianship: React.FC = () => {
                     </header>
                     <div className={s['sidebar-wrapper']}>
                         <Sidebar />
-                        <div className={s.content}>
-                            <AdultGuardianshipFormWrapper>
-                                <AdultGuardianshipFormStep id={'caseDetailsStep' as keyof AdultGuardianshipForm}>
-                                    <CaseDetailsStep key="caseDetailsStep" />
-                                </AdultGuardianshipFormStep>
-                                <AdultGuardianshipFormStep id="wardLocationStep">
-                                    <WaiversListStep key="wardLocationStep" />
-                                </AdultGuardianshipFormStep>
-                                <AdultGuardianshipFormStep id="safetyServiceStep">
-                                    <SafetyServiceStep key="safetyServiceStep" />
-                                </AdultGuardianshipFormStep>
-                            </AdultGuardianshipFormWrapper>
-                        </div>
+                        <ScrollArea className={s.scroll}>
+                            <div className={s.content}>
+                                <AdultGuardianshipFormWrapper>
+                                    <AdultGuardianshipFormStep id={'caseDetailsStep' as keyof AdultGuardianshipForm}>
+                                        <CaseDetailsStep key="caseDetailsStep" />
+                                    </AdultGuardianshipFormStep>
+                                    <AdultGuardianshipFormStep id="wardLocationStep">
+                                        <WaiversListStep key="wardLocationStep" />
+                                    </AdultGuardianshipFormStep>
+                                    <AdultGuardianshipFormStep id="safetyServiceStep">
+                                        <SafetyServiceStep key="safetyServiceStep" />
+                                    </AdultGuardianshipFormStep>
+                                </AdultGuardianshipFormWrapper>
+                            </div>
+                        </ScrollArea>
                     </div>
                 </div>
             </AdultGuardianshipFormProvider>

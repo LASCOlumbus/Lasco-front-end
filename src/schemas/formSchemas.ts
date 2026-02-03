@@ -57,7 +57,12 @@ export const adultGuardianshipWardLocationStepSchema = z.object({
 
 export const answerWithExplanationSchema = z
     .object({
-        answer: z.boolean(),
+        answer: z
+            .boolean()
+            .nullable()
+            .refine((value) => {
+                return value !== null;
+            }, 'This field is required.'),
         explanation: z.string().optional(),
     })
     .refine(
