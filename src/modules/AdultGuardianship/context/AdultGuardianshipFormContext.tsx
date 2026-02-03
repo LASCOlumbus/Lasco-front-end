@@ -1,4 +1,4 @@
-import type { DeepKeys, DeepValue, Updater } from '@tanstack/react-form';
+import type { DeepKeys, DeepValue, FormValidateOrFn, Updater } from '@tanstack/react-form';
 import type { AdultGuardianshipForm, AdultGuardianshipFormStep, AnimationDirection } from '@/lib/types';
 import React from 'react';
 import { flushSync } from 'react-dom';
@@ -303,29 +303,22 @@ export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuar
 
     const [isLoading, toggleIsLoading] = useToggle(true);
 
-    const formDataValue = formData[stepId];
+    const stepSchema = ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema as FormValidateOrFn<AdultGuardianshipForm[TStepId]>;
+    const stepValues = formData[stepId] as AdultGuardianshipForm[TStepId];
+    const defaultValues = typeof window === 'undefined' ? ADULT_GUARDIANSHIP_FORM_INITIAL_STATE[stepId] : stepValues;
 
-    const defaultValues = typeof window === 'undefined' ? ADULT_GUARDIANSHIP_FORM_INITIAL_STATE[stepId] : formDataValue;
-
-    // eslint-disable-next-line
-    // @ts-ignore
-    const form = useForm<AdultGuardianshipForm[TStepId]>({
-        defaultValues: formDataValue as AdultGuardianshipForm[TStepId],
+    const form = useForm({
+        defaultValues: stepValues,
         validators: {
-            onMount: ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema,
-            onChange: ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema,
-            onSubmit: ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema,
+            onMount: stepSchema,
+            onChange: stepSchema,
+            onSubmit: stepSchema,
         },
         onSubmit: (data) => {
             if (data?.value) {
                 setFormStepData(stepId, data.value as AdultGuardianshipForm[TStepId]);
 
                 goToNextStep();
-                // toggleIsSubmitted(true);
-
-                // if (false) {
-                //     toggleIsSuccessful();
-                // }
             }
         },
     });
