@@ -1,0 +1,62 @@
+.container {
+    background-color: var(--surface-card-bg);
+    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
+    padding: 1rem;
+}
+
+.wrap {
+    background-color: var(--color-gray-0);
+}
+
+.inner {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+}
+
+.header {
+    background-color: var(--color-gray-0);
+    border-radius: 16px;
+    padding: 16px 32px;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+
+    @media screen and (max-width: 900px) {
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+}
+
+.header-information {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.description {
+    color: var(--color-gray-600);
+}
+
+.header-buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+
+    @media screen and (max-width: 900px) {
+        width: 100%;
+    }
+}
+
+.header-buttons button {
+    width: 100%;
+}
+
+.content {
+    width: 100%;
+}

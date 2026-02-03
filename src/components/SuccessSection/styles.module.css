@@ -1,0 +1,54 @@
+.container {
+    background-color: var(--color-gray-0);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
+
+.wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 600px;
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.icon {
+    width: 72px;
+    height: 72px;
+}
+
+.icon path {
+    fill: var(--surface-positive);
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0 40px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    width: 100%;
+}
+
+.buttons button {
+    max-width: 191px;
+    width: 100%;
+}

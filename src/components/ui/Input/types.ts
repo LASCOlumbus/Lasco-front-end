@@ -20,7 +20,7 @@ export type InputProps = Omit<BaseInput.Props, 'size'> & {
     /**
      * Error message
      */
-    errorMessage?: string;
+    errorMessage?: string | boolean;
     /**
      * If true - right addon will be loading indicator
      */

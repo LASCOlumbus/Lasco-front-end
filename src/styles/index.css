@@ -5,7 +5,7 @@
     --color-gray-0: hsl(0deg 0% 100%);
     --color-gray-50: hsl(210deg 18.2% 95.7%);
     --color-gray-100: hsl(220deg 18% 97%);
-    --color-gray-200: hsl(216deg 15% 94%);
+    --color-gray-200: hsl(210deg 20% 94%);
     --color-gray-300: hsl(214deg 13% 90%);
     --color-gray-400: hsl(218deg 9% 83%);
     --color-gray-500: hsl(216deg 8% 74%);
@@ -20,7 +20,7 @@
     --color-navy-blue-300: hsl(211deg 29% 71%);
     --color-navy-blue-400: hsl(213deg 29% 56%);
     --color-navy-blue-500: hsl(213deg 36% 39%);
-    --color-navy-blue-600: hsl(212deg 51% 28%);
+    --color-navy-blue-600: hsl(215deg, 69%, 30%);
     --color-navy-blue-700: hsl(212deg 67% 19%);
     --color-navy-blue-800: hsl(212deg 81% 12%);
     --color-navy-blue-900: hsl(217deg 89% 7%);
@@ -41,6 +41,7 @@
     --surface-negative-low: var(--color-red-100);
     --text-primary: var(--color-gray-900);
     --text-secondary: var(--color-gray-600);
+    --text-secondary-low: hsl(214deg, 11%, 48%, 1);
     --text-tertiary: var(--color-gray-500);
     --text-contrast: var(--color-gray-0);
     --text-contrast-secondary: var(--color-gray-200);
@@ -70,6 +71,7 @@
     --border-contrast-low: var(--color-gray-200);
     --border-input-active: var(--color-navy-blue-400);
     --border-negative: var(--color-red-600);
+    --overlay-primary: hsl(219deg, 100%, 5%, 0.6);
 
     /* Focus Ring */
     --ring-offset-color: var(--color-gray-0);
@@ -112,7 +114,7 @@ body {
 
 .full-height {
     min-height: 100vh;
-    min-height: 100svh;
+    min-height: 100dvh;
 }
 
 .focus-primary:focus-visible {

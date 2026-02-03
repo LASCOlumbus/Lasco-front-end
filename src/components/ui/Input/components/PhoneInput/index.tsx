@@ -3,7 +3,7 @@ import type { InputProps } from '@/components/ui/Input/types';
 import type { PhoneInputProps } from './types';
 import React from 'react';
 import clsx from 'clsx';
-import RPNInput from 'react-phone-number-input';
+import RPNInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import Input from '@/components/ui/Input';
 import CountrySelect, { FlagComponent } from './components/CountrySelect';
 import s from './styles.module.css';
@@ -14,6 +14,8 @@ const PhoneInputComponent: React.FC<InputProps> = ({ className, ...rest }) => {
 
 const PhoneInput: React.FC<PhoneInputProps> = ({ id, className, errorMessage, ...rest }) => {
     const generatedId = React.useId();
+    const rawValue = rest?.value ?? '';
+    const value = isValidPhoneNumber(rawValue) ? (rawValue as E164Number) : ('' as E164Number);
 
     return (
         <RPNInput
@@ -27,11 +29,12 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ id, className, errorMessage, ..
             flagComponent={FlagComponent}
             countrySelectComponent={CountrySelect}
             inputComponent={PhoneInputComponent}
+            withCountryCallingCode
             id={id ?? generatedId}
             {...rest}
-            value={rest?.value ?? ''}
-            onChange={(value) => {
-                rest?.onChange?.(value ?? ('' as E164Number));
+            value={value}
+            onChange={(next) => {
+                rest?.onChange?.(next ?? ('' as E164Number));
             }}
         />
     );
