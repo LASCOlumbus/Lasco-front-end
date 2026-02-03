@@ -1,14 +1,12 @@
 import {
+    adultGuardianshipCaseDetailsStepSchema,
+    adultGuardianshipSafetyServiceStepSchema,
+    adultGuardianshipWardLocationStepSchema,
     waiverNoticeCaseDetailsStepSchema,
     waiverNoticeWaiversListStepSchema,
     webcheckWaiverStepSchema,
 } from '@/schemas/formSchemas';
 import { z } from 'zod';
-import {
-    adultGuardianshipCaseDetailsStepSchema,
-    adultGuardianshipSafetyServiceStepSchema,
-    adultGuardianshipWardLocationStepSchema,
-} from '@/modules/AdultGuardianship/schemas/adultGuardianshipFormSchemas';
 
 export type ObjValues<TObj> = TObj[keyof TObj];
 

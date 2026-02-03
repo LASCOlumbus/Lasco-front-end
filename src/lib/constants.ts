@@ -1,4 +1,4 @@
-import { SelectOption } from '@/components/ui/Select/types.ts';
+import { SelectOption } from '@/components/ui/Select/types';
 
 export const LS_AUTH_TOKEN_KEY = '<appName>_AuthToken';
 export const LS_REFRESH_TOKEN_KEY = '<appName>_RefreshToken';
