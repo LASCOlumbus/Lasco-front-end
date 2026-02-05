@@ -7,6 +7,6 @@ export type FormStepperProps = {
     steps: FormStep[];
     currentStepIndex: number;
     lastPassedStepIndex: number;
-    onStepClick?: (index: number) => void;
+    onStepClick?: (_step: number) => void;
     isSubmitted?: boolean;
 };
