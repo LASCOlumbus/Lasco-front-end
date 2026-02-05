@@ -316,9 +316,6 @@ export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuar
         },
         onSubmit: (data) => {
             if (data?.value) {
-                console.info(formData);
-                // eslint-disable-next-line no-debugger
-                debugger;
                 setFormStepData(stepId, data.value as AdultGuardianshipForm[TStepId]);
 
                 goToNextStep();

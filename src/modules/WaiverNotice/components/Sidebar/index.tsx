@@ -18,8 +18,6 @@ const Sidebar: React.FC = () => {
     if (isSubmitted) {
         return null;
     }
-    console.info(currentStepIndex < lastPassedStepIndex);
-    console.info(currentStepIndex, lastPassedStepIndex);
     return (
         <div className={s.sidebar}>
             {isTablet ? (

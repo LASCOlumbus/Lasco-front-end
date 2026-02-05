@@ -349,7 +349,6 @@ export const ApplicantCredibilityApplicationFormProvider: React.FC<React.PropsWi
             toggleIsInitialStepSet(true);
             toggleIsLoading(false);
         }
-        // eslint-disable-next-line
     }, [
         formData,
         isInitialStepSet,
