@@ -26,7 +26,7 @@ export const FormStepper = ({
                 <Drawer open={isDrawerOpened} onOpenChange={setIsDrawerOpened}>
                     <DrawerTrigger asChild>
                         <div className={clsx(s.item)}>
-                            <div className={s.itemDescription}>
+                            <div className={s['item-description']}>
                                 <Typography variant="body-caption" render={<strong />}>
                                     Step {currentStepIndex + 1}/{steps.length}
                                 </Typography>
@@ -38,19 +38,19 @@ export const FormStepper = ({
                             {currentStepIndex < lastPassedStepIndex ? (
                                 <CheckCircle20Icon width={22} height={22} />
                             ) : (
-                                <Progress20Icon width={22} height={22} className={s.progressIcon} />
+                                <Progress20Icon width={22} height={22} className={s['progress-icon']} />
                             )}
                         </div>
                     </DrawerTrigger>
 
                     <DrawerOverlay className={s.overlay} />
 
-                    <DrawerContent className={s.drawerContent}>
-                        <DrawerHeader className={s.drawerHeader}>
+                    <DrawerContent className={s['drawer-content']}>
+                        <DrawerHeader className={s['drawer-header']}>
                             <DrawerTitle>Form steps</DrawerTitle>
                         </DrawerHeader>
 
-                        <div className={s.tabletWrapper}>
+                        <div className={s['tabletWrapper']}>
                             {steps.map((step, index) => {
                                 return (
                                     <div
@@ -67,7 +67,7 @@ export const FormStepper = ({
                                             }
                                         }}
                                     >
-                                        <div className={s.itemDescription}>
+                                        <div className={s['item-description']}>
                                             <Typography variant="body-caption" render={<strong />}>
                                                 Step {index + 1}/{steps.length}
                                             </Typography>
