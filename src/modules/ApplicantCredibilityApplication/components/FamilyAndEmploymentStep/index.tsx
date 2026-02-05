@@ -1,15 +1,14 @@
 import React from 'react';
-import { Component as CalIcon } from '@/icons/calendar_20.svg?svgUse';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import { US_STATES_SELECT_OPTIONS } from '@/lib/constants';
-import { dateReturn } from '@/lib/utils/dateReturn';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
+import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import DatePicker from '@/components/ui/DatePicker';
-import Input from '@/components/ui/Input';
+import { FieldSetCard, FieldSetCardHeader } from '@/components/ui/FieldSetCard';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { Typography } from '@/components/ui/Typography';
 import {
@@ -178,12 +177,12 @@ const FamilyAndEmploymentStep: React.FC = () => {
                 </div>
 
                 <div className={s.inputs}>
-                    <div className={s['relative-card']}>
-                        <div className={s['relative-card-header']}>
+                    <FieldSetCard>
+                        <FieldSetCardHeader>
                             <Typography variant="heading-h4" render={<strong />}>
                                 Employment
                             </Typography>
-                        </div>
+                        </FieldSetCardHeader>
 
                         <div className={s['inputs-wrapper']}>
                             <form.AppField
@@ -205,21 +204,9 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                     return (
                                         <FormFieldWrapper name="employment.from" label={<>From</>}>
                                             <DatePicker
-                                                value={dateReturn(f.state.value)}
+                                                value={parseDate(f.state.value)}
                                                 onChange={f.handleChange}
                                                 placeholder="MM / DD / YYYY"
-                                                trigger={
-                                                    <Input
-                                                        placeholder="MM / DD / YYYY"
-                                                        value={
-                                                            f.state.value
-                                                                ? `${new Date(f.state.value).getMonth() + 1}/${new Date(f.state.value).getDate()}/${new Date(f.state.value).getFullYear()}`
-                                                                : ''
-                                                        }
-                                                        readOnly
-                                                        leftAddon={<CalIcon />}
-                                                    />
-                                                }
                                             />
                                         </FormFieldWrapper>
                                     );
@@ -253,7 +240,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                 );
                             }}
                         />
-                    </div>
+                    </FieldSetCard>
 
                     <form.Field
                         name="employment.isSameEmployerLast5Years"
@@ -270,8 +257,8 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                             name={`employment.previousEmployers[${index}]`}
                                                             children={(_) => {
                                                                 return (
-                                                                    <div className={s['relative-card']} key={index}>
-                                                                        <div className={s['relative-card-header']}>
+                                                                    <FieldSetCard key={index}>
+                                                                        <FieldSetCardHeader>
                                                                             <Typography
                                                                                 variant="heading-h4"
                                                                                 render={<strong />}
@@ -298,7 +285,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                                     Remove
                                                                                 </Button>
                                                                             )}
-                                                                        </div>
+                                                                        </FieldSetCardHeader>
 
                                                                         <form.AppField
                                                                             name={`employment.previousEmployers[${index}].employer`}
@@ -317,35 +304,20 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                         <div className={s['inputs-wrapper']}>
                                                                             <form.AppField
                                                                                 name={`employment.previousEmployers[${index}].from`}
-                                                                                children={(f) => {
+                                                                                children={(field) => {
                                                                                     return (
                                                                                         <FormFieldWrapper
                                                                                             name={`employment.previousEmployers[${index}].from`}
                                                                                             label={<>From</>}
                                                                                         >
                                                                                             <DatePicker
-                                                                                                value={dateReturn(
-                                                                                                    f.state.value
+                                                                                                value={parseDate(
+                                                                                                    field.state.value
                                                                                                 )}
                                                                                                 onChange={
-                                                                                                    f.handleChange
+                                                                                                    field.handleChange
                                                                                                 }
                                                                                                 placeholder="MM / DD / YYYY"
-                                                                                                trigger={
-                                                                                                    <Input
-                                                                                                        placeholder="MM / DD / YYYY"
-                                                                                                        value={
-                                                                                                            f.state
-                                                                                                                .value
-                                                                                                                ? `${new Date(f.state.value).getMonth() + 1}/${new Date(f.state.value).getDate()}/${new Date(f.state.value).getFullYear()}`
-                                                                                                                : ''
-                                                                                                        }
-                                                                                                        readOnly
-                                                                                                        leftAddon={
-                                                                                                            <CalIcon />
-                                                                                                        }
-                                                                                                    />
-                                                                                                }
                                                                                             />
                                                                                         </FormFieldWrapper>
                                                                                     );
@@ -361,35 +333,20 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                                             label={<>To</>}
                                                                                         >
                                                                                             <DatePicker
-                                                                                                value={dateReturn(
+                                                                                                value={parseDate(
                                                                                                     f.state.value
                                                                                                 )}
                                                                                                 onChange={
                                                                                                     f.handleChange
                                                                                                 }
                                                                                                 placeholder="MM / DD / YYYY"
-                                                                                                trigger={
-                                                                                                    <Input
-                                                                                                        placeholder="MM / DD / YYYY"
-                                                                                                        value={
-                                                                                                            f.state
-                                                                                                                .value
-                                                                                                                ? `${new Date(f.state.value).getMonth() + 1}/${new Date(f.state.value).getDate()}/${new Date(f.state.value).getFullYear()}`
-                                                                                                                : ''
-                                                                                                        }
-                                                                                                        readOnly
-                                                                                                        leftAddon={
-                                                                                                            <CalIcon />
-                                                                                                        }
-                                                                                                    />
-                                                                                                }
                                                                                             />
                                                                                         </FormFieldWrapper>
                                                                                     );
                                                                                 }}
                                                                             />
                                                                         </div>
-                                                                    </div>
+                                                                    </FieldSetCard>
                                                                 );
                                                             }}
                                                         />

@@ -1,17 +1,17 @@
-import { requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
+import { maybeDateSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
 
 export const nextKinProspectiveWardCaseDetailsStepSchema = z.object({
-    guardianName: z.string().min(1, 'This field is required.'),
-    caseNumber: z.string().min(1, 'This field is required.'),
-    applicantName: z.string().min(1, 'This field is required.'),
+    guardianName: requiredStringSchema,
+    caseNumber: requiredStringSchema,
+    applicantName: requiredStringSchema,
 });
 
 export const relativePersonSchema = z
     .object({
         fullName: requiredStringSchema,
         isRelativeUnder18: z.boolean(),
-        dob: z.union([z.date(), z.string()]).nullable().optional(),
+        dob: maybeDateSchema,
         relationship: requiredStringSchema,
         address: requiredStringSchema,
         zip: zipCodeSchema,

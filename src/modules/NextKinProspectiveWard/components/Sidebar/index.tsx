@@ -75,7 +75,6 @@ const Sidebar: React.FC = () => {
                                 );
                             })}
                         </div>
-                        {/* </div> */}
                     </DrawerContent>
                 </Drawer>
             ) : (

@@ -1,15 +1,14 @@
 import React from 'react';
-import { Component as Calendar20Icon } from '@/icons/calendar_20.svg?svgUse';
 import { RadioGroup } from '@base-ui/react/radio-group';
-import { dateReturn } from '@/lib/utils/dateReturn';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
+import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import DatePicker from '@/components/ui/DatePicker';
-import Input from '@/components/ui/Input';
+import { FieldSetCard, FieldSetCardHeader } from '@/components/ui/FieldSetCard';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { Typography } from '@/components/ui/Typography';
 import {
@@ -58,11 +57,12 @@ const WaiversListStep: React.FC = () => {
                                     {field.state?.value?.map((_, index) => {
                                         return (
                                             <form.Field
+                                                mode="array"
                                                 name={`relatives[${index}]`}
                                                 children={(relative) => {
                                                     return (
-                                                        <div className={s['relative-card']} key={index}>
-                                                            <div className={s['relative-card-header']}>
+                                                        <FieldSetCard key={index}>
+                                                            <FieldSetCardHeader>
                                                                 <Typography variant="body-m" render={<strong />}>
                                                                     Relative {index + 1}
                                                                 </Typography>
@@ -72,17 +72,13 @@ const WaiversListStep: React.FC = () => {
                                                                         variant="secondary"
                                                                         size="small"
                                                                         onClick={() => {
-                                                                            field.handleChange(
-                                                                                field.state.value.filter((_, i) => {
-                                                                                    return i !== index;
-                                                                                })
-                                                                            );
+                                                                            field.removeValue(index);
                                                                         }}
                                                                     >
                                                                         Remove
                                                                     </Button>
                                                                 )}
-                                                            </div>
+                                                            </FieldSetCardHeader>
 
                                                             <div className={s['input-with-checkbox']}>
                                                                 <form.AppField
@@ -121,26 +117,12 @@ const WaiversListStep: React.FC = () => {
                                                                 {relative.state.value?.isRelativeUnder18 && (
                                                                     <form.AppField
                                                                         name={`relatives[${index}].dob`}
-                                                                        children={(f) => {
+                                                                        children={(field) => {
                                                                             return (
                                                                                 <DatePicker
-                                                                                    value={dateReturn(f.state.value)}
-                                                                                    onChange={f.handleChange}
+                                                                                    value={parseDate(field.state.value)}
+                                                                                    onChange={field.handleChange}
                                                                                     placeholder="MM / DD / YYYY"
-                                                                                    trigger={
-                                                                                        <Input
-                                                                                            placeholder="MM / DD / YYYY"
-                                                                                            value={
-                                                                                                f.state.value
-                                                                                                    ? `${new Date(f.state.value).getMonth() + 1}/${new Date(f.state.value).getDate()}/${new Date(f.state.value).getFullYear()}`
-                                                                                                    : ''
-                                                                                            }
-                                                                                            readOnly
-                                                                                            leftAddon={
-                                                                                                <Calendar20Icon />
-                                                                                            }
-                                                                                        />
-                                                                                    }
                                                                                 />
                                                                             );
                                                                         }}
@@ -220,7 +202,7 @@ const WaiversListStep: React.FC = () => {
                                                                     }}
                                                                 />
                                                             </div>
-                                                        </div>
+                                                        </FieldSetCard>
                                                     );
                                                 }}
                                             />
@@ -230,16 +212,13 @@ const WaiversListStep: React.FC = () => {
                                         variant="secondary"
                                         size="medium"
                                         onClick={() => {
-                                            field.handleChange([
-                                                ...field.state.value,
-                                                {
-                                                    fullName: '',
-                                                    isRelativeUnder18: false,
-                                                    relationship: '',
-                                                    address: '',
-                                                    zip: '',
-                                                },
-                                            ]);
+                                            field.pushValue({
+                                                fullName: '',
+                                                isRelativeUnder18: false,
+                                                relationship: '',
+                                                address: '',
+                                                zip: '',
+                                            });
                                         }}
                                     >
                                         Add another relative

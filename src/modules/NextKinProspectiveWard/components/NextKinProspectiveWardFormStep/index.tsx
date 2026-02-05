@@ -18,7 +18,7 @@ const NextKinProspectiveWardFormStep: React.FC<React.PropsWithChildren<NextKinPr
     if (isSubmitted && isSuccessful) {
         return (
             <SuccessSection
-                title="Guardianship credibility application form has been submitted"
+                title="Next of kin of prospective ward form has been submitted"
                 description="To finish your filing, please download the generated document, print it, and sign it. The court requires a physical signature. Unsigned documents cannot be processed."
             />
         );

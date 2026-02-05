@@ -1,5 +1,6 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
+import { useStore } from '@tanstack/react-form';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
@@ -14,6 +15,12 @@ import s from './styles.module.css';
 const LegalAndFinancialHistoryStep: React.FC = () => {
     const { form, isLoading } = useApplicantCredibilityApplicationFormStepForm('legalAndFinancialHistoryStep');
     const { goToPreviousStep, toggleIsSuccessful } = useApplicantCredibilityApplicationFormContext();
+
+    const isSomeValuesChecked = useStore(form.store, (state) => {
+        return Object.values(state).some((value) => {
+            return value === true;
+        });
+    });
 
     if (isLoading) {
         return <ResponsiveLoader />;
@@ -170,21 +177,15 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                     <form.AppField
                         name="explanation"
                         children={(field) => {
+                            if (!isSomeValuesChecked) return null;
                             return (
-                                Object.values(form.state.values).some((value) => {
-                                    return value === true;
-                                }) && (
-                                    <FormFieldLabelErrorWrapper
-                                        className={s['field-wrap']}
-                                        name="explanation"
-                                        label={<>Explanation of any item checked "Yes" above</>}
-                                    >
-                                        <field.TextAreaField
-                                            name="explanation"
-                                            placeholder="Please explain in detail"
-                                        />
-                                    </FormFieldLabelErrorWrapper>
-                                )
+                                <FormFieldLabelErrorWrapper
+                                    className={s['field-wrap']}
+                                    name="explanation"
+                                    label={<>Explanation of any item checked "Yes" above</>}
+                                >
+                                    <field.TextAreaField name="explanation" placeholder="Please explain in detail" />
+                                </FormFieldLabelErrorWrapper>
                             );
                         }}
                     />

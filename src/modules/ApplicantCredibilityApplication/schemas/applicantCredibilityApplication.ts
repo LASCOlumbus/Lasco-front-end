@@ -1,15 +1,5 @@
-import { requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
+import { booleanAnswer, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
-
-export const booleanAnswer = z
-    .boolean()
-    .nullable()
-    .refine((value) => {
-        if (value !== null) {
-            return true;
-        }
-        return false;
-    }, 'This field is required.');
 
 export const applicantCredibilityApplicationCaseDetailsStepSchema = z.object({
     guardianName: requiredStringSchema,
@@ -179,11 +169,13 @@ export const applicantCredibilityApplicationLegalAndFinancialHistoryStepSchema =
     .refine(
         (data) => {
             if (
-                data?.isApplicantEverFiledBankruptcy ||
-                data?.isApplicantEverBeenGarnished ||
-                data?.isApplicantEverBeenInReceivership ||
-                data?.isApplicantEverBeenConvictedFelony ||
-                data?.isApplicantHadExperienceHandlingInvestments
+                [
+                    data?.isApplicantEverFiledBankruptcy,
+                    data?.isApplicantEverBeenGarnished,
+                    data?.isApplicantEverBeenInReceivership,
+                    data?.isApplicantEverBeenConvictedFelony,
+                    data?.isApplicantHadExperienceHandlingInvestments,
+                ].some(Boolean)
             ) {
                 return requiredStringSchema.safeParse(data.explanation).success;
             }

@@ -1,15 +1,14 @@
 import React from 'react';
-import { Component as CalIcon } from '@/icons/calendar_20.svg?svgUse';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import { US_STATES_SELECT_OPTIONS } from '@/lib/constants';
-import { dateReturn } from '@/lib/utils/dateReturn';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
+import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import DatePicker from '@/components/ui/DatePicker';
-import Input from '@/components/ui/Input';
+import { FieldSetCard, FieldSetCardHeader } from '@/components/ui/FieldSetCard';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { Typography } from '@/components/ui/Typography';
 import {
@@ -25,6 +24,63 @@ const ApplicantInformStep: React.FC = () => {
     if (isLoading) {
         return <ResponsiveLoader />;
     }
+
+    const renderFormAppFields = (index: number) => {
+        return (
+            <>
+                <form.AppField
+                    name={`applicantAddress.previousAddresses[${index}].address`}
+                    children={(field) => {
+                        return (
+                            <field.InputField
+                                name={`applicantAddress.previousAddresses[${index}].address`}
+                                label={<>Previous address</>}
+                                placeholder="Type previous address"
+                                onBlur={field.handleBlur}
+                            />
+                        );
+                    }}
+                />
+                <div className={s['inputs-wrapper']}>
+                    <form.AppField
+                        name={`applicantAddress.previousAddresses[${index}].from`}
+                        children={(previousAddressFromField) => {
+                            return (
+                                <FormFieldWrapper
+                                    name={`applicantAddress.previousAddresses[${index}].from`}
+                                    label={<>From</>}
+                                >
+                                    <DatePicker
+                                        value={parseDate(previousAddressFromField.state.value)}
+                                        onChange={previousAddressFromField.handleChange}
+                                        placeholder="MM / DD / YYYY"
+                                    />
+                                </FormFieldWrapper>
+                            );
+                        }}
+                    />
+
+                    <form.AppField
+                        name={`applicantAddress.previousAddresses[${index}].to`}
+                        children={(f) => {
+                            return (
+                                <FormFieldWrapper
+                                    name={`applicantAddress.previousAddresses[${index}].to`}
+                                    label={<>To</>}
+                                >
+                                    <DatePicker
+                                        value={parseDate(f.state.value)}
+                                        onChange={f.handleChange}
+                                        placeholder="MM / DD / YYYY"
+                                    />
+                                </FormFieldWrapper>
+                            );
+                        }}
+                    />
+                </div>
+            </>
+        );
+    };
 
     return (
         <form
@@ -57,21 +113,9 @@ const ApplicantInformStep: React.FC = () => {
                                 return (
                                     <FormFieldWrapper name="dob" label={<>Date of birth</>}>
                                         <DatePicker
-                                            value={dateReturn(f.state.value)}
+                                            value={parseDate(f.state.value)}
                                             onChange={f.handleChange}
                                             placeholder="MM / DD / YYYY"
-                                            trigger={
-                                                <Input
-                                                    placeholder="MM / DD / YYYY"
-                                                    value={
-                                                        f.state.value
-                                                            ? `${new Date(f.state.value).getMonth() + 1}/${new Date(f.state.value).getDate()}/${new Date(f.state.value).getFullYear()}`
-                                                            : ''
-                                                    }
-                                                    readOnly
-                                                    leftAddon={<CalIcon />}
-                                                />
-                                            }
                                         />
                                     </FormFieldWrapper>
                                 );
@@ -81,12 +125,12 @@ const ApplicantInformStep: React.FC = () => {
                 </div>
 
                 <div className={s.inputs}>
-                    <div className={s['relative-card']}>
-                        <div className={s['relative-card-header']}>
+                    <FieldSetCard>
+                        <FieldSetCardHeader>
                             <Typography variant="heading-h4" render={<strong />}>
                                 Applicant address
                             </Typography>
-                        </div>
+                        </FieldSetCardHeader>
 
                         <div className={s['inputs-wrapper']}>
                             <form.AppField
@@ -161,21 +205,9 @@ const ApplicantInformStep: React.FC = () => {
                                 return (
                                     <FormFieldWrapper name="applicantAddress.from" label={<>From</>}>
                                         <DatePicker
-                                            value={dateReturn(f.state.value)}
+                                            value={parseDate(f.state.value)}
                                             onChange={f.handleChange}
                                             placeholder="MM / DD / YYYY"
-                                            trigger={
-                                                <Input
-                                                    placeholder="MM / DD / YYYY"
-                                                    value={
-                                                        f.state.value
-                                                            ? `${new Date(f.state.value).getMonth() + 1}/${new Date(f.state.value).getDate()}/${new Date(f.state.value).getFullYear()}`
-                                                            : ''
-                                                    }
-                                                    readOnly
-                                                    leftAddon={<CalIcon />}
-                                                />
-                                            }
                                         />
                                     </FormFieldWrapper>
                                 );
@@ -208,7 +240,7 @@ const ApplicantInformStep: React.FC = () => {
                                 );
                             }}
                         />
-                    </div>
+                    </FieldSetCard>
 
                     <form.Field
                         name="applicantAddress.isSameAddressLast5Years"
@@ -222,11 +254,12 @@ const ApplicantInformStep: React.FC = () => {
                                                 {field.state?.value?.map((_, index) => {
                                                     return (
                                                         <form.Field
+                                                            mode="array"
                                                             name={`applicantAddress.previousAddresses[${index}]`}
                                                             children={(_) => {
                                                                 return (
-                                                                    <div className={s['relative-card']} key={index}>
-                                                                        <div className={s['relative-card-header']}>
+                                                                    <FieldSetCard key={index}>
+                                                                        <FieldSetCardHeader>
                                                                             <Typography
                                                                                 variant="heading-h4"
                                                                                 render={<strong />}
@@ -240,110 +273,15 @@ const ApplicantInformStep: React.FC = () => {
                                                                                     variant="secondary"
                                                                                     size="small"
                                                                                     onClick={() => {
-                                                                                        field.handleChange(
-                                                                                            field.state.value?.filter(
-                                                                                                (_, i) => {
-                                                                                                    return i !== index;
-                                                                                                }
-                                                                                            )
-                                                                                        );
+                                                                                        field.removeValue(index);
                                                                                     }}
                                                                                 >
                                                                                     Remove
                                                                                 </Button>
                                                                             )}
-                                                                        </div>
-
-                                                                        <form.AppField
-                                                                            name={`applicantAddress.previousAddresses[${index}].address`}
-                                                                            children={(field) => {
-                                                                                return (
-                                                                                    <field.InputField
-                                                                                        name={`applicantAddress.previousAddresses[${index}].address`}
-                                                                                        label={<>Previous address</>}
-                                                                                        placeholder="Type previous address"
-                                                                                        onBlur={field.handleBlur}
-                                                                                    />
-                                                                                );
-                                                                            }}
-                                                                        />
-
-                                                                        <div className={s['inputs-wrapper']}>
-                                                                            <form.AppField
-                                                                                name={`applicantAddress.previousAddresses[${index}].from`}
-                                                                                children={(f) => {
-                                                                                    return (
-                                                                                        <FormFieldWrapper
-                                                                                            name={`applicantAddress.previousAddresses[${index}].from`}
-                                                                                            label={<>From</>}
-                                                                                        >
-                                                                                            <DatePicker
-                                                                                                value={dateReturn(
-                                                                                                    f.state.value
-                                                                                                )}
-                                                                                                onChange={
-                                                                                                    f.handleChange
-                                                                                                }
-                                                                                                placeholder="MM / DD / YYYY"
-                                                                                                trigger={
-                                                                                                    <Input
-                                                                                                        placeholder="MM / DD / YYYY"
-                                                                                                        value={
-                                                                                                            f.state
-                                                                                                                .value
-                                                                                                                ? `${new Date(f.state.value).getMonth() + 1}/${new Date(f.state.value).getDate()}/${new Date(f.state.value).getFullYear()}`
-                                                                                                                : ''
-                                                                                                        }
-                                                                                                        readOnly
-                                                                                                        leftAddon={
-                                                                                                            <CalIcon />
-                                                                                                        }
-                                                                                                    />
-                                                                                                }
-                                                                                            />
-                                                                                        </FormFieldWrapper>
-                                                                                    );
-                                                                                }}
-                                                                            />
-
-                                                                            <form.AppField
-                                                                                name={`applicantAddress.previousAddresses[${index}].to`}
-                                                                                children={(f) => {
-                                                                                    return (
-                                                                                        <FormFieldWrapper
-                                                                                            name={`applicantAddress.previousAddresses[${index}].to`}
-                                                                                            label={<>To</>}
-                                                                                        >
-                                                                                            <DatePicker
-                                                                                                value={dateReturn(
-                                                                                                    f.state.value
-                                                                                                )}
-                                                                                                onChange={
-                                                                                                    f.handleChange
-                                                                                                }
-                                                                                                placeholder="MM / DD / YYYY"
-                                                                                                trigger={
-                                                                                                    <Input
-                                                                                                        placeholder="MM / DD / YYYY"
-                                                                                                        value={
-                                                                                                            f.state
-                                                                                                                .value
-                                                                                                                ? `${new Date(f.state.value).getMonth() + 1}/${new Date(f.state.value).getDate()}/${new Date(f.state.value).getFullYear()}`
-                                                                                                                : ''
-                                                                                                        }
-                                                                                                        readOnly
-                                                                                                        leftAddon={
-                                                                                                            <CalIcon />
-                                                                                                        }
-                                                                                                    />
-                                                                                                }
-                                                                                            />
-                                                                                        </FormFieldWrapper>
-                                                                                    );
-                                                                                }}
-                                                                            />
-                                                                        </div>
-                                                                    </div>
+                                                                        </FieldSetCardHeader>
+                                                                        {renderFormAppFields(index)}
+                                                                    </FieldSetCard>
                                                                 );
                                                             }}
                                                         />
@@ -352,25 +290,9 @@ const ApplicantInformStep: React.FC = () => {
                                                 <Button
                                                     variant="secondary"
                                                     size="small"
+                                                    type="button"
                                                     onClick={() => {
-                                                        field.handleChange(
-                                                            field.state.value?.length
-                                                                ? [
-                                                                      ...field.state.value,
-                                                                      {
-                                                                          address: '',
-                                                                          from: null,
-                                                                          to: null,
-                                                                      },
-                                                                  ]
-                                                                : [
-                                                                      {
-                                                                          address: '',
-                                                                          from: null,
-                                                                          to: null,
-                                                                      },
-                                                                  ]
-                                                        );
+                                                        field.pushValue({ address: '', from: null, to: null });
                                                     }}
                                                 >
                                                     Add previous address

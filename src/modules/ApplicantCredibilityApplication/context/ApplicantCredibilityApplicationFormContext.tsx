@@ -402,7 +402,6 @@ export const useApplicantCredibilityApplicationFormStepForm = <
         onSubmit: (data) => {
             if (data?.value) {
                 setFormStepData(stepId, data.value as ApplicantCredibilityApplicationForm[TStepId]);
-
                 goToNextStep();
             }
         },

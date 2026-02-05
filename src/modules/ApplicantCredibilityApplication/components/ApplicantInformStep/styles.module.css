@@ -124,22 +124,6 @@
     }
 }
 
-.relative-card {
-    padding: 1.25rem;
-    border: 1px solid var(--border-secondary);
-    border-radius: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.relative-card-header {
-    display: flex;
-    gap: 12px;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .input-with-checkbox {
     display: flex;
     flex-direction: column;
