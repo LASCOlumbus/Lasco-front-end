@@ -23,6 +23,9 @@ const NextKinProspectiveWardIndexLazyRouteImport = createFileRoute(
 const ApplicantCredibilityApplicationIndexLazyRouteImport = createFileRoute(
   '/applicant-credibility-application/',
 )()
+const AdultJurisdictionAffidavitIndexLazyRouteImport = createFileRoute(
+  '/adult-jurisdiction-affidavit/',
+)()
 const AdultGuardianshipIndexLazyRouteImport = createFileRoute(
   '/adult-guardianship/',
 )()
@@ -71,6 +74,16 @@ const ApplicantCredibilityApplicationIndexLazyRoute =
       (d) => d.Route,
     ),
   )
+const AdultJurisdictionAffidavitIndexLazyRoute =
+  AdultJurisdictionAffidavitIndexLazyRouteImport.update({
+    id: '/adult-jurisdiction-affidavit/',
+    path: '/adult-jurisdiction-affidavit/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/adult-jurisdiction-affidavit/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 const AdultGuardianshipIndexLazyRoute =
   AdultGuardianshipIndexLazyRouteImport.update({
     id: '/adult-guardianship/',
@@ -83,6 +96,7 @@ const AdultGuardianshipIndexLazyRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/adult-guardianship': typeof AdultGuardianshipIndexLazyRoute
+  '/adult-jurisdiction-affidavit': typeof AdultJurisdictionAffidavitIndexLazyRoute
   '/applicant-credibility-application': typeof ApplicantCredibilityApplicationIndexLazyRoute
   '/next-kin-prospective-ward': typeof NextKinProspectiveWardIndexLazyRoute
   '/ui-kit': typeof UiKitIndexLazyRoute
@@ -92,6 +106,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/adult-guardianship': typeof AdultGuardianshipIndexLazyRoute
+  '/adult-jurisdiction-affidavit': typeof AdultJurisdictionAffidavitIndexLazyRoute
   '/applicant-credibility-application': typeof ApplicantCredibilityApplicationIndexLazyRoute
   '/next-kin-prospective-ward': typeof NextKinProspectiveWardIndexLazyRoute
   '/ui-kit': typeof UiKitIndexLazyRoute
@@ -102,6 +117,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
   '/adult-guardianship/': typeof AdultGuardianshipIndexLazyRoute
+  '/adult-jurisdiction-affidavit/': typeof AdultJurisdictionAffidavitIndexLazyRoute
   '/applicant-credibility-application/': typeof ApplicantCredibilityApplicationIndexLazyRoute
   '/next-kin-prospective-ward/': typeof NextKinProspectiveWardIndexLazyRoute
   '/ui-kit/': typeof UiKitIndexLazyRoute
@@ -113,6 +129,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/adult-guardianship'
+    | '/adult-jurisdiction-affidavit'
     | '/applicant-credibility-application'
     | '/next-kin-prospective-ward'
     | '/ui-kit'
@@ -122,6 +139,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/adult-guardianship'
+    | '/adult-jurisdiction-affidavit'
     | '/applicant-credibility-application'
     | '/next-kin-prospective-ward'
     | '/ui-kit'
@@ -131,6 +149,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/adult-guardianship/'
+    | '/adult-jurisdiction-affidavit/'
     | '/applicant-credibility-application/'
     | '/next-kin-prospective-ward/'
     | '/ui-kit/'
@@ -141,6 +160,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AdultGuardianshipIndexLazyRoute: typeof AdultGuardianshipIndexLazyRoute
+  AdultJurisdictionAffidavitIndexLazyRoute: typeof AdultJurisdictionAffidavitIndexLazyRoute
   ApplicantCredibilityApplicationIndexLazyRoute: typeof ApplicantCredibilityApplicationIndexLazyRoute
   NextKinProspectiveWardIndexLazyRoute: typeof NextKinProspectiveWardIndexLazyRoute
   UiKitIndexLazyRoute: typeof UiKitIndexLazyRoute
@@ -192,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplicantCredibilityApplicationIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/adult-jurisdiction-affidavit/': {
+      id: '/adult-jurisdiction-affidavit/'
+      path: '/adult-jurisdiction-affidavit'
+      fullPath: '/adult-jurisdiction-affidavit'
+      preLoaderRoute: typeof AdultJurisdictionAffidavitIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/adult-guardianship/': {
       id: '/adult-guardianship/'
       path: '/adult-guardianship'
@@ -205,6 +232,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AdultGuardianshipIndexLazyRoute: AdultGuardianshipIndexLazyRoute,
+  AdultJurisdictionAffidavitIndexLazyRoute:
+    AdultJurisdictionAffidavitIndexLazyRoute,
   ApplicantCredibilityApplicationIndexLazyRoute:
     ApplicantCredibilityApplicationIndexLazyRoute,
   NextKinProspectiveWardIndexLazyRoute: NextKinProspectiveWardIndexLazyRoute,
