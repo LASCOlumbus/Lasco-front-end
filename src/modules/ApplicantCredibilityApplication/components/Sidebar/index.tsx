@@ -3,14 +3,15 @@ import { Component as CheckCircle20Icon } from '@/icons/check-circle_24.svg?svgU
 import { Component as Progress20Icon } from '@/icons/progress_20.svg?svgUse';
 import clsx from 'clsx';
 import { useIsTablet } from '@/hooks/useIsTablet';
-import StatusIcon from '@/modules/WaiverNotice/components/StatusIcon';
-import { useWaiverNoticeFormContext } from '@/modules/WaiverNotice/context/WaiverNoticeFormContext';
 import { Drawer, DrawerContent, DrawerHeader, DrawerOverlay, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
 import { Typography } from '@/components/ui/Typography';
+import { useApplicantCredibilityApplicationFormContext } from '../../context/ApplicantCredibilityApplicationFormContext';
+import StatusIcon from '../StatusIcon';
 import s from './styles.module.css';
 
 const Sidebar: React.FC = () => {
-    const { steps, currentStepIndex, isSubmitted, lastPassedStepIndex, goToSelectStep } = useWaiverNoticeFormContext();
+    const { steps, currentStepIndex, isSubmitted, lastPassedStepIndex, goToSelectStep } =
+        useApplicantCredibilityApplicationFormContext();
     const [isDrawerOpened, setIsDrawerOpened] = React.useState(false);
 
     const isTablet = useIsTablet();
@@ -18,8 +19,7 @@ const Sidebar: React.FC = () => {
     if (isSubmitted) {
         return null;
     }
-    console.info(currentStepIndex < lastPassedStepIndex);
-    console.info(currentStepIndex, lastPassedStepIndex);
+
     return (
         <div className={s.sidebar}>
             {isTablet ? (
@@ -42,44 +42,44 @@ const Sidebar: React.FC = () => {
                         </div>
                     </DrawerTrigger>
                     <DrawerOverlay className={s['sidebar-overlay']} />
-                    <DrawerContent>
-                        <div className={s['sidebar-drawer-content']}>
-                            <DrawerHeader className={s['sidebar-tablet-header']}>
-                                <DrawerTitle>Form steps</DrawerTitle>
-                            </DrawerHeader>
-                            <div className={s['sidebar-tablet-wrapper']}>
-                                {steps.map((step, index) => {
-                                    return (
-                                        <div
-                                            className={clsx(s['sidebar-item'], {
-                                                [s.active]: index === currentStepIndex,
-                                                [s.inactive]: index > lastPassedStepIndex,
-                                            })}
-                                            key={step.id}
-                                            onClick={() => {
-                                                if (index <= lastPassedStepIndex) {
-                                                    goToSelectStep(index);
-                                                }
-                                            }}
-                                        >
-                                            <div className={s['sidebar-item-description']}>
-                                                <Typography variant="body-caption" render={<strong />}>
-                                                    Step {index + 1}/{steps.length}
-                                                </Typography>
-                                                <Typography variant="body-m" render={<strong />}>
-                                                    {step.label}
-                                                </Typography>
-                                            </div>
-                                            <StatusIcon index={index} />
+                    <DrawerContent className={s['sidebar-drawer-content']}>
+                        <DrawerHeader className={s['sidebar-tablet-header']}>
+                            <DrawerTitle>Form steps</DrawerTitle>
+                        </DrawerHeader>
+                        <div className={s['sidebar-tablet-wrapper']}>
+                            {steps.map((step, index) => {
+                                return (
+                                    <div
+                                        className={clsx(
+                                            s['sidebar-item'],
+                                            index === currentStepIndex && s.active,
+                                            index > lastPassedStepIndex && s.inactive
+                                        )}
+                                        key={step.id}
+                                        onClick={() => {
+                                            if (index <= lastPassedStepIndex) {
+                                                goToSelectStep(index);
+                                            }
+                                        }}
+                                    >
+                                        <div className={s['sidebar-item-description']}>
+                                            <Typography variant="body-caption" render={<strong />}>
+                                                Step {index + 1}/{steps.length}
+                                            </Typography>
+                                            <Typography variant="body-m" render={<strong />}>
+                                                {step.label}
+                                            </Typography>
                                         </div>
-                                    );
-                                })}
-                            </div>
+                                        <StatusIcon index={index} />
+                                    </div>
+                                );
+                            })}
                         </div>
+                        {/* </div> */}
                     </DrawerContent>
                 </Drawer>
             ) : (
-                steps.map((step, index) => {
+                steps?.map((step, index) => {
                     return (
                         <div
                             className={clsx(s['sidebar-item'], {

@@ -1,20 +1,19 @@
 import type { DeepKeys, DeepValue, FormValidateOrFn, Updater } from '@tanstack/react-form';
-import type { AdultGuardianshipForm, AdultGuardianshipFormStep, AnimationDirection } from '@/lib/types';
+import type { AnimationDirection, NextKinProspectiveWardForm, NextKinProspectiveWardFormStep } from '@/lib/types';
 import React from 'react';
 import { flushSync } from 'react-dom';
-import {
-    adultGuardianshipCaseDetailsStepSchema,
-    adultGuardianshipSafetyServiceStepSchema,
-    adultGuardianshipWardLocationStepSchema,
-} from '@/schemas/formSchemas';
 import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { useAppForm } from '@/components/Forms/hooks/useAppForm';
+import {
+    nextKinProspectiveWardCaseDetailsStepSchema,
+    nextKinProspectiveWardWaiversListStepSchema,
+} from '../schemas/nextKinProspectiveWard';
 
-type AdultGuardianshipFormContextType = {
-    formData: AdultGuardianshipForm;
-    steps: AdultGuardianshipFormStep[];
+type NextKinProspectiveWardFormContext = {
+    formData: NextKinProspectiveWardForm;
+    steps: NextKinProspectiveWardFormStep[];
     currentStepIndex: number;
-    currentStep: AdultGuardianshipFormStep;
+    currentStep: NextKinProspectiveWardFormStep;
     isSubmitted: boolean | undefined;
     toggleIsSubmitted: (_value: boolean) => void;
     isSuccessful: boolean | undefined;
@@ -26,99 +25,92 @@ type AdultGuardianshipFormContextType = {
     goToNextStep: () => void;
     goToPreviousStep: () => void;
     goToSelectStep: (_step: number) => void;
-    setFormStepData: <TField extends keyof AdultGuardianshipForm>(
+    setFormStepData: <TField extends keyof NextKinProspectiveWardForm>(
         // eslint-disable-next-line no-unused-vars
         key: TField,
         // eslint-disable-next-line no-unused-vars
-        data: AdultGuardianshipForm[TField]
+        data: NextKinProspectiveWardForm[TField]
     ) => void;
     lastPassedStepIndex: number;
 };
 
-export const ADULT_GUARDIANSHIP_FORM_KEY = 'ADULT_GUARDIANSHIP_multi-step-form';
-export const ADULT_GUARDIANSHIP_FORM_KEY_SUBMITTED = 'ADULT_GUARDIANSHIP_multi-step-form-step_submitted';
-export const ADULT_GUARDIANSHIP_FORM_KEY_SUCCESSFUL = 'ADULT_GUARDIANSHIP_multi-step-form-step_successful';
+export const NEXT_KIN_PROSPECTIVE_WARD_FORM_KEY = 'NEXT_KIN_PROSPECTIVE_WARD_multi-step-form';
+export const NEXT_KIN_PROSPECTIVE_WARD_FORM_KEY_SUBMITTED = 'NEXT_KIN_PROSPECTIVE_WARD_multi-step-form-step_submitted';
+export const NEXT_KIN_PROSPECTIVE_WARD_FORM_KEY_SUCCESSFUL =
+    'NEXT_KIN_PROSPECTIVE_WARD_multi-step-form-step_successful';
 
-export const ADULT_GUARDIANSHIP_FORM_STEPS = {
+export const NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS = {
     caseDetailsStep: {
         id: 'caseDetailsStep',
         label: 'Case details',
-        schema: adultGuardianshipCaseDetailsStepSchema,
+        schema: nextKinProspectiveWardCaseDetailsStepSchema,
         enabled: true,
     },
-    wardLocationStep: {
-        id: 'wardLocationStep',
-        label: 'Ward location',
-        schema: adultGuardianshipWardLocationStepSchema,
+    waiversListStep: {
+        id: 'waiversListStep',
+        label: 'Waivers list',
+        schema: nextKinProspectiveWardWaiversListStepSchema,
         enabled: true,
     },
-    safetyServiceStep: {
-        id: 'safetyServiceStep',
-        label: 'Safety & service',
-        schema: adultGuardianshipSafetyServiceStepSchema,
-        enabled: true,
-    },
-} as const satisfies Record<keyof AdultGuardianshipForm, AdultGuardianshipFormStep>;
-const ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY = Object.values(ADULT_GUARDIANSHIP_FORM_STEPS).filter((step) => {
-    return step.enabled;
-});
+} as const satisfies Record<keyof NextKinProspectiveWardForm, NextKinProspectiveWardFormStep>;
+const NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS_ARRAY = Object.values(NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS).filter(
+    (step) => {
+        return step.enabled;
+    }
+);
 
-const ADULT_GUARDIANSHIP_FORM_INITIAL_STATE: AdultGuardianshipForm = {
+const NEXT_KIN_PROSPECTIVE_WARD_FORM_INITIAL_STATE: NextKinProspectiveWardForm = {
     caseDetailsStep: {
         guardianName: '',
         caseNumber: '',
-        contactName: '',
-        contactPhone: '',
+        applicantName: '',
     },
-    wardLocationStep: {
-        streetAddress: '',
-        city: '',
-        state: '',
-        zip: '',
-        wardPhone: '',
-    },
-    safetyServiceStep: {
-        isProspectiveWardLeaveDuringDay: {
-            answer: null,
-            explanation: '',
-        },
-        specialCircumstances: {
-            answer: null,
-            explanation: '',
-        },
-        isProspectiveWardHasCommunicationIssues: {
-            answer: null,
-            explanation: '',
-        },
+    waiversListStep: {
+        relatives: [
+            {
+                fullName: '',
+                isRelativeUnder18: false,
+                relationship: '',
+                address: '',
+                zip: '',
+            },
+        ],
     },
 };
 
-const AdultGuardianshipFormContext = React.createContext<AdultGuardianshipFormContextType>(
-    {} as AdultGuardianshipFormContextType
+const NextKinProspectiveWardFormContext = React.createContext<NextKinProspectiveWardFormContext>(
+    {} as NextKinProspectiveWardFormContext
 );
-AdultGuardianshipFormContext.displayName = 'AdultGuardianshipFormContext';
+NextKinProspectiveWardFormContext.displayName = 'NextKinProspectiveWardFormContext';
 
-export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-    const { value: formData, set: setFormData } = useLocalStorageValue(ADULT_GUARDIANSHIP_FORM_KEY, {
+export const NextKinProspectiveWardFormProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+    const { value: formData, set: setFormData } = useLocalStorageValue(NEXT_KIN_PROSPECTIVE_WARD_FORM_KEY, {
         defaultValue:
             typeof window === 'undefined'
-                ? JSON.stringify(ADULT_GUARDIANSHIP_FORM_INITIAL_STATE)
-                : (localStorage?.getItem(ADULT_GUARDIANSHIP_FORM_KEY) ??
-                  JSON.stringify(ADULT_GUARDIANSHIP_FORM_INITIAL_STATE)),
+                ? JSON.stringify(NEXT_KIN_PROSPECTIVE_WARD_FORM_INITIAL_STATE)
+                : (localStorage?.getItem(NEXT_KIN_PROSPECTIVE_WARD_FORM_KEY) ??
+                  JSON.stringify(NEXT_KIN_PROSPECTIVE_WARD_FORM_INITIAL_STATE)),
         initializeWithValue: false,
     });
 
-    const { value: isSubmitted, set: toggleIsSubmitted } = useLocalStorageValue(ADULT_GUARDIANSHIP_FORM_KEY_SUBMITTED, {
-        defaultValue:
-            typeof window === 'undefined' ? false : !!localStorage?.getItem(ADULT_GUARDIANSHIP_FORM_KEY_SUBMITTED),
-        initializeWithValue: false,
-    });
-
-    const { value: isSuccessful, set: toggleIsSuccessful } = useLocalStorageValue(
-        ADULT_GUARDIANSHIP_FORM_KEY_SUCCESSFUL,
+    const { value: isSubmitted, set: toggleIsSubmitted } = useLocalStorageValue(
+        NEXT_KIN_PROSPECTIVE_WARD_FORM_KEY_SUBMITTED,
         {
             defaultValue:
-                typeof window === 'undefined' ? false : !!localStorage?.getItem(ADULT_GUARDIANSHIP_FORM_KEY_SUCCESSFUL),
+                typeof window === 'undefined'
+                    ? false
+                    : !!localStorage?.getItem(NEXT_KIN_PROSPECTIVE_WARD_FORM_KEY_SUBMITTED),
+            initializeWithValue: false,
+        }
+    );
+
+    const { value: isSuccessful, set: toggleIsSuccessful } = useLocalStorageValue(
+        NEXT_KIN_PROSPECTIVE_WARD_FORM_KEY_SUCCESSFUL,
+        {
+            defaultValue:
+                typeof window === 'undefined'
+                    ? false
+                    : !!localStorage?.getItem(NEXT_KIN_PROSPECTIVE_WARD_FORM_KEY_SUCCESSFUL),
             initializeWithValue: false,
         }
     );
@@ -134,20 +126,21 @@ export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = 
             reset: resetCurrentStepIndex,
             set: setCurrentStepIndex,
         },
-    ] = useCounter(0, ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY.length - 1, 0);
+    ] = useCounter(0, NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS_ARRAY.length - 1, 0);
     const [lastPassedStepIndex, { set: setLastPassedStepIndex }] = useCounter(0);
 
-    const currentStep = ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY[currentStepIndex];
+    const currentStep = NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS_ARRAY[currentStepIndex];
     const isLastStep =
-        currentStep.id === ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY[ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY.length - 1].id;
+        currentStep.id ===
+        NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS_ARRAY[NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS_ARRAY.length - 1].id;
     const canGoBack = currentStepIndex > 0;
 
     const parsedFormData = React.useMemo(() => {
         if (!formData) {
-            return ADULT_GUARDIANSHIP_FORM_INITIAL_STATE;
+            return NEXT_KIN_PROSPECTIVE_WARD_FORM_INITIAL_STATE;
         }
 
-        return JSON.parse(formData) as AdultGuardianshipForm;
+        return JSON.parse(formData) as NextKinProspectiveWardForm;
     }, [formData]);
 
     const goToNextStep = React.useCallback(() => {
@@ -155,7 +148,7 @@ export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = 
             setAnimationDirection('next');
         });
 
-        const isLastStepBeforeIncrement = currentStepIndex === ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY.length - 1;
+        const isLastStepBeforeIncrement = currentStepIndex === NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS_ARRAY.length - 1;
 
         incrementCurrentStepIndex();
 
@@ -197,7 +190,7 @@ export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = 
     );
 
     const setFormStepData = React.useCallback(
-        <TField extends keyof AdultGuardianshipForm>(key: TField, data: AdultGuardianshipForm[TField]) => {
+        <TField extends keyof NextKinProspectiveWardForm>(key: TField, data: NextKinProspectiveWardForm[TField]) => {
             setFormData((prev) => {
                 if (!prev) {
                     return '';
@@ -220,7 +213,7 @@ export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = 
         return {
             formData: parsedFormData,
             currentStepIndex,
-            steps: ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY,
+            steps: NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS_ARRAY,
             currentStep,
             isSubmitted,
             toggleIsSubmitted,
@@ -269,7 +262,7 @@ export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = 
 
         toggleIsLoading(true);
 
-        const lastCorrectStepIndex = ADULT_GUARDIANSHIP_FORM_STEPS_ARRAY.findIndex((step) => {
+        const lastCorrectStepIndex = NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS_ARRAY.findIndex((step) => {
             const result = step.schema.safeParse(parsedFormData[step.id]);
 
             return !result.success;
@@ -289,23 +282,28 @@ export const AdultGuardianshipFormProvider: React.FC<React.PropsWithChildren> = 
         cleanUp();
     });
 
-    return <AdultGuardianshipFormContext value={memoizedValue}>{children}</AdultGuardianshipFormContext>;
+    return <NextKinProspectiveWardFormContext value={memoizedValue}>{children}</NextKinProspectiveWardFormContext>;
 };
 
-export const useAdultGuardianshipFormContext = () => {
-    const context = React.useContext(AdultGuardianshipFormContext);
+export const useNextKinProspectiveWardFormContext = () => {
+    const context = React.useContext(NextKinProspectiveWardFormContext);
 
     return context;
 };
 
-export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuardianshipForm>(stepId: TStepId) => {
-    const { formData, setFormStepData, goToNextStep } = useAdultGuardianshipFormContext();
+export const useNextKinProspectiveWardFormStepForm = <TStepId extends keyof NextKinProspectiveWardForm>(
+    stepId: TStepId
+) => {
+    const { formData, setFormStepData, goToNextStep } = useNextKinProspectiveWardFormContext();
 
     const [isLoading, toggleIsLoading] = useToggle(true);
 
-    const stepSchema = ADULT_GUARDIANSHIP_FORM_STEPS[stepId].schema as FormValidateOrFn<AdultGuardianshipForm[TStepId]>;
-    const stepValues = formData[stepId] as AdultGuardianshipForm[TStepId];
-    const defaultValues = typeof window === 'undefined' ? ADULT_GUARDIANSHIP_FORM_INITIAL_STATE[stepId] : stepValues;
+    const stepSchema = NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS[stepId].schema as FormValidateOrFn<
+        NextKinProspectiveWardForm[TStepId]
+    >;
+    const stepValues = formData[stepId] as NextKinProspectiveWardForm[TStepId];
+    const defaultValues =
+        typeof window === 'undefined' ? NEXT_KIN_PROSPECTIVE_WARD_FORM_INITIAL_STATE[stepId] : stepValues;
 
     const form = useAppForm({
         defaultValues: stepValues,
@@ -316,10 +314,7 @@ export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuar
         },
         onSubmit: (data) => {
             if (data?.value) {
-                console.info(formData);
-                // eslint-disable-next-line no-debugger
-                debugger;
-                setFormStepData(stepId, data.value as AdultGuardianshipForm[TStepId]);
+                setFormStepData(stepId, data.value as NextKinProspectiveWardForm[TStepId]);
 
                 goToNextStep();
             }
@@ -331,9 +326,9 @@ export const useAdultGuardianshipFormStepForm = <TStepId extends keyof AdultGuar
 
         Object.keys(defaultValues ?? {}).forEach((key) => {
             form.setFieldValue(
-                key as DeepKeys<AdultGuardianshipForm[TStepId]>,
-                defaultValues[key as keyof AdultGuardianshipForm[TStepId]] as Updater<
-                    DeepValue<AdultGuardianshipForm[TStepId], DeepKeys<AdultGuardianshipForm[TStepId]>>
+                key as DeepKeys<NextKinProspectiveWardForm[TStepId]>,
+                defaultValues[key as keyof NextKinProspectiveWardForm[TStepId]] as Updater<
+                    DeepValue<NextKinProspectiveWardForm[TStepId], DeepKeys<NextKinProspectiveWardForm[TStepId]>>
                 >
             );
         });

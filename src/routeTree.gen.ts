@@ -17,6 +17,12 @@ const WebcheckWaiverIndexLazyRouteImport =
   createFileRoute('/webcheck-waiver/')()
 const WaiverNoticeIndexLazyRouteImport = createFileRoute('/waiver-notice/')()
 const UiKitIndexLazyRouteImport = createFileRoute('/ui-kit/')()
+const NextKinProspectiveWardIndexLazyRouteImport = createFileRoute(
+  '/next-kin-prospective-ward/',
+)()
+const ApplicantCredibilityApplicationIndexLazyRouteImport = createFileRoute(
+  '/applicant-credibility-application/',
+)()
 const AdultGuardianshipIndexLazyRouteImport = createFileRoute(
   '/adult-guardianship/',
 )()
@@ -45,6 +51,26 @@ const UiKitIndexLazyRoute = UiKitIndexLazyRouteImport.update({
   path: '/ui-kit/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/ui-kit/index.lazy').then((d) => d.Route))
+const NextKinProspectiveWardIndexLazyRoute =
+  NextKinProspectiveWardIndexLazyRouteImport.update({
+    id: '/next-kin-prospective-ward/',
+    path: '/next-kin-prospective-ward/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/next-kin-prospective-ward/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ApplicantCredibilityApplicationIndexLazyRoute =
+  ApplicantCredibilityApplicationIndexLazyRouteImport.update({
+    id: '/applicant-credibility-application/',
+    path: '/applicant-credibility-application/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/applicant-credibility-application/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 const AdultGuardianshipIndexLazyRoute =
   AdultGuardianshipIndexLazyRouteImport.update({
     id: '/adult-guardianship/',
@@ -57,6 +83,8 @@ const AdultGuardianshipIndexLazyRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/adult-guardianship': typeof AdultGuardianshipIndexLazyRoute
+  '/applicant-credibility-application': typeof ApplicantCredibilityApplicationIndexLazyRoute
+  '/next-kin-prospective-ward': typeof NextKinProspectiveWardIndexLazyRoute
   '/ui-kit': typeof UiKitIndexLazyRoute
   '/waiver-notice': typeof WaiverNoticeIndexLazyRoute
   '/webcheck-waiver': typeof WebcheckWaiverIndexLazyRoute
@@ -64,6 +92,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/adult-guardianship': typeof AdultGuardianshipIndexLazyRoute
+  '/applicant-credibility-application': typeof ApplicantCredibilityApplicationIndexLazyRoute
+  '/next-kin-prospective-ward': typeof NextKinProspectiveWardIndexLazyRoute
   '/ui-kit': typeof UiKitIndexLazyRoute
   '/waiver-notice': typeof WaiverNoticeIndexLazyRoute
   '/webcheck-waiver': typeof WebcheckWaiverIndexLazyRoute
@@ -72,6 +102,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
   '/adult-guardianship/': typeof AdultGuardianshipIndexLazyRoute
+  '/applicant-credibility-application/': typeof ApplicantCredibilityApplicationIndexLazyRoute
+  '/next-kin-prospective-ward/': typeof NextKinProspectiveWardIndexLazyRoute
   '/ui-kit/': typeof UiKitIndexLazyRoute
   '/waiver-notice/': typeof WaiverNoticeIndexLazyRoute
   '/webcheck-waiver/': typeof WebcheckWaiverIndexLazyRoute
@@ -81,6 +113,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/adult-guardianship'
+    | '/applicant-credibility-application'
+    | '/next-kin-prospective-ward'
     | '/ui-kit'
     | '/waiver-notice'
     | '/webcheck-waiver'
@@ -88,6 +122,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/adult-guardianship'
+    | '/applicant-credibility-application'
+    | '/next-kin-prospective-ward'
     | '/ui-kit'
     | '/waiver-notice'
     | '/webcheck-waiver'
@@ -95,6 +131,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/adult-guardianship/'
+    | '/applicant-credibility-application/'
+    | '/next-kin-prospective-ward/'
     | '/ui-kit/'
     | '/waiver-notice/'
     | '/webcheck-waiver/'
@@ -103,6 +141,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AdultGuardianshipIndexLazyRoute: typeof AdultGuardianshipIndexLazyRoute
+  ApplicantCredibilityApplicationIndexLazyRoute: typeof ApplicantCredibilityApplicationIndexLazyRoute
+  NextKinProspectiveWardIndexLazyRoute: typeof NextKinProspectiveWardIndexLazyRoute
   UiKitIndexLazyRoute: typeof UiKitIndexLazyRoute
   WaiverNoticeIndexLazyRoute: typeof WaiverNoticeIndexLazyRoute
   WebcheckWaiverIndexLazyRoute: typeof WebcheckWaiverIndexLazyRoute
@@ -138,6 +178,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UiKitIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/next-kin-prospective-ward/': {
+      id: '/next-kin-prospective-ward/'
+      path: '/next-kin-prospective-ward'
+      fullPath: '/next-kin-prospective-ward'
+      preLoaderRoute: typeof NextKinProspectiveWardIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/applicant-credibility-application/': {
+      id: '/applicant-credibility-application/'
+      path: '/applicant-credibility-application'
+      fullPath: '/applicant-credibility-application'
+      preLoaderRoute: typeof ApplicantCredibilityApplicationIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/adult-guardianship/': {
       id: '/adult-guardianship/'
       path: '/adult-guardianship'
@@ -151,6 +205,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AdultGuardianshipIndexLazyRoute: AdultGuardianshipIndexLazyRoute,
+  ApplicantCredibilityApplicationIndexLazyRoute:
+    ApplicantCredibilityApplicationIndexLazyRoute,
+  NextKinProspectiveWardIndexLazyRoute: NextKinProspectiveWardIndexLazyRoute,
   UiKitIndexLazyRoute: UiKitIndexLazyRoute,
   WaiverNoticeIndexLazyRoute: WaiverNoticeIndexLazyRoute,
   WebcheckWaiverIndexLazyRoute: WebcheckWaiverIndexLazyRoute,
