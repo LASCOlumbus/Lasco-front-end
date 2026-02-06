@@ -1,13 +1,8 @@
 import { Component as CheckCircle20Icon } from '@/icons/check-circle_24.svg?svgUse';
 import { Component as Progress20Icon } from '@/icons/progress_20.svg?svgUse';
+import { StatusIconProps } from '@/components/Forms/components/FormStepper/components/StatusIcon/types';
 
-type Props = {
-    index: number;
-    currentStepIndex: number;
-    lastPassedStepIndex: number;
-};
-
-const StatusIcon = ({ index, currentStepIndex, lastPassedStepIndex }: Props) => {
+const StatusIcon: React.FC<StatusIconProps> = ({ index, currentStepIndex, lastPassedStepIndex }) => {
     if (index < lastPassedStepIndex) {
         return <CheckCircle20Icon width={22} height={22} />;
     }

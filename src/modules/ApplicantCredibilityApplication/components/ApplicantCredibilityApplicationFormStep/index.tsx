@@ -26,7 +26,7 @@ const ApplicantCredibilityApplicationFormStep: React.FC<
     if (isSubmitted && !isSuccessful) {
         return (
             <FailureSection
-                title="Guardianship credibility application form has not been submitted"
+                title="Applicant's credibility application form has not been submitted"
                 description="Something went wrong while submitting your form. Your answers are saved. Please try again."
                 handleTryAgain={() => {
                     goToSelectStep(0);

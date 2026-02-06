@@ -27,7 +27,7 @@ const NextKinProspectiveWardFormStep: React.FC<React.PropsWithChildren<NextKinPr
     if (isSubmitted && !isSuccessful) {
         return (
             <FailureSection
-                title="Guardianship credibility application form has not been submitted"
+                title="Next of kin of prospective ward form has not been submitted"
                 description="Something went wrong while submitting your form. Your answers are saved. Please try again."
                 handleTryAgain={() => {
                     goToSelectStep(0);
