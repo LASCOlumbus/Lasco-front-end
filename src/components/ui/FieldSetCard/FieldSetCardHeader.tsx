@@ -1,14 +1,9 @@
-import type { ReactNode } from 'react';
 import clsx from 'clsx';
+import { FieldSetCardHeaderProps } from '@/components/ui/FieldSetCard/types';
 import { Typography } from '@/components/ui/Typography';
 import s from './styles.module.css';
 
-export interface FieldSetCardHeaderProps {
-    children: ReactNode;
-    className?: string;
-}
-
-export const FieldSetCardHeader = ({ children, className }: FieldSetCardHeaderProps) => {
+export const FieldSetCardHeader: React.FC<FieldSetCardHeaderProps> = ({ children, className }) => {
     return (
         <div className={clsx(s.header, className)}>
             <Typography variant="heading-h4" render={<strong />}>

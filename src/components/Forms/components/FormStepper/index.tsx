@@ -4,9 +4,9 @@ import { Component as CheckCircle20Icon } from '@/icons/check-circle_24.svg?svgU
 import { Component as Progress20Icon } from '@/icons/progress_20.svg?svgUse';
 import clsx from 'clsx';
 import { useIsTablet } from '@/hooks/useIsTablet';
+import StatusIcon from '@/components/Forms/components/FormStepper/components/StatusIcon';
 import { Drawer, DrawerContent, DrawerHeader, DrawerOverlay, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
 import { Typography } from '@/components/ui/Typography';
-import StatusIcon from './StatusIcon';
 import s from './styles.module.css';
 
 export const FormStepper = ({
