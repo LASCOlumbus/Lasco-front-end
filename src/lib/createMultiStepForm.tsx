@@ -103,7 +103,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(
                 toggleIsSuccessful(false);
 
                 const blob = await mutation.mutateAsync({
-                    type: 'invoice' as FORM_TYPES,
+                    type,
                     data: parsedFormData,
                     meta: 'extra metadata',
                 });
