@@ -243,12 +243,12 @@ const FamilyAndEmploymentStep: React.FC = () => {
                     </FieldSetCard>
 
                     <form.Field
-                        mode="array"
                         name="employment.isSameEmployerLast5Years"
                         children={(field) => {
                             return field.state.value === false ? (
                                 <form.Field
                                     name="employment.previousEmployers"
+                                    mode="array"
                                     children={(field) => {
                                         return (
                                             <>

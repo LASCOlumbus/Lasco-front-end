@@ -1,5 +1,5 @@
 import { useAdultGuardianshipFormContext } from '@/modules/AdultGuardianship/context/AdultGuardianshipFormContext';
-import { FormStepper } from '@/components/Forms/components/FormStepper';
+import FormStepper from '@/components/Forms/components/FormStepper';
 
 const Sidebar: React.FC = () => {
     const { steps, currentStepIndex, lastPassedStepIndex, isSubmitted, goToSelectStep } =

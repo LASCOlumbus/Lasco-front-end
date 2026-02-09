@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNextKinProspectiveWardFormContext } from '@/modules/NextKinProspectiveWard/context/NextKinProspectiveWardFormContext';
-import { FormStepper } from '@/components/Forms/components/FormStepper';
+import FormStepper from '@/components/Forms/components/FormStepper';
 
 const Sidebar: React.FC = () => {
     const { steps, currentStepIndex, isSubmitted, lastPassedStepIndex, goToSelectStep } =
