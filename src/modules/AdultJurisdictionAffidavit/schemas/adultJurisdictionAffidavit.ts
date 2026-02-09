@@ -35,18 +35,8 @@ export const previousAddressSchema = z.object({
 
 export const previousAddressOptionalSchema = z.object({
     address: z.string().optional(),
-    from: z
-        .union([z.date(), z.string()])
-        .nullable()
-        .refine(() => {
-            return true;
-        }),
-    to: z
-        .union([z.date(), z.string()])
-        .nullable()
-        .refine(() => {
-            return true;
-        }),
+    from: z.union([z.date(), z.string()]).nullable(),
+    to: z.union([z.date(), z.string()]).nullable(),
 });
 
 export const adultJurisdictionAffidavitAddressInformStepSchema = z

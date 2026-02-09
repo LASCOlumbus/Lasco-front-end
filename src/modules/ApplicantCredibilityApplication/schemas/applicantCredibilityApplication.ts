@@ -30,12 +30,7 @@ export const previousAddressOptionalSchema = z.object({
         .refine(() => {
             return true;
         }),
-    to: z
-        .date()
-        .nullable()
-        .refine(() => {
-            return true;
-        }),
+    to: z.date().nullable(),
 });
 
 export const applicantCredibilityApplicationApplicantInformStepSchema = z.object({

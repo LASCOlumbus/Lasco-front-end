@@ -135,6 +135,7 @@ const AddressInformStep: React.FC = () => {
                             return field.state.value === false ? (
                                 <form.Field
                                     name="previousAddresses"
+                                    mode="array"
                                     children={(field) => {
                                         return (
                                             <>
@@ -159,13 +160,7 @@ const AddressInformStep: React.FC = () => {
                                                                                     variant="secondary"
                                                                                     size="small"
                                                                                     onClick={() => {
-                                                                                        field.handleChange(
-                                                                                            field.state.value?.filter(
-                                                                                                (_, i) => {
-                                                                                                    return i !== index;
-                                                                                                }
-                                                                                            )
-                                                                                        );
+                                                                                        field.removeValue(index);
                                                                                     }}
                                                                                 >
                                                                                     Remove
@@ -242,24 +237,11 @@ const AddressInformStep: React.FC = () => {
                                                     variant="secondary"
                                                     size="small"
                                                     onClick={() => {
-                                                        field.handleChange(
-                                                            field.state.value?.length
-                                                                ? [
-                                                                      ...field.state.value,
-                                                                      {
-                                                                          address: '',
-                                                                          from: null,
-                                                                          to: null,
-                                                                      },
-                                                                  ]
-                                                                : [
-                                                                      {
-                                                                          address: '',
-                                                                          from: null,
-                                                                          to: null,
-                                                                      },
-                                                                  ]
-                                                        );
+                                                        field.pushValue({
+                                                            address: '',
+                                                            from: null,
+                                                            to: null,
+                                                        });
                                                     }}
                                                 >
                                                     Add another address
