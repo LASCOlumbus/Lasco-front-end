@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormStepper } from '@/components/Forms/components/FormStepper';
+import FormStepper from '@/components/Forms/components/FormStepper';
 import { useAdultJurisdictionAffidavitFormContext } from '../../context/AdultJurisdictionAffidavitFormContext';
 
 const Sidebar: React.FC = () => {
