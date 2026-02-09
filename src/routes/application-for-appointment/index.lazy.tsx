@@ -1,9 +1,6 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router';
+import ApplicationForAppointment from '@/modules/ApplicationForAppointment';
 
 export const Route = createLazyFileRoute('/application-for-appointment/')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return <div>Hello "/application-for-appointment/"!</div>
-}
+    component: ApplicationForAppointment,
+});

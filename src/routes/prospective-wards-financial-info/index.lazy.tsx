@@ -1,9 +1,6 @@
-import { createLazyFileRoute } from '@tanstack/react-router'
+import { createLazyFileRoute } from '@tanstack/react-router';
+import ProspectiveWardsFinancialInfo from '@/modules/ProspectiveWardsFinancialInfoForm';
 
 export const Route = createLazyFileRoute('/prospective-wards-financial-info/')({
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  return <div>Hello "/prospective-wards-financial-info/"!</div>
-}
+    component: ProspectiveWardsFinancialInfo,
+});
