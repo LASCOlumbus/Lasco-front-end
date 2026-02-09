@@ -26,7 +26,7 @@ const WebcheckWaiverFormStepWrapper: React.FC<React.PropsWithChildren<WebcheckWa
     if (isSubmitted && !isSuccessful) {
         return (
             <FailureSection
-                title="Waiver of notice form has not been submitted"
+                title="Webcheck waiver form has not been submitted"
                 description="Something went wrong while submitting your form. Your answers are saved. Please try again."
                 handleTryAgain={() => {
                     toggleIsSubmitted();

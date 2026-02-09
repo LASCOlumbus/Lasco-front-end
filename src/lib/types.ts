@@ -7,6 +7,17 @@ import {
     webcheckWaiverStepSchema,
 } from '@/schemas/formSchemas';
 import { z } from 'zod';
+import {
+    applicantCredibilityApplicationApplicantInformStepSchema,
+    applicantCredibilityApplicationBankingInformStepSchema,
+    applicantCredibilityApplicationCaseDetailsStepSchema,
+    applicantCredibilityApplicationFamilyAndEmploymentStepSchema,
+    applicantCredibilityApplicationLegalAndFinancialHistoryStepSchema,
+} from '@/modules/ApplicantCredibilityApplication/schemas/applicantCredibilityApplication';
+import {
+    nextKinProspectiveWardCaseDetailsStepSchema,
+    nextKinProspectiveWardWaiversListStepSchema,
+} from '@/modules/NextKinProspectiveWard/schemas/nextKinProspectiveWard';
 
 export type ObjValues<TObj> = TObj[keyof TObj];
 
@@ -32,15 +43,15 @@ export type AnimationDirection = 'next' | 'prev';
 
 // FailureSectionProps
 export type FailureSectionProps = {
-    title: string;
-    description: string;
+    title: React.ReactNode;
+    description: React.ReactNode;
     handleTryAgain?: () => void;
 };
 
 // SuccessSectionProps
 export type SuccessSectionProps = {
-    title: string;
-    description: string;
+    title: React.ReactNode;
+    description: React.ReactNode;
     handlePrint?: () => void;
     handleDownload?: () => void;
 };
@@ -107,5 +118,53 @@ export type AdultGuardianshipFormStep = {
     id: keyof AdultGuardianshipForm;
     label: string;
     schema: z.ZodSchema<AdultGuardianshipForm[keyof AdultGuardianshipForm]>;
+    enabled?: boolean;
+};
+
+// Next Kin Prospective Ward
+export type NextKinProspectiveWardCaseDetailsStepSchema = z.infer<typeof nextKinProspectiveWardCaseDetailsStepSchema>;
+export type NextKinProspectiveWardWaiversListStepSchema = z.infer<typeof nextKinProspectiveWardWaiversListStepSchema>;
+
+export type NextKinProspectiveWardForm = {
+    caseDetailsStep: NextKinProspectiveWardCaseDetailsStepSchema;
+    waiversListStep: NextKinProspectiveWardWaiversListStepSchema;
+};
+
+export type NextKinProspectiveWardFormStep = {
+    id: keyof NextKinProspectiveWardForm;
+    label: string;
+    schema: z.ZodSchema<NextKinProspectiveWardForm[keyof NextKinProspectiveWardForm]>;
+    enabled?: boolean;
+};
+
+// Applicant Credibility Application
+export type ApplicantCredibilityApplicationCaseDetailsStepSchema = z.infer<
+    typeof applicantCredibilityApplicationCaseDetailsStepSchema
+>;
+export type ApplicantCredibilityApplicationApplicantInformStepSchema = z.infer<
+    typeof applicantCredibilityApplicationApplicantInformStepSchema
+>;
+export type ApplicantCredibilityApplicationFamilyAndEmploymentStepSchema = z.infer<
+    typeof applicantCredibilityApplicationFamilyAndEmploymentStepSchema
+>;
+export type ApplicantCredibilityApplicationBankingInformStepSchema = z.infer<
+    typeof applicantCredibilityApplicationBankingInformStepSchema
+>;
+export type ApplicantCredibilityApplicationLegalAndFinancialHistoryStepSchema = z.infer<
+    typeof applicantCredibilityApplicationLegalAndFinancialHistoryStepSchema
+>;
+
+export type ApplicantCredibilityApplicationForm = {
+    caseDetailsStep: ApplicantCredibilityApplicationCaseDetailsStepSchema;
+    applicantInformStep: ApplicantCredibilityApplicationApplicantInformStepSchema;
+    familyAndEmploymentStep: ApplicantCredibilityApplicationFamilyAndEmploymentStepSchema;
+    bankingInformStep: ApplicantCredibilityApplicationBankingInformStepSchema;
+    legalAndFinancialHistoryStep: ApplicantCredibilityApplicationLegalAndFinancialHistoryStepSchema;
+};
+
+export type ApplicantCredibilityApplicationFormStep = {
+    id: keyof ApplicantCredibilityApplicationForm;
+    label: string;
+    schema: z.ZodSchema<ApplicantCredibilityApplicationForm[keyof ApplicantCredibilityApplicationForm]>;
     enabled?: boolean;
 };

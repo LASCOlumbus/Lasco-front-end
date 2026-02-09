@@ -1,15 +1,15 @@
-import type { AdultGuardianshipFormStepProps } from './types';
 import React from 'react';
 import FailureSection from '@/components/FailureSection';
 import SuccessSection from '@/components/SuccessSection';
-import { useAdultGuardianshipFormContext } from '../../context/AdultGuardianshipFormContext';
+import { useNextKinProspectiveWardFormContext } from '../../context/NextKinProspectiveWardFormContext';
+import { NextKinProspectiveWardFormStepProps } from './types';
 
-const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardianshipFormStepProps>> = ({
+const NextKinProspectiveWardFormStep: React.FC<React.PropsWithChildren<NextKinProspectiveWardFormStepProps>> = ({
     children,
     id,
 }) => {
     const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep } =
-        useAdultGuardianshipFormContext();
+        useNextKinProspectiveWardFormContext();
 
     if (currentStep.id !== id) {
         return null;
@@ -18,7 +18,7 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
     if (isSubmitted && isSuccessful) {
         return (
             <SuccessSection
-                title="Guardians credibility application form has been submitted"
+                title="Next of kin of prospective ward form has been submitted"
                 description="To finish your filing, please download the generated document, print it, and sign it. The court requires a physical signature. Unsigned documents cannot be processed."
             />
         );
@@ -27,7 +27,7 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
     if (isSubmitted && !isSuccessful) {
         return (
             <FailureSection
-                title="Guardianship credibility application form has not been submitted"
+                title="Next of kin of prospective ward form has not been submitted"
                 description="Something went wrong while submitting your form. Your answers are saved. Please try again."
                 handleTryAgain={() => {
                     goToSelectStep(0);
@@ -40,4 +40,4 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
     return children;
 };
 
-export default AdultGuardianshipFormStep;
+export default NextKinProspectiveWardFormStep;

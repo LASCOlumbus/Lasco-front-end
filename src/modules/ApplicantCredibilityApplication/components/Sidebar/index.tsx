@@ -1,9 +1,11 @@
 import React from 'react';
-import { useWaiverNoticeFormContext } from '@/modules/WaiverNotice/context/WaiverNoticeFormContext';
 import FormStepper from '@/components/Forms/components/FormStepper';
+import { useApplicantCredibilityApplicationFormContext } from '../../context/ApplicantCredibilityApplicationFormContext';
 
 const Sidebar: React.FC = () => {
-    const { steps, currentStepIndex, isSubmitted, lastPassedStepIndex, goToSelectStep } = useWaiverNoticeFormContext();
+    const { steps, currentStepIndex, isSubmitted, lastPassedStepIndex, goToSelectStep } =
+        useApplicantCredibilityApplicationFormContext();
+
     return (
         <FormStepper
             steps={steps}
@@ -14,5 +16,4 @@ const Sidebar: React.FC = () => {
         />
     );
 };
-
 export default Sidebar;

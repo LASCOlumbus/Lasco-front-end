@@ -4,6 +4,17 @@ import { ZIP_CODE_REGEX } from '@/lib/constants';
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
+export const booleanAnswer = z
+    .boolean()
+    .nullable()
+    .refine((value) => {
+        if (value !== null) {
+            return true;
+        }
+        return false;
+    }, 'This field is required.');
+
+export const maybeDateSchema = z.union([z.date(), z.string()]).nullable().optional();
 export const requiredStringSchema = z.string().min(1, 'This field is required');
 export const zipCodeSchema = requiredStringSchema.regex(ZIP_CODE_REGEX, 'Invalid zip code');
 
