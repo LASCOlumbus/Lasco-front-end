@@ -8,6 +8,11 @@ import {
 } from '@/schemas/formSchemas';
 import { z } from 'zod';
 import {
+    adultJurisdictionAffidavitAddressInformStepSchema,
+    adultJurisdictionAffidavitCaseDetailsStepSchema,
+    adultJurisdictionAffidavitLegalQuestionsStepSchema,
+} from '@/modules/AdultJurisdictionAffidavit/schemas/adultJurisdictionAffidavit';
+import {
     applicantCredibilityApplicationApplicantInformStepSchema,
     applicantCredibilityApplicationBankingInformStepSchema,
     applicantCredibilityApplicationCaseDetailsStepSchema,
@@ -166,5 +171,29 @@ export type ApplicantCredibilityApplicationFormStep = {
     id: keyof ApplicantCredibilityApplicationForm;
     label: string;
     schema: z.ZodSchema<ApplicantCredibilityApplicationForm[keyof ApplicantCredibilityApplicationForm]>;
+    enabled?: boolean;
+};
+
+// Adult Jurisdiction Affidavit
+export type AdultJurisdictionAffidavitCaseDetailsStepSchema = z.infer<
+    typeof adultJurisdictionAffidavitCaseDetailsStepSchema
+>;
+export type AdultJurisdictionAffidavitAddressInformStepSchema = z.infer<
+    typeof adultJurisdictionAffidavitAddressInformStepSchema
+>;
+export type AdultJurisdictionAffidavitLegalQuestionsStepSchema = z.infer<
+    typeof adultJurisdictionAffidavitLegalQuestionsStepSchema
+>;
+
+export type AdultJurisdictionAffidavitForm = {
+    caseDetailsStep: AdultJurisdictionAffidavitCaseDetailsStepSchema;
+    addressInformStep: AdultJurisdictionAffidavitAddressInformStepSchema;
+    legalQuestionsStep: AdultJurisdictionAffidavitLegalQuestionsStepSchema;
+};
+
+export type AdultJurisdictionAffidavitFormStep = {
+    id: keyof AdultJurisdictionAffidavitForm;
+    label: string;
+    schema: z.ZodSchema<AdultJurisdictionAffidavitForm[keyof AdultJurisdictionAffidavitForm]>;
     enabled?: boolean;
 };
