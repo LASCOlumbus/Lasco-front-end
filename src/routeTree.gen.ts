@@ -17,8 +17,14 @@ const WebcheckWaiverIndexLazyRouteImport =
   createFileRoute('/webcheck-waiver/')()
 const WaiverNoticeIndexLazyRouteImport = createFileRoute('/waiver-notice/')()
 const UiKitIndexLazyRouteImport = createFileRoute('/ui-kit/')()
+const ProspectiveWardsFinancialInfoIndexLazyRouteImport = createFileRoute(
+  '/prospective-wards-financial-info/',
+)()
 const NextKinProspectiveWardIndexLazyRouteImport = createFileRoute(
   '/next-kin-prospective-ward/',
+)()
+const ApplicationForAppointmentIndexLazyRouteImport = createFileRoute(
+  '/application-for-appointment/',
 )()
 const ApplicantCredibilityApplicationIndexLazyRouteImport = createFileRoute(
   '/applicant-credibility-application/',
@@ -54,6 +60,16 @@ const UiKitIndexLazyRoute = UiKitIndexLazyRouteImport.update({
   path: '/ui-kit/',
   getParentRoute: () => rootRouteImport,
 } as any).lazy(() => import('./routes/ui-kit/index.lazy').then((d) => d.Route))
+const ProspectiveWardsFinancialInfoIndexLazyRoute =
+  ProspectiveWardsFinancialInfoIndexLazyRouteImport.update({
+    id: '/prospective-wards-financial-info/',
+    path: '/prospective-wards-financial-info/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/prospective-wards-financial-info/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 const NextKinProspectiveWardIndexLazyRoute =
   NextKinProspectiveWardIndexLazyRouteImport.update({
     id: '/next-kin-prospective-ward/',
@@ -61,6 +77,16 @@ const NextKinProspectiveWardIndexLazyRoute =
     getParentRoute: () => rootRouteImport,
   } as any).lazy(() =>
     import('./routes/next-kin-prospective-ward/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+const ApplicationForAppointmentIndexLazyRoute =
+  ApplicationForAppointmentIndexLazyRouteImport.update({
+    id: '/application-for-appointment/',
+    path: '/application-for-appointment/',
+    getParentRoute: () => rootRouteImport,
+  } as any).lazy(() =>
+    import('./routes/application-for-appointment/index.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -98,7 +124,9 @@ export interface FileRoutesByFullPath {
   '/adult-guardianship': typeof AdultGuardianshipIndexLazyRoute
   '/adult-jurisdiction-affidavit': typeof AdultJurisdictionAffidavitIndexLazyRoute
   '/applicant-credibility-application': typeof ApplicantCredibilityApplicationIndexLazyRoute
+  '/application-for-appointment': typeof ApplicationForAppointmentIndexLazyRoute
   '/next-kin-prospective-ward': typeof NextKinProspectiveWardIndexLazyRoute
+  '/prospective-wards-financial-info': typeof ProspectiveWardsFinancialInfoIndexLazyRoute
   '/ui-kit': typeof UiKitIndexLazyRoute
   '/waiver-notice': typeof WaiverNoticeIndexLazyRoute
   '/webcheck-waiver': typeof WebcheckWaiverIndexLazyRoute
@@ -108,7 +136,9 @@ export interface FileRoutesByTo {
   '/adult-guardianship': typeof AdultGuardianshipIndexLazyRoute
   '/adult-jurisdiction-affidavit': typeof AdultJurisdictionAffidavitIndexLazyRoute
   '/applicant-credibility-application': typeof ApplicantCredibilityApplicationIndexLazyRoute
+  '/application-for-appointment': typeof ApplicationForAppointmentIndexLazyRoute
   '/next-kin-prospective-ward': typeof NextKinProspectiveWardIndexLazyRoute
+  '/prospective-wards-financial-info': typeof ProspectiveWardsFinancialInfoIndexLazyRoute
   '/ui-kit': typeof UiKitIndexLazyRoute
   '/waiver-notice': typeof WaiverNoticeIndexLazyRoute
   '/webcheck-waiver': typeof WebcheckWaiverIndexLazyRoute
@@ -119,7 +149,9 @@ export interface FileRoutesById {
   '/adult-guardianship/': typeof AdultGuardianshipIndexLazyRoute
   '/adult-jurisdiction-affidavit/': typeof AdultJurisdictionAffidavitIndexLazyRoute
   '/applicant-credibility-application/': typeof ApplicantCredibilityApplicationIndexLazyRoute
+  '/application-for-appointment/': typeof ApplicationForAppointmentIndexLazyRoute
   '/next-kin-prospective-ward/': typeof NextKinProspectiveWardIndexLazyRoute
+  '/prospective-wards-financial-info/': typeof ProspectiveWardsFinancialInfoIndexLazyRoute
   '/ui-kit/': typeof UiKitIndexLazyRoute
   '/waiver-notice/': typeof WaiverNoticeIndexLazyRoute
   '/webcheck-waiver/': typeof WebcheckWaiverIndexLazyRoute
@@ -131,7 +163,9 @@ export interface FileRouteTypes {
     | '/adult-guardianship'
     | '/adult-jurisdiction-affidavit'
     | '/applicant-credibility-application'
+    | '/application-for-appointment'
     | '/next-kin-prospective-ward'
+    | '/prospective-wards-financial-info'
     | '/ui-kit'
     | '/waiver-notice'
     | '/webcheck-waiver'
@@ -141,7 +175,9 @@ export interface FileRouteTypes {
     | '/adult-guardianship'
     | '/adult-jurisdiction-affidavit'
     | '/applicant-credibility-application'
+    | '/application-for-appointment'
     | '/next-kin-prospective-ward'
+    | '/prospective-wards-financial-info'
     | '/ui-kit'
     | '/waiver-notice'
     | '/webcheck-waiver'
@@ -151,7 +187,9 @@ export interface FileRouteTypes {
     | '/adult-guardianship/'
     | '/adult-jurisdiction-affidavit/'
     | '/applicant-credibility-application/'
+    | '/application-for-appointment/'
     | '/next-kin-prospective-ward/'
+    | '/prospective-wards-financial-info/'
     | '/ui-kit/'
     | '/waiver-notice/'
     | '/webcheck-waiver/'
@@ -162,7 +200,9 @@ export interface RootRouteChildren {
   AdultGuardianshipIndexLazyRoute: typeof AdultGuardianshipIndexLazyRoute
   AdultJurisdictionAffidavitIndexLazyRoute: typeof AdultJurisdictionAffidavitIndexLazyRoute
   ApplicantCredibilityApplicationIndexLazyRoute: typeof ApplicantCredibilityApplicationIndexLazyRoute
+  ApplicationForAppointmentIndexLazyRoute: typeof ApplicationForAppointmentIndexLazyRoute
   NextKinProspectiveWardIndexLazyRoute: typeof NextKinProspectiveWardIndexLazyRoute
+  ProspectiveWardsFinancialInfoIndexLazyRoute: typeof ProspectiveWardsFinancialInfoIndexLazyRoute
   UiKitIndexLazyRoute: typeof UiKitIndexLazyRoute
   WaiverNoticeIndexLazyRoute: typeof WaiverNoticeIndexLazyRoute
   WebcheckWaiverIndexLazyRoute: typeof WebcheckWaiverIndexLazyRoute
@@ -198,11 +238,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UiKitIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prospective-wards-financial-info/': {
+      id: '/prospective-wards-financial-info/'
+      path: '/prospective-wards-financial-info'
+      fullPath: '/prospective-wards-financial-info'
+      preLoaderRoute: typeof ProspectiveWardsFinancialInfoIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/next-kin-prospective-ward/': {
       id: '/next-kin-prospective-ward/'
       path: '/next-kin-prospective-ward'
       fullPath: '/next-kin-prospective-ward'
       preLoaderRoute: typeof NextKinProspectiveWardIndexLazyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/application-for-appointment/': {
+      id: '/application-for-appointment/'
+      path: '/application-for-appointment'
+      fullPath: '/application-for-appointment'
+      preLoaderRoute: typeof ApplicationForAppointmentIndexLazyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/applicant-credibility-application/': {
@@ -236,7 +290,11 @@ const rootRouteChildren: RootRouteChildren = {
     AdultJurisdictionAffidavitIndexLazyRoute,
   ApplicantCredibilityApplicationIndexLazyRoute:
     ApplicantCredibilityApplicationIndexLazyRoute,
+  ApplicationForAppointmentIndexLazyRoute:
+    ApplicationForAppointmentIndexLazyRoute,
   NextKinProspectiveWardIndexLazyRoute: NextKinProspectiveWardIndexLazyRoute,
+  ProspectiveWardsFinancialInfoIndexLazyRoute:
+    ProspectiveWardsFinancialInfoIndexLazyRoute,
   UiKitIndexLazyRoute: UiKitIndexLazyRoute,
   WaiverNoticeIndexLazyRoute: WaiverNoticeIndexLazyRoute,
   WebcheckWaiverIndexLazyRoute: WebcheckWaiverIndexLazyRoute,

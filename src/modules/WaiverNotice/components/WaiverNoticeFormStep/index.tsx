@@ -5,7 +5,8 @@ import SuccessSection from '@/components/SuccessSection';
 import { useWaiverNoticeFormContext } from '../../context/WaiverNoticeFormContext';
 
 const WaiverNoticeFormStep: React.FC<React.PropsWithChildren<WaiverNoticeFormStepProps>> = ({ children, id }) => {
-    const { currentStep, isSuccessful, isSubmitted, goToSelectStep, toggleIsSubmitted } = useWaiverNoticeFormContext();
+    const { currentStep, isSuccessful, isSubmitted, goToSelectStep, toggleIsSubmitted, printPdf, downloadPdf } =
+        useWaiverNoticeFormContext();
 
     if (currentStep.id !== id) {
         return null;
@@ -14,6 +15,8 @@ const WaiverNoticeFormStep: React.FC<React.PropsWithChildren<WaiverNoticeFormSte
     if (isSubmitted && isSuccessful) {
         return (
             <SuccessSection
+                handlePrint={printPdf}
+                handleDownload={downloadPdf}
                 title="Waiver of notice form has been submitted"
                 description="To finish your filing, please download the generated document, print it, and sign it. The court requires a physical signature. Unsigned documents cannot be processed."
             />

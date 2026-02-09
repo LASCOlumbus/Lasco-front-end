@@ -8,7 +8,7 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
     children,
     id,
 }) => {
-    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep } =
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } =
         useAdultGuardianshipFormContext();
 
     if (currentStep.id !== id) {
@@ -18,6 +18,8 @@ const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardians
     if (isSubmitted && isSuccessful) {
         return (
             <SuccessSection
+                handlePrint={printPdf}
+                handleDownload={downloadPdf}
                 title="Guardians credibility application form has been submitted"
                 description="To finish your filing, please download the generated document, print it, and sign it. The court requires a physical signature. Unsigned documents cannot be processed."
             />

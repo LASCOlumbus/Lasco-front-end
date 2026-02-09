@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     width: 1.25rem;
+    min-width: 1.25rem;
     height: 1.25rem;
     cursor: pointer;
     border: 1px solid var(--border-primary);

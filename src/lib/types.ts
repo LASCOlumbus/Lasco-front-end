@@ -1,3 +1,4 @@
+import type { FormValidateOrFn } from '@tanstack/react-form';
 import {
     adultGuardianshipCaseDetailsStepSchema,
     adultGuardianshipSafetyServiceStepSchema,
@@ -20,10 +21,41 @@ import {
     applicantCredibilityApplicationLegalAndFinancialHistoryStepSchema,
 } from '@/modules/ApplicantCredibilityApplication/schemas/applicantCredibilityApplication';
 import {
+    applicationForAppointmentApplicantInformStepSchema,
+    applicationForAppointmentAssetsAndIncomeStepSchema,
+    applicationForAppointmentCaseDetailsStepSchema,
+    applicationForAppointmentGuardianshipTypeStepSchema,
+    applicationForAppointmentLegalDeclarationsStepSchema,
+    applicationForAppointmentWardInformStepSchema,
+} from '@/modules/ApplicationForAppointment/schemas/applicationForAppointment';
+import {
     nextKinProspectiveWardCaseDetailsStepSchema,
     nextKinProspectiveWardWaiversListStepSchema,
 } from '@/modules/NextKinProspectiveWard/schemas/nextKinProspectiveWard';
+import {
+    prospectiveWardsFinancialInfoAssetsInterestsSchema,
+    prospectiveWardsFinancialInfoBenefitsStepSchema,
+    prospectiveWardsFinancialInfoFinancialAccountStepSchema,
+    prospectiveWardsFinancialInfoFormCaseDetailsStepSchema,
+    prospectiveWardsFinancialInfoPropertyStepSchema,
+} from '@/modules/ProspectiveWardsFinancialInfoForm/schemas/prospectiveWardsFinancialInfo';
 
+export type MultiStepFormStep<TForm, K extends keyof TForm = keyof TForm> = {
+    id: K;
+    label: string;
+    schema: FormValidateOrFn<TForm[K]>;
+    enabled: boolean;
+};
+
+export type MultiStepFormConfig<TForm> = {
+    storageKey: string;
+    submittedKey: string;
+    successfulKey: string;
+    initialState: TForm;
+    steps: {
+        [K in keyof TForm]: MultiStepFormStep<TForm, K>;
+    };
+};
 export type ObjValues<TObj> = TObj[keyof TObj];
 
 export type StringWithAutocompleteUnion<TUnion extends string> = TUnion | (string & {});
@@ -174,6 +206,42 @@ export type ApplicantCredibilityApplicationFormStep = {
     enabled?: boolean;
 };
 
+// Application For Appointment
+export type ApplicationForAppointmentCaseDetailsStepSchema = z.infer<
+    typeof applicationForAppointmentCaseDetailsStepSchema
+>;
+export type ApplicationForAppointmentWardInformStepSchema = AllowNullForSubProperties<
+    z.infer<typeof applicationForAppointmentWardInformStepSchema>
+>;
+export type ApplicationForAppointmentAssetsAndIncomeStepSchema = z.infer<
+    typeof applicationForAppointmentAssetsAndIncomeStepSchema
+>;
+export type ApplicationForAppointmentGuardianshipTypeStepSchema = z.infer<
+    typeof applicationForAppointmentGuardianshipTypeStepSchema
+>;
+export type ApplicationForAppointmentApplicantInformStepSchema = AllowNullForSubProperties<
+    z.infer<typeof applicationForAppointmentApplicantInformStepSchema>
+>;
+export type ApplicationForAppointmentLegalDeclarationsStepSchema = z.infer<
+    typeof applicationForAppointmentLegalDeclarationsStepSchema
+>;
+
+export type ApplicationForAppointmentForm = {
+    caseDetailsStep: ApplicationForAppointmentCaseDetailsStepSchema;
+    wardInformStep: ApplicationForAppointmentWardInformStepSchema;
+    assetsAndIncomeStep: ApplicationForAppointmentAssetsAndIncomeStepSchema;
+    guardianshipTypeStep: ApplicationForAppointmentGuardianshipTypeStepSchema;
+    applicantInformStep: ApplicationForAppointmentApplicantInformStepSchema;
+    legalDeclarationsStep: ApplicationForAppointmentLegalDeclarationsStepSchema;
+};
+
+export type ApplicationForAppointmentFormStep = {
+    id: keyof ApplicationForAppointmentForm;
+    label: string;
+    schema: z.ZodSchema<ApplicationForAppointmentForm[keyof ApplicationForAppointmentForm]>;
+    enabled?: boolean;
+};
+
 // Adult Jurisdiction Affidavit
 export type AdultJurisdictionAffidavitCaseDetailsStepSchema = z.infer<
     typeof adultJurisdictionAffidavitCaseDetailsStepSchema
@@ -196,4 +264,36 @@ export type AdultJurisdictionAffidavitFormStep = {
     label: string;
     schema: z.ZodSchema<AdultJurisdictionAffidavitForm[keyof AdultJurisdictionAffidavitForm]>;
     enabled?: boolean;
+};
+
+export type ProspectiveWardsFinancialInfoCaseDetailsFormStep = {
+    id: keyof ProspectiveWardsFinancialInfoForm;
+    label: string;
+    schema: z.ZodSchema<ProspectiveWardsFinancialInfoForm[keyof ProspectiveWardsFinancialInfoForm]>;
+    enabled?: boolean;
+};
+
+export type ProspectiveWardsFinancialInfoCaseDetailsStepSchema = z.infer<
+    typeof prospectiveWardsFinancialInfoFormCaseDetailsStepSchema
+>;
+export type ProspectiveWardsFinancialInfoBenefitsStepStepSchema = z.infer<
+    typeof prospectiveWardsFinancialInfoBenefitsStepSchema
+>;
+export type ProspectiveWardsFinancialInfoFinancialAccountStepSchema = z.infer<
+    typeof prospectiveWardsFinancialInfoFinancialAccountStepSchema
+>;
+
+export type ProspectiveWardsFinancialInfoPropertyStepSchema = z.infer<
+    typeof prospectiveWardsFinancialInfoPropertyStepSchema
+>;
+export type ProspectiveWardsFinancialInfoAssetsInterestsStepSchema = z.infer<
+    typeof prospectiveWardsFinancialInfoAssetsInterestsSchema
+>;
+
+export type ProspectiveWardsFinancialInfoForm = {
+    caseDetailsStep: ProspectiveWardsFinancialInfoCaseDetailsStepSchema;
+    benefitsStep: ProspectiveWardsFinancialInfoBenefitsStepStepSchema;
+    financialAccountStep: ProspectiveWardsFinancialInfoFinancialAccountStepSchema;
+    propertyStep: ProspectiveWardsFinancialInfoPropertyStepSchema;
+    assetsInterests: ProspectiveWardsFinancialInfoAssetsInterestsStepSchema;
 };
