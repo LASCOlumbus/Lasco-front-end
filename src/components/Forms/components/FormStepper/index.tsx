@@ -9,7 +9,13 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerOverlay, DrawerTitle, Drawer
 import { Typography } from '@/components/ui/Typography';
 import s from './styles.module.css';
 
-const FormStepper = ({ steps, currentStepIndex, lastPassedStepIndex, onStepClick, isSubmitted }: FormStepperProps) => {
+const FormStepper: React.FC<FormStepperProps> = ({
+    steps,
+    currentStepIndex,
+    lastPassedStepIndex,
+    onStepClick,
+    isSubmitted,
+}) => {
     const [isDrawerOpened, setIsDrawerOpened] = React.useState(false);
     const isTablet = useIsTablet();
     if (isSubmitted) return null;
