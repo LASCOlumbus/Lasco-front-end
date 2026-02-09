@@ -43,15 +43,15 @@ export type AnimationDirection = 'next' | 'prev';
 
 // FailureSectionProps
 export type FailureSectionProps = {
-    title: string;
-    description: string;
+    title: React.ReactNode;
+    description: React.ReactNode;
     handleTryAgain?: () => void;
 };
 
 // SuccessSectionProps
 export type SuccessSectionProps = {
-    title: string;
-    description: string;
+    title: React.ReactNode;
+    description: React.ReactNode;
     handlePrint?: () => void;
     handleDownload?: () => void;
 };

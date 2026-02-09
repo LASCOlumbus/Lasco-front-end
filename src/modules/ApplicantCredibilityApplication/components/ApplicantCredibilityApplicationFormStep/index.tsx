@@ -17,8 +17,13 @@ const ApplicantCredibilityApplicationFormStep: React.FC<
     if (isSubmitted && isSuccessful) {
         return (
             <SuccessSection
-                title="Applicant's credibility application form has been submitted"
-                description="To finish your filing, please download the generated document, print it, and sign it. The court requires a physical signature. Unsigned documents cannot be processed."
+                title={<>Applicant&apos;s credibility application form has been submitted</>}
+                description={
+                    <>
+                        To finish your filing, please download the generated document, print it, and sign it. The court
+                        requires a physical signature. Unsigned documents cannot be processed.
+                    </>
+                }
             />
         );
     }
@@ -26,8 +31,10 @@ const ApplicantCredibilityApplicationFormStep: React.FC<
     if (isSubmitted && !isSuccessful) {
         return (
             <FailureSection
-                title="Applicant's credibility application form has not been submitted"
-                description="Something went wrong while submitting your form. Your answers are saved. Please try again."
+                title={<>Applicant&apos;s credibility application form has not been submitted</>}
+                description={
+                    <>Something went wrong while submitting your form. Your answers are saved. Please try again.</>
+                }
                 handleTryAgain={() => {
                     goToSelectStep(0);
                     toggleIsSubmitted(false);

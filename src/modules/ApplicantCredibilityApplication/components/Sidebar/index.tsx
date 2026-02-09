@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormStepper } from '@/components/Forms/components/FormStepper';
+import FormStepper from '@/components/Forms/components/FormStepper';
 import { useApplicantCredibilityApplicationFormContext } from '../../context/ApplicantCredibilityApplicationFormContext';
 
 const Sidebar: React.FC = () => {
