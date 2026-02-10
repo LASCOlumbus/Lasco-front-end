@@ -1,5 +1,3 @@
-'use client';
-
 import { webcheckWaiverStepSchema } from '@/schemas/formSchemas';
 import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';

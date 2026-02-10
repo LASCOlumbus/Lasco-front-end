@@ -48,7 +48,6 @@ const PropertyStep: React.FC = () => {
                                             value={field.state.value}
                                             onValueChange={(value) => {
                                                 field.handleChange(value as boolean);
-                                                // form.setFieldValue('isProspectiveWardRealEstateOwner', '');
                                             }}
                                         >
                                             <RadioGroupItem className={s.radio} label="Yes" value={true} />
@@ -62,7 +61,7 @@ const PropertyStep: React.FC = () => {
                                                 return (
                                                     <field.InputField
                                                         name="realEstateAddress"
-                                                        label={'Real estate address'}
+                                                        label="Real estate address"
                                                         placeholder="Enter full address"
                                                         onBlur={field.handleBlur}
                                                     />
@@ -92,7 +91,6 @@ const PropertyStep: React.FC = () => {
                                             value={field.state.value}
                                             onValueChange={(value) => {
                                                 field.handleChange(value as boolean);
-                                                // form.setFieldValue('prospectiveWardReceivesRentalIncome', '');
                                             }}
                                         >
                                             <RadioGroupItem className={s.radio} label="Yes" value={true} />
@@ -106,7 +104,7 @@ const PropertyStep: React.FC = () => {
                                                 return (
                                                     <field.InputField
                                                         name="rentalIncomeAmount"
-                                                        label={'Rental income amount (per month)'}
+                                                        label="Rental income amount (per month)"
                                                         placeholder="$0.00"
                                                         onBlur={field.handleBlur}
                                                     />

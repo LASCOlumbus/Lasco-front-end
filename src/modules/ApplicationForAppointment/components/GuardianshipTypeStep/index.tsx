@@ -56,11 +56,11 @@ const GuardianshipTypeStep: React.FC = () => {
                                     >
                                         <RadioGroupItem
                                             label="Personal and medical needs"
-                                            value={'Personal and medical needs'}
+                                            value="Personal and medical needs"
                                         />
                                         <RadioGroupItem
                                             label="Financial decisions and managing money and property"
-                                            value={'Financial decisions and managing money and property'}
+                                            value="Financial decisions and managing money and property"
                                         />
                                     </RadioGroup>
                                 </FormFieldLabelErrorWrapper>
@@ -145,10 +145,10 @@ const GuardianshipTypeStep: React.FC = () => {
                                             field.handleChange(value as string);
                                         }}
                                     >
-                                        <RadioGroupItem label="Indefinite" value={'Indefinite'} />
+                                        <RadioGroupItem label="Indefinite" value="Indefinite" />
                                         <RadioGroupItem
                                             label="Limited to a specific time period"
-                                            value={'Limited to a specific time period'}
+                                            value="Limited to a specific time period"
                                         />
                                     </RadioGroup>
                                 </FormFieldLabelErrorWrapper>

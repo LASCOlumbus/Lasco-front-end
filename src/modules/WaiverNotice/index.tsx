@@ -35,7 +35,7 @@ const ContentComponent = () => {
             <div className={s['sidebar-wrapper']}>
                 <Sidebar />
                 <WaiverNoticeFormWrapper>
-                    <WaiverNoticeFormStep id={'caseDetailsStep'}>
+                    <WaiverNoticeFormStep id="caseDetailsStep">
                         <CaseDetailsStep key="caseDetailsStep" />
                     </WaiverNoticeFormStep>
                     <WaiverNoticeFormStep id="waiversListStep">

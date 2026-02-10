@@ -1,5 +1,3 @@
-'use client';
-
 import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';
 import { ProspectiveWardsFinancialInfoCaseDetailsFormStep, ProspectiveWardsFinancialInfoForm } from '@/lib/types';

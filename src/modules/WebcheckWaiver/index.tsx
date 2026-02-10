@@ -32,7 +32,7 @@ const ContentComponent = () => {
             </header>
             <div className={s.content}>
                 <WebcheckWaiverFormWrapper>
-                    <WebcheckWaiverFormStepWrapper id={'webcheckWaiverStep'}>
+                    <WebcheckWaiverFormStepWrapper id="webcheckWaiverStep">
                         <WebcheckWaiverStep key="webcheckWaiverStep" />
                     </WebcheckWaiverFormStepWrapper>
                 </WebcheckWaiverFormWrapper>

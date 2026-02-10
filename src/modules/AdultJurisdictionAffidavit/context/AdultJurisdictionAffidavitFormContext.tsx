@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';

@@ -465,13 +465,13 @@ export const ACCOUNT_TYPE_SELECT_OPTIONS = [
     { label: 'Other', value: 'other' },
 ];
 
-export enum FORM_TYPES {
-    _PROSPECTIVE_WARDS_FINANCIAL_INFORMATION = 'prospective_wards_financial_information',
-    _WEBCHECK_WAIVER = 'webcheck_waiver',
-    _WAIVER_OF_NOTICE = 'waiver_of_notice',
-    _ADULT_GUARDIANSHIP = 'adult_guardianship',
-    _NEXT_OF_KIN_OF_PROSPECTIVE_WARD = 'next_of_kin_of_prospective_ward',
-    _APPLICANT_CREDIBILITY_APPLICATION = 'applicant_credibility_application',
-    _ADULT_JURISDICTION_AFFIDAVIT = 'adult_jurisdiction_affidavit',
-    _APPLICATION_FOR_APPOINTMENT_OF_GUARDIAN = 'application_for_appointment_of_guardian_of_alleged_incompetent',
-}
+export const FORM_TYPES = {
+    _PROSPECTIVE_WARDS_FINANCIAL_INFORMATION: 'prospective_wards_financial_information',
+    _WEBCHECK_WAIVER: 'webcheck_waiver',
+    _WAIVER_OF_NOTICE: 'waiver_of_notice',
+    _ADULT_GUARDIANSHIP: 'adult_guardianship',
+    _NEXT_OF_KIN_OF_PROSPECTIVE_WARD: 'next_of_kin_of_prospective_ward',
+    _APPLICANT_CREDIBILITY_APPLICATION: 'applicant_credibility_application',
+    _ADULT_JURISDICTION_AFFIDAVIT: 'adult_jurisdiction_affidavit',
+    _APPLICATION_FOR_APPOINTMENT_OF_GUARDIAN: 'application_for_appointment_of_guardian_of_alleged_incompetent',
+} as const;

@@ -72,8 +72,8 @@ const CaseDetailsStep: React.FC = () => {
                                             field.handleChange(value as string);
                                         }}
                                     >
-                                        <RadioGroupItem label="Initial appointment" value={'Initial appointment'} />
-                                        <RadioGroupItem label="Successor appointment" value={'Successor appointment'} />
+                                        <RadioGroupItem label="Initial appointment" value="Initial appointment" />
+                                        <RadioGroupItem label="Successor appointment" value="Successor appointment" />
                                     </RadioGroup>
                                 </FormFieldLabelErrorWrapper>
                             );

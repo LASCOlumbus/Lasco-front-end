@@ -57,10 +57,7 @@ export const adultJurisdictionAffidavitAddressInformStepSchema = z
         },
         {
             message: 'This field is required.',
-            path: [
-                // 'previousAddresses',
-                'previousAddresses.address',
-            ],
+            path: ['previousAddresses.address'],
         }
     );
 

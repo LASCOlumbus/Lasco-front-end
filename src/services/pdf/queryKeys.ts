@@ -1,4 +1,4 @@
-// services/pdfService/queryKeys.ts
+// services/pdf/queryKeys.ts
 
 export const pdfKeys = {
     root: () => {

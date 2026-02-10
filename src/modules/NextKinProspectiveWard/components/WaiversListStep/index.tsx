@@ -153,19 +153,19 @@ const WaiversListStep: React.FC = () => {
                                                                             >
                                                                                 <RadioGroupItem
                                                                                     label="Spouse"
-                                                                                    value={'spouse'}
+                                                                                    value="spouse"
                                                                                 />
                                                                                 <RadioGroupItem
                                                                                     label="Living children"
-                                                                                    value={'living_children'}
+                                                                                    value="living_children"
                                                                                 />
                                                                                 <RadioGroupItem
                                                                                     label="Current guardian"
-                                                                                    value={'current_guardian'}
+                                                                                    value="current_guardian"
                                                                                 />
                                                                                 <RadioGroupItem
                                                                                     label="Other next of keen"
-                                                                                    value={'other_next_of_keen'}
+                                                                                    value="other_next_of_keen"
                                                                                 />
                                                                             </RadioGroup>
                                                                         </FormFieldLabelErrorWrapper>

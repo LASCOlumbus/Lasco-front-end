@@ -55,10 +55,7 @@ export const applicantCredibilityApplicationApplicantInformStepSchema = z.object
             },
             {
                 message: 'This field is required.',
-                path: [
-                    // 'previousAddresses',
-                    'previousAddresses.address',
-                ],
+                path: ['previousAddresses.address'],
             }
         ),
 });

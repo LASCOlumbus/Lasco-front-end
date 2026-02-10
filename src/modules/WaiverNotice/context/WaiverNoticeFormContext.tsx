@@ -1,5 +1,3 @@
-'use client';
-
 import { waiverNoticeCaseDetailsStepSchema, waiverNoticeWaiversListStepSchema } from '@/schemas/formSchemas';
 import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';

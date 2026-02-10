@@ -6,11 +6,11 @@ import { useMutation } from '@tanstack/react-query';
 import { ZodType } from 'zod';
 import { FORM_TYPES } from '@/lib/constants';
 import { AnimationDirection, MultiStepFormConfig } from '@/lib/types';
-import { generatePdfMutationOptions } from '@/services/pdfService/queries';
+import { generatePdfMutationOptions } from '@/services/pdf/queries';
 import { useAppForm } from '@/components/Forms/hooks/useAppForm';
 
 export function createMultiStepForm<TForm extends Record<string, unknown>>(
-    type: FORM_TYPES = FORM_TYPES._PROSPECTIVE_WARDS_FINANCIAL_INFORMATION
+    type: typeof FORM_TYPES._PROSPECTIVE_WARDS_FINANCIAL_INFORMATION
 ) {
     type Step<K extends keyof TForm = keyof TForm> = {
         id: K;
