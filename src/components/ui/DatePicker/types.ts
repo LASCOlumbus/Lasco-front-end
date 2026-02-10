@@ -9,8 +9,8 @@ export type DatePickerProps = {
     className?: string;
     contentProps?: PopoverContentProps;
     trigger?: React.ReactNode;
-    minDate?: Date;
-    maxDate?: Date;
+    minDate?: Date | null;
+    maxDate?: Date | null;
     selectsRange?: boolean;
     startDate?: Date | null;
     errorMessage?: string | boolean;

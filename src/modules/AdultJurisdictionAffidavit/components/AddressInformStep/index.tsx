@@ -149,7 +149,7 @@ const AddressInformStep: React.FC = () => {
                                                     return (
                                                         <form.Field
                                                             name={`previousAddresses[${index}]`}
-                                                            children={(_) => {
+                                                            children={(prevAddress) => {
                                                                 return (
                                                                     <div className={s['relative-card']} key={index}>
                                                                         <div className={s['relative-card-header']}>
@@ -203,6 +203,10 @@ const AddressInformStep: React.FC = () => {
                                                                                             label={<>From</>}
                                                                                         >
                                                                                             <DatePicker
+                                                                                                maxDate={parseDate(
+                                                                                                    prevAddress.state
+                                                                                                        .value?.to
+                                                                                                )}
                                                                                                 value={parseDate(
                                                                                                     field.state.value
                                                                                                 )}
@@ -233,6 +237,10 @@ const AddressInformStep: React.FC = () => {
                                                                                             label={<>To</>}
                                                                                         >
                                                                                             <DatePicker
+                                                                                                minDate={parseDate(
+                                                                                                    prevAddress.state
+                                                                                                        .value?.from
+                                                                                                )}
                                                                                                 value={parseDate(
                                                                                                     field.state.value
                                                                                                 )}

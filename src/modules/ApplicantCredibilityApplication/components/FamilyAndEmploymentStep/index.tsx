@@ -259,7 +259,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                     return (
                                                         <form.Field
                                                             name={`employment.previousEmployers[${index}]`}
-                                                            children={(_) => {
+                                                            children={(prevEmployee) => {
                                                                 return (
                                                                     <FieldSetCard key={index}>
                                                                         <FieldSetCardHeader>
@@ -319,6 +319,10 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                                             label={<>From</>}
                                                                                         >
                                                                                             <DatePicker
+                                                                                                maxDate={parseDate(
+                                                                                                    prevEmployee.state
+                                                                                                        .value?.to
+                                                                                                )}
                                                                                                 value={parseDate(
                                                                                                     field.state.value
                                                                                                 )}
@@ -349,6 +353,10 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                                             label={<>To</>}
                                                                                         >
                                                                                             <DatePicker
+                                                                                                minDate={parseDate(
+                                                                                                    prevEmployee.state
+                                                                                                        .value?.from
+                                                                                                )}
                                                                                                 value={parseDate(
                                                                                                     toField.state.value
                                                                                                 )}

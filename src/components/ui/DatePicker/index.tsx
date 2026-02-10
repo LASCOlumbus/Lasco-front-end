@@ -193,8 +193,8 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({
                 <ReactDatePicker
                     selected={startDate ?? null}
                     onChange={handleRangeChangeTyped}
-                    minDate={minDate}
-                    maxDate={maxDate}
+                    minDate={minDate ?? undefined}
+                    maxDate={maxDate ?? undefined}
                     inline
                     selectsRange
                     startDate={startDate ?? null}
@@ -214,8 +214,8 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({
             <ReactDatePicker
                 selected={value ?? null}
                 onChange={handleDateChange}
-                minDate={minDate}
-                maxDate={maxDate}
+                minDate={minDate ?? undefined}
+                maxDate={maxDate ?? undefined}
                 inline
                 renderCustomHeader={renderCustomHeader}
                 dayClassName={dayClassName}

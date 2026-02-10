@@ -57,6 +57,9 @@ const ApplicantInformStep: React.FC = () => {
                                     label={<>From</>}
                                 >
                                     <DatePicker
+                                        maxDate={parseDate(
+                                            form.state.values.applicantAddress.previousAddresses?.[index]?.to
+                                        )}
                                         value={parseDate(previousAddressFromField.state.value)}
                                         placeholder="MM / DD / YYYY"
                                         errorMessage={errorMessage}
@@ -77,6 +80,9 @@ const ApplicantInformStep: React.FC = () => {
                                     label={<>To</>}
                                 >
                                     <DatePicker
+                                        minDate={parseDate(
+                                            form.state.values.applicantAddress.previousAddresses?.[index]?.from
+                                        )}
                                         value={parseDate(previousAddressToField.state.value)}
                                         placeholder="MM / DD / YYYY"
                                         errorMessage={errorMessage}
