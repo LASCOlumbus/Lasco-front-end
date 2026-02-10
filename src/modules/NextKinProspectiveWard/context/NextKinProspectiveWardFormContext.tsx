@@ -44,7 +44,7 @@ const {
     Provider: BaseProvider,
     useFormContext,
     useStepForm,
-} = createMultiStepForm<NextKinProspectiveWardForm>(FORM_TYPES._NEXT_OF_KIN_OF_PROSPECTIVE_WARD);
+} = createMultiStepForm<NextKinProspectiveWardForm>(FORM_TYPES.nextOfKinOfProspectiveWard);
 
 const NEXT_KIN_PROSPECTIVE_WARD_FORM_CONFIG = {
     storageKey: 'NEXT_KIN_PROSPECTIVE_WARD_multi-step-form',

@@ -41,9 +41,9 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(
         lastPassedStepIndex: number;
         generatedFile: Blob | null;
         setGeneratedFile: (_file: Blob | null) => void;
-        generateIfNeeded: () => Promise<Blob>;
-        printPdf: () => Promise<void>;
-        downloadPdf: () => Promise<void>;
+        generateIfNeeded: () => void;
+        printPdf: () => void;
+        downloadPdf: () => void;
     };
 
     const Context = React.createContext<ContextType>({} as ContextType);
@@ -59,8 +59,24 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(
                 return s.enabled;
             });
         }, [config.steps]);
-        const mutation = useMutation(generatePdfMutationOptions<TForm>());
-
+        const mutation = useMutation({
+            ...generatePdfMutationOptions<TForm>(),
+            onMutate: () => {
+                toggleIsLoading(true);
+                toggleIsSuccessful(false);
+            },
+            onSuccess: (blob) => {
+                setGeneratedFile(blob);
+                toggleIsSuccessful(true);
+                toggleIsSubmitted(true);
+            },
+            onError: () => {
+                toggleIsSuccessful(false);
+            },
+            onSettled: () => {
+                toggleIsLoading(false);
+            },
+        });
         const { value: formData, set: setFormData } = useLocalStorageValue(config.storageKey, {
             defaultValue:
                 typeof window === 'undefined'
@@ -95,53 +111,41 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(
             return formData ? (JSON.parse(formData) as TForm) : config.initialState;
         }, [formData, config.initialState]);
 
-        const generateIfNeeded = async (): Promise<Blob> => {
-            if (generatedFile) return generatedFile;
+        const generateIfNeeded = () => {
+            if (generatedFile) return;
 
-            try {
-                toggleIsLoading(true);
-                toggleIsSuccessful(false);
-
-                const blob = await mutation.mutateAsync({
-                    type,
-                    data: parsedFormData,
-                    meta: 'extra metadata',
-                });
-
-                setGeneratedFile(blob);
-                toggleIsSuccessful(true);
-                toggleIsSubmitted(true);
-
-                return blob;
-            } catch (error) {
-                toggleIsSuccessful(false);
-                throw error;
-            } finally {
-                toggleIsLoading(false);
-            }
+            mutation.mutate({
+                type,
+                data: parsedFormData,
+                meta: 'extra metadata',
+            });
         };
 
-        const print = async () => {
-            const blob = await generateIfNeeded();
+        const print = () => {
+            if (!generatedFile) {
+                generateIfNeeded();
+                return;
+            }
 
-            const url = URL.createObjectURL(blob);
+            const url = URL.createObjectURL(generatedFile);
             const iframe = document.createElement('iframe');
 
             iframe.style.display = 'none';
             iframe.src = url;
 
             document.body.appendChild(iframe);
-
             iframe.onload = () => {
-                iframe.contentWindow?.focus();
-                iframe.contentWindow?.print();
+                return iframe.contentWindow?.print();
             };
         };
 
-        const download = async () => {
-            const blob = await generateIfNeeded();
+        const download = () => {
+            if (!generatedFile) {
+                generateIfNeeded();
+                return;
+            }
 
-            const url = URL.createObjectURL(blob);
+            const url = URL.createObjectURL(generatedFile);
             const a = document.createElement('a');
 
             a.href = url;
@@ -151,14 +155,14 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(
             URL.revokeObjectURL(url);
         };
 
-        const goToNextStep = async () => {
+        const goToNextStep = () => {
             flushSync(() => {
                 return setAnimationDirection('next');
             });
             const isLast = currentStepIndex === stepsArray.length - 1;
             inc();
             if (isLast) {
-                await generateIfNeeded();
+                generateIfNeeded();
             }
         };
 

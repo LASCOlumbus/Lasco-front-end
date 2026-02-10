@@ -23,7 +23,7 @@ const {
     Provider: BaseProvider,
     useFormContext,
     useStepForm,
-} = createMultiStepForm<WebcheckWaiverForm>(FORM_TYPES._WEBCHECK_WAIVER);
+} = createMultiStepForm<WebcheckWaiverForm>(FORM_TYPES.webcheckWaiver);
 
 const WEBCHECK_WAIVER_FORM_CONFIG = {
     storageKey: 'WEBCHECK_WAIVER_multi-step-form',

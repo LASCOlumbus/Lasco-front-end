@@ -7,7 +7,7 @@ const {
     Provider: BaseProvider,
     useFormContext,
     useStepForm,
-} = createMultiStepForm<WaiverNoticeForm>(FORM_TYPES._WAIVER_OF_NOTICE);
+} = createMultiStepForm<WaiverNoticeForm>(FORM_TYPES.waiverOfNotice);
 const WAIVER_NOTICE_FORM_INITIAL_STATE: WaiverNoticeForm = {
     caseDetailsStep: {
         guardianName: '',

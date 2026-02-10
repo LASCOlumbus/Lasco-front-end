@@ -61,7 +61,7 @@ const {
     Provider: BaseProvider,
     useFormContext,
     useStepForm,
-} = createMultiStepForm<AdultGuardianshipForm>(FORM_TYPES._ADULT_GUARDIANSHIP);
+} = createMultiStepForm<AdultGuardianshipForm>(FORM_TYPES.adultGuardianship);
 
 const ADULT_GUARDIANSHIP_FORM_CONFIG = {
     storageKey: 'ADULT_GUARDIANSHIP_multi-step-form',

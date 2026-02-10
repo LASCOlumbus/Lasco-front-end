@@ -106,7 +106,7 @@ const {
     Provider: BaseProvider,
     useFormContext,
     useStepForm,
-} = createMultiStepForm<ApplicantCredibilityApplicationForm>(FORM_TYPES._APPLICANT_CREDIBILITY_APPLICATION);
+} = createMultiStepForm<ApplicantCredibilityApplicationForm>(FORM_TYPES.applicantCredibilityApplication);
 
 const APPLICANT_CREDIBILITY_APPLICATION_FORM_CONFIG = {
     storageKey: 'APPLICANT_CREDIBILITY_APPLICATION_multi-step-form',

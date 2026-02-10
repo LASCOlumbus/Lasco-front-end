@@ -122,7 +122,7 @@ const {
     Provider: BaseProvider,
     useFormContext,
     useStepForm,
-} = createMultiStepForm<ApplicationForAppointmentForm>(FORM_TYPES._APPLICATION_FOR_APPOINTMENT_OF_GUARDIAN);
+} = createMultiStepForm<ApplicationForAppointmentForm>(FORM_TYPES.applicationForAppointmentOfGuardian);
 
 const APPLICATION_FOR_APPOINTMENT_FORM_CONFIG = {
     storageKey: 'APPLICATION_FOR_APPOINTMENT_multi-step-form',

@@ -91,7 +91,7 @@ const {
     Provider: BaseProvider,
     useFormContext,
     useStepForm,
-} = createMultiStepForm<ProspectiveWardsFinancialInfoForm>(FORM_TYPES._PROSPECTIVE_WARDS_FINANCIAL_INFORMATION);
+} = createMultiStepForm<ProspectiveWardsFinancialInfoForm>(FORM_TYPES.prospectiveWardsFinancialInformation);
 
 const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_CONFIG = {
     storageKey: 'PROSPECTIVE_WARDS_FINANCIAL_INFO_multi-step-form',

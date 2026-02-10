@@ -64,7 +64,7 @@ const {
     Provider: BaseProvider,
     useFormContext,
     useStepForm,
-} = createMultiStepForm<AdultJurisdictionAffidavitForm>(FORM_TYPES._ADULT_JURISDICTION_AFFIDAVIT);
+} = createMultiStepForm<AdultJurisdictionAffidavitForm>(FORM_TYPES.adultJurisdictionAffidavit);
 
 const ADULT_JURISDICTION_AFFIDAVIT_FORM_CONFIG = {
     storageKey: 'ADULT_JURISDICTION_AFFIDAVIT_multi-step-form',
