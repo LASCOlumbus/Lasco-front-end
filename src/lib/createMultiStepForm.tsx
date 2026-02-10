@@ -10,7 +10,7 @@ import { generatePdfMutationOptions } from '@/services/pdf/queries';
 import { useAppForm } from '@/components/Forms/hooks/useAppForm';
 
 export function createMultiStepForm<TForm extends Record<string, unknown>>(
-    type: typeof FORM_TYPES._PROSPECTIVE_WARDS_FINANCIAL_INFORMATION
+    type: (typeof FORM_TYPES)[keyof typeof FORM_TYPES]
 ) {
     type Step<K extends keyof TForm = keyof TForm> = {
         id: K;
