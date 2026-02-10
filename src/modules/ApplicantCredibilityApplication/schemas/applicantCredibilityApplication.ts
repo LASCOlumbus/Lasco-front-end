@@ -35,30 +35,14 @@ export const previousAddressOptionalSchema = z.object({
 
 export const applicantCredibilityApplicationApplicantInformStepSchema = z.object({
     applicantName: requiredStringSchema,
-    dob: z
-        .union([z.date(), z.string()])
-        .nullable()
-        .transform((value) => {
-            if (value === null) {
-                return null;
-            }
-            return new Date(value);
-        }),
+    dob: z.union([z.date(), z.string()]).nullable(),
     applicantAddress: z
         .object({
             streetAddress: requiredStringSchema,
             city: requiredStringSchema,
             state: requiredStringSchema,
             zip: zipCodeSchema,
-            from: z
-                .union([z.date(), z.string()])
-                .nullable()
-                .transform((value) => {
-                    if (value === null) {
-                        return null;
-                    }
-                    return new Date(value);
-                }),
+            from: z.union([z.date(), z.string()]).nullable(),
             isSameAddressLast5Years: booleanAnswer,
             previousAddresses: z.array(previousAddressOptionalSchema).optional(),
         })
@@ -71,10 +55,7 @@ export const applicantCredibilityApplicationApplicantInformStepSchema = z.object
             },
             {
                 message: 'This field is required.',
-                path: [
-                    // 'previousAddresses',
-                    'previousAddresses.address',
-                ],
+                path: ['previousAddresses.address'],
             }
         ),
 });

@@ -1,0 +1,164 @@
+import { requiredStringSchema } from '@/schemas/formSchemas';
+import { z } from 'zod';
+
+export const booleanAnswer = z
+    .boolean()
+    .nullable()
+    .refine((value) => {
+        if (value !== null) {
+            return true;
+        }
+        return false;
+    }, 'This field is required.');
+export const prospectiveWardsFinancialInfoFormCaseDetailsStepSchema = z.object({
+    inTheMatterOfTheGuardianshipOf: requiredStringSchema,
+    caseNumber: requiredStringSchema,
+});
+export const BENEFITS_LABELS = {
+    socialSecurity: 'Social security',
+    PERS: 'P.E.R.S.',
+    VABenefits: 'V.A. benefits',
+    railroadRetirement: 'Railroad retirement',
+    medicaid: 'Medicaid',
+    otherInsuranceBenefits: 'Other insurance benefits',
+    otherPension: 'Other pension(s)',
+};
+
+export const BENEFIT_KEYS = [
+    'socialSecurity',
+    'PERS',
+    'VABenefits',
+    'railroadRetirement',
+    'medicaid',
+    'otherInsuranceBenefits',
+    'otherPension',
+] as const;
+
+export type BenefitKey = (typeof BENEFIT_KEYS)[number];
+
+export const prospectiveWardsFinancialInfoBenefitsStepSchema = z
+    .object({
+        benefit: z.array(z.enum(BENEFIT_KEYS)).min(1, 'Select at least one benefit'),
+        socialSecurity: z
+            .object({
+                representativePayeeName: z.string(),
+                socialSecuritySize: z.string(),
+            })
+            .partial(),
+        PERS: z
+            .object({
+                size: z.string(),
+            })
+            .partial(),
+        VABenefits: z
+            .object({
+                size: z.string(),
+            })
+            .partial(),
+
+        railroadRetirement: z
+            .object({
+                size: z.string(),
+            })
+            .partial(),
+
+        medicaid: z
+            .object({
+                isWardMedicaidFacilityResident: z.boolean(),
+            })
+            .partial(),
+
+        otherInsuranceBenefits: z
+            .object({
+                description: z.string(),
+            })
+            .partial(),
+
+        otherPension: z
+            .object({
+                description: z.string(),
+            })
+            .partial(),
+    })
+    .superRefine((data, ctx) => {
+        data.benefit.forEach((key) => {
+            const value = data[key as BenefitKey];
+
+            Object.entries(value).forEach(([k, v]) => {
+                if ((v === '' || v === undefined) && k !== 'socialSecuritySize') {
+                    ctx.addIssue({
+                        path: [`${key}.${k}`],
+                        message: `This field is required because "${BENEFITS_LABELS[key]}" is selected`,
+                        code: 'custom',
+                    });
+                }
+            });
+        });
+    });
+
+export const financialAccountSchema = z.object({
+    institution: requiredStringSchema,
+    type: requiredStringSchema,
+    estimatedBalance: requiredStringSchema,
+});
+export const prospectiveWardsFinancialInfoFinancialAccountStepSchema = z.object({
+    accounts: z.array(financialAccountSchema).min(1, 'This field is required.'),
+});
+
+export const prospectiveWardsFinancialInfoPropertyStepSchema = z
+    .object({
+        isProspectiveWardRealEstateOwner: booleanAnswer,
+        prospectiveWardReceivesRentalIncome: booleanAnswer,
+        realEstateAddress: z.string().optional(),
+        rentalIncomeAmount: z.string().optional(),
+    })
+    .superRefine((data, ctx) => {
+        if (data.isProspectiveWardRealEstateOwner === true) {
+            if (!data.realEstateAddress?.trim()) {
+                ctx.addIssue({
+                    path: ['realEstateAddress'],
+                    message: 'This field is required.',
+                    code: 'custom',
+                });
+            }
+        }
+
+        if (data.prospectiveWardReceivesRentalIncome === true) {
+            if (!data.rentalIncomeAmount?.trim()) {
+                ctx.addIssue({
+                    path: ['rentalIncomeAmount'],
+                    message: 'This field is required.',
+                    code: 'custom',
+                });
+            }
+        }
+    });
+
+export const BENEFICIARY_KEYS = ['decedentEstate', 'otherTrust', 'specialNeedsTrust'] as const;
+export const BENEFICIARY_LABELS = {
+    decedentEstate: 'Decedent’s estate',
+    otherTrust: 'Any other trust',
+    specialNeedsTrust: 'Special needs trust',
+} as const;
+export type BeneficiaryKey = (typeof BENEFICIARY_KEYS)[number];
+
+export const prospectiveWardsFinancialInfoAssetsInterestsSchema = z
+    .object({
+        prospectiveWardBeneficiaryOf: z.array(z.enum(BENEFICIARY_KEYS)),
+        identifyingInformation: z.string().optional(),
+        sourceOfIncomeOrAsset: z.string().optional(),
+        amountOfIncomeOrAsset: z.string().optional(),
+        hasSufficientFundsToPayCourtCosts: z.boolean(),
+        doesNotHaveSufficientFundsToPayCourtCosts: z.boolean(),
+    })
+    .superRefine((data, ctx) => {
+        if (data.prospectiveWardBeneficiaryOf.length > 0) {
+            if (!data.identifyingInformation || data.identifyingInformation.trim() === '') {
+                ctx.addIssue({
+                    path: ['identifyingInformation'],
+                    message: 'This field is required.',
+                    code: 'custom',
+                });
+            }
+        }
+    });

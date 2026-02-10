@@ -7,7 +7,7 @@ import { AdultJurisdictionAffidavitFormStepProps } from './types';
 const AdultJurisdictionAffidavitFormStep: React.FC<
     React.PropsWithChildren<AdultJurisdictionAffidavitFormStepProps>
 > = ({ children, id }) => {
-    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep } =
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } =
         useAdultJurisdictionAffidavitFormContext();
 
     if (currentStep.id !== id) {
@@ -17,6 +17,8 @@ const AdultJurisdictionAffidavitFormStep: React.FC<
     if (isSubmitted && isSuccessful) {
         return (
             <SuccessSection
+                handlePrint={printPdf}
+                handleDownload={downloadPdf}
                 title="Guardianship credibility application form has been submitted"
                 description="To finish your filing, please download the generated document, print it, and sign it. The court requires a physical signature. Unsigned documents cannot be processed."
             />

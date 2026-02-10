@@ -7,7 +7,7 @@ import { ApplicantCredibilityApplicationFormStepProps } from './types';
 const ApplicantCredibilityApplicationFormStep: React.FC<
     React.PropsWithChildren<ApplicantCredibilityApplicationFormStepProps>
 > = ({ children, id }) => {
-    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep } =
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } =
         useApplicantCredibilityApplicationFormContext();
 
     if (currentStep.id !== id) {
@@ -17,6 +17,8 @@ const ApplicantCredibilityApplicationFormStep: React.FC<
     if (isSubmitted && isSuccessful) {
         return (
             <SuccessSection
+                handlePrint={printPdf}
+                handleDownload={downloadPdf}
                 title={<>Applicant&apos;s credibility application form has been submitted</>}
                 description={
                     <>

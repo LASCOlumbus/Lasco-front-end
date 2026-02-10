@@ -42,24 +42,8 @@ export const previousAddressOptionalSchema = z.object({
 export const adultJurisdictionAffidavitAddressInformStepSchema = z
     .object({
         currentAddress: requiredStringSchema,
-        from: z
-            .union([z.date(), z.string()])
-            .nullable()
-            .transform((value) => {
-                if (value === null) {
-                    return null;
-                }
-                return new Date(value);
-            }),
-        to: z
-            .union([z.date(), z.string()])
-            .nullable()
-            .transform((value) => {
-                if (value === null) {
-                    return null;
-                }
-                return new Date(value);
-            }),
+        from: z.union([z.date(), z.string()]).nullable(),
+        to: z.union([z.date(), z.string()]).nullable(),
         withWhom: requiredStringSchema,
         isSameAddressLast2Years: booleanAnswer,
         previousAddresses: z.array(previousAddressOptionalSchema).optional(),
@@ -73,10 +57,7 @@ export const adultJurisdictionAffidavitAddressInformStepSchema = z
         },
         {
             message: 'This field is required.',
-            path: [
-                // 'previousAddresses',
-                'previousAddresses.address',
-            ],
+            path: ['previousAddresses.address'],
         }
     );
 

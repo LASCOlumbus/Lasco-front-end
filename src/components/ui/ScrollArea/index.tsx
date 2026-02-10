@@ -1,5 +1,3 @@
-'use client';
-
 import type { ScrollAreaProps, ScrollAreaScrollBarProps } from './types';
 import { ScrollArea as BaseScrollArea } from '@base-ui/react/scroll-area';
 import clsx from 'clsx';
