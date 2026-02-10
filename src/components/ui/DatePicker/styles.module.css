@@ -44,6 +44,10 @@
     color: var(--text-secondary);
 }
 
+.trigger.error {
+    border-color: var(--border-negative);
+}
+
 .content {
     padding: 0.4375rem;
 }

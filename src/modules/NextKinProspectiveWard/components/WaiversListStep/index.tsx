@@ -2,6 +2,7 @@ import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
+import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Alert } from '@/components/ui/Alert';
@@ -51,13 +52,13 @@ const WaiversListStep: React.FC = () => {
                 <div className={s.inputs}>
                     <form.Field
                         name="relatives"
+                        mode="array"
                         children={(field) => {
                             return (
                                 <>
                                     {field.state?.value?.map((_, index) => {
                                         return (
                                             <form.Field
-                                                mode="array"
                                                 name={`relatives[${index}]`}
                                                 children={(relative) => {
                                                     return (
@@ -83,13 +84,13 @@ const WaiversListStep: React.FC = () => {
                                                             <div className={s['input-with-checkbox']}>
                                                                 <form.AppField
                                                                     name={`relatives[${index}].fullName`}
-                                                                    children={(field) => {
+                                                                    children={(fullNameSubField) => {
                                                                         return (
-                                                                            <field.InputField
+                                                                            <fullNameSubField.InputField
                                                                                 name={`relatives[${index}].fullName`}
                                                                                 label={<>Full name of relative</>}
                                                                                 placeholder="Type full name"
-                                                                                onBlur={field.handleBlur}
+                                                                                onBlur={fullNameSubField.handleBlur}
                                                                             />
                                                                         );
                                                                     }}
@@ -97,19 +98,23 @@ const WaiversListStep: React.FC = () => {
 
                                                                 <form.Field
                                                                     name={`relatives[${index}].isRelativeUnder18`}
-                                                                    children={(f) => {
+                                                                    children={(relativeAgeField) => {
                                                                         return (
-                                                                            <div className={s['checkbox-wrapper']}>
+                                                                            <label className={s['checkbox-wrapper']}>
                                                                                 <Checkbox
-                                                                                    checked={f.state.value}
+                                                                                    checked={
+                                                                                        relativeAgeField.state.value
+                                                                                    }
                                                                                     onCheckedChange={(checked) => {
-                                                                                        f.handleChange(checked);
+                                                                                        relativeAgeField.handleChange(
+                                                                                            checked
+                                                                                        );
                                                                                     }}
                                                                                 />
                                                                                 <Typography variant="body-s">
                                                                                     This relative under the age of 18
                                                                                 </Typography>
-                                                                            </div>
+                                                                            </label>
                                                                         );
                                                                     }}
                                                                 />
@@ -117,13 +122,27 @@ const WaiversListStep: React.FC = () => {
                                                                 {relative.state.value?.isRelativeUnder18 && (
                                                                     <form.AppField
                                                                         name={`relatives[${index}].dob`}
-                                                                        children={(field) => {
+                                                                        children={(dobField) => {
+                                                                            const errorMessage = getFieldErrorMessage(
+                                                                                dobField.state.meta.errors
+                                                                            );
+
                                                                             return (
-                                                                                <DatePicker
-                                                                                    value={parseDate(field.state.value)}
-                                                                                    onChange={field.handleChange}
-                                                                                    placeholder="MM / DD / YYYY"
-                                                                                />
+                                                                                <FormFieldWrapper
+                                                                                    name={dobField.name}
+                                                                                    label={
+                                                                                        <>Date of birth of relative</>
+                                                                                    }
+                                                                                >
+                                                                                    <DatePicker
+                                                                                        value={parseDate(
+                                                                                            dobField.state.value
+                                                                                        )}
+                                                                                        errorMessage={errorMessage}
+                                                                                        placeholder="MM / DD / YYYY"
+                                                                                        onChange={dobField.handleChange}
+                                                                                    />
+                                                                                </FormFieldWrapper>
                                                                             );
                                                                         }}
                                                                     />
@@ -132,9 +151,9 @@ const WaiversListStep: React.FC = () => {
 
                                                             <form.Field
                                                                 name={`relatives[${index}].relationship`}
-                                                                children={(field) => {
+                                                                children={(relationshipField) => {
                                                                     const errorMessage = getFieldErrorMessage(
-                                                                        field.state.meta.errors
+                                                                        relationshipField.state.meta.errors
                                                                     );
 
                                                                     return (
@@ -146,9 +165,11 @@ const WaiversListStep: React.FC = () => {
                                                                         >
                                                                             <RadioGroup
                                                                                 className={s['checkbox-group']}
-                                                                                value={field.state.value}
+                                                                                value={relationshipField.state.value}
                                                                                 onValueChange={(value) => {
-                                                                                    field.handleChange(value as string);
+                                                                                    relationshipField.handleChange(
+                                                                                        value as string
+                                                                                    );
                                                                                 }}
                                                                             >
                                                                                 <RadioGroupItem
@@ -176,13 +197,13 @@ const WaiversListStep: React.FC = () => {
                                                             <div className={s['inputs-wrapper']}>
                                                                 <form.AppField
                                                                     name={`relatives[${index}].address`}
-                                                                    children={(field) => {
+                                                                    children={(addressField) => {
                                                                         return (
-                                                                            <field.InputField
+                                                                            <addressField.InputField
                                                                                 name={`relatives[${index}].address`}
                                                                                 label={<>Address</>}
                                                                                 placeholder="Type address"
-                                                                                onBlur={field.handleBlur}
+                                                                                onBlur={addressField.handleBlur}
                                                                             />
                                                                         );
                                                                     }}
@@ -190,12 +211,18 @@ const WaiversListStep: React.FC = () => {
 
                                                                 <form.AppField
                                                                     name={`relatives[${index}].zip`}
-                                                                    children={(field) => {
+                                                                    children={(zipField) => {
                                                                         return (
-                                                                            <field.InputField
-                                                                                name={`relatives[${index}].fullName`}
+                                                                            <zipField.InputField
+                                                                                name={`relatives[${index}].zip`}
+                                                                                type="number"
                                                                                 label={<>ZIP code</>}
                                                                                 placeholder="Ex. 43215"
+                                                                                numericFormatProps={{
+                                                                                    thousandSeparator: false,
+                                                                                    allowLeadingZeros: true,
+                                                                                    valueIsNumericString: true,
+                                                                                }}
                                                                                 onBlur={field.handleBlur}
                                                                             />
                                                                         );

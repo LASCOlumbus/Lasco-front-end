@@ -60,12 +60,15 @@ const AddressInformStep: React.FC = () => {
                             <form.AppField
                                 name="from"
                                 children={(field) => {
+                                    const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
                                     return (
                                         <FormFieldWrapper name="from" label={<>From</>}>
                                             <DatePicker
                                                 value={parseDate(field.state.value)}
-                                                onChange={field.handleChange}
                                                 placeholder="MM / DD / YYYY"
+                                                errorMessage={errorMessage}
+                                                onChange={field.handleChange}
                                             />
                                         </FormFieldWrapper>
                                     );
@@ -74,12 +77,15 @@ const AddressInformStep: React.FC = () => {
                             <form.AppField
                                 name="to"
                                 children={(field) => {
+                                    const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
                                     return (
                                         <FormFieldWrapper name="to" label={<>To</>}>
                                             <DatePicker
                                                 value={parseDate(field.state.value)}
-                                                onChange={field.handleChange}
                                                 placeholder="MM / DD / YYYY"
+                                                errorMessage={errorMessage}
+                                                onChange={field.handleChange}
                                             />
                                         </FormFieldWrapper>
                                     );
@@ -186,6 +192,11 @@ const AddressInformStep: React.FC = () => {
                                                                             <form.AppField
                                                                                 name={`previousAddresses[${index}].from`}
                                                                                 children={(field) => {
+                                                                                    const errorMessage =
+                                                                                        getFieldErrorMessage(
+                                                                                            field.state.meta.errors
+                                                                                        );
+
                                                                                     return (
                                                                                         <FormFieldWrapper
                                                                                             name={`previousAddresses[${index}].from`}
@@ -199,6 +210,9 @@ const AddressInformStep: React.FC = () => {
                                                                                                     field.handleChange
                                                                                                 }
                                                                                                 placeholder="MM / DD / YYYY"
+                                                                                                errorMessage={
+                                                                                                    errorMessage
+                                                                                                }
                                                                                             />
                                                                                         </FormFieldWrapper>
                                                                                     );
@@ -208,6 +222,11 @@ const AddressInformStep: React.FC = () => {
                                                                             <form.AppField
                                                                                 name={`previousAddresses[${index}].to`}
                                                                                 children={(field) => {
+                                                                                    const errorMessage =
+                                                                                        getFieldErrorMessage(
+                                                                                            field.state.meta.errors
+                                                                                        );
+
                                                                                     return (
                                                                                         <FormFieldWrapper
                                                                                             name={`previousAddresses[${index}].to`}
@@ -221,6 +240,9 @@ const AddressInformStep: React.FC = () => {
                                                                                                     field.handleChange
                                                                                                 }
                                                                                                 placeholder="MM / DD / YYYY"
+                                                                                                errorMessage={
+                                                                                                    errorMessage
+                                                                                                }
                                                                                             />
                                                                                         </FormFieldWrapper>
                                                                                     );

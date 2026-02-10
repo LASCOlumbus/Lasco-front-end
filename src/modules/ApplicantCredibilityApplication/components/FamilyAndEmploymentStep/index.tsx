@@ -200,13 +200,16 @@ const FamilyAndEmploymentStep: React.FC = () => {
                             />
                             <form.AppField
                                 name="employment.from"
-                                children={(f) => {
+                                children={(fromField) => {
+                                    const errorMessage = getFieldErrorMessage(fromField.state.meta.errors);
+
                                     return (
                                         <FormFieldWrapper name="employment.from" label={<>From</>}>
                                             <DatePicker
-                                                value={parseDate(f.state.value)}
-                                                onChange={f.handleChange}
+                                                value={parseDate(fromField.state.value)}
                                                 placeholder="MM / DD / YYYY"
+                                                errorMessage={errorMessage}
+                                                onChange={fromField.handleChange}
                                             />
                                         </FormFieldWrapper>
                                     );
@@ -306,6 +309,10 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                             <form.AppField
                                                                                 name={`employment.previousEmployers[${index}].from`}
                                                                                 children={(field) => {
+                                                                                    const errorMessage =
+                                                                                        getFieldErrorMessage(
+                                                                                            field.state.meta.errors
+                                                                                        );
                                                                                     return (
                                                                                         <FormFieldWrapper
                                                                                             name={`employment.previousEmployers[${index}].from`}
@@ -319,6 +326,9 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                                                     field.handleChange
                                                                                                 }
                                                                                                 placeholder="MM / DD / YYYY"
+                                                                                                errorMessage={
+                                                                                                    errorMessage
+                                                                                                }
                                                                                             />
                                                                                         </FormFieldWrapper>
                                                                                     );
@@ -327,7 +337,12 @@ const FamilyAndEmploymentStep: React.FC = () => {
 
                                                                             <form.AppField
                                                                                 name={`employment.previousEmployers[${index}].to`}
-                                                                                children={(f) => {
+                                                                                children={(toField) => {
+                                                                                    const errorMessage =
+                                                                                        getFieldErrorMessage(
+                                                                                            toField.state.meta.errors
+                                                                                        );
+
                                                                                     return (
                                                                                         <FormFieldWrapper
                                                                                             name={`employment.previousEmployers[${index}].to`}
@@ -335,12 +350,15 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                                         >
                                                                                             <DatePicker
                                                                                                 value={parseDate(
-                                                                                                    f.state.value
+                                                                                                    toField.state.value
                                                                                                 )}
                                                                                                 onChange={
-                                                                                                    f.handleChange
+                                                                                                    toField.handleChange
                                                                                                 }
                                                                                                 placeholder="MM / DD / YYYY"
+                                                                                                errorMessage={
+                                                                                                    errorMessage
+                                                                                                }
                                                                                             />
                                                                                         </FormFieldWrapper>
                                                                                     );

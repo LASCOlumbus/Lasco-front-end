@@ -50,8 +50,9 @@ const ApplicantInformStep: React.FC = () => {
                         />
                         <form.AppField
                             name="applicantDob"
-                            children={(f) => {
-                                const errorMessage = getFieldErrorMessage(f.state.meta.errors);
+                            children={(dobField) => {
+                                const errorMessage = getFieldErrorMessage(dobField.state.meta.errors);
+
                                 return (
                                     <FormFieldWrapper
                                         name="applicantDob"
@@ -59,9 +60,10 @@ const ApplicantInformStep: React.FC = () => {
                                         errorMessage={errorMessage}
                                     >
                                         <DatePicker
-                                            value={parseDate(f.state.value)}
-                                            onChange={f.handleChange}
+                                            value={parseDate(dobField.state.value)}
                                             placeholder="MM / DD / YYYY"
+                                            errorMessage={errorMessage}
+                                            onChange={dobField.handleChange}
                                         />
                                     </FormFieldWrapper>
                                 );

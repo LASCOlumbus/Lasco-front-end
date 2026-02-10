@@ -32,7 +32,7 @@ export const InputField: React.FC<InputFieldProps> = ({
                     errorMessage={fieldErrorMessage}
                     customInput={Input}
                     onValueChange={({ floatValue, value }) => {
-                        field.handleChange(numericFormatProps?.valueIsNumericString ? value : floatValue);
+                        field.handleChange(numericFormatProps?.valueIsNumericString ? value || '' : (floatValue ?? 0));
                     }}
                 />
             </FormFieldWrapper>
