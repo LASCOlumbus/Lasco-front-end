@@ -13,6 +13,7 @@ export type DatePickerProps = {
     maxDate?: Date;
     selectsRange?: boolean;
     startDate?: Date | null;
+    errorMessage?: string | boolean;
     endDate?: Date | null;
     onRangeChange?: (_dates: [Date | null, Date | null]) => void;
 };

@@ -181,8 +181,8 @@ const SafetyServiceStep: React.FC = () => {
                         it is the Applicant&apos;s responsibility to notify the court investigator at{' '}
                         <a className={clsx(s.link, 'focus-primary')} href="tel:+16145256109">
                             (614) 525-6109
-                        </a>
-                        or
+                        </a>{' '}
+                        or{' '}
                         <a className={clsx(s.link, 'focus-primary')} href="tel:+16145256296">
                             (614) 525-6296
                         </a>

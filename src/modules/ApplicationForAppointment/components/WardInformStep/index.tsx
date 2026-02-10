@@ -58,13 +58,16 @@ const WardInformStep: React.FC = () => {
                         />
                         <form.AppField
                             name="wardDob"
-                            children={(f) => {
+                            children={(wardDobField) => {
+                                const errorMessage = getFieldErrorMessage(wardDobField.state.meta.errors);
+
                                 return (
                                     <FormFieldWrapper name="wardDob" label={<>Prospective ward date of birth</>}>
                                         <DatePicker
-                                            value={parseDate(f.state.value)}
-                                            onChange={f.handleChange}
+                                            value={parseDate(wardDobField.state.value)}
                                             placeholder="MM / DD / YYYY"
+                                            errorMessage={errorMessage}
+                                            onChange={wardDobField.handleChange}
                                         />
                                     </FormFieldWrapper>
                                 );
@@ -243,16 +246,21 @@ const WardInformStep: React.FC = () => {
                                     <div className={s['inputs-wrapper']}>
                                         <form.AppField
                                             name="militaryService.startDateOfService"
-                                            children={(f) => {
+                                            children={(startDateOfServiceField) => {
+                                                const errorMessage = getFieldErrorMessage(
+                                                    startDateOfServiceField.state.meta.errors
+                                                );
+
                                                 return (
                                                     <FormFieldWrapper
                                                         name="militaryService.startDateOfService"
                                                         label={<>Start dates of service</>}
                                                     >
                                                         <DatePicker
-                                                            value={parseDate(f.state.value)}
-                                                            onChange={f.handleChange}
+                                                            value={parseDate(startDateOfServiceField.state.value)}
                                                             placeholder="MM / DD / YYYY"
+                                                            errorMessage={errorMessage}
+                                                            onChange={startDateOfServiceField.handleChange}
                                                         />
                                                     </FormFieldWrapper>
                                                 );
@@ -260,16 +268,21 @@ const WardInformStep: React.FC = () => {
                                         />
                                         <form.AppField
                                             name="militaryService.endDateOfService"
-                                            children={(f) => {
+                                            children={(endDateOfServiceField) => {
+                                                const errorMessage = getFieldErrorMessage(
+                                                    endDateOfServiceField.state.meta.errors
+                                                );
+
                                                 return (
                                                     <FormFieldWrapper
                                                         name="militaryService.endDateOfService"
                                                         label={<>End dates of service</>}
                                                     >
                                                         <DatePicker
-                                                            value={parseDate(f.state.value)}
-                                                            onChange={f.handleChange}
+                                                            value={parseDate(endDateOfServiceField.state.value)}
                                                             placeholder="MM / DD / YYYY"
+                                                            errorMessage={errorMessage}
+                                                            onChange={endDateOfServiceField.handleChange}
                                                         />
                                                     </FormFieldWrapper>
                                                 );

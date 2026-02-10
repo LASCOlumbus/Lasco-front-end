@@ -5,6 +5,7 @@ import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
+import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
 import DatePicker from '@/components/ui/DatePicker';
@@ -91,16 +92,21 @@ const LegalDeclarationsStep: React.FC = () => {
                                         />
                                         <form.AppField
                                             name="conviction.convictionDate"
-                                            children={(f) => {
+                                            children={(convictionDateField) => {
+                                                const errorMessage = getFieldErrorMessage(
+                                                    convictionDateField.state.meta.errors
+                                                );
+
                                                 return (
                                                     <FormFieldWrapper
                                                         name="conviction.convictionDate"
                                                         label={<>Date of conviction</>}
                                                     >
                                                         <DatePicker
-                                                            value={parseDate(f.state.value)}
-                                                            onChange={f.handleChange}
+                                                            value={parseDate(convictionDateField.state.value)}
                                                             placeholder="MM / DD / YYYY"
+                                                            errorMessage={errorMessage}
+                                                            onChange={convictionDateField.handleChange}
                                                         />
                                                     </FormFieldWrapper>
                                                 );
@@ -183,13 +189,13 @@ const LegalDeclarationsStep: React.FC = () => {
                         children={(field) => {
                             return (
                                 <FormFieldWrapper name="isNominatedPersonContactInfoListedOnForm15">
-                                    <div className={s['checkbox-input']}>
+                                    <label className={s['checkbox-input']}>
                                         <Checkbox checked={!!field.state.value} onCheckedChange={field.handleChange} />
                                         <Typography variant="body-s">
-                                            The nominated person’s contact information is listed on Form 15.0 – Next of
-                                            Kin.
+                                            The nominated person&apos;s contact information is listed on Form 15.0 -
+                                            Next of Kin.
                                         </Typography>
-                                    </div>
+                                    </label>
                                 </FormFieldWrapper>
                             );
                         }}
@@ -200,12 +206,12 @@ const LegalDeclarationsStep: React.FC = () => {
                         children={(field) => {
                             return (
                                 <FormFieldWrapper name="isGuardianNominatedDocumentAttached">
-                                    <div className={s['checkbox-input']}>
+                                    <label className={s['checkbox-input']}>
                                         <Checkbox checked={!!field.state.value} onCheckedChange={field.handleChange} />
                                         <Typography variant="body-s">
                                             A copy of the document which nominates the guardian is attached.
                                         </Typography>
-                                    </div>
+                                    </label>
                                 </FormFieldWrapper>
                             );
                         }}
@@ -216,13 +222,13 @@ const LegalDeclarationsStep: React.FC = () => {
                         children={(field) => {
                             return (
                                 <FormFieldWrapper name="isNotAdmin">
-                                    <div className={s['checkbox-input']}>
+                                    <label className={s['checkbox-input']}>
                                         <Checkbox checked={!!field.state.value} onCheckedChange={field.handleChange} />
                                         <Typography variant="body-s">
                                             I am not an administrator, executor, or fiduciary of an estate in which the
                                             Prospective Ward is interested.
                                         </Typography>
-                                    </div>
+                                    </label>
                                 </FormFieldWrapper>
                             );
                         }}
@@ -233,7 +239,7 @@ const LegalDeclarationsStep: React.FC = () => {
                         children={(field) => {
                             return (
                                 <FormFieldWrapper name="isApplicantAgreed">
-                                    <div className={s['checkbox-input']}>
+                                    <label className={s['checkbox-input']}>
                                         <Checkbox checked={!!field.state.value} onCheckedChange={field.handleChange} />
                                         <Typography variant="body-s">
                                             I (applicant) represents that the address provided below is the Applicant's
@@ -241,11 +247,15 @@ const LegalDeclarationsStep: React.FC = () => {
                                             notified of any change of address. Removal may result from failure to comply
                                             with this requirement.
                                         </Typography>
-                                    </div>
+                                    </label>
                                 </FormFieldWrapper>
                             );
                         }}
                     />
+                    <Alert>
+                        Confirmation of the applicant&apos;s permanent address is required for the court to accept the
+                        application.
+                    </Alert>
                 </div>
             </div>
             <div className={s.footer}>

@@ -94,6 +94,12 @@ const AccountAndRealEstateStep: React.FC = () => {
                                                                         <field.InputField
                                                                             name={`accounts[${index}].estimatedBalance`}
                                                                             label={<> Estimated balance</>}
+                                                                            type="number"
+                                                                            numericFormatProps={{
+                                                                                prefix: '$',
+                                                                                thousandSeparator: true,
+                                                                                allowLeadingZeros: false,
+                                                                            }}
                                                                             placeholder="$0.00"
                                                                             onBlur={field.handleBlur}
                                                                         />
@@ -113,7 +119,7 @@ const AccountAndRealEstateStep: React.FC = () => {
                                     variant="secondary"
                                     size="medium"
                                     onClick={() => {
-                                        field.pushValue({ institution: '', type: '', estimatedBalance: '' });
+                                        field.pushValue({ institution: '', type: '', estimatedBalance: 0 });
                                     }}
                                 >
                                     Add another relative

@@ -1,4 +1,4 @@
-import { requiredStringSchema } from '@/schemas/formSchemas';
+import { optionalNumberSchema, positiveNumberSchema, requiredStringSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
 
 export const booleanAnswer = z
@@ -42,23 +42,23 @@ export const prospectiveWardsFinancialInfoBenefitsStepSchema = z
         socialSecurity: z
             .object({
                 representativePayeeName: z.string(),
-                socialSecuritySize: z.string(),
+                socialSecuritySize: optionalNumberSchema,
             })
             .partial(),
         PERS: z
             .object({
-                size: z.string(),
+                size: optionalNumberSchema,
             })
             .partial(),
         VABenefits: z
             .object({
-                size: z.string(),
+                size: optionalNumberSchema,
             })
             .partial(),
 
         railroadRetirement: z
             .object({
-                size: z.string(),
+                size: optionalNumberSchema,
             })
             .partial(),
 
@@ -85,7 +85,12 @@ export const prospectiveWardsFinancialInfoBenefitsStepSchema = z
             const value = data[key as BenefitKey];
 
             Object.entries(value).forEach(([k, v]) => {
-                if ((v === '' || v === undefined) && k !== 'socialSecuritySize') {
+                const isSizeField = k.toLowerCase().includes('size');
+                if (
+                    ((!isSizeField && (v === '' || v === undefined)) ||
+                        (k.toLowerCase().includes('size') && !positiveNumberSchema.safeParse(v).success)) &&
+                    k !== 'representativePayeeName'
+                ) {
                     ctx.addIssue({
                         path: [`${key}.${k}`],
                         message: `This field is required because "${BENEFITS_LABELS[key]}" is selected`,
@@ -99,7 +104,7 @@ export const prospectiveWardsFinancialInfoBenefitsStepSchema = z
 export const financialAccountSchema = z.object({
     institution: requiredStringSchema,
     type: requiredStringSchema,
-    estimatedBalance: requiredStringSchema,
+    estimatedBalance: positiveNumberSchema,
 });
 export const prospectiveWardsFinancialInfoFinancialAccountStepSchema = z.object({
     accounts: z.array(financialAccountSchema).min(1, 'This field is required.'),
@@ -110,7 +115,7 @@ export const prospectiveWardsFinancialInfoPropertyStepSchema = z
         isProspectiveWardRealEstateOwner: booleanAnswer,
         prospectiveWardReceivesRentalIncome: booleanAnswer,
         realEstateAddress: z.string().optional(),
-        rentalIncomeAmount: z.string().optional(),
+        rentalIncomeAmount: z.number().optional().nullable(),
     })
     .superRefine((data, ctx) => {
         if (data.isProspectiveWardRealEstateOwner === true) {
@@ -123,11 +128,11 @@ export const prospectiveWardsFinancialInfoPropertyStepSchema = z
             }
         }
 
-        if (data.prospectiveWardReceivesRentalIncome === true) {
-            if (!data.rentalIncomeAmount?.trim()) {
+        if (data.prospectiveWardReceivesRentalIncome) {
+            if (!positiveNumberSchema.safeParse(data.rentalIncomeAmount).success) {
                 ctx.addIssue({
                     path: ['rentalIncomeAmount'],
-                    message: 'This field is required.',
+                    message: 'This field must be a positive number',
                     code: 'custom',
                 });
             }
@@ -147,7 +152,7 @@ export const prospectiveWardsFinancialInfoAssetsInterestsSchema = z
         prospectiveWardBeneficiaryOf: z.array(z.enum(BENEFICIARY_KEYS)),
         identifyingInformation: z.string().optional(),
         sourceOfIncomeOrAsset: z.string().optional(),
-        amountOfIncomeOrAsset: z.string().optional(),
+        amountOfIncomeOrAsset: z.number().optional().nullable(),
         hasSufficientFundsToPayCourtCosts: z.boolean(),
         doesNotHaveSufficientFundsToPayCourtCosts: z.boolean(),
     })

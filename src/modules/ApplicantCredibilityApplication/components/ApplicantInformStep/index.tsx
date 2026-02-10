@@ -6,6 +6,7 @@ import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
+import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
 import DatePicker from '@/components/ui/DatePicker';
 import { FieldSetCard, FieldSetCardHeader } from '@/components/ui/FieldSetCard';
@@ -44,7 +45,12 @@ const ApplicantInformStep: React.FC = () => {
                 <div className={s['inputs-wrapper']}>
                     <form.AppField
                         name={`applicantAddress.previousAddresses[${index}].from`}
+                        validators={{
+                            onChangeListenTo: ['applicantAddress.from', 'applicantAddress.previousAddresses'],
+                        }}
                         children={(previousAddressFromField) => {
+                            const errorMessage = getFieldErrorMessage(previousAddressFromField.state.meta.errors);
+
                             return (
                                 <FormFieldWrapper
                                     name={`applicantAddress.previousAddresses[${index}].from`}
@@ -52,32 +58,36 @@ const ApplicantInformStep: React.FC = () => {
                                 >
                                     <DatePicker
                                         value={parseDate(previousAddressFromField.state.value)}
-                                        onChange={previousAddressFromField.handleChange}
                                         placeholder="MM / DD / YYYY"
+                                        errorMessage={errorMessage}
+                                        onChange={previousAddressFromField.handleChange}
                                     />
                                 </FormFieldWrapper>
                             );
                         }}
                     />
-
                     <form.AppField
                         name={`applicantAddress.previousAddresses[${index}].to`}
-                        children={(f) => {
+                        children={(previousAddressToField) => {
+                            const errorMessage = getFieldErrorMessage(previousAddressToField.state.meta.errors);
+
                             return (
                                 <FormFieldWrapper
                                     name={`applicantAddress.previousAddresses[${index}].to`}
                                     label={<>To</>}
                                 >
                                     <DatePicker
-                                        value={parseDate(f.state.value)}
-                                        onChange={f.handleChange}
+                                        value={parseDate(previousAddressToField.state.value)}
                                         placeholder="MM / DD / YYYY"
+                                        errorMessage={errorMessage}
+                                        onChange={previousAddressToField.handleChange}
                                     />
                                 </FormFieldWrapper>
                             );
                         }}
                     />
                 </div>
+                <Alert>Please list any addresses where the person lived during the last 5 years</Alert>
             </>
         );
     };
@@ -109,13 +119,16 @@ const ApplicantInformStep: React.FC = () => {
                         />
                         <form.AppField
                             name="dob"
-                            children={(f) => {
+                            children={(dobField) => {
+                                const errorMessage = getFieldErrorMessage(dobField.state.meta.errors);
+
                                 return (
                                     <FormFieldWrapper name="dob" label={<>Date of birth</>}>
                                         <DatePicker
-                                            value={parseDate(f.state.value)}
-                                            onChange={f.handleChange}
+                                            value={parseDate(dobField.state.value)}
                                             placeholder="MM / DD / YYYY"
+                                            errorMessage={errorMessage}
+                                            onChange={dobField.handleChange}
                                         />
                                     </FormFieldWrapper>
                                 );
@@ -201,13 +214,16 @@ const ApplicantInformStep: React.FC = () => {
 
                         <form.AppField
                             name="applicantAddress.from"
-                            children={(f) => {
+                            children={(fromField) => {
+                                const errorMessage = getFieldErrorMessage(fromField.state.meta.errors);
+
                                 return (
                                     <FormFieldWrapper name="applicantAddress.from" label={<>From</>}>
                                         <DatePicker
-                                            value={parseDate(f.state.value)}
-                                            onChange={f.handleChange}
+                                            value={parseDate(fromField.state.value)}
                                             placeholder="MM / DD / YYYY"
+                                            errorMessage={errorMessage}
+                                            onChange={fromField.handleChange}
                                         />
                                     </FormFieldWrapper>
                                 );
@@ -230,6 +246,12 @@ const ApplicantInformStep: React.FC = () => {
                                             className={s['checkbox-group']}
                                             value={field.state.value}
                                             onValueChange={(value) => {
+                                                if (value) {
+                                                    form.setFieldValue('applicantAddress.previousAddresses', [
+                                                        { address: '', from: null, to: null },
+                                                    ]);
+                                                }
+
                                                 field.handleChange(value as boolean);
                                             }}
                                         >

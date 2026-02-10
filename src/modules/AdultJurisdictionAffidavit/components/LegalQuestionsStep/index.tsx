@@ -154,7 +154,8 @@ const LegalQuestionsStep: React.FC = () => {
                                         children={(field) => {
                                             return (
                                                 <field.InputField
-                                                    name="courtName"
+                                                    name={field.name}
+                                                    label={<>Court where the divorce case is pending</>}
                                                     placeholder="Please type information about court"
                                                 />
                                             );

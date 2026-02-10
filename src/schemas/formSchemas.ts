@@ -17,6 +17,9 @@ export const booleanAnswer = z
 export const maybeDateSchema = z.union([z.date(), z.string()]).nullable().optional();
 export const requiredStringSchema = z.string().min(1, 'This field is required');
 export const zipCodeSchema = requiredStringSchema.regex(ZIP_CODE_REGEX, 'Invalid zip code');
+export const numberSchema = z.number().min(0, { message: 'This field must be a valid number ' });
+export const optionalNumberSchema = z.number().optional().nullable();
+export const positiveNumberSchema = z.number().min(1, { message: 'This field must be a positive number' });
 
 export const phoneSchema = requiredStringSchema
     .nullable()

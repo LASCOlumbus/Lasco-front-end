@@ -16,15 +16,15 @@ const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_INITIAL_STATE: ProspectiveWardsFinan
     },
     benefitsStep: {
         benefit: [],
-        socialSecurity: { representativePayeeName: '', socialSecuritySize: '' },
+        socialSecurity: { representativePayeeName: '', socialSecuritySize: 0 },
         PERS: {
-            size: '',
+            size: 0,
         },
         VABenefits: {
-            size: '',
+            size: 0,
         },
         railroadRetirement: {
-            size: '',
+            size: 0,
         },
         medicaid: {
             isWardMedicaidFacilityResident: false,
@@ -37,19 +37,19 @@ const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_INITIAL_STATE: ProspectiveWardsFinan
         },
     },
     financialAccountStep: {
-        accounts: [{ institution: '', type: '', estimatedBalance: '' }],
+        accounts: [{ institution: '', type: '', estimatedBalance: 0 }],
     },
     propertyStep: {
         isProspectiveWardRealEstateOwner: null,
         prospectiveWardReceivesRentalIncome: null,
         realEstateAddress: '',
-        rentalIncomeAmount: '',
+        rentalIncomeAmount: 0,
     },
     assetsInterests: {
         prospectiveWardBeneficiaryOf: [],
         identifyingInformation: '',
         sourceOfIncomeOrAsset: '',
-        amountOfIncomeOrAsset: '',
+        amountOfIncomeOrAsset: 0,
         hasSufficientFundsToPayCourtCosts: false,
         doesNotHaveSufficientFundsToPayCourtCosts: false,
     },

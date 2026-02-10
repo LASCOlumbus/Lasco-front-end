@@ -59,12 +59,18 @@ const BenefitsStep: React.FC = () => {
                                     {field.state.value.includes('socialSecurity') && (
                                         <div className={s['inputs-wrapper']}>
                                             <form.AppField
-                                                name="socialSecurity.representativePayeeName"
+                                                name="socialSecurity.socialSecuritySize"
                                                 children={(field) => {
                                                     return (
                                                         <field.InputField
-                                                            name="socialSecurity.representativePayeeName"
+                                                            name="socialSecurity.socialSecuritySize"
                                                             label={<>How much is your social security (per month)?</>}
+                                                            type="number"
+                                                            numericFormatProps={{
+                                                                prefix: '$',
+                                                                thousandSeparator: true,
+                                                                allowLeadingZeros: false,
+                                                            }}
                                                             placeholder="$0.00"
                                                             onBlur={field.handleBlur}
                                                         />
@@ -72,11 +78,11 @@ const BenefitsStep: React.FC = () => {
                                                 }}
                                             />
                                             <form.AppField
-                                                name="socialSecurity.socialSecuritySize"
+                                                name="socialSecurity.representativePayeeName"
                                                 children={(field) => {
                                                     return (
                                                         <field.InputField
-                                                            name="socialSecurity.socialSecuritySize"
+                                                            name="socialSecurity.representativePayeeName"
                                                             label={<>Representative payee name (optional)</>}
                                                             placeholder="Enter full name"
                                                             onBlur={field.handleBlur}
@@ -94,6 +100,12 @@ const BenefitsStep: React.FC = () => {
                                                     <field.InputField
                                                         name="PERS.size"
                                                         label={<>How much is your P.E.R.S. (per month)?</>}
+                                                        type="number"
+                                                        numericFormatProps={{
+                                                            prefix: '$',
+                                                            thousandSeparator: true,
+                                                            allowLeadingZeros: false,
+                                                        }}
                                                         placeholder="$0.00"
                                                         onBlur={field.handleBlur}
                                                     />
@@ -109,6 +121,12 @@ const BenefitsStep: React.FC = () => {
                                                     <field.InputField
                                                         name="VABenefits.size"
                                                         label={<>How much are your V.A. Benefits(per month)?</>}
+                                                        type="number"
+                                                        numericFormatProps={{
+                                                            prefix: '$',
+                                                            thousandSeparator: true,
+                                                            allowLeadingZeros: false,
+                                                        }}
                                                         placeholder="$0.00"
                                                         onBlur={field.handleBlur}
                                                     />
@@ -124,6 +142,12 @@ const BenefitsStep: React.FC = () => {
                                                     <field.InputField
                                                         name="railroadRetirement.size"
                                                         label={<>How much is your railroad retirement (per month)?</>}
+                                                        type="number"
+                                                        numericFormatProps={{
+                                                            prefix: '$',
+                                                            thousandSeparator: true,
+                                                            allowLeadingZeros: false,
+                                                        }}
                                                         placeholder="$0.00"
                                                         onBlur={field.handleBlur}
                                                     />
@@ -166,7 +190,7 @@ const BenefitsStep: React.FC = () => {
                                             name="medicaid.isWardMedicaidFacilityResident"
                                             children={(field) => {
                                                 return (
-                                                    <div className={s['checkbox-wrapper']}>
+                                                    <label className={s['checkbox-wrapper']}>
                                                         <Checkbox
                                                             checked={field.state.value}
                                                             onCheckedChange={(checked) => {
@@ -179,7 +203,7 @@ const BenefitsStep: React.FC = () => {
                                                             nursing home or other facility which receives all of the
                                                             prospective ward's income.
                                                         </Typography>
-                                                    </div>
+                                                    </label>
                                                 );
                                             }}
                                         />

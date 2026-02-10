@@ -1,4 +1,4 @@
-import { booleanAnswer, phoneSchema, requiredStringSchema } from '@/schemas/formSchemas';
+import { booleanAnswer, phoneSchema, positiveNumberSchema, requiredStringSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
 
 export const applicationForAppointmentCaseDetailsStepSchema = z.object({
@@ -73,11 +73,11 @@ export const applicationForAppointmentWardInformStepSchema = z
 
 export const applicationForAppointmentAssetsAndIncomeStepSchema = z
     .object({
-        estimatedValuePersonalProperty: z.number(),
-        estimatedValueRealEstate: z.number(),
-        annualRentsReceived: z.number(),
-        otherAnnualIncome: z.number(),
-        bondAmount: z.number(),
+        estimatedValuePersonalProperty: positiveNumberSchema,
+        estimatedValueRealEstate: positiveNumberSchema,
+        annualRentsReceived: positiveNumberSchema,
+        otherAnnualIncome: positiveNumberSchema,
+        bondAmount: positiveNumberSchema,
         publicPrivateAssistance: requiredStringSchema,
         isWardHasRepresentativePayee: booleanAnswer,
         payeeName: z.string().optional(),

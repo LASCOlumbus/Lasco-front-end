@@ -238,6 +238,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     maxDate,
     selectsRange,
     startDate,
+    errorMessage,
     endDate,
     onRangeChange,
 }) => {
@@ -265,6 +266,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
                 <PopoverTrigger
                     className={clsx(s.trigger, 'focus-primary', {
                         [s.placeholder]: selectsRange ? !startDate && !endDate : !value,
+                        [s.error]: !!errorMessage,
                     })}
                     disabled={disabled}
                 >

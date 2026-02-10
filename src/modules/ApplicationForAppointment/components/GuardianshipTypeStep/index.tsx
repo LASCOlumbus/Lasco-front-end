@@ -163,7 +163,10 @@ const GuardianshipTypeStep: React.FC = () => {
                             return (
                                 <form.AppField
                                     name="specifyTimePeriod"
-                                    children={(f) => {
+                                    children={(specifyTimePeriodField) => {
+                                        const errorMessage = getFieldErrorMessage(
+                                            specifyTimePeriodField.state.meta.errors
+                                        );
                                         return (
                                             <FormFieldWrapper
                                                 name="Specify the time period"
@@ -171,16 +174,17 @@ const GuardianshipTypeStep: React.FC = () => {
                                             >
                                                 <DatePicker
                                                     selectsRange
-                                                    startDate={parseDate(f.state.value.start)}
-                                                    endDate={parseDate(f.state.value.end)}
+                                                    startDate={parseDate(specifyTimePeriodField.state.value.start)}
+                                                    endDate={parseDate(specifyTimePeriodField.state.value.end)}
+                                                    placeholder="MM/DD/YYYY - MM/DD/YYYY"
+                                                    errorMessage={errorMessage}
                                                     onRangeChange={(dates) => {
                                                         const [start, end] = dates;
-                                                        f.handleChange({
+                                                        specifyTimePeriodField.handleChange({
                                                             start,
                                                             end,
                                                         });
                                                     }}
-                                                    placeholder="MM/DD/YYYY – MM/DD/YYYY"
                                                 />
                                             </FormFieldWrapper>
                                         );

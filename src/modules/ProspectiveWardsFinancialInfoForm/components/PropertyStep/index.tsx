@@ -105,6 +105,12 @@ const PropertyStep: React.FC = () => {
                                                     <field.InputField
                                                         name="rentalIncomeAmount"
                                                         label="Rental income amount (per month)"
+                                                        type="number"
+                                                        numericFormatProps={{
+                                                            prefix: '$',
+                                                            thousandSeparator: true,
+                                                            allowLeadingZeros: false,
+                                                        }}
                                                         placeholder="$0.00"
                                                         onBlur={field.handleBlur}
                                                     />

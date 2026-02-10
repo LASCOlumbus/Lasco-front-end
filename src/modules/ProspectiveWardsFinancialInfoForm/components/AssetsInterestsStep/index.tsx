@@ -102,6 +102,13 @@ const AssetsInterestsStep: React.FC = () => {
                                     <field.InputField
                                         name="amountOfIncomeOrAsset"
                                         label="Amount of income or asset (optional)"
+                                        type="number"
+                                        numericFormatProps={{
+                                            prefix: '$',
+                                            thousandSeparator: true,
+                                            allowLeadingZeros: false,
+                                            valueIsNumericString: true,
+                                        }}
                                         placeholder="$0.00"
                                         onBlur={field.handleBlur}
                                     />
@@ -120,7 +127,7 @@ const AssetsInterestsStep: React.FC = () => {
                         name="hasSufficientFundsToPayCourtCosts"
                         children={(field) => {
                             return (
-                                <div className={s['checkbox-wrapper']}>
+                                <label className={s['checkbox-wrapper']}>
                                     <Checkbox
                                         checked={field.state.value}
                                         onCheckedChange={(checked) => {
@@ -131,7 +138,7 @@ const AssetsInterestsStep: React.FC = () => {
                                     <Typography variant="body-s">
                                         Has enough funds available in their own name to pay court costs.
                                     </Typography>
-                                </div>
+                                </label>
                             );
                         }}
                     />
@@ -139,7 +146,7 @@ const AssetsInterestsStep: React.FC = () => {
                         name="doesNotHaveSufficientFundsToPayCourtCosts"
                         children={(field) => {
                             return (
-                                <div className={s['checkbox-wrapper']}>
+                                <label className={s['checkbox-wrapper']}>
                                     <Checkbox
                                         checked={field.state.value}
                                         onCheckedChange={(checked) => {
@@ -151,7 +158,7 @@ const AssetsInterestsStep: React.FC = () => {
                                         Does not have enough funds in their own name to pay court costs. The court
                                         should consider whether the proposed ward can be considered indigent.
                                     </Typography>
-                                </div>
+                                </label>
                             );
                         }}
                     />
