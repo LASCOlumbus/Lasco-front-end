@@ -53,6 +53,10 @@ export type WithClassName<TProps = unknown> = TProps & {
     className?: string;
 };
 
+export type ObjWithNonNullableValues<TObj> = {
+    [K in keyof TObj]: NonNullable<TObj[K]>;
+};
+
 export type WithChildren<TProps = unknown> = TProps & {
     /**
      * Extendable children of component

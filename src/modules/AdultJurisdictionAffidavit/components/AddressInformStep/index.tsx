@@ -1,10 +1,10 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
-import { addDays, isWithinInterval, subDays } from 'date-fns';
-import { z } from 'zod';
+import { useStore } from '@tanstack/react-form';
+import { addDays, subDays } from 'date-fns';
+import { checkIfDateRangesOverlap } from '@/lib/utils/checkIfDateRangesOverlap';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
-import { previousAddressSchema } from '@/modules/AdultJurisdictionAffidavit/schemas/adultJurisdictionAffidavit';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
@@ -15,51 +15,30 @@ import { Typography } from '@/components/ui/Typography';
 import { useAdultJurisdictionAffidavitFormContext, useAdultJurisdictionAffidavitFormStepForm } from '../../context/AdultJurisdictionAffidavitFormContext';
 import s from './styles.module.css';
 
-const checkOverlappingDates = (dates: unknown[]) => {
-    const isOverlapped = z
-        .array(previousAddressSchema)
-        .min(1, 'This field is required.')
-        .superRefine((intervals, ctx) => {
-            const sorted = [...intervals].sort((a, b) => {
-                return new Date(a.from).getTime() - new Date(b.from).getTime();
-            });
-
-            for (let i = 0; i < sorted.length - 1; i++) {
-                const current = sorted[i];
-                const next = sorted?.[i + 1];
-
-                if (
-                    isWithinInterval(next?.from, {
-                        start: current.from,
-                        end: current.to,
-                    }) ||
-                    isWithinInterval(next?.to, {
-                        start: current.from,
-                        end: current.to,
-                    })
-                ) {
-                    ctx.addIssue({
-                        code: z.ZodIssueCode.custom,
-                        message: 'Date intervals must not overlap',
-                        path: ['from'],
-                    });
-
-                    ctx.addIssue({
-                        code: z.ZodIssueCode.custom,
-                        message: 'Date intervals must not overlap',
-                        path: ['to'],
-                    });
-                }
-            }
-        })
-        .safeParse(dates).success;
-
-    return isOverlapped;
-};
-
 const AddressInformStep: React.FC = () => {
     const { form, isLoading } = useAdultJurisdictionAffidavitFormStepForm('addressInformStep');
     const { goToPreviousStep } = useAdultJurisdictionAffidavitFormContext();
+
+    const rootFromToRange = useStore(form.store, (state) => {
+        return {
+            from: state.values.from ? parseDate(state.values.from) : null,
+            to: state.values.to ? parseDate(state.values.to) : null,
+            index: -1,
+        };
+    });
+
+    const previousAddresses = useStore(form.store, (state) => {
+        return (state.values.previousAddresses || []).map((address, index) => {
+            return {
+                ...address,
+                index,
+            };
+        });
+    });
+
+    const overlappingAddressesIndexes = React.useMemo(() => {
+        return checkIfDateRangesOverlap([rootFromToRange, ...previousAddresses]);
+    }, [previousAddresses, rootFromToRange]);
 
     if (isLoading) {
         return <ResponsiveLoader />;
@@ -102,12 +81,12 @@ const AddressInformStep: React.FC = () => {
                                     return { maxDate: to ? subDays(new Date(to), 1) : to, dates };
                                 }}
                             >
-                                {({ maxDate, dates }) => {
+                                {({ maxDate }) => {
                                     return (
                                         <form.AppField
                                             name="from"
                                             validators={{
-                                                onChangeListenTo: ['from'],
+                                                onChangeListenTo: ['to'],
                                             }}
                                             children={(field) => {
                                                 const errorMessage = getFieldErrorMessage(field.state.meta.errors);
@@ -121,10 +100,9 @@ const AddressInformStep: React.FC = () => {
                                                             maxDate={maxDate}
                                                             onChange={(date) => {
                                                                 field.handleChange(date as Date);
-                                                                checkOverlappingDates(dates);
+                                                                form.validateField('previousAddresses', 'change');
                                                             }}
                                                         />
-                                                        івіаів
                                                     </FormFieldWrapper>
                                                 );
                                             }}
@@ -148,7 +126,7 @@ const AddressInformStep: React.FC = () => {
                                     return { minDate: from ? addDays(new Date(from), 1) : from, dates };
                                 }}
                             >
-                                {({ minDate, dates }) => {
+                                {({ minDate }) => {
                                     return (
                                         <form.AppField
                                             name="to"
@@ -164,10 +142,9 @@ const AddressInformStep: React.FC = () => {
                                                             value={parseDate(field.state.value)}
                                                             placeholder="MM / DD / YYYY"
                                                             errorMessage={errorMessage}
-                                                            // onChange={field.handleChange}
                                                             onChange={(date) => {
                                                                 field.handleChange(date as Date);
-                                                                checkOverlappingDates(dates);
+                                                                form.validateField('previousAddresses', 'change');
                                                             }}
                                                             minDate={minDate}
                                                         />
@@ -224,6 +201,7 @@ const AddressInformStep: React.FC = () => {
                                                     return (
                                                         <form.Field
                                                             name={`previousAddresses[${index}]`}
+                                                            key={`previous-addresses-${index}`}
                                                             children={() => {
                                                                 return (
                                                                     <div className={s['relative-card']} key={index}>
@@ -253,35 +231,32 @@ const AddressInformStep: React.FC = () => {
                                                                         />
 
                                                                         <div className={s['inputs-wrapper']}>
-                                                                            <form.AppField
-                                                                                name={`previousAddresses[${index}].from`}
-                                                                                children={(field) => {
-                                                                                    const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                                                                            <form.Subscribe
+                                                                                selector={(state) => {
+                                                                                    const findTo = state.values.previousAddresses?.[index].to;
+                                                                                    const to = findTo ? parseDate(findTo) : null;
 
+                                                                                    const isOverlapping = overlappingAddressesIndexes.includes(index);
+                                                                                    return {
+                                                                                        maxDate: to ? subDays(new Date(to), 1) : to,
+                                                                                        isOverlapping,
+                                                                                    };
+                                                                                }}
+                                                                            >
+                                                                                {({ maxDate, isOverlapping }) => {
                                                                                     return (
-                                                                                        <form.Subscribe
-                                                                                            selector={(state) => {
-                                                                                                const findTo = state.values.previousAddresses?.[index].to;
-                                                                                                const to = findTo ? parseDate(findTo) : null;
-                                                                                                const dates = [
-                                                                                                    ...(state.values.previousAddresses || []),
-                                                                                                    {
-                                                                                                        from: state.values.previousAddresses?.[index].from,
-                                                                                                        to: state.values.previousAddresses?.[index].to,
-                                                                                                    },
-                                                                                                ];
-                                                                                                return { maxDate: to ? subDays(new Date(to), 1) : to, dates, errorMessage };
-                                                                                            }}
-                                                                                        >
-                                                                                            {({ maxDate, dates }) => {
+                                                                                        <form.AppField
+                                                                                            name={`previousAddresses[${index}].from`}
+                                                                                            children={(field) => {
+                                                                                                const errorMessage = isOverlapping ? 'Date intervals must not overlap' : getFieldErrorMessage(field.state.meta.errors);
+
                                                                                                 return (
-                                                                                                    <FormFieldWrapper name={`previousAddresses[${index}].from`} label={<>From</>}>
+                                                                                                    <FormFieldWrapper name={`previousAddresses[${index}].from`} label={<>From</>} errorMessage={errorMessage}>
                                                                                                         <DatePicker
                                                                                                             maxDate={maxDate}
                                                                                                             value={parseDate(field.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 field.handleChange(date as Date);
-                                                                                                                checkOverlappingDates(dates);
                                                                                                             }}
                                                                                                             placeholder="MM / DD / YYYY"
                                                                                                             errorMessage={errorMessage}
@@ -289,41 +264,36 @@ const AddressInformStep: React.FC = () => {
                                                                                                     </FormFieldWrapper>
                                                                                                 );
                                                                                             }}
-                                                                                        </form.Subscribe>
+                                                                                        />
                                                                                     );
                                                                                 }}
-                                                                            />
+                                                                            </form.Subscribe>
+                                                                            <form.Subscribe
+                                                                                selector={(state) => {
+                                                                                    const findFrom = state.values.previousAddresses?.[index].from;
+                                                                                    const from = findFrom ? parseDate(findFrom) : null;
+                                                                                    const isOverlapping = overlappingAddressesIndexes.includes(index);
 
-                                                                            <form.AppField
-                                                                                name={`previousAddresses[${index}].to`}
-                                                                                children={(field) => {
-                                                                                    const errorMessage = getFieldErrorMessage(field.state.meta.errors);
-
+                                                                                    return {
+                                                                                        minDate: from ? addDays(new Date(from), 1) : from,
+                                                                                        isOverlapping,
+                                                                                    };
+                                                                                }}
+                                                                            >
+                                                                                {({ minDate, isOverlapping }) => {
                                                                                     return (
-                                                                                        <form.Subscribe
-                                                                                            selector={(state) => {
-                                                                                                const findFrom = state.values.previousAddresses?.[index].from;
-                                                                                                const from = findFrom ? parseDate(findFrom) : null;
-                                                                                                const dates = [
-                                                                                                    ...(state.values.previousAddresses || []),
-                                                                                                    {
-                                                                                                        from: state.values.previousAddresses?.[index].from,
-                                                                                                        to: state.values.previousAddresses?.[index].to,
-                                                                                                    },
-                                                                                                ];
+                                                                                        <form.AppField
+                                                                                            name={`previousAddresses[${index}].to`}
+                                                                                            children={(field) => {
+                                                                                                const errorMessage = isOverlapping ? 'Date intervals must not overlap' : getFieldErrorMessage(field.state.meta.errors);
 
-                                                                                                return { minDate: from ? addDays(new Date(from), 1) : from, dates, errorMessage };
-                                                                                            }}
-                                                                                        >
-                                                                                            {({ minDate, dates }) => {
                                                                                                 return (
-                                                                                                    <FormFieldWrapper name={`previousAddresses[${index}].to`} label={<>To</>}>
+                                                                                                    <FormFieldWrapper name={`previousAddresses[${index}].to`} label={<>To</>} errorMessage={errorMessage}>
                                                                                                         <DatePicker
                                                                                                             minDate={minDate}
                                                                                                             value={parseDate(field.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 field.handleChange(date as Date);
-                                                                                                                checkOverlappingDates(dates);
                                                                                                             }}
                                                                                                             placeholder="MM / DD / YYYY"
                                                                                                             errorMessage={errorMessage}
@@ -331,10 +301,10 @@ const AddressInformStep: React.FC = () => {
                                                                                                     </FormFieldWrapper>
                                                                                                 );
                                                                                             }}
-                                                                                        </form.Subscribe>
+                                                                                        />
                                                                                     );
                                                                                 }}
-                                                                            />
+                                                                            </form.Subscribe>
                                                                         </div>
                                                                     </div>
                                                                 );

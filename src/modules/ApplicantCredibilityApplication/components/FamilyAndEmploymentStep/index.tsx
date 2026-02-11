@@ -162,7 +162,14 @@ const FamilyAndEmploymentStep: React.FC = () => {
 
                                     return (
                                         <FormFieldWrapper name="employment.from" label={<>From</>}>
-                                            <DatePicker value={parseDate(fromField.state.value)} placeholder="MM / DD / YYYY" errorMessage={errorMessage} onChange={fromField.handleChange} />
+                                            <DatePicker
+                                                value={parseDate(fromField.state.value)}
+                                                placeholder="MM / DD / YYYY"
+                                                errorMessage={errorMessage}
+                                                onChange={(date) => {
+                                                    return fromField.handleChange(date as Date);
+                                                }}
+                                            />
                                         </FormFieldWrapper>
                                     );
                                 }}
