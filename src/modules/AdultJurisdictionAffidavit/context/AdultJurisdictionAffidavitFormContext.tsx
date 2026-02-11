@@ -1,7 +1,7 @@
+import type { AdultJurisdictionAffidavitForm, AdultJurisdictionAffidavitFormStep, MultiStepFormConfig } from '@/lib/types';
 import React from 'react';
 import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';
-import { AdultJurisdictionAffidavitForm, AdultJurisdictionAffidavitFormStep } from '@/lib/types';
 import { adultJurisdictionAffidavitAddressInformStepSchema, adultJurisdictionAffidavitCaseDetailsStepSchema, adultJurisdictionAffidavitLegalQuestionsStepSchema } from '@/modules/AdultJurisdictionAffidavit/schemas/adultJurisdictionAffidavit';
 
 export const ADULT_JURISDICTION_AFFIDAVIT_FORM_STEPS = {
@@ -33,8 +33,8 @@ const ADULT_JURISDICTION_AFFIDAVIT_FORM_INITIAL_STATE: AdultJurisdictionAffidavi
     },
     addressInformStep: {
         currentAddress: '',
-        from: null,
-        to: null,
+        from: '',
+        to: '',
         withWhom: '',
         isSameAddressLast2Years: null,
         previousAddresses: [
@@ -64,7 +64,7 @@ const ADULT_JURISDICTION_AFFIDAVIT_FORM_CONFIG = {
     successfulKey: 'ADULT_JURISDICTION_AFFIDAVIT_multi-step-form-step_successful',
     initialState: ADULT_JURISDICTION_AFFIDAVIT_FORM_INITIAL_STATE,
     steps: ADULT_JURISDICTION_AFFIDAVIT_FORM_STEPS,
-};
+} as MultiStepFormConfig<AdultJurisdictionAffidavitForm>;
 
 export const AdultJurisdictionAffidavitFormProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     return <BaseProvider config={ADULT_JURISDICTION_AFFIDAVIT_FORM_CONFIG}>{children}</BaseProvider>;

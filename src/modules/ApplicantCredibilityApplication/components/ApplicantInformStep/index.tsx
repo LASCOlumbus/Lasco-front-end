@@ -91,7 +91,14 @@ const ApplicantInformStep: React.FC = () => {
 
                                 return (
                                     <FormFieldWrapper name="dob" label={<>Date of birth</>}>
-                                        <DatePicker value={parseDate(dobField.state.value)} placeholder="MM / DD / YYYY" errorMessage={errorMessage} onChange={dobField.handleChange} />
+                                        <DatePicker
+                                            value={parseDate(dobField.state.value)}
+                                            placeholder="MM / DD / YYYY"
+                                            errorMessage={errorMessage}
+                                            onChange={(value) => {
+                                                dobField.handleChange(value as Date);
+                                            }}
+                                        />
                                     </FormFieldWrapper>
                                 );
                             }}
@@ -160,7 +167,14 @@ const ApplicantInformStep: React.FC = () => {
 
                                 return (
                                     <FormFieldWrapper name="applicantAddress.from" label={<>From</>}>
-                                        <DatePicker value={parseDate(fromField.state.value)} placeholder="MM / DD / YYYY" errorMessage={errorMessage} onChange={fromField.handleChange} />
+                                        <DatePicker
+                                            value={parseDate(fromField.state.value)}
+                                            placeholder="MM / DD / YYYY"
+                                            errorMessage={errorMessage}
+                                            onChange={(value) => {
+                                                fromField.handleChange(value as Date);
+                                            }}
+                                        />
                                     </FormFieldWrapper>
                                 );
                             }}

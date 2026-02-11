@@ -1,6 +1,6 @@
+import type { ApplicantCredibilityApplicationForm, ApplicantCredibilityApplicationFormStep, MultiStepFormConfig } from '@/lib/types';
 import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';
-import { ApplicantCredibilityApplicationForm, ApplicantCredibilityApplicationFormStep } from '@/lib/types';
 import {
     applicantCredibilityApplicationApplicantInformStepSchema,
     applicantCredibilityApplicationBankingInformStepSchema,
@@ -48,13 +48,13 @@ const APPLICANT_CREDIBILITY_APPLICATION_FORM_INITIAL_STATE: ApplicantCredibility
     },
     applicantInformStep: {
         applicantName: '',
-        dob: null,
+        dob: '',
         applicantAddress: {
             streetAddress: '',
             city: '',
             state: '',
             zip: '',
-            from: null,
+            from: '',
             isSameAddressLast5Years: null,
             previousAddresses: [
                 {
@@ -77,7 +77,7 @@ const APPLICANT_CREDIBILITY_APPLICATION_FORM_INITIAL_STATE: ApplicantCredibility
         },
         employment: {
             currentEmployer: '',
-            from: null,
+            from: '',
             isSameEmployerLast5Years: null,
             previousEmployers: [
                 {
@@ -110,7 +110,7 @@ const APPLICANT_CREDIBILITY_APPLICATION_FORM_CONFIG = {
     successfulKey: 'APPLICANT_CREDIBILITY_APPLICATION_multi-step-form-step_successful',
     initialState: APPLICANT_CREDIBILITY_APPLICATION_FORM_INITIAL_STATE,
     steps: APPLICANT_CREDIBILITY_APPLICATION_FORM_STEPS,
-};
+} as MultiStepFormConfig<ApplicantCredibilityApplicationForm>;
 
 export const ApplicantCredibilityApplicationFormProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
     return <BaseProvider config={APPLICANT_CREDIBILITY_APPLICATION_FORM_CONFIG}>{children}</BaseProvider>;
