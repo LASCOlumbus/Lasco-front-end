@@ -1,5 +1,5 @@
 import { booleanAnswer, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
-import { isWithinInterval } from 'date-fns';
+import { addMinutes, isWithinInterval } from 'date-fns';
 import { z } from 'zod';
 
 export const applicantCredibilityApplicationCaseDetailsStepSchema = z.object({
@@ -36,14 +36,24 @@ export const previousAddressOptionalSchema = z.object({
 
 export const applicantCredibilityApplicationApplicantInformStepSchema = z.object({
     applicantName: requiredStringSchema,
-    dob: z.union([z.date(), z.string()]).nullable(),
+    dob: z
+        .union([z.date(), z.string()])
+        .nullable()
+        .refine((value) => {
+            return value !== null;
+        }, 'This field is required.'),
     applicantAddress: z
         .object({
             streetAddress: requiredStringSchema,
             city: requiredStringSchema,
             state: requiredStringSchema,
             zip: zipCodeSchema,
-            from: z.union([z.date(), z.string()]).nullable(),
+            from: z
+                .union([z.date(), z.string()])
+                .nullable()
+                .refine((value) => {
+                    return value !== null;
+                }, 'This field is required.'),
             isSameAddressLast5Years: booleanAnswer,
             previousAddresses: z.array(previousAddressOptionalSchema).optional(),
         })
@@ -54,7 +64,10 @@ export const applicantCredibilityApplicationApplicantInformStepSchema = z.object
                           .array(previousAddressSchema)
                           .min(1, 'This field is required.')
                           .superRefine((intervals, ctx) => {
-                              const sorted = [...intervals].sort((a, b) => {
+                              const sorted = [
+                                  ...intervals,
+                                  { from: data.from as Date, to: addMinutes(new Date(data.from as Date), 1) },
+                              ].sort((a, b) => {
                                   return new Date(a.from).getTime() - new Date(b.from).getTime();
                               });
 
@@ -134,7 +147,12 @@ export const applicantCredibilityApplicationFamilyAndEmploymentStepSchema = z
         employment: z
             .object({
                 currentEmployer: requiredStringSchema,
-                from: z.union([z.date(), z.string()]).nullable(),
+                from: z
+                    .union([z.date(), z.string()])
+                    .nullable()
+                    .refine((value) => {
+                        return value !== null;
+                    }, 'This field is required.'),
                 isSameEmployerLast5Years: booleanAnswer,
                 previousEmployers: z.array(previousEmployerOptionalSchema).optional(),
             })
@@ -145,7 +163,10 @@ export const applicantCredibilityApplicationFamilyAndEmploymentStepSchema = z
                               .array(previousEmployerSchema)
                               .min(1, 'This field is required.')
                               .superRefine((intervals, ctx) => {
-                                  const sorted = [...intervals].sort((a, b) => {
+                                  const sorted = [
+                                      ...intervals,
+                                      { from: data.from as Date, to: addMinutes(new Date(data.from as Date), 1) },
+                                  ].sort((a, b) => {
                                       return new Date(a.from).getTime() - new Date(b.from).getTime();
                                   });
 

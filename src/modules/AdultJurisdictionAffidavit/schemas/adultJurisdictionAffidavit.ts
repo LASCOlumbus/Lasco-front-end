@@ -43,8 +43,18 @@ export const previousAddressOptionalSchema = z.object({
 export const adultJurisdictionAffidavitAddressInformStepSchema = z
     .object({
         currentAddress: requiredStringSchema,
-        from: z.union([z.date(), z.string()]).nullable(),
-        to: z.union([z.date(), z.string()]).nullable(),
+        from: z
+            .union([z.date(), z.string()])
+            .nullable()
+            .refine((value) => {
+                return value !== null;
+            }, 'This field is required.'),
+        to: z
+            .union([z.date(), z.string()])
+            .nullable()
+            .refine((value) => {
+                return value !== null;
+            }, 'This field is required.'),
         withWhom: requiredStringSchema,
         isSameAddressLast2Years: booleanAnswer,
         previousAddresses: z.array(previousAddressOptionalSchema).optional(),
@@ -56,7 +66,7 @@ export const adultJurisdictionAffidavitAddressInformStepSchema = z
                       .array(previousAddressSchema)
                       .min(1, 'This field is required.')
                       .superRefine((intervals, ctx) => {
-                          const sorted = [...intervals].sort((a, b) => {
+                          const sorted = [...intervals, { from: data.from, to: data.to }].sort((a, b) => {
                               return new Date(a.from).getTime() - new Date(b.from).getTime();
                           });
 
