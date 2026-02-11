@@ -4,14 +4,7 @@ import { useToggle } from '@react-hookz/web';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { ChoiceInputWithLabelWrapper } from '@/components/ui/ChoiceInputWithLabelWrapper';
 
-export const CheckboxGroupItem: React.FC<CheckboxGroupItemProps> = ({
-    className,
-    label,
-    checked: controlledChecked,
-    defaultChecked,
-    onCheckedChange,
-    ...checkboxProps
-}) => {
+export const CheckboxGroupItem: React.FC<CheckboxGroupItemProps> = ({ className, label, checked: controlledChecked, defaultChecked, onCheckedChange, ...checkboxProps }) => {
     const [isInternalChecked, toggleIsInternalChecked] = useToggle(defaultChecked ?? false);
     const checked = controlledChecked ?? isInternalChecked;
 
@@ -23,12 +16,7 @@ export const CheckboxGroupItem: React.FC<CheckboxGroupItemProps> = ({
     };
 
     return (
-        <ChoiceInputWithLabelWrapper
-            className={className}
-            checked={checked}
-            disabled={checkboxProps.disabled}
-            label={label}
-        >
+        <ChoiceInputWithLabelWrapper className={className} checked={checked} disabled={checkboxProps.disabled} label={label}>
             <Checkbox {...checkboxProps} checked={checked} onCheckedChange={handleCheckedChange} />
         </ChoiceInputWithLabelWrapper>
     );

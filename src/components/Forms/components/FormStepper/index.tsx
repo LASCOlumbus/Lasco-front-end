@@ -9,13 +9,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerOverlay, DrawerTitle, Drawer
 import { Typography } from '@/components/ui/Typography';
 import s from './styles.module.css';
 
-const FormStepper: React.FC<FormStepperProps> = ({
-    steps,
-    currentStepIndex,
-    lastPassedStepIndex,
-    onStepClick,
-    isSubmitted,
-}) => {
+const FormStepper: React.FC<FormStepperProps> = ({ steps, currentStepIndex, lastPassedStepIndex, onStepClick, isSubmitted }) => {
     const [isDrawerOpened, setIsDrawerOpened] = React.useState(false);
     const isTablet = useIsTablet();
     if (isSubmitted) return null;
@@ -35,11 +29,7 @@ const FormStepper: React.FC<FormStepperProps> = ({
                                 </Typography>
                             </div>
 
-                            {currentStepIndex < lastPassedStepIndex ? (
-                                <CheckCircle20Icon width={22} height={22} />
-                            ) : (
-                                <Progress20Icon width={22} height={22} className={s['progress-icon']} />
-                            )}
+                            {currentStepIndex < lastPassedStepIndex ? <CheckCircle20Icon width={22} height={22} /> : <Progress20Icon width={22} height={22} className={s['progress-icon']} />}
                         </div>
                     </DrawerTrigger>
 
@@ -55,11 +45,7 @@ const FormStepper: React.FC<FormStepperProps> = ({
                                 return (
                                     <div
                                         key={step.id}
-                                        className={clsx(
-                                            s.item,
-                                            index === currentStepIndex && s.active,
-                                            index > lastPassedStepIndex && s.inactive
-                                        )}
+                                        className={clsx(s.item, index === currentStepIndex && s.active, index > lastPassedStepIndex && s.inactive)}
                                         onClick={() => {
                                             if (index <= lastPassedStepIndex) {
                                                 onStepClick?.(index);
@@ -76,11 +62,7 @@ const FormStepper: React.FC<FormStepperProps> = ({
                                             </Typography>
                                         </div>
 
-                                        <StatusIcon
-                                            index={index}
-                                            currentStepIndex={currentStepIndex}
-                                            lastPassedStepIndex={lastPassedStepIndex}
-                                        />
+                                        <StatusIcon index={index} currentStepIndex={currentStepIndex} lastPassedStepIndex={lastPassedStepIndex} />
                                     </div>
                                 );
                             })}
@@ -97,11 +79,7 @@ const FormStepper: React.FC<FormStepperProps> = ({
                 return (
                     <div
                         key={step.id}
-                        className={clsx(
-                            s.item,
-                            index === currentStepIndex && s.active,
-                            index > lastPassedStepIndex && s.inactive
-                        )}
+                        className={clsx(s.item, index === currentStepIndex && s.active, index > lastPassedStepIndex && s.inactive)}
                         onClick={() => {
                             if (index <= lastPassedStepIndex) {
                                 onStepClick?.(index);
@@ -112,11 +90,7 @@ const FormStepper: React.FC<FormStepperProps> = ({
                             {step.label}
                         </Typography>
 
-                        <StatusIcon
-                            index={index}
-                            currentStepIndex={currentStepIndex}
-                            lastPassedStepIndex={lastPassedStepIndex}
-                        />
+                        <StatusIcon index={index} currentStepIndex={currentStepIndex} lastPassedStepIndex={lastPassedStepIndex} />
                     </div>
                 );
             })}

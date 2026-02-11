@@ -5,10 +5,7 @@ import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldW
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import { CheckboxGroupItem } from '@/components/ui/CheckboxGroupItem';
-import {
-    useApplicantCredibilityApplicationFormContext,
-    useApplicantCredibilityApplicationFormStepForm,
-} from '../../context/ApplicantCredibilityApplicationFormContext';
+import { useApplicantCredibilityApplicationFormContext, useApplicantCredibilityApplicationFormStepForm } from '../../context/ApplicantCredibilityApplicationFormContext';
 import s from './styles.module.css';
 
 const BankingInformStep: React.FC = () => {
@@ -33,14 +30,7 @@ const BankingInformStep: React.FC = () => {
                     <form.AppField
                         name="bankName"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="bankName"
-                                    label={<>Applicant&apos;s bank name</>}
-                                    placeholder="Type bank name"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="bankName" label={<>Applicant&apos;s bank name</>} placeholder="Type bank name" onBlur={field.handleBlur} />;
                         }}
                     />
 
@@ -50,17 +40,8 @@ const BankingInformStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="accountType"
-                                    label={<>Account type</>}
-                                    errorMessage={errorMessage}
-                                >
-                                    <CheckboxGroup
-                                        className={s['checkbox-group']}
-                                        value={field.state.value}
-                                        onValueChange={field.handleChange}
-                                    >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="accountType" label={<>Account type</>} errorMessage={errorMessage}>
+                                    <CheckboxGroup className={s['checkbox-group']} value={field.state.value} onValueChange={field.handleChange}>
                                         <CheckboxGroupItem label="Checking" value="checking" />
                                         <CheckboxGroupItem label="Savings" value="savings" />
                                         <CheckboxGroupItem label="Safe deposit box" value="safe_deposit_box" />

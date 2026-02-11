@@ -29,27 +29,13 @@ const CaseDetailsStep: React.FC = () => {
                     <form.AppField
                         name="guardianName"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="guardianName"
-                                    label={<>In the matter of the guardianship of</>}
-                                    placeholder="Type your guardianship full name"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="guardianName" label={<>In the matter of the guardianship of</>} placeholder="Type your guardianship full name" onBlur={field.handleBlur} />;
                         }}
                     />
                     <form.AppField
                         name="caseNumber"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="caseNumber"
-                                    label={<>Case number</>}
-                                    placeholder="Type case number"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="caseNumber" label={<>Case number</>} placeholder="Type case number" onBlur={field.handleBlur} />;
                         }}
                     />
 
@@ -59,12 +45,7 @@ const CaseDetailsStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="relationshipToWard"
-                                    label={<>Relationship to the ward</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="relationshipToWard" label={<>Relationship to the ward</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}

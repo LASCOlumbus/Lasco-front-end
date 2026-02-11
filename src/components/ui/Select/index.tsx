@@ -144,15 +144,7 @@ const Select: React.FC<SelectProps> = ({
                     </DrawerHeader>
                     {isSearchEnabled ? (
                         <div className={s['search-wrap']}>
-                            <Input
-                                className={s.input}
-                                placeholder="Search"
-                                type="search"
-                                size="default"
-                                value={search}
-                                leftAddon={<Search16Icon className={s.icon} />}
-                                onChange={searchChangeHandler}
-                            />
+                            <Input className={s.input} placeholder="Search" type="search" size="default" value={search} leftAddon={<Search16Icon className={s.icon} />} onChange={searchChangeHandler} />
                         </div>
                     ) : null}
                     {isLoading ? (
@@ -171,8 +163,7 @@ const Select: React.FC<SelectProps> = ({
                             >
                                 {virtualizer.getVirtualItems().map((virtualItem) => {
                                     const option = filteredOptions[virtualItem.index];
-                                    const isOptionSelected =
-                                        type === 'single' ? option.value === value : value?.includes(option.value);
+                                    const isOptionSelected = type === 'single' ? option.value === value : value?.includes(option.value);
                                     const isLastItem = virtualItem.index === filteredOptions.length - 1;
 
                                     return (
@@ -212,13 +203,7 @@ const Select: React.FC<SelectProps> = ({
                                                 </Typography>
                                             </Option>
                                             {isLastItem ? null : (
-                                                <svg
-                                                    className={s.separator}
-                                                    width="768"
-                                                    height="2"
-                                                    version="1.1"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
+                                                <svg className={s.separator} width="768" height="2" version="1.1" xmlns="http://www.w3.org/2000/svg">
                                                     <line strokeDasharray="6, 6" x1="0" y1="1" x2="600" y2="1" />
                                                 </svg>
                                             )}
@@ -265,15 +250,7 @@ const Select: React.FC<SelectProps> = ({
             >
                 {isSearchEnabled ? (
                     <div className={s['search-wrap']}>
-                        <Input
-                            className={s.input}
-                            placeholder="Search"
-                            type="search"
-                            size="sm"
-                            value={search}
-                            leftAddon={<Search16Icon className={s.icon} />}
-                            onChange={searchChangeHandler}
-                        />
+                        <Input className={s.input} placeholder="Search" type="search" size="sm" value={search} leftAddon={<Search16Icon className={s.icon} />} onChange={searchChangeHandler} />
                     </div>
                 ) : null}
                 {isLoading ? (
@@ -292,8 +269,7 @@ const Select: React.FC<SelectProps> = ({
                         >
                             {virtualizer.getVirtualItems().map((virtualItem) => {
                                 const option = filteredOptions[virtualItem.index];
-                                const isOptionSelected =
-                                    type === 'single' ? option.value === value : value?.includes(option.value);
+                                const isOptionSelected = type === 'single' ? option.value === value : value?.includes(option.value);
 
                                 return (
                                     <li

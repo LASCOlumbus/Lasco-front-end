@@ -2,11 +2,7 @@ import React from 'react';
 import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';
 import { AdultJurisdictionAffidavitForm, AdultJurisdictionAffidavitFormStep } from '@/lib/types';
-import {
-    adultJurisdictionAffidavitAddressInformStepSchema,
-    adultJurisdictionAffidavitCaseDetailsStepSchema,
-    adultJurisdictionAffidavitLegalQuestionsStepSchema,
-} from '@/modules/AdultJurisdictionAffidavit/schemas/adultJurisdictionAffidavit';
+import { adultJurisdictionAffidavitAddressInformStepSchema, adultJurisdictionAffidavitCaseDetailsStepSchema, adultJurisdictionAffidavitLegalQuestionsStepSchema } from '@/modules/AdultJurisdictionAffidavit/schemas/adultJurisdictionAffidavit';
 
 export const ADULT_JURISDICTION_AFFIDAVIT_FORM_STEPS = {
     caseDetailsStep: {
@@ -60,11 +56,7 @@ const ADULT_JURISDICTION_AFFIDAVIT_FORM_INITIAL_STATE: AdultJurisdictionAffidavi
     },
 };
 
-const {
-    Provider: BaseProvider,
-    useFormContext,
-    useStepForm,
-} = createMultiStepForm<AdultJurisdictionAffidavitForm>(FORM_TYPES.adultJurisdictionAffidavit);
+const { Provider: BaseProvider, useFormContext, useStepForm } = createMultiStepForm<AdultJurisdictionAffidavitForm>(FORM_TYPES.adultJurisdictionAffidavit);
 
 const ADULT_JURISDICTION_AFFIDAVIT_FORM_CONFIG = {
     storageKey: 'ADULT_JURISDICTION_AFFIDAVIT_multi-step-form',

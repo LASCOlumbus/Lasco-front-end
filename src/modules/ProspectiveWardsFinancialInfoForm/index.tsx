@@ -11,10 +11,7 @@ import Sidebar from '@/modules/ProspectiveWardsFinancialInfoForm/components/Side
 import { Button } from '@/components/ui/Button';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
-import {
-    ProspectiveWardsFinancialInfoFormProvider,
-    useProspectiveWardsFinancialInfoFormContext,
-} from './context/ProspectiveWardsFinancialInfoForm';
+import { ProspectiveWardsFinancialInfoFormProvider, useProspectiveWardsFinancialInfoFormContext } from './context/ProspectiveWardsFinancialInfoForm';
 import s from './style.module.css';
 
 const ContentComponent = () => {

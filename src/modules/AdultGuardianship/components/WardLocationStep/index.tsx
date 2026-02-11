@@ -3,10 +3,7 @@ import { US_STATES_SELECT_OPTIONS } from '@/lib/constants';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import { Typography } from '@/components/ui/Typography';
-import {
-    useAdultGuardianshipFormContext,
-    useAdultGuardianshipFormStepForm,
-} from '../../context/AdultGuardianshipFormContext';
+import { useAdultGuardianshipFormContext, useAdultGuardianshipFormStepForm } from '../../context/AdultGuardianshipFormContext';
 import s from './styles.module.css';
 
 const WardLocationStep: React.FC = () => {
@@ -34,28 +31,14 @@ const WardLocationStep: React.FC = () => {
                     <form.AppField
                         name="streetAddress"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="streetAddress"
-                                    label={<>Street address of prospective ward</>}
-                                    placeholder="Type street address"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="streetAddress" label={<>Street address of prospective ward</>} placeholder="Type street address" onBlur={field.handleBlur} />;
                         }}
                     />
                     <div className={s['inputs-wrapper']}>
                         <form.AppField
                             name="city"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="city"
-                                        label={<>City</>}
-                                        placeholder="Type city"
-                                        onBlur={field.handleBlur}
-                                    />
-                                );
+                                return <field.InputField name="city" label={<>City</>} placeholder="Type city" onBlur={field.handleBlur} />;
                             }}
                         />
                         <form.AppField
@@ -104,12 +87,7 @@ const WardLocationStep: React.FC = () => {
                         <form.AppField
                             name="wardPhone"
                             children={(field) => {
-                                return (
-                                    <field.PhoneInputField
-                                        name="wardPhone"
-                                        label={<>Telephone number of prospective ward</>}
-                                    />
-                                );
+                                return <field.PhoneInputField name="wardPhone" label={<>Telephone number of prospective ward</>} />;
                             }}
                         />
                     </div>

@@ -10,10 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { CheckboxGroupItem } from '@/components/ui/CheckboxGroupItem';
 import DatePicker from '@/components/ui/DatePicker';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
-import {
-    useApplicationForAppointmentFormContext,
-    useApplicationForAppointmentFormStepForm,
-} from '../../context/ApplicationForAppointmentFormContext';
+import { useApplicationForAppointmentFormContext, useApplicationForAppointmentFormStepForm } from '../../context/ApplicationForAppointmentFormContext';
 import s from './styles.module.css';
 
 const GuardianshipTypeStep: React.FC = () => {
@@ -41,12 +38,7 @@ const GuardianshipTypeStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="guardianResponsibility"
-                                    label={<>What should the guardian be responsible for?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="guardianResponsibility" label={<>What should the guardian be responsible for?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-column-group']}
                                         value={field.state.value}
@@ -54,14 +46,8 @@ const GuardianshipTypeStep: React.FC = () => {
                                             field.handleChange(value as string);
                                         }}
                                     >
-                                        <RadioGroupItem
-                                            label="Personal and medical needs"
-                                            value="Personal and medical needs"
-                                        />
-                                        <RadioGroupItem
-                                            label="Financial decisions and managing money and property"
-                                            value="Financial decisions and managing money and property"
-                                        />
+                                        <RadioGroupItem label="Personal and medical needs" value="Personal and medical needs" />
+                                        <RadioGroupItem label="Financial decisions and managing money and property" value="Financial decisions and managing money and property" />
                                     </RadioGroup>
                                 </FormFieldLabelErrorWrapper>
                             );
@@ -74,17 +60,8 @@ const GuardianshipTypeStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="typeGuardianship"
-                                    label={<>Type of guardianship applied for</>}
-                                    errorMessage={errorMessage}
-                                >
-                                    <CheckboxGroup
-                                        className={s['checkbox-wrap-group']}
-                                        value={field.state.value}
-                                        onValueChange={field.handleChange}
-                                    >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="typeGuardianship" label={<>Type of guardianship applied for</>} errorMessage={errorMessage}>
+                                    <CheckboxGroup className={s['checkbox-wrap-group']} value={field.state.value} onValueChange={field.handleChange}>
                                         <CheckboxGroupItem label="Person and estate" value="Person and estate" />
                                         <CheckboxGroupItem label="Person only" value="Person only" />
                                         <CheckboxGroupItem label="Estate only" value="Estate only" />
@@ -109,15 +86,8 @@ const GuardianshipTypeStep: React.FC = () => {
                                     name="limitedPowersRequested"
                                     children={(field) => {
                                         return (
-                                            <FormFieldLabelErrorWrapper
-                                                className={s['field-wrap']}
-                                                name="limitedPowersRequested"
-                                                label={<>Limited powers requested</>}
-                                            >
-                                                <field.TextAreaField
-                                                    name="explanation"
-                                                    placeholder="Describe the limited powers requested"
-                                                />
+                                            <FormFieldLabelErrorWrapper className={s['field-wrap']} name="limitedPowersRequested" label={<>Limited powers requested</>}>
+                                                <field.TextAreaField name="explanation" placeholder="Describe the limited powers requested" />
                                             </FormFieldLabelErrorWrapper>
                                         );
                                     }}
@@ -132,12 +102,7 @@ const GuardianshipTypeStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="timePeriodRequested"
-                                    label={<>Time period requested</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="timePeriodRequested" label={<>Time period requested</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -146,10 +111,7 @@ const GuardianshipTypeStep: React.FC = () => {
                                         }}
                                     >
                                         <RadioGroupItem label="Indefinite" value="Indefinite" />
-                                        <RadioGroupItem
-                                            label="Limited to a specific time period"
-                                            value="Limited to a specific time period"
-                                        />
+                                        <RadioGroupItem label="Limited to a specific time period" value="Limited to a specific time period" />
                                     </RadioGroup>
                                 </FormFieldLabelErrorWrapper>
                             );
@@ -164,14 +126,9 @@ const GuardianshipTypeStep: React.FC = () => {
                                 <form.AppField
                                     name="specifyTimePeriod"
                                     children={(specifyTimePeriodField) => {
-                                        const errorMessage = getFieldErrorMessage(
-                                            specifyTimePeriodField.state.meta.errors
-                                        );
+                                        const errorMessage = getFieldErrorMessage(specifyTimePeriodField.state.meta.errors);
                                         return (
-                                            <FormFieldWrapper
-                                                name="Specify the time period"
-                                                label={<>Start dates of service</>}
-                                            >
+                                            <FormFieldWrapper name="Specify the time period" label={<>Start dates of service</>}>
                                                 <DatePicker
                                                     selectsRange
                                                     startDate={parseDate(specifyTimePeriodField.state.value.start)}

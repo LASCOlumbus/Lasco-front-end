@@ -1,14 +1,7 @@
 import React from 'react';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
-import {
-    useProspectiveWardsFinancialInfoForm,
-    useProspectiveWardsFinancialInfoFormContext,
-} from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
-import {
-    BENEFIT_KEYS,
-    BenefitKey,
-    BENEFITS_LABELS,
-} from '@/modules/ProspectiveWardsFinancialInfoForm/schemas/prospectiveWardsFinancialInfo';
+import { useProspectiveWardsFinancialInfoForm, useProspectiveWardsFinancialInfoFormContext } from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
+import { BENEFIT_KEYS, BenefitKey, BENEFITS_LABELS } from '@/modules/ProspectiveWardsFinancialInfoForm/schemas/prospectiveWardsFinancialInfo';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -51,9 +44,7 @@ const BenefitsStep: React.FC = () => {
                                         }}
                                     >
                                         {BENEFIT_KEYS.map((key) => {
-                                            return (
-                                                <CheckboxGroupItem key={key} label={BENEFITS_LABELS[key]} value={key} />
-                                            );
+                                            return <CheckboxGroupItem key={key} label={BENEFITS_LABELS[key]} value={key} />;
                                         })}
                                     </CheckboxGroup>
                                     {field.state.value.includes('socialSecurity') && (
@@ -80,14 +71,7 @@ const BenefitsStep: React.FC = () => {
                                             <form.AppField
                                                 name="socialSecurity.representativePayeeName"
                                                 children={(field) => {
-                                                    return (
-                                                        <field.InputField
-                                                            name="socialSecurity.representativePayeeName"
-                                                            label={<>Representative payee name (optional)</>}
-                                                            placeholder="Enter full name"
-                                                            onBlur={field.handleBlur}
-                                                        />
-                                                    );
+                                                    return <field.InputField name="socialSecurity.representativePayeeName" label={<>Representative payee name (optional)</>} placeholder="Enter full name" onBlur={field.handleBlur} />;
                                                 }}
                                             />
                                         </div>
@@ -159,14 +143,7 @@ const BenefitsStep: React.FC = () => {
                                         <form.AppField
                                             name="otherInsuranceBenefits.description"
                                             children={(field) => {
-                                                return (
-                                                    <field.InputField
-                                                        name="otherInsuranceBenefits.description"
-                                                        label={<>Describe other insurance benefits</>}
-                                                        placeholder="Enter details"
-                                                        onBlur={field.handleBlur}
-                                                    />
-                                                );
+                                                return <field.InputField name="otherInsuranceBenefits.description" label={<>Describe other insurance benefits</>} placeholder="Enter details" onBlur={field.handleBlur} />;
                                             }}
                                         />
                                     )}
@@ -174,14 +151,7 @@ const BenefitsStep: React.FC = () => {
                                         <form.AppField
                                             name="otherPension.description"
                                             children={(field) => {
-                                                return (
-                                                    <field.InputField
-                                                        name="otherPension.description"
-                                                        label={<>Describe other benefits</>}
-                                                        placeholder="Enter details"
-                                                        onBlur={field.handleBlur}
-                                                    />
-                                                );
+                                                return <field.InputField name="otherPension.description" label={<>Describe other benefits</>} placeholder="Enter details" onBlur={field.handleBlur} />;
                                             }}
                                         />
                                     )}
@@ -198,11 +168,7 @@ const BenefitsStep: React.FC = () => {
                                                             }}
                                                             onBlur={field.handleBlur}
                                                         />
-                                                        <Typography variant="body-s">
-                                                            The prospective ward is eligible for Medicaid and lives in a
-                                                            nursing home or other facility which receives all of the
-                                                            prospective ward's income.
-                                                        </Typography>
+                                                        <Typography variant="body-s">The prospective ward is eligible for Medicaid and lives in a nursing home or other facility which receives all of the prospective ward's income.</Typography>
                                                     </label>
                                                 );
                                             }}

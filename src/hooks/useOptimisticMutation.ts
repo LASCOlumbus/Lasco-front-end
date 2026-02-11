@@ -1,30 +1,16 @@
 import type { DataTag, MutationFunction, QueryKey } from '@tanstack/react-query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-type Updater<TQueryFnData, TVariables> = (
-    _oldData: TQueryFnData | undefined,
-    _variables: TVariables
-) => TQueryFnData | undefined;
+type Updater<TQueryFnData, TVariables> = (_oldData: TQueryFnData | undefined, _variables: TVariables) => TQueryFnData | undefined;
 
-type OptimisticProps<
-    TData = unknown,
-    TVariables = unknown,
-    TQueryKey extends QueryKey = QueryKey,
-    TQueryFnData = unknown,
-> = {
+type OptimisticProps<TData = unknown, TVariables = unknown, TQueryKey extends QueryKey = QueryKey, TQueryFnData = unknown> = {
     mutationFn: MutationFunction<TData, TVariables>;
     queryKey: TQueryKey;
     updater: Updater<TQueryFnData, TVariables>;
     invalidate: () => Promise<void>;
 };
 
-export const useOptimisticMutation = <
-    TData = unknown,
-    TVariables = unknown,
-    TQueryFnData = unknown,
-    TQueryKey extends QueryKey = QueryKey,
-    TInferredQueryFnData = TQueryKey extends DataTag<unknown, infer TaggedValue> ? TaggedValue : TQueryFnData,
->({
+export const useOptimisticMutation = <TData = unknown, TVariables = unknown, TQueryFnData = unknown, TQueryKey extends QueryKey = QueryKey, TInferredQueryFnData = TQueryKey extends DataTag<unknown, infer TaggedValue> ? TaggedValue : TQueryFnData>({
     mutationFn,
     queryKey,
     updater,

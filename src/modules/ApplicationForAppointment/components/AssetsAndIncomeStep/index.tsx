@@ -5,10 +5,7 @@ import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldW
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
-import {
-    useApplicationForAppointmentFormContext,
-    useApplicationForAppointmentFormStepForm,
-} from '../../context/ApplicationForAppointmentFormContext';
+import { useApplicationForAppointmentFormContext, useApplicationForAppointmentFormStepForm } from '../../context/ApplicationForAppointmentFormContext';
 import s from './styles.module.css';
 
 const AssetsAndIncomeStep: React.FC = () => {
@@ -34,31 +31,13 @@ const AssetsAndIncomeStep: React.FC = () => {
                         <form.AppField
                             name="estimatedValuePersonalProperty"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="estimatedValuePersonalProperty"
-                                        label={<>Estimated value of personal property</>}
-                                        placeholder="$0.0"
-                                        onBlur={field.handleBlur}
-                                        type="number"
-                                        prefix="$"
-                                    />
-                                );
+                                return <field.InputField name="estimatedValuePersonalProperty" label={<>Estimated value of personal property</>} placeholder="$0.0" onBlur={field.handleBlur} type="number" prefix="$" />;
                             }}
                         />
                         <form.AppField
                             name="estimatedValueRealEstate"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="estimatedValueRealEstate"
-                                        label={<>Estimated value of real estate</>}
-                                        placeholder="$0.0"
-                                        onBlur={field.handleBlur}
-                                        type="number"
-                                        prefix="$"
-                                    />
-                                );
+                                return <field.InputField name="estimatedValueRealEstate" label={<>Estimated value of real estate</>} placeholder="$0.0" onBlur={field.handleBlur} type="number" prefix="$" />;
                             }}
                         />
                     </div>
@@ -67,31 +46,13 @@ const AssetsAndIncomeStep: React.FC = () => {
                         <form.AppField
                             name="annualRentsReceived"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="annualRentsReceived"
-                                        label={<>Annual rents received</>}
-                                        placeholder="$0.0"
-                                        onBlur={field.handleBlur}
-                                        type="number"
-                                        prefix="$"
-                                    />
-                                );
+                                return <field.InputField name="annualRentsReceived" label={<>Annual rents received</>} placeholder="$0.0" onBlur={field.handleBlur} type="number" prefix="$" />;
                             }}
                         />
                         <form.AppField
                             name="otherAnnualIncome"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="otherAnnualIncome"
-                                        label={<>Other annual income</>}
-                                        placeholder="$0.0"
-                                        onBlur={field.handleBlur}
-                                        type="number"
-                                        prefix="$"
-                                    />
-                                );
+                                return <field.InputField name="otherAnnualIncome" label={<>Other annual income</>} placeholder="$0.0" onBlur={field.handleBlur} type="number" prefix="$" />;
                             }}
                         />
                     </div>
@@ -99,30 +60,14 @@ const AssetsAndIncomeStep: React.FC = () => {
                     <form.AppField
                         name="bondAmount"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="bondAmount"
-                                    label={<>Bond amount offered by the applicant</>}
-                                    placeholder="$0.0"
-                                    onBlur={field.handleBlur}
-                                    type="number"
-                                    prefix="$"
-                                />
-                            );
+                            return <field.InputField name="bondAmount" label={<>Bond amount offered by the applicant</>} placeholder="$0.0" onBlur={field.handleBlur} type="number" prefix="$" />;
                         }}
                     />
 
                     <form.AppField
                         name="publicPrivateAssistance"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="publicPrivateAssistance"
-                                    label={<>Which public or private assistance does prospective ward receive?</>}
-                                    placeholder="List any assistance you received"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="publicPrivateAssistance" label={<>Which public or private assistance does prospective ward receive?</>} placeholder="List any assistance you received" onBlur={field.handleBlur} />;
                         }}
                     />
 
@@ -132,12 +77,7 @@ const AssetsAndIncomeStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isWardHasRepresentativePayee"
-                                    label={<>Does the prospective ward have a representative payee?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isWardHasRepresentativePayee" label={<>Does the prospective ward have a representative payee?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -162,27 +102,13 @@ const AssetsAndIncomeStep: React.FC = () => {
                                     <form.AppField
                                         name="payeeName"
                                         children={(field) => {
-                                            return (
-                                                <field.InputField
-                                                    name="payeeName"
-                                                    label={<>Representative payee name</>}
-                                                    placeholder="Enter the representative payee’s name"
-                                                    onBlur={field.handleBlur}
-                                                />
-                                            );
+                                            return <field.InputField name="payeeName" label={<>Representative payee name</>} placeholder="Enter the representative payee’s name" onBlur={field.handleBlur} />;
                                         }}
                                     />
                                     <form.AppField
                                         name="payeeAddress"
                                         children={(field) => {
-                                            return (
-                                                <field.InputField
-                                                    name="payeeAddress"
-                                                    label={<>Representative payee address</>}
-                                                    placeholder="Enter the representative payee’s address"
-                                                    onBlur={field.handleBlur}
-                                                />
-                                            );
+                                            return <field.InputField name="payeeAddress" label={<>Representative payee address</>} placeholder="Enter the representative payee’s address" onBlur={field.handleBlur} />;
                                         }}
                                     />
                                 </div>

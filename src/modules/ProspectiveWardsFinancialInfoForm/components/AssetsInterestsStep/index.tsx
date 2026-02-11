@@ -1,14 +1,7 @@
 import React from 'react';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
-import {
-    useProspectiveWardsFinancialInfoForm,
-    useProspectiveWardsFinancialInfoFormContext,
-} from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
-import {
-    BENEFICIARY_KEYS,
-    BENEFICIARY_LABELS,
-    BeneficiaryKey,
-} from '@/modules/ProspectiveWardsFinancialInfoForm/schemas/prospectiveWardsFinancialInfo';
+import { useProspectiveWardsFinancialInfoForm, useProspectiveWardsFinancialInfoFormContext } from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
+import { BENEFICIARY_KEYS, BENEFICIARY_LABELS, BeneficiaryKey } from '@/modules/ProspectiveWardsFinancialInfoForm/schemas/prospectiveWardsFinancialInfo';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -36,9 +29,7 @@ const AssetsInterestsStep: React.FC = () => {
             <div className={s['scroll-container-wrapper']}>
                 <div className={s.inputs}>
                     <div className={s['content-description']}>
-                        <Typography variant="body-m">
-                            Is the prospective ward a beneficiary of any of the following (check all that apply)?
-                        </Typography>
+                        <Typography variant="body-m">Is the prospective ward a beneficiary of any of the following (check all that apply)?</Typography>
                     </div>
                     <form.AppField
                         name="prospectiveWardBeneficiaryOf"
@@ -53,27 +44,14 @@ const AssetsInterestsStep: React.FC = () => {
                                         }}
                                     >
                                         {BENEFICIARY_KEYS.map((key) => {
-                                            return (
-                                                <CheckboxGroupItem
-                                                    key={key}
-                                                    label={BENEFICIARY_LABELS[key]}
-                                                    value={key}
-                                                />
-                                            );
+                                            return <CheckboxGroupItem key={key} label={BENEFICIARY_LABELS[key]} value={key} />;
                                         })}
                                     </CheckboxGroup>
                                     {field.state.value.length > 0 && (
                                         <form.AppField
                                             name="identifyingInformation"
                                             children={(field) => {
-                                                return (
-                                                    <field.TextAreaField
-                                                        name="identifyingInformation"
-                                                        label="Identifying information"
-                                                        placeholder="Enter trust or estate details"
-                                                        onBlur={field.handleBlur}
-                                                    />
-                                                );
+                                                return <field.TextAreaField name="identifyingInformation" label="Identifying information" placeholder="Enter trust or estate details" onBlur={field.handleBlur} />;
                                             }}
                                         />
                                     )}
@@ -85,14 +63,7 @@ const AssetsInterestsStep: React.FC = () => {
                         <form.AppField
                             name="sourceOfIncomeOrAsset"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="sourceOfIncomeOrAsset"
-                                        label="Source of income or asset (optional) "
-                                        placeholder="Cash on hand"
-                                        onBlur={field.handleBlur}
-                                    />
-                                );
+                                return <field.InputField name="sourceOfIncomeOrAsset" label="Source of income or asset (optional) " placeholder="Cash on hand" onBlur={field.handleBlur} />;
                             }}
                         />
                         <form.AppField
@@ -117,12 +88,8 @@ const AssetsInterestsStep: React.FC = () => {
                         />
                     </div>
 
-                    <Typography variant="body-m">
-                        Application to Determine Indigent Status. (Request to Avoid Court Costs for Prospective Ward)
-                    </Typography>
-                    <Typography variant="body-s">
-                        Based on the financial information above, I believe that the prospective ward:
-                    </Typography>
+                    <Typography variant="body-m">Application to Determine Indigent Status. (Request to Avoid Court Costs for Prospective Ward)</Typography>
+                    <Typography variant="body-s">Based on the financial information above, I believe that the prospective ward:</Typography>
                     <form.AppField
                         name="hasSufficientFundsToPayCourtCosts"
                         children={(field) => {
@@ -135,9 +102,7 @@ const AssetsInterestsStep: React.FC = () => {
                                         }}
                                         onBlur={field.handleBlur}
                                     />
-                                    <Typography variant="body-s">
-                                        Has enough funds available in their own name to pay court costs.
-                                    </Typography>
+                                    <Typography variant="body-s">Has enough funds available in their own name to pay court costs.</Typography>
                                 </label>
                             );
                         }}
@@ -154,10 +119,7 @@ const AssetsInterestsStep: React.FC = () => {
                                         }}
                                         onBlur={field.handleBlur}
                                     />
-                                    <Typography variant="body-s">
-                                        Does not have enough funds in their own name to pay court costs. The court
-                                        should consider whether the proposed ward can be considered indigent.
-                                    </Typography>
+                                    <Typography variant="body-s">Does not have enough funds in their own name to pay court costs. The court should consider whether the proposed ward can be considered indigent.</Typography>
                                 </label>
                             );
                         }}
@@ -174,13 +136,7 @@ const AssetsInterestsStep: React.FC = () => {
                     }}
                     children={([canSubmit, isSubmitting]) => {
                         return (
-                            <Button
-                                onClick={form.handleSubmit}
-                                type="button"
-                                variant="primary"
-                                size="big"
-                                disabled={!canSubmit}
-                            >
+                            <Button onClick={form.handleSubmit} type="button" variant="primary" size="big" disabled={!canSubmit}>
                                 {isSubmitting ? 'Submitting...' : 'Submit'}
                             </Button>
                         );

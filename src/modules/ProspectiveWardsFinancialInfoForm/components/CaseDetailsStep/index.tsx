@@ -25,27 +25,13 @@ const CaseDetailsStep: React.FC = () => {
                     <form.AppField
                         name="inTheMatterOfTheGuardianshipOf"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="inTheMatterOfTheGuardianshipOf"
-                                    label={<>In the matter of the guardianship of</>}
-                                    placeholder="Type your guardianship full name"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="inTheMatterOfTheGuardianshipOf" label={<>In the matter of the guardianship of</>} placeholder="Type your guardianship full name" onBlur={field.handleBlur} />;
                         }}
                     />
                     <form.AppField
                         name="caseNumber"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="caseNumber"
-                                    label={<>Case number</>}
-                                    placeholder="Type case number"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="caseNumber" label={<>Case number</>} placeholder="Type case number" onBlur={field.handleBlur} />;
                         }}
                     />
                 </div>

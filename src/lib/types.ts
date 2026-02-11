@@ -1,18 +1,7 @@
 import type { FormValidateOrFn } from '@tanstack/react-form';
-import {
-    adultGuardianshipCaseDetailsStepSchema,
-    adultGuardianshipSafetyServiceStepSchema,
-    adultGuardianshipWardLocationStepSchema,
-    waiverNoticeCaseDetailsStepSchema,
-    waiverNoticeWaiversListStepSchema,
-    webcheckWaiverStepSchema,
-} from '@/schemas/formSchemas';
+import { adultGuardianshipCaseDetailsStepSchema, adultGuardianshipSafetyServiceStepSchema, adultGuardianshipWardLocationStepSchema, waiverNoticeCaseDetailsStepSchema, waiverNoticeWaiversListStepSchema, webcheckWaiverStepSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
-import {
-    adultJurisdictionAffidavitAddressInformStepSchema,
-    adultJurisdictionAffidavitCaseDetailsStepSchema,
-    adultJurisdictionAffidavitLegalQuestionsStepSchema,
-} from '@/modules/AdultJurisdictionAffidavit/schemas/adultJurisdictionAffidavit';
+import { adultJurisdictionAffidavitAddressInformStepSchema, adultJurisdictionAffidavitCaseDetailsStepSchema, adultJurisdictionAffidavitLegalQuestionsStepSchema } from '@/modules/AdultJurisdictionAffidavit/schemas/adultJurisdictionAffidavit';
 import {
     applicantCredibilityApplicationApplicantInformStepSchema,
     applicantCredibilityApplicationBankingInformStepSchema,
@@ -28,10 +17,7 @@ import {
     applicationForAppointmentLegalDeclarationsStepSchema,
     applicationForAppointmentWardInformStepSchema,
 } from '@/modules/ApplicationForAppointment/schemas/applicationForAppointment';
-import {
-    nextKinProspectiveWardCaseDetailsStepSchema,
-    nextKinProspectiveWardWaiversListStepSchema,
-} from '@/modules/NextKinProspectiveWard/schemas/nextKinProspectiveWard';
+import { nextKinProspectiveWardCaseDetailsStepSchema, nextKinProspectiveWardWaiversListStepSchema } from '@/modules/NextKinProspectiveWard/schemas/nextKinProspectiveWard';
 import {
     prospectiveWardsFinancialInfoAssetsInterestsSchema,
     prospectiveWardsFinancialInfoBenefitsStepSchema,
@@ -141,9 +127,7 @@ type AllowNullForSubProperties<T> = {
 
 export type AdultGuardianshipCaseDetailsStepSchema = z.infer<typeof adultGuardianshipCaseDetailsStepSchema>;
 export type AdultGuardianshipWardLocationStepSchema = z.infer<typeof adultGuardianshipWardLocationStepSchema>;
-export type AdultGuardianshipSafetyServiceStepSchema = AllowNullForSubProperties<
-    z.infer<typeof adultGuardianshipSafetyServiceStepSchema>
->;
+export type AdultGuardianshipSafetyServiceStepSchema = AllowNullForSubProperties<z.infer<typeof adultGuardianshipSafetyServiceStepSchema>>;
 
 export type AdultGuardianshipForm = {
     caseDetailsStep: AdultGuardianshipCaseDetailsStepSchema;
@@ -175,21 +159,11 @@ export type NextKinProspectiveWardFormStep = {
 };
 
 // Applicant Credibility Application
-export type ApplicantCredibilityApplicationCaseDetailsStepSchema = z.infer<
-    typeof applicantCredibilityApplicationCaseDetailsStepSchema
->;
-export type ApplicantCredibilityApplicationApplicantInformStepSchema = z.infer<
-    typeof applicantCredibilityApplicationApplicantInformStepSchema
->;
-export type ApplicantCredibilityApplicationFamilyAndEmploymentStepSchema = z.infer<
-    typeof applicantCredibilityApplicationFamilyAndEmploymentStepSchema
->;
-export type ApplicantCredibilityApplicationBankingInformStepSchema = z.infer<
-    typeof applicantCredibilityApplicationBankingInformStepSchema
->;
-export type ApplicantCredibilityApplicationLegalAndFinancialHistoryStepSchema = z.infer<
-    typeof applicantCredibilityApplicationLegalAndFinancialHistoryStepSchema
->;
+export type ApplicantCredibilityApplicationCaseDetailsStepSchema = z.infer<typeof applicantCredibilityApplicationCaseDetailsStepSchema>;
+export type ApplicantCredibilityApplicationApplicantInformStepSchema = z.infer<typeof applicantCredibilityApplicationApplicantInformStepSchema>;
+export type ApplicantCredibilityApplicationFamilyAndEmploymentStepSchema = z.infer<typeof applicantCredibilityApplicationFamilyAndEmploymentStepSchema>;
+export type ApplicantCredibilityApplicationBankingInformStepSchema = z.infer<typeof applicantCredibilityApplicationBankingInformStepSchema>;
+export type ApplicantCredibilityApplicationLegalAndFinancialHistoryStepSchema = z.infer<typeof applicantCredibilityApplicationLegalAndFinancialHistoryStepSchema>;
 
 export type ApplicantCredibilityApplicationForm = {
     caseDetailsStep: ApplicantCredibilityApplicationCaseDetailsStepSchema;
@@ -207,24 +181,12 @@ export type ApplicantCredibilityApplicationFormStep = {
 };
 
 // Application For Appointment
-export type ApplicationForAppointmentCaseDetailsStepSchema = z.infer<
-    typeof applicationForAppointmentCaseDetailsStepSchema
->;
-export type ApplicationForAppointmentWardInformStepSchema = AllowNullForSubProperties<
-    z.infer<typeof applicationForAppointmentWardInformStepSchema>
->;
-export type ApplicationForAppointmentAssetsAndIncomeStepSchema = z.infer<
-    typeof applicationForAppointmentAssetsAndIncomeStepSchema
->;
-export type ApplicationForAppointmentGuardianshipTypeStepSchema = z.infer<
-    typeof applicationForAppointmentGuardianshipTypeStepSchema
->;
-export type ApplicationForAppointmentApplicantInformStepSchema = AllowNullForSubProperties<
-    z.infer<typeof applicationForAppointmentApplicantInformStepSchema>
->;
-export type ApplicationForAppointmentLegalDeclarationsStepSchema = z.infer<
-    typeof applicationForAppointmentLegalDeclarationsStepSchema
->;
+export type ApplicationForAppointmentCaseDetailsStepSchema = z.infer<typeof applicationForAppointmentCaseDetailsStepSchema>;
+export type ApplicationForAppointmentWardInformStepSchema = AllowNullForSubProperties<z.infer<typeof applicationForAppointmentWardInformStepSchema>>;
+export type ApplicationForAppointmentAssetsAndIncomeStepSchema = z.infer<typeof applicationForAppointmentAssetsAndIncomeStepSchema>;
+export type ApplicationForAppointmentGuardianshipTypeStepSchema = z.infer<typeof applicationForAppointmentGuardianshipTypeStepSchema>;
+export type ApplicationForAppointmentApplicantInformStepSchema = AllowNullForSubProperties<z.infer<typeof applicationForAppointmentApplicantInformStepSchema>>;
+export type ApplicationForAppointmentLegalDeclarationsStepSchema = z.infer<typeof applicationForAppointmentLegalDeclarationsStepSchema>;
 
 export type ApplicationForAppointmentForm = {
     caseDetailsStep: ApplicationForAppointmentCaseDetailsStepSchema;
@@ -243,15 +205,9 @@ export type ApplicationForAppointmentFormStep = {
 };
 
 // Adult Jurisdiction Affidavit
-export type AdultJurisdictionAffidavitCaseDetailsStepSchema = z.infer<
-    typeof adultJurisdictionAffidavitCaseDetailsStepSchema
->;
-export type AdultJurisdictionAffidavitAddressInformStepSchema = z.infer<
-    typeof adultJurisdictionAffidavitAddressInformStepSchema
->;
-export type AdultJurisdictionAffidavitLegalQuestionsStepSchema = z.infer<
-    typeof adultJurisdictionAffidavitLegalQuestionsStepSchema
->;
+export type AdultJurisdictionAffidavitCaseDetailsStepSchema = z.infer<typeof adultJurisdictionAffidavitCaseDetailsStepSchema>;
+export type AdultJurisdictionAffidavitAddressInformStepSchema = z.infer<typeof adultJurisdictionAffidavitAddressInformStepSchema>;
+export type AdultJurisdictionAffidavitLegalQuestionsStepSchema = z.infer<typeof adultJurisdictionAffidavitLegalQuestionsStepSchema>;
 
 export type AdultJurisdictionAffidavitForm = {
     caseDetailsStep: AdultJurisdictionAffidavitCaseDetailsStepSchema;
@@ -273,22 +229,12 @@ export type ProspectiveWardsFinancialInfoCaseDetailsFormStep = {
     enabled?: boolean;
 };
 
-export type ProspectiveWardsFinancialInfoCaseDetailsStepSchema = z.infer<
-    typeof prospectiveWardsFinancialInfoFormCaseDetailsStepSchema
->;
-export type ProspectiveWardsFinancialInfoBenefitsStepStepSchema = z.infer<
-    typeof prospectiveWardsFinancialInfoBenefitsStepSchema
->;
-export type ProspectiveWardsFinancialInfoFinancialAccountStepSchema = z.infer<
-    typeof prospectiveWardsFinancialInfoFinancialAccountStepSchema
->;
+export type ProspectiveWardsFinancialInfoCaseDetailsStepSchema = z.infer<typeof prospectiveWardsFinancialInfoFormCaseDetailsStepSchema>;
+export type ProspectiveWardsFinancialInfoBenefitsStepStepSchema = z.infer<typeof prospectiveWardsFinancialInfoBenefitsStepSchema>;
+export type ProspectiveWardsFinancialInfoFinancialAccountStepSchema = z.infer<typeof prospectiveWardsFinancialInfoFinancialAccountStepSchema>;
 
-export type ProspectiveWardsFinancialInfoPropertyStepSchema = z.infer<
-    typeof prospectiveWardsFinancialInfoPropertyStepSchema
->;
-export type ProspectiveWardsFinancialInfoAssetsInterestsStepSchema = z.infer<
-    typeof prospectiveWardsFinancialInfoAssetsInterestsSchema
->;
+export type ProspectiveWardsFinancialInfoPropertyStepSchema = z.infer<typeof prospectiveWardsFinancialInfoPropertyStepSchema>;
+export type ProspectiveWardsFinancialInfoAssetsInterestsStepSchema = z.infer<typeof prospectiveWardsFinancialInfoAssetsInterestsSchema>;
 
 export type ProspectiveWardsFinancialInfoForm = {
     caseDetailsStep: ProspectiveWardsFinancialInfoCaseDetailsStepSchema;

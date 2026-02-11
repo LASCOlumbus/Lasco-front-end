@@ -23,10 +23,7 @@ const WaiversListStep: React.FC = () => {
                         <Typography variant="heading-h4" render={<strong />}>
                             Add people who waive notice
                         </Typography>
-                        <Typography variant="body-m">
-                            These are the adults who agree they have been notified about the guardianship application
-                            and waive the notice. Type their full names below.
-                        </Typography>
+                        <Typography variant="body-m">These are the adults who agree they have been notified about the guardianship application and waive the notice. Type their full names below.</Typography>
                     </div>
                     <div className={s.inputs}>
                         <form.Field
@@ -45,10 +42,7 @@ const WaiversListStep: React.FC = () => {
                                                                 </Typography>
                                                                 <div className={s['input-wrapper']}>
                                                                     <Input
-                                                                        errorMessage={
-                                                                            !!person.state.meta.errors?.length &&
-                                                                            person.state.meta.isBlurred
-                                                                        }
+                                                                        errorMessage={!!person.state.meta.errors?.length && person.state.meta.isBlurred}
                                                                         placeholder="Type full name"
                                                                         value={person.state.value}
                                                                         onBlur={() => {
@@ -75,8 +69,7 @@ const WaiversListStep: React.FC = () => {
                                                                         </Button>
                                                                     )}
                                                                 </div>
-                                                                {person.state.meta.errors?.length &&
-                                                                person.state.meta.isBlurred ? (
+                                                                {person.state.meta.errors?.length && person.state.meta.isBlurred ? (
                                                                     <Typography className={s.error} variant="body-m">
                                                                         {/*eslint-disable-next-line*/}
                                                                         {/*@ts-ignore*/}
@@ -116,13 +109,7 @@ const WaiversListStep: React.FC = () => {
                     }}
                     children={([canSubmit, isSubmitting]) => {
                         return (
-                            <Button
-                                onClick={form.handleSubmit}
-                                type="button"
-                                variant="primary"
-                                size="big"
-                                disabled={!canSubmit}
-                            >
+                            <Button onClick={form.handleSubmit} type="button" variant="primary" size="big" disabled={!canSubmit}>
                                 {isSubmitting ? 'Submitting...' : 'Submit'}
                             </Button>
                         );

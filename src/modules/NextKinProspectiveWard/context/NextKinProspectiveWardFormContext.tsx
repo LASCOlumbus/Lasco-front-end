@@ -1,10 +1,7 @@
 import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';
 import { NextKinProspectiveWardForm, NextKinProspectiveWardFormStep } from '@/lib/types';
-import {
-    nextKinProspectiveWardCaseDetailsStepSchema,
-    nextKinProspectiveWardWaiversListStepSchema,
-} from '@/modules/NextKinProspectiveWard/schemas/nextKinProspectiveWard';
+import { nextKinProspectiveWardCaseDetailsStepSchema, nextKinProspectiveWardWaiversListStepSchema } from '@/modules/NextKinProspectiveWard/schemas/nextKinProspectiveWard';
 
 const NEXT_KIN_PROSPECTIVE_WARD_FORM_INITIAL_STATE: NextKinProspectiveWardForm = {
     caseDetailsStep: {
@@ -40,11 +37,7 @@ export const NEXT_KIN_PROSPECTIVE_WARD_FORM_STEPS = {
     },
 } as const satisfies Record<keyof NextKinProspectiveWardForm, NextKinProspectiveWardFormStep>;
 
-const {
-    Provider: BaseProvider,
-    useFormContext,
-    useStepForm,
-} = createMultiStepForm<NextKinProspectiveWardForm>(FORM_TYPES.nextOfKinOfProspectiveWard);
+const { Provider: BaseProvider, useFormContext, useStepForm } = createMultiStepForm<NextKinProspectiveWardForm>(FORM_TYPES.nextOfKinOfProspectiveWard);
 
 const NEXT_KIN_PROSPECTIVE_WARD_FORM_CONFIG = {
     storageKey: 'NEXT_KIN_PROSPECTIVE_WARD_multi-step-form',

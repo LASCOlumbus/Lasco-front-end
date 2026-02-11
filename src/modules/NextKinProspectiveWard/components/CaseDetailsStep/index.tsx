@@ -23,50 +23,26 @@ const CaseDetailsStep: React.FC = () => {
         >
             <div className={s['scroll-container-wrapper']}>
                 <div className={s['content-description']}>
-                    <Typography variant="body-m">
-                        The following are the Prospective Ward&apos;s spouse, living children, other next-of-kin, and
-                        current Guardian.
-                    </Typography>
+                    <Typography variant="body-m">The following are the Prospective Ward&apos;s spouse, living children, other next-of-kin, and current Guardian.</Typography>
                 </div>
                 <div className={s.inputs}>
                     <form.AppField
                         name="guardianName"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="guardianName"
-                                    label={<>In the matter of the guardianship of</>}
-                                    placeholder="Type your guardianship full name"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="guardianName" label={<>In the matter of the guardianship of</>} placeholder="Type your guardianship full name" onBlur={field.handleBlur} />;
                         }}
                     />
                     <form.AppField
                         name="caseNumber"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="caseNumber"
-                                    label={<>Case number</>}
-                                    placeholder="Type case number"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="caseNumber" label={<>Case number</>} placeholder="Type case number" onBlur={field.handleBlur} />;
                         }}
                     />
                     <div className={s['inputs-wrapper']}>
                         <form.AppField
                             name="applicantName"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="contactName"
-                                        label={<>Applicant full name</>}
-                                        placeholder="Type contact person full name"
-                                        onBlur={field.handleBlur}
-                                    />
-                                );
+                                return <field.InputField name="contactName" label={<>Applicant full name</>} placeholder="Type contact person full name" onBlur={field.handleBlur} />;
                             }}
                         />
                     </div>

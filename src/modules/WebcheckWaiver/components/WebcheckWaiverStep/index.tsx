@@ -16,15 +16,8 @@ const WebcheckWaiverStep: React.FC = () => {
     return (
         <form className={s.form}>
             <div className={s['content-description']}>
-                <Typography variant="body-m">
-                    You hereby certify that you have given the Franklin County Probate Court permission to obtain all
-                    criminal history information pertaining to me in the files of the Ohio Bureau of Criminal
-                    Identification and Investigation (BCI&I).
-                </Typography>
-                <Typography variant="body-m">
-                    Further, you understand that your criminal history information received from BCI&I will be filed as
-                    a confidential record in the. Court&apos;s record keeping system and you will not receive a copy.
-                </Typography>
+                <Typography variant="body-m">You hereby certify that you have given the Franklin County Probate Court permission to obtain all criminal history information pertaining to me in the files of the Ohio Bureau of Criminal Identification and Investigation (BCI&I).</Typography>
+                <Typography variant="body-m">Further, you understand that your criminal history information received from BCI&I will be filed as a confidential record in the. Court&apos;s record keeping system and you will not receive a copy.</Typography>
             </div>
             <div className={s.inputs}>
                 <form.Field
@@ -119,13 +112,7 @@ const WebcheckWaiverStep: React.FC = () => {
                     }}
                     children={([canSubmit, isSubmitting]) => {
                         return (
-                            <Button
-                                onClick={form.handleSubmit}
-                                type="button"
-                                variant="primary"
-                                size="big"
-                                disabled={!canSubmit}
-                            >
+                            <Button onClick={form.handleSubmit} type="button" variant="primary" size="big" disabled={!canSubmit}>
                                 {isSubmitting ? 'Submitting...' : 'Submit'}
                             </Button>
                         );

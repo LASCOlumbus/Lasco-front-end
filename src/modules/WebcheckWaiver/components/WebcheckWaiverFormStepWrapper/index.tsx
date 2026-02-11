@@ -4,12 +4,8 @@ import FailureSection from '@/components/FailureSection';
 import SuccessSection from '@/components/SuccessSection';
 import { useWebcheckWaiverFormContext } from '../../context/WebcheckWaiverFormContext';
 
-const WebcheckWaiverFormStepWrapper: React.FC<React.PropsWithChildren<WebcheckWaiverFormStepProps>> = ({
-    children,
-    id,
-}) => {
-    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, printPdf, downloadPdf } =
-        useWebcheckWaiverFormContext();
+const WebcheckWaiverFormStepWrapper: React.FC<React.PropsWithChildren<WebcheckWaiverFormStepProps>> = ({ children, id }) => {
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, printPdf, downloadPdf } = useWebcheckWaiverFormContext();
 
     if (currentStep.id !== id) {
         return null;

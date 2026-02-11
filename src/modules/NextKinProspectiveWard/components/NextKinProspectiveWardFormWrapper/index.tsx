@@ -6,11 +6,7 @@ const NextKinProspectiveWardFormWrapper: React.FC<React.PropsWithChildren> = ({ 
     const { currentStepIndex, animationDirection, isLoading } = useNextKinProspectiveWardFormContext();
 
     return (
-        <AnimatedFormWrapper
-            currentStepIndex={currentStepIndex}
-            animationDirection={animationDirection}
-            isLoading={isLoading}
-        >
+        <AnimatedFormWrapper currentStepIndex={currentStepIndex} animationDirection={animationDirection} isLoading={isLoading}>
             {children}
         </AnimatedFormWrapper>
     );

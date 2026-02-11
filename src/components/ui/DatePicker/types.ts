@@ -18,10 +18,7 @@ export type DatePickerProps = {
     onRangeChange?: (_dates: [Date | null, Date | null]) => void;
 };
 
-export type DatePickerContentProps = Pick<
-    DatePickerProps,
-    'value' | 'minDate' | 'maxDate' | 'selectsRange' | 'startDate' | 'endDate' | 'onChange' | 'onRangeChange'
->;
+export type DatePickerContentProps = Pick<DatePickerProps, 'value' | 'minDate' | 'maxDate' | 'selectsRange' | 'startDate' | 'endDate' | 'onChange' | 'onRangeChange'>;
 
 export type DatePickerContentInternalProps = DatePickerContentProps & {
     onClose?: () => void;

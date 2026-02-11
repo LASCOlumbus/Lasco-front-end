@@ -22,24 +22,8 @@ const Loader: React.FC<LoaderProps> = ({ className }) => {
                     <rect x="0" y="0" width="100" height="50" fill="url(#gradient-2)" />
                 </mask>
             </defs>
-            <circle
-                cx="50"
-                cy="50"
-                r="40"
-                stroke="var(--loader-color)"
-                strokeWidth="10"
-                fill="none"
-                mask="url(#loader-mask)"
-            />
-            <circle
-                cx="50"
-                cy="50"
-                r="40"
-                stroke="var(--loader-color)"
-                strokeWidth="10"
-                fill="none"
-                mask="url(#loader-mask-2)"
-            />
+            <circle cx="50" cy="50" r="40" stroke="var(--loader-color)" strokeWidth="10" fill="none" mask="url(#loader-mask)" />
+            <circle cx="50" cy="50" r="40" stroke="var(--loader-color)" strokeWidth="10" fill="none" mask="url(#loader-mask-2)" />
         </svg>
     );
 };

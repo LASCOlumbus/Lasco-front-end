@@ -3,10 +3,7 @@ import clsx from 'clsx';
 import { Button } from '@/components/ui/Button';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
-import {
-    AdultJurisdictionAffidavitFormProvider,
-    useAdultJurisdictionAffidavitFormContext,
-} from './context/AdultJurisdictionAffidavitFormContext';
+import { AdultJurisdictionAffidavitFormProvider, useAdultJurisdictionAffidavitFormContext } from './context/AdultJurisdictionAffidavitFormContext';
 import AddressInformStep from './components/AddressInformStep';
 import AdultJurisdictionAffidavitFormStep from './components/AdultJurisdictionAffidavitFormStep';
 import AdultJurisdictionAffidavitFormWrapper from './components/AdultJurisdictionAffidavitFormWrapper';

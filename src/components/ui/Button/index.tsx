@@ -4,14 +4,7 @@ import { useRender } from '@base-ui/react/use-render';
 import clsx from 'clsx';
 import s from './styles.module.css';
 
-export const Button: React.FC<ButtonProps> = ({
-    className,
-    variant = 'primary',
-    size = 'big',
-    isIcon = false,
-    render,
-    ...rest
-}) => {
+export const Button: React.FC<ButtonProps> = ({ className, variant = 'primary', size = 'big', isIcon = false, render, ...rest }) => {
     const element = useRender({
         defaultTagName: 'button',
         render,

@@ -64,10 +64,7 @@ export const applicantCredibilityApplicationApplicantInformStepSchema = z.object
                           .array(previousAddressSchema)
                           .min(1, 'This field is required.')
                           .superRefine((intervals, ctx) => {
-                              const sorted = [
-                                  ...intervals,
-                                  { from: data.from as Date, to: addMinutes(new Date(data.from as Date), 1) },
-                              ].sort((a, b) => {
+                              const sorted = [...intervals, { from: data.from as Date, to: addMinutes(new Date(data.from as Date), 1) }].sort((a, b) => {
                                   return new Date(a.from).getTime() - new Date(b.from).getTime();
                               });
 
@@ -163,10 +160,7 @@ export const applicantCredibilityApplicationFamilyAndEmploymentStepSchema = z
                               .array(previousEmployerSchema)
                               .min(1, 'This field is required.')
                               .superRefine((intervals, ctx) => {
-                                  const sorted = [
-                                      ...intervals,
-                                      { from: data.from as Date, to: addMinutes(new Date(data.from as Date), 1) },
-                                  ].sort((a, b) => {
+                                  const sorted = [...intervals, { from: data.from as Date, to: addMinutes(new Date(data.from as Date), 1) }].sort((a, b) => {
                                       return new Date(a.from).getTime() - new Date(b.from).getTime();
                                   });
 
@@ -244,15 +238,7 @@ export const applicantCredibilityApplicationLegalAndFinancialHistoryStepSchema =
     })
     .refine(
         (data) => {
-            if (
-                [
-                    data?.isApplicantEverFiledBankruptcy,
-                    data?.isApplicantEverBeenGarnished,
-                    data?.isApplicantEverBeenInReceivership,
-                    data?.isApplicantEverBeenConvictedFelony,
-                    data?.isApplicantHadExperienceHandlingInvestments,
-                ].some(Boolean)
-            ) {
+            if ([data?.isApplicantEverFiledBankruptcy, data?.isApplicantEverBeenGarnished, data?.isApplicantEverBeenInReceivership, data?.isApplicantEverBeenConvictedFelony, data?.isApplicantHadExperienceHandlingInvestments].some(Boolean)) {
                 return requiredStringSchema.safeParse(data.explanation).success;
             }
 

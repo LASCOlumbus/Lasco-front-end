@@ -5,14 +5,7 @@ import Input from '@/components/ui/Input';
 import { useFieldContext } from '../../context/FormContext';
 import FormFieldWrapper from '../FormFieldWrapper';
 
-export const InputField: React.FC<InputFieldProps> = ({
-    name,
-    className,
-    type,
-    label,
-    numericFormatProps,
-    ...rest
-}) => {
+export const InputField: React.FC<InputFieldProps> = ({ name, className, type, label, numericFormatProps, ...rest }) => {
     const field = useFieldContext<string | number | undefined>();
 
     const fieldErrorMessage = getFieldErrorMessage(field.state.meta.errors);

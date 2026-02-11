@@ -5,15 +5,7 @@ import clsx from 'clsx';
 import Loader from '@/components/ui/Loader';
 import s from './styles.module.css';
 
-const Input: React.FC<InputProps> = ({
-    className,
-    size = 'default',
-    leftAddon,
-    rightAddon,
-    errorMessage,
-    isLoading,
-    ...rest
-}) => {
+const Input: React.FC<InputProps> = ({ className, size = 'default', leftAddon, rightAddon, errorMessage, isLoading, ...rest }) => {
     return (
         <div className={clsx(s.wrap, s[size], 'focus-within-primary', className, { [s.error]: !!errorMessage })}>
             {leftAddon ? (

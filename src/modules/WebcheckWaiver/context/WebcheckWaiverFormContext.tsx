@@ -19,11 +19,7 @@ const WEBCHECK_WAIVER_FORM_INITIAL_STATE: WebcheckWaiverForm = {
     },
 };
 
-const {
-    Provider: BaseProvider,
-    useFormContext,
-    useStepForm,
-} = createMultiStepForm<WebcheckWaiverForm>(FORM_TYPES.webcheckWaiver);
+const { Provider: BaseProvider, useFormContext, useStepForm } = createMultiStepForm<WebcheckWaiverForm>(FORM_TYPES.webcheckWaiver);
 
 const WEBCHECK_WAIVER_FORM_CONFIG = {
     storageKey: 'WEBCHECK_WAIVER_multi-step-form',

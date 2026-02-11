@@ -6,11 +6,7 @@ const WebcheckWaiverFormWrapper: React.FC<React.PropsWithChildren> = ({ children
     const { currentStepIndex, animationDirection, isLoading } = useWebcheckWaiverFormContext();
 
     return (
-        <AnimatedFormWrapper
-            currentStepIndex={currentStepIndex}
-            animationDirection={animationDirection}
-            isLoading={isLoading}
-        >
+        <AnimatedFormWrapper currentStepIndex={currentStepIndex} animationDirection={animationDirection} isLoading={isLoading}>
             {children}
         </AnimatedFormWrapper>
     );

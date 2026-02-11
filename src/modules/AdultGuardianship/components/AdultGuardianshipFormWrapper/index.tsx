@@ -6,11 +6,7 @@ const AdultGuardianshipFormWrapper: React.FC<React.PropsWithChildren> = ({ child
     const { currentStepIndex, animationDirection, isLoading } = useAdultGuardianshipFormContext();
 
     return (
-        <AnimatedFormWrapper
-            currentStepIndex={currentStepIndex}
-            animationDirection={animationDirection}
-            isLoading={isLoading}
-        >
+        <AnimatedFormWrapper currentStepIndex={currentStepIndex} animationDirection={animationDirection} isLoading={isLoading}>
             {children}
         </AnimatedFormWrapper>
     );

@@ -3,10 +3,7 @@ import clsx from 'clsx';
 import { Button } from '@/components/ui/Button';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
-import {
-    ApplicantCredibilityApplicationFormProvider,
-    useApplicantCredibilityApplicationFormContext,
-} from './context/ApplicantCredibilityApplicationFormContext';
+import { ApplicantCredibilityApplicationFormProvider, useApplicantCredibilityApplicationFormContext } from './context/ApplicantCredibilityApplicationFormContext';
 import ApplicantCredibilityApplicationFormStep from './components/ApplicantCredibilityApplicationFormStep';
 import ApplicantCredibilityApplicationFormWrapper from './components/ApplicantCredibilityApplicationFormWrapper';
 import ApplicantInformStep from './components/ApplicantInformStep';

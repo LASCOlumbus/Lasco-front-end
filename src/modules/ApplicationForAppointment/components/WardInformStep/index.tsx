@@ -10,10 +10,7 @@ import { Button } from '@/components/ui/Button';
 import DatePicker from '@/components/ui/DatePicker';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { Typography } from '@/components/ui/Typography';
-import {
-    useApplicationForAppointmentFormContext,
-    useApplicationForAppointmentFormStepForm,
-} from '../../context/ApplicationForAppointmentFormContext';
+import { useApplicationForAppointmentFormContext, useApplicationForAppointmentFormStepForm } from '../../context/ApplicationForAppointmentFormContext';
 import s from './styles.module.css';
 
 const WardInformStep: React.FC = () => {
@@ -35,25 +32,14 @@ const WardInformStep: React.FC = () => {
         >
             <div className={s['scroll-container-wrapper']}>
                 <div className={s['content-description']}>
-                    <Typography variant="body-m">
-                        Applicant represents to the court that Prospective Ward resides or has a legal settlement in
-                        Franklin County, Ohio and that the prospective ward is incompetent by reason of R.C. 2111.01
-                        (D).
-                    </Typography>
+                    <Typography variant="body-m">Applicant represents to the court that Prospective Ward resides or has a legal settlement in Franklin County, Ohio and that the prospective ward is incompetent by reason of R.C. 2111.01 (D).</Typography>
                 </div>
                 <div className={s.inputs}>
                     <div className={s['inputs-wrapper']}>
                         <form.AppField
                             name="wardName"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="wardName"
-                                        label={<>Full name of prospective ward</>}
-                                        placeholder="Type full legal name"
-                                        onBlur={field.handleBlur}
-                                    />
-                                );
+                                return <field.InputField name="wardName" label={<>Full name of prospective ward</>} placeholder="Type full legal name" onBlur={field.handleBlur} />;
                             }}
                         />
                         <form.AppField
@@ -63,12 +49,7 @@ const WardInformStep: React.FC = () => {
 
                                 return (
                                     <FormFieldWrapper name="wardDob" label={<>Prospective ward date of birth</>}>
-                                        <DatePicker
-                                            value={parseDate(wardDobField.state.value)}
-                                            placeholder="MM / DD / YYYY"
-                                            errorMessage={errorMessage}
-                                            onChange={wardDobField.handleChange}
-                                        />
+                                        <DatePicker value={parseDate(wardDobField.state.value)} placeholder="MM / DD / YYYY" errorMessage={errorMessage} onChange={wardDobField.handleChange} />
                                     </FormFieldWrapper>
                                 );
                             }}
@@ -78,14 +59,7 @@ const WardInformStep: React.FC = () => {
                     <form.AppField
                         name="wardAddress"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="wardAddress"
-                                    label={<>Current address of prospective ward </>}
-                                    placeholder="Type street, city, state"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="wardAddress" label={<>Current address of prospective ward </>} placeholder="Type street, city, state" onBlur={field.handleBlur} />;
                         }}
                     />
 
@@ -93,15 +67,8 @@ const WardInformStep: React.FC = () => {
                         name="explanationNeedsOfGuardian"
                         children={(field) => {
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="explanationNeedsOfGuardian"
-                                    label={<>Describe why the prospective ward needs a guardian</>}
-                                >
-                                    <field.TextAreaField
-                                        name="explanation"
-                                        placeholder="Please explain the prospective ward’s condition or circumstances"
-                                    />
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="explanationNeedsOfGuardian" label={<>Describe why the prospective ward needs a guardian</>}>
+                                    <field.TextAreaField name="explanation" placeholder="Please explain the prospective ward’s condition or circumstances" />
                                 </FormFieldLabelErrorWrapper>
                             );
                         }}
@@ -113,12 +80,7 @@ const WardInformStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isWardNeedsInterpreterForEnglish"
-                                    label={<>Does the prospective ward require an interpreter to understand english?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isWardNeedsInterpreterForEnglish" label={<>Does the prospective ward require an interpreter to understand english?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -169,13 +131,7 @@ const WardInformStep: React.FC = () => {
                         name="wardPrescriptions"
                         children={(field) => {
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="wardPrescriptions"
-                                    label={
-                                        <>List the prospective ward’s prescription and over-the-counter medications</>
-                                    }
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="wardPrescriptions" label={<>List the prospective ward’s prescription and over-the-counter medications</>}>
                                     <field.TextAreaField name="explanation" placeholder="List medications" />
                                 </FormFieldLabelErrorWrapper>
                             );
@@ -188,12 +144,7 @@ const WardInformStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isWardHasMilitaryService"
-                                    label={<>Has the prospective ward had military service?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isWardHasMilitaryService" label={<>Has the prospective ward had military service?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -219,27 +170,13 @@ const WardInformStep: React.FC = () => {
                                         <form.AppField
                                             name="militaryService.militaryId"
                                             children={(field) => {
-                                                return (
-                                                    <field.InputField
-                                                        name="militaryService.militaryId"
-                                                        label={<>Military ID of prospective ward </>}
-                                                        placeholder="Type military ID"
-                                                        onBlur={field.handleBlur}
-                                                    />
-                                                );
+                                                return <field.InputField name="militaryService.militaryId" label={<>Military ID of prospective ward </>} placeholder="Type military ID" onBlur={field.handleBlur} />;
                                             }}
                                         />
                                         <form.AppField
                                             name="militaryService.branchService"
                                             children={(field) => {
-                                                return (
-                                                    <field.InputField
-                                                        name="militaryService.branchService"
-                                                        label={<>Branch of service</>}
-                                                        placeholder="Type branch of service"
-                                                        onBlur={field.handleBlur}
-                                                    />
-                                                );
+                                                return <field.InputField name="militaryService.branchService" label={<>Branch of service</>} placeholder="Type branch of service" onBlur={field.handleBlur} />;
                                             }}
                                         />
                                     </div>
@@ -247,21 +184,11 @@ const WardInformStep: React.FC = () => {
                                         <form.AppField
                                             name="militaryService.startDateOfService"
                                             children={(startDateOfServiceField) => {
-                                                const errorMessage = getFieldErrorMessage(
-                                                    startDateOfServiceField.state.meta.errors
-                                                );
+                                                const errorMessage = getFieldErrorMessage(startDateOfServiceField.state.meta.errors);
 
                                                 return (
-                                                    <FormFieldWrapper
-                                                        name="militaryService.startDateOfService"
-                                                        label={<>Start dates of service</>}
-                                                    >
-                                                        <DatePicker
-                                                            value={parseDate(startDateOfServiceField.state.value)}
-                                                            placeholder="MM / DD / YYYY"
-                                                            errorMessage={errorMessage}
-                                                            onChange={startDateOfServiceField.handleChange}
-                                                        />
+                                                    <FormFieldWrapper name="militaryService.startDateOfService" label={<>Start dates of service</>}>
+                                                        <DatePicker value={parseDate(startDateOfServiceField.state.value)} placeholder="MM / DD / YYYY" errorMessage={errorMessage} onChange={startDateOfServiceField.handleChange} />
                                                     </FormFieldWrapper>
                                                 );
                                             }}
@@ -269,21 +196,11 @@ const WardInformStep: React.FC = () => {
                                         <form.AppField
                                             name="militaryService.endDateOfService"
                                             children={(endDateOfServiceField) => {
-                                                const errorMessage = getFieldErrorMessage(
-                                                    endDateOfServiceField.state.meta.errors
-                                                );
+                                                const errorMessage = getFieldErrorMessage(endDateOfServiceField.state.meta.errors);
 
                                                 return (
-                                                    <FormFieldWrapper
-                                                        name="militaryService.endDateOfService"
-                                                        label={<>End dates of service</>}
-                                                    >
-                                                        <DatePicker
-                                                            value={parseDate(endDateOfServiceField.state.value)}
-                                                            placeholder="MM / DD / YYYY"
-                                                            errorMessage={errorMessage}
-                                                            onChange={endDateOfServiceField.handleChange}
-                                                        />
+                                                    <FormFieldWrapper name="militaryService.endDateOfService" label={<>End dates of service</>}>
+                                                        <DatePicker value={parseDate(endDateOfServiceField.state.value)} placeholder="MM / DD / YYYY" errorMessage={errorMessage} onChange={endDateOfServiceField.handleChange} />
                                                     </FormFieldWrapper>
                                                 );
                                             }}

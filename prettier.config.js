@@ -1,6 +1,6 @@
 /** @type {import("prettier").Config} */
 export default {
-    printWidth: 120,
+    printWidth: 300,
     proseWrap: 'never',
     arrowParens: 'always',
     endOfLine: 'lf',

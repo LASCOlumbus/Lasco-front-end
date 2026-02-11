@@ -19,12 +19,5 @@
         "noFallthroughCasesInSwitch": true,
         "noUncheckedSideEffectImports": true
     },
-    "include": [
-        "vite.config.ts",
-        "eslint.config.js",
-        "prettier.config.js",
-        "commitlint.config.cjs",
-        "postcss.config.cjs",
-        "src/client.d.ts"
-    ]
+    "include": ["vite.config.ts", "eslint.config.js", "prettier.config.js", "commitlint.config.cjs", "postcss.config.cjs", "src/client.d.ts"]
 }

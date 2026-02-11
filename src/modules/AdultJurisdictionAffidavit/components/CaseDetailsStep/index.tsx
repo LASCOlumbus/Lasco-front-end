@@ -25,40 +25,19 @@ const CaseDetailsStep: React.FC = () => {
                     <form.AppField
                         name="guardianName"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="guardianName"
-                                    label={<>In the matter of the guardianship of</>}
-                                    placeholder="Type your guardianship full name"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="guardianName" label={<>In the matter of the guardianship of</>} placeholder="Type your guardianship full name" onBlur={field.handleBlur} />;
                         }}
                     />
                     <form.AppField
                         name="caseNumber"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="caseNumber"
-                                    label={<>Case number</>}
-                                    placeholder="Type case number"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="caseNumber" label={<>Case number</>} placeholder="Type case number" onBlur={field.handleBlur} />;
                         }}
                     />
                     <form.AppField
                         name="applicantName"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="applicantName"
-                                    label={<>Full name of affiant/applicant</>}
-                                    placeholder="Type full legal name"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="applicantName" label={<>Full name of affiant/applicant</>} placeholder="Type full legal name" onBlur={field.handleBlur} />;
                         }}
                     />
                 </div>

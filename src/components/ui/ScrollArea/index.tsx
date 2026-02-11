@@ -25,11 +25,7 @@ ScrollArea.displayName = BaseScrollArea.Root.displayName;
 
 const ScrollBar: React.FC<ScrollAreaScrollBarProps> = ({ className, orientation = 'vertical', ...rest }) => {
     return (
-        <BaseScrollArea.Scrollbar
-            orientation={orientation}
-            className={clsx(s.scrollbar, 'scroll-area-scrollbar', className)}
-            {...rest}
-        >
+        <BaseScrollArea.Scrollbar orientation={orientation} className={clsx(s.scrollbar, 'scroll-area-scrollbar', className)} {...rest}>
             <BaseScrollArea.Thumb className={clsx(s.thumb, 'scroll-area-scrollbar-thumb')} />
         </BaseScrollArea.Scrollbar>
     );

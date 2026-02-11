@@ -13,12 +13,7 @@ const FormFieldWrapper: React.FC<FormFieldWrapperProps> = ({ className, children
     const fieldErrorMessage = errorMessage || stateError;
 
     return (
-        <FormFieldLabelErrorWrapper
-            className={clsx(s.wrap, className, { [s.error]: !!fieldErrorMessage })}
-            name={name}
-            label={label}
-            errorMessage={fieldErrorMessage}
-        >
+        <FormFieldLabelErrorWrapper className={clsx(s.wrap, className, { [s.error]: !!fieldErrorMessage })} name={name} label={label} errorMessage={fieldErrorMessage}>
             {children}
         </FormFieldLabelErrorWrapper>
     );

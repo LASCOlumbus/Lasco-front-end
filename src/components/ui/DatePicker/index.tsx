@@ -17,17 +17,7 @@ import { SELECT_CONTENT_OFFSET } from '../Select/constants';
 import { YEARS_FOR_DROPDOWN } from './constants';
 import { Button } from '../Button';
 
-const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({
-    value,
-    onChange,
-    minDate,
-    maxDate,
-    onClose,
-    selectsRange,
-    startDate,
-    endDate,
-    onRangeChange,
-}) => {
+const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({ value, onChange, minDate, maxDate, onClose, selectsRange, startDate, endDate, onRangeChange }) => {
     const today = new Date();
     const currentYear = value ? value.getFullYear() : today.getFullYear();
 
@@ -83,25 +73,10 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleRangeChangeTyped = handleRangeChange as any;
 
-    const renderCustomHeader = ({
-        date,
-        decreaseMonth,
-        increaseMonth,
-        prevMonthButtonDisabled,
-        nextMonthButtonDisabled,
-    }: ReactDatePickerCustomHeaderProps) => {
+    const renderCustomHeader = ({ date, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }: ReactDatePickerCustomHeaderProps) => {
         return (
             <div className={s.header}>
-                <Button
-                    className={clsx(s.cta, s.nav)}
-                    type="button"
-                    variant="secondary"
-                    size="small"
-                    isIcon
-                    onClick={decreaseMonth}
-                    disabled={prevMonthButtonDisabled}
-                    aria-label="Previous month"
-                >
+                <Button className={clsx(s.cta, s.nav)} type="button" variant="secondary" size="small" isIcon onClick={decreaseMonth} disabled={prevMonthButtonDisabled} aria-label="Previous month">
                     <ChevronUp20Icon className={clsx(s.icon, s.prev)} />
                 </Button>
                 <Popover open={isYearDropdownOpen} onOpenChange={toggleYearDropdown}>
@@ -140,16 +115,7 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({
                         </ScrollArea>
                     </PopoverContent>
                 </Popover>
-                <Button
-                    className={clsx(s.cta, s.nav)}
-                    type="button"
-                    variant="secondary"
-                    size="small"
-                    isIcon
-                    onClick={increaseMonth}
-                    disabled={nextMonthButtonDisabled}
-                    aria-label="Next month"
-                >
+                <Button className={clsx(s.cta, s.nav)} type="button" variant="secondary" size="small" isIcon onClick={increaseMonth} disabled={nextMonthButtonDisabled} aria-label="Next month">
                     <ChevronUp20Icon className={clsx(s.icon, s.next)} />
                 </Button>
             </div>
@@ -211,37 +177,12 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({
 
     return (
         <div className={s.content}>
-            <ReactDatePicker
-                selected={value ?? null}
-                onChange={handleDateChange}
-                minDate={minDate ?? undefined}
-                maxDate={maxDate ?? undefined}
-                inline
-                renderCustomHeader={renderCustomHeader}
-                dayClassName={dayClassName}
-                calendarClassName={s.picker}
-                onMonthChange={handleMonthChange}
-                fixedHeight
-            />
+            <ReactDatePicker selected={value ?? null} onChange={handleDateChange} minDate={minDate ?? undefined} maxDate={maxDate ?? undefined} inline renderCustomHeader={renderCustomHeader} dayClassName={dayClassName} calendarClassName={s.picker} onMonthChange={handleMonthChange} fixedHeight />
         </div>
     );
 };
 
-const DatePicker: React.FC<DatePickerProps> = ({
-    value,
-    onChange,
-    placeholder = 'MM / DD / YYYY',
-    disabled,
-    className,
-    contentProps,
-    minDate,
-    maxDate,
-    selectsRange,
-    startDate,
-    errorMessage,
-    endDate,
-    onRangeChange,
-}) => {
+const DatePicker: React.FC<DatePickerProps> = ({ value, onChange, placeholder = 'MM / DD / YYYY', disabled, className, contentProps, minDate, maxDate, selectsRange, startDate, errorMessage, endDate, onRangeChange }) => {
     const [isOpen, toggleIsOpen] = useToggle();
 
     const formatDate = (date: Date | null): string => {

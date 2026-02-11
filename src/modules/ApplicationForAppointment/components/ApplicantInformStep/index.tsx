@@ -9,10 +9,7 @@ import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import DatePicker from '@/components/ui/DatePicker';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
-import {
-    useApplicationForAppointmentFormContext,
-    useApplicationForAppointmentFormStepForm,
-} from '../../context/ApplicationForAppointmentFormContext';
+import { useApplicationForAppointmentFormContext, useApplicationForAppointmentFormStepForm } from '../../context/ApplicationForAppointmentFormContext';
 import s from './styles.module.css';
 
 const ApplicantInformStep: React.FC = () => {
@@ -38,14 +35,7 @@ const ApplicantInformStep: React.FC = () => {
                         <form.AppField
                             name="applicantName"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="applicantName"
-                                        label={<>Full name of applicant</>}
-                                        placeholder="Type full legal name"
-                                        onBlur={field.handleBlur}
-                                    />
-                                );
+                                return <field.InputField name="applicantName" label={<>Full name of applicant</>} placeholder="Type full legal name" onBlur={field.handleBlur} />;
                             }}
                         />
                         <form.AppField
@@ -54,17 +44,8 @@ const ApplicantInformStep: React.FC = () => {
                                 const errorMessage = getFieldErrorMessage(dobField.state.meta.errors);
 
                                 return (
-                                    <FormFieldWrapper
-                                        name="applicantDob"
-                                        label={<>Applican date of birth</>}
-                                        errorMessage={errorMessage}
-                                    >
-                                        <DatePicker
-                                            value={parseDate(dobField.state.value)}
-                                            placeholder="MM / DD / YYYY"
-                                            errorMessage={errorMessage}
-                                            onChange={dobField.handleChange}
-                                        />
+                                    <FormFieldWrapper name="applicantDob" label={<>Applican date of birth</>} errorMessage={errorMessage}>
+                                        <DatePicker value={parseDate(dobField.state.value)} placeholder="MM / DD / YYYY" errorMessage={errorMessage} onChange={dobField.handleChange} />
                                     </FormFieldWrapper>
                                 );
                             }}
@@ -75,22 +56,13 @@ const ApplicantInformStep: React.FC = () => {
                         <form.AppField
                             name="applicantPhone"
                             children={(field) => {
-                                return (
-                                    <field.PhoneInputField name="applicantPhone" label={<>Applicant phone number</>} />
-                                );
+                                return <field.PhoneInputField name="applicantPhone" label={<>Applicant phone number</>} />;
                             }}
                         />
                         <form.AppField
                             name="applicantEmail"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="applicantEmail"
-                                        label={<>Applicant email address</>}
-                                        placeholder="Type applicant email "
-                                        onBlur={field.handleBlur}
-                                    />
-                                );
+                                return <field.InputField name="applicantEmail" label={<>Applicant email address</>} placeholder="Type applicant email " onBlur={field.handleBlur} />;
                             }}
                         />
                     </div>
@@ -98,28 +70,14 @@ const ApplicantInformStep: React.FC = () => {
                     <form.AppField
                         name="applicantAddress"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="applicantAddress"
-                                    label={<>Applicant&apos;s current address</>}
-                                    placeholder="Type street, city, state"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="applicantAddress" label={<>Applicant&apos;s current address</>} placeholder="Type street, city, state" onBlur={field.handleBlur} />;
                         }}
                     />
 
                     <form.AppField
                         name="applicantRelationshipToWard"
                         children={(field) => {
-                            return (
-                                <field.InputField
-                                    name="applicantRelationshipToWard"
-                                    label={<>Applicant’s relationship to the prospective ward</>}
-                                    placeholder="Example: daughter, brother, niece"
-                                    onBlur={field.handleBlur}
-                                />
-                            );
+                            return <field.InputField name="applicantRelationshipToWard" label={<>Applicant’s relationship to the prospective ward</>} placeholder="Example: daughter, brother, niece" onBlur={field.handleBlur} />;
                         }}
                     />
 
@@ -129,12 +87,7 @@ const ApplicantInformStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isApplicantRequiringInterpreter"
-                                    label={<>Does the applicant require an interpreter to understand English?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isApplicantRequiringInterpreter" label={<>Does the applicant require an interpreter to understand English?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
