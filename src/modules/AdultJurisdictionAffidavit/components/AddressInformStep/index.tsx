@@ -113,7 +113,7 @@ const AddressInformStep: React.FC = () => {
                                                 const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                                                 return (
-                                                    <FormFieldWrapper name="from" label={<>From sdfsdfsdfs</>}>
+                                                    <FormFieldWrapper name="from" label={<>From</>}>
                                                         <DatePicker
                                                             value={parseDate(field.state.value)}
                                                             placeholder="MM / DD / YYYY"
@@ -159,7 +159,7 @@ const AddressInformStep: React.FC = () => {
                                                 const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                                                 return (
-                                                    <FormFieldWrapper name="to" label={<>To sdfs====</>}>
+                                                    <FormFieldWrapper name="to" label={<>To</>}>
                                                         <DatePicker
                                                             value={parseDate(field.state.value)}
                                                             placeholder="MM / DD / YYYY"
