@@ -1,6 +1,9 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
+import { useStore } from '@tanstack/react-form';
+import { addDays, addMinutes, subDays } from 'date-fns';
 import { US_STATES_SELECT_OPTIONS } from '@/lib/constants';
+import { checkIfDateRangesOverlap } from '@/lib/utils/checkIfDateRangesOverlap';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
@@ -17,6 +20,27 @@ import s from './styles.module.css';
 const FamilyAndEmploymentStep: React.FC = () => {
     const { form, isLoading } = useApplicantCredibilityApplicationFormStepForm('familyAndEmploymentStep');
     const { goToPreviousStep } = useApplicantCredibilityApplicationFormContext();
+
+    const rootFromToRange = useStore(form.store, (state) => {
+        return {
+            from: state.values.employment.from ? parseDate(state.values.employment.from) : null,
+            to: state.values.employment.from ? parseDate(addMinutes(new Date(state.values.employment.from), 1)) : null,
+            index: -1,
+        };
+    });
+
+    const previousAddresses = useStore(form.store, (state) => {
+        return (state.values.employment.previousEmployers || []).map((address, index) => {
+            return {
+                ...address,
+                index,
+            };
+        });
+    });
+
+    const overlappingAddressesIndexes = React.useMemo(() => {
+        return checkIfDateRangesOverlap([rootFromToRange, ...previousAddresses]);
+    }, [previousAddresses, rootFromToRange]);
 
     if (isLoading) {
         return <ResponsiveLoader />;
@@ -213,7 +237,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                     return (
                                                         <form.Field
                                                             name={`employment.previousEmployers[${index}]`}
-                                                            children={(prevEmployee) => {
+                                                            children={() => {
                                                                 return (
                                                                     <FieldSetCard key={index}>
                                                                         <FieldSetCardHeader>
@@ -246,30 +270,80 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                         />
 
                                                                         <div className={s['inputs-wrapper']}>
-                                                                            <form.AppField
-                                                                                name={`employment.previousEmployers[${index}].from`}
-                                                                                children={(field) => {
-                                                                                    const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                                                                            <form.Subscribe
+                                                                                selector={(state) => {
+                                                                                    const findTo = state.values.employment.previousEmployers?.[index].to;
+                                                                                    const to = findTo ? parseDate(findTo) : null;
+
+                                                                                    const isOverlapping = overlappingAddressesIndexes.includes(index);
+                                                                                    return {
+                                                                                        maxDate: to ? subDays(new Date(to), 1) : to,
+                                                                                        isOverlapping,
+                                                                                    };
+                                                                                }}
+                                                                            >
+                                                                                {({ maxDate, isOverlapping }) => {
                                                                                     return (
-                                                                                        <FormFieldWrapper name={`employment.previousEmployers[${index}].from`} label={<>From</>}>
-                                                                                            <DatePicker maxDate={parseDate(prevEmployee.state.value?.to)} value={parseDate(field.state.value)} onChange={field.handleChange} placeholder="MM / DD / YYYY" errorMessage={errorMessage} />
-                                                                                        </FormFieldWrapper>
+                                                                                        <form.AppField
+                                                                                            name={`employment.previousEmployers[${index}].from`}
+                                                                                            children={(field) => {
+                                                                                                const errorMessage = isOverlapping ? 'Date intervals must not overlap' : getFieldErrorMessage(field.state.meta.errors);
+                                                                                                return (
+                                                                                                    <FormFieldWrapper name={`employment.previousEmployers[${index}].from`} label={<>From</>} errorMessage={errorMessage}>
+                                                                                                        <DatePicker
+                                                                                                            maxDate={maxDate}
+                                                                                                            value={parseDate(field.state.value)}
+                                                                                                            onChange={(date) => {
+                                                                                                                field.handleChange(date as Date);
+                                                                                                            }}
+                                                                                                            placeholder="MM / DD / YYYY"
+                                                                                                            errorMessage={errorMessage}
+                                                                                                        />
+                                                                                                    </FormFieldWrapper>
+                                                                                                );
+                                                                                            }}
+                                                                                        />
                                                                                     );
                                                                                 }}
-                                                                            />
+                                                                            </form.Subscribe>
 
-                                                                            <form.AppField
-                                                                                name={`employment.previousEmployers[${index}].to`}
-                                                                                children={(toField) => {
-                                                                                    const errorMessage = getFieldErrorMessage(toField.state.meta.errors);
+                                                                            <form.Subscribe
+                                                                                selector={(state) => {
+                                                                                    const findFrom = state.values.employment.previousEmployers?.[index].from;
+                                                                                    const from = findFrom ? parseDate(findFrom) : null;
+                                                                                    const isOverlapping = overlappingAddressesIndexes.includes(index);
 
+                                                                                    return {
+                                                                                        minDate: from ? addDays(new Date(from), 1) : from,
+                                                                                        isOverlapping,
+                                                                                    };
+                                                                                }}
+                                                                            >
+                                                                                {({ minDate, isOverlapping }) => {
                                                                                     return (
-                                                                                        <FormFieldWrapper name={`employment.previousEmployers[${index}].to`} label={<>To</>}>
-                                                                                            <DatePicker minDate={parseDate(prevEmployee.state.value?.from)} value={parseDate(toField.state.value)} onChange={toField.handleChange} placeholder="MM / DD / YYYY" errorMessage={errorMessage} />
-                                                                                        </FormFieldWrapper>
+                                                                                        <form.AppField
+                                                                                            name={`employment.previousEmployers[${index}].to`}
+                                                                                            children={(toField) => {
+                                                                                                const errorMessage = isOverlapping ? 'Date intervals must not overlap' : getFieldErrorMessage(toField.state.meta.errors);
+
+                                                                                                return (
+                                                                                                    <FormFieldWrapper name={`employment.previousEmployers[${index}].to`} label={<>To</>} errorMessage={errorMessage}>
+                                                                                                        <DatePicker
+                                                                                                            minDate={minDate}
+                                                                                                            value={parseDate(toField.state.value)}
+                                                                                                            onChange={(date) => {
+                                                                                                                toField.handleChange(date as Date);
+                                                                                                            }}
+                                                                                                            placeholder="MM / DD / YYYY"
+                                                                                                            errorMessage={errorMessage}
+                                                                                                        />
+                                                                                                    </FormFieldWrapper>
+                                                                                                );
+                                                                                            }}
+                                                                                        />
                                                                                     );
                                                                                 }}
-                                                                            />
+                                                                            </form.Subscribe>
                                                                         </div>
                                                                     </FieldSetCard>
                                                                 );
