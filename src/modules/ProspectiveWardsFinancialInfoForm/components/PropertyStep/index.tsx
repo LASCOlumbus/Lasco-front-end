@@ -1,10 +1,7 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
-import {
-    useProspectiveWardsFinancialInfoForm,
-    useProspectiveWardsFinancialInfoFormContext,
-} from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
+import { useProspectiveWardsFinancialInfoForm, useProspectiveWardsFinancialInfoFormContext } from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
@@ -37,12 +34,7 @@ const PropertyStep: React.FC = () => {
 
                             return (
                                 <>
-                                    <FormFieldLabelErrorWrapper
-                                        className={s['field-wrap']}
-                                        name="isProspectiveWardLeaveDuringDay.answer"
-                                        label={<>Does the prospective ward own real estate?</>}
-                                        errorMessage={errorMessage}
-                                    >
+                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isProspectiveWardLeaveDuringDay.answer" label={<>Does the prospective ward own real estate?</>} errorMessage={errorMessage}>
                                         <RadioGroup
                                             className={s['checkbox-group']}
                                             value={field.state.value}
@@ -58,14 +50,7 @@ const PropertyStep: React.FC = () => {
                                         <form.AppField
                                             name="realEstateAddress"
                                             children={(field) => {
-                                                return (
-                                                    <field.InputField
-                                                        name="realEstateAddress"
-                                                        label="Real estate address"
-                                                        placeholder="Enter full address"
-                                                        onBlur={field.handleBlur}
-                                                    />
-                                                );
+                                                return <field.InputField name="realEstateAddress" label="Real estate address" placeholder="Enter full address" onBlur={field.handleBlur} />;
                                             }}
                                         />
                                     )}
@@ -80,12 +65,7 @@ const PropertyStep: React.FC = () => {
 
                             return (
                                 <>
-                                    <FormFieldLabelErrorWrapper
-                                        className={s['field-wrap']}
-                                        name="prospectiveWardReceivesRentalIncome"
-                                        label={<>Does the prospective ward receive rental income?</>}
-                                        errorMessage={errorMessage}
-                                    >
+                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="prospectiveWardReceivesRentalIncome" label={<>Does the prospective ward receive rental income?</>} errorMessage={errorMessage}>
                                         <RadioGroup
                                             className={s['checkbox-group']}
                                             value={field.state.value}

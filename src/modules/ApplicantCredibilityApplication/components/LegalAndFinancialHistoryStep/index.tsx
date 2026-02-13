@@ -6,10 +6,7 @@ import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldW
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
-import {
-    useApplicantCredibilityApplicationFormContext,
-    useApplicantCredibilityApplicationFormStepForm,
-} from '../../context/ApplicantCredibilityApplicationFormContext';
+import { useApplicantCredibilityApplicationFormContext, useApplicantCredibilityApplicationFormStepForm } from '../../context/ApplicantCredibilityApplicationFormContext';
 import s from './styles.module.css';
 
 const LegalAndFinancialHistoryStep: React.FC = () => {
@@ -45,12 +42,7 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isApplicantEverFiledBankruptcy"
-                                    label={<>Has applicant ever filed bankruptcy?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isApplicantEverFiledBankruptcy" label={<>Has applicant ever filed bankruptcy?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -72,12 +64,7 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isApplicantEverBeenGarnished"
-                                    label={<>Has applicant ever been garnished?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isApplicantEverBeenGarnished" label={<>Has applicant ever been garnished?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -98,12 +85,7 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                         children={(field) => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isApplicantEverBeenInReceivership"
-                                    label={<>Has applicant ever been in receivership?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isApplicantEverBeenInReceivership" label={<>Has applicant ever been in receivership?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -125,12 +107,7 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isApplicantEverBeenConvictedFelony"
-                                    label={<>Has applicant ever been convicted of a felony?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isApplicantEverBeenConvictedFelony" label={<>Has applicant ever been convicted of a felony?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -152,14 +129,7 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isApplicantHadExperienceHandlingInvestments"
-                                    label={
-                                        <>Has applicant had experience handling investments in marketable securities?</>
-                                    }
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isApplicantHadExperienceHandlingInvestments" label={<>Has applicant had experience handling investments in marketable securities?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -179,11 +149,7 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                         children={(field) => {
                             if (!isSomeValuesChecked) return null;
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="explanation"
-                                    label={<>Explanation of any item checked "Yes" above</>}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="explanation" label={<>Explanation of any item checked "Yes" above</>}>
                                     <field.TextAreaField name="explanation" placeholder="Please explain in detail" />
                                 </FormFieldLabelErrorWrapper>
                             );

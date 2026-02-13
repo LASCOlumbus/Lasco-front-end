@@ -24,15 +24,7 @@ export const BENEFITS_LABELS = {
     otherPension: 'Other pension(s)',
 };
 
-export const BENEFIT_KEYS = [
-    'socialSecurity',
-    'PERS',
-    'VABenefits',
-    'railroadRetirement',
-    'medicaid',
-    'otherInsuranceBenefits',
-    'otherPension',
-] as const;
+export const BENEFIT_KEYS = ['socialSecurity', 'PERS', 'VABenefits', 'railroadRetirement', 'medicaid', 'otherInsuranceBenefits', 'otherPension'] as const;
 
 export type BenefitKey = (typeof BENEFIT_KEYS)[number];
 
@@ -86,11 +78,7 @@ export const prospectiveWardsFinancialInfoBenefitsStepSchema = z
 
             Object.entries(value).forEach(([k, v]) => {
                 const isSizeField = k.toLowerCase().includes('size');
-                if (
-                    ((!isSizeField && (v === '' || v === undefined)) ||
-                        (k.toLowerCase().includes('size') && !positiveNumberSchema.safeParse(v).success)) &&
-                    k !== 'representativePayeeName'
-                ) {
+                if (((!isSizeField && (v === '' || v === undefined)) || (k.toLowerCase().includes('size') && !positiveNumberSchema.safeParse(v).success)) && k !== 'representativePayeeName') {
                     ctx.addIssue({
                         path: [`${key}.${k}`],
                         message: `This field is required because "${BENEFITS_LABELS[key]}" is selected`,

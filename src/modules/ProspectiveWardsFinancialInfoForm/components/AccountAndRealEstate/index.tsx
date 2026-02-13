@@ -1,9 +1,6 @@
 import React from 'react';
 import { ACCOUNT_TYPE_SELECT_OPTIONS } from '@/lib/constants';
-import {
-    useProspectiveWardsFinancialInfoForm,
-    useProspectiveWardsFinancialInfoFormContext,
-} from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
+import { useProspectiveWardsFinancialInfoForm, useProspectiveWardsFinancialInfoFormContext } from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
 import { FieldSetCard, FieldSetCardHeader } from '@/components/ui/FieldSetCard';
@@ -61,30 +58,14 @@ const AccountAndRealEstateStep: React.FC = () => {
                                                         <form.AppField
                                                             name={`accounts[${index}].institution`}
                                                             children={(field) => {
-                                                                return (
-                                                                    <field.InputField
-                                                                        name={`accounts[${index}].institution`}
-                                                                        label={<>Institution</>}
-                                                                        placeholder=" Type institution name: examples (png, fidelity)"
-                                                                        onBlur={field.handleBlur}
-                                                                    />
-                                                                );
+                                                                return <field.InputField name={`accounts[${index}].institution`} label={<>Institution</>} placeholder=" Type institution name: examples (png, fidelity)" onBlur={field.handleBlur} />;
                                                             }}
                                                         />
                                                         <div className={s['inputs-wrapper']}>
                                                             <form.AppField
                                                                 name={`accounts[${index}].type`}
                                                                 children={(field) => {
-                                                                    return (
-                                                                        <field.SelectField
-                                                                            name={`accounts[${index}].type`}
-                                                                            label={<>Type</>}
-                                                                            type="single"
-                                                                            placeholder=" Select account type"
-                                                                            isSearchable
-                                                                            options={ACCOUNT_TYPE_SELECT_OPTIONS}
-                                                                        />
-                                                                    );
+                                                                    return <field.SelectField name={`accounts[${index}].type`} label={<>Type</>} type="single" placeholder=" Select account type" isSearchable options={ACCOUNT_TYPE_SELECT_OPTIONS} />;
                                                                 }}
                                                             />
                                                             <form.AppField

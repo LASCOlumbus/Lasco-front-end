@@ -4,12 +4,8 @@ import SuccessSection from '@/components/SuccessSection';
 import { useNextKinProspectiveWardFormContext } from '../../context/NextKinProspectiveWardFormContext';
 import { NextKinProspectiveWardFormStepProps } from './types';
 
-const NextKinProspectiveWardFormStep: React.FC<React.PropsWithChildren<NextKinProspectiveWardFormStepProps>> = ({
-    children,
-    id,
-}) => {
-    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } =
-        useNextKinProspectiveWardFormContext();
+const NextKinProspectiveWardFormStep: React.FC<React.PropsWithChildren<NextKinProspectiveWardFormStepProps>> = ({ children, id }) => {
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } = useNextKinProspectiveWardFormContext();
 
     if (currentStep.id !== id) {
         return null;

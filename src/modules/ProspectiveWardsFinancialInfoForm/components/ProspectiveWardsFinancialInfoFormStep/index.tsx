@@ -4,11 +4,8 @@ import FailureSection from '@/components/FailureSection';
 import SuccessSection from '@/components/SuccessSection';
 import { ProspectiveWardsFinancialInfoFormStepProps } from './types';
 
-const ProspectiveWardsFinancialInfoFormStep: React.FC<
-    React.PropsWithChildren<ProspectiveWardsFinancialInfoFormStepProps>
-> = ({ children, id }) => {
-    const { currentStep, printPdf, downloadPdf, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep } =
-        useProspectiveWardsFinancialInfoFormContext();
+const ProspectiveWardsFinancialInfoFormStep: React.FC<React.PropsWithChildren<ProspectiveWardsFinancialInfoFormStepProps>> = ({ children, id }) => {
+    const { currentStep, printPdf, downloadPdf, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep } = useProspectiveWardsFinancialInfoFormContext();
 
     if (currentStep.id !== id) {
         return null;

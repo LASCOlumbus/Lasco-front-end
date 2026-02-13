@@ -1,6 +1,9 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
+import { useStore } from '@tanstack/react-form';
+import { addDays, addMinutes, subDays } from 'date-fns';
 import { US_STATES_SELECT_OPTIONS } from '@/lib/constants';
+import { checkIfDateRangesOverlap } from '@/lib/utils/checkIfDateRangesOverlap';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
@@ -11,15 +14,33 @@ import DatePicker from '@/components/ui/DatePicker';
 import { FieldSetCard, FieldSetCardHeader } from '@/components/ui/FieldSetCard';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { Typography } from '@/components/ui/Typography';
-import {
-    useApplicantCredibilityApplicationFormContext,
-    useApplicantCredibilityApplicationFormStepForm,
-} from '../../context/ApplicantCredibilityApplicationFormContext';
+import { useApplicantCredibilityApplicationFormContext, useApplicantCredibilityApplicationFormStepForm } from '../../context/ApplicantCredibilityApplicationFormContext';
 import s from './styles.module.css';
 
 const FamilyAndEmploymentStep: React.FC = () => {
     const { form, isLoading } = useApplicantCredibilityApplicationFormStepForm('familyAndEmploymentStep');
     const { goToPreviousStep } = useApplicantCredibilityApplicationFormContext();
+
+    const rootFromToRange = useStore(form.store, (state) => {
+        return {
+            from: state.values.employment.from ? parseDate(state.values.employment.from) : null,
+            to: state.values.employment.from ? parseDate(addMinutes(new Date(state.values.employment.from), 1)) : null,
+            index: -1,
+        };
+    });
+
+    const previousAddresses = useStore(form.store, (state) => {
+        return (state.values.employment.previousEmployers || []).map((address, index) => {
+            return {
+                ...address,
+                index,
+            };
+        });
+    });
+
+    const overlappingAddressesIndexes = React.useMemo(() => {
+        return checkIfDateRangesOverlap([rootFromToRange, ...previousAddresses]);
+    }, [previousAddresses, rootFromToRange]);
 
     if (isLoading) {
         return <ResponsiveLoader />;
@@ -47,12 +68,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
 
                             return (
                                 <>
-                                    <FormFieldLabelErrorWrapper
-                                        className={s['field-wrap']}
-                                        name="isMarried"
-                                        label={<>Are you currently married?</>}
-                                        errorMessage={errorMessage}
-                                    >
+                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isMarried" label={<>Are you currently married?</>} errorMessage={errorMessage}>
                                         <RadioGroup
                                             className={s['checkbox-group']}
                                             value={field.state.value}
@@ -70,14 +86,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                 <form.AppField
                                                     name="marriage.spouseName"
                                                     children={(field) => {
-                                                        return (
-                                                            <field.InputField
-                                                                name="marriage.spouseName"
-                                                                label={<>Spouse full name</>}
-                                                                placeholder="Type spouse’s full name"
-                                                                onBlur={field.handleBlur}
-                                                            />
-                                                        );
+                                                        return <field.InputField name="marriage.spouseName" label={<>Spouse full name</>} placeholder="Type spouse’s full name" onBlur={field.handleBlur} />;
                                                     }}
                                                 />
                                                 <form.AppField
@@ -107,27 +116,13 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                 <form.AppField
                                                     name="marriage.spouseStreetAddress"
                                                     children={(field) => {
-                                                        return (
-                                                            <field.InputField
-                                                                name="marriage.spouseStreetAddress"
-                                                                label={<>Spouse street address </>}
-                                                                placeholder="Type street address"
-                                                                onBlur={field.handleBlur}
-                                                            />
-                                                        );
+                                                        return <field.InputField name="marriage.spouseStreetAddress" label={<>Spouse street address </>} placeholder="Type street address" onBlur={field.handleBlur} />;
                                                     }}
                                                 />
                                                 <form.AppField
                                                     name="marriage.city"
                                                     children={(field) => {
-                                                        return (
-                                                            <field.InputField
-                                                                name="marriage.city"
-                                                                label={<>City</>}
-                                                                placeholder="Type city"
-                                                                onBlur={field.handleBlur}
-                                                            />
-                                                        );
+                                                        return <field.InputField name="marriage.city" label={<>City</>} placeholder="Type city" onBlur={field.handleBlur} />;
                                                     }}
                                                 />
                                             </div>
@@ -157,14 +152,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                 <form.AppField
                                                     name="marriage.zip"
                                                     children={(field) => {
-                                                        return (
-                                                            <field.InputField
-                                                                name="marriage.zip"
-                                                                label={<>ZIP code</>}
-                                                                placeholder="Ex. 43215"
-                                                                onBlur={field.handleBlur}
-                                                            />
-                                                        );
+                                                        return <field.InputField name="marriage.zip" label={<>ZIP code</>} placeholder="Ex. 43215" onBlur={field.handleBlur} />;
                                                     }}
                                                 />
                                             </div>
@@ -188,14 +176,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                             <form.AppField
                                 name="employment.currentEmployer"
                                 children={(field) => {
-                                    return (
-                                        <field.InputField
-                                            name="employment.currentEmployer"
-                                            label={<>Current employer</>}
-                                            placeholder="Type employer name"
-                                            onBlur={field.handleBlur}
-                                        />
-                                    );
+                                    return <field.InputField name="employment.currentEmployer" label={<>Current employer</>} placeholder="Type employer name" onBlur={field.handleBlur} />;
                                 }}
                             />
                             <form.AppField
@@ -209,7 +190,9 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                 value={parseDate(fromField.state.value)}
                                                 placeholder="MM / DD / YYYY"
                                                 errorMessage={errorMessage}
-                                                onChange={fromField.handleChange}
+                                                onChange={(date) => {
+                                                    return fromField.handleChange(date as Date);
+                                                }}
                                             />
                                         </FormFieldWrapper>
                                     );
@@ -223,12 +206,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                 const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                                 return (
-                                    <FormFieldLabelErrorWrapper
-                                        className={s['field-wrap']}
-                                        name="employment.isSameEmployerLast5Years"
-                                        label={<>Have you worked for this employer for the last 5 years?</>}
-                                        errorMessage={errorMessage}
-                                    >
+                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="employment.isSameEmployerLast5Years" label={<>Have you worked for this employer for the last 5 years?</>} errorMessage={errorMessage}>
                                         <RadioGroup
                                             className={s['checkbox-group']}
                                             value={field.state.value}
@@ -259,30 +237,23 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                     return (
                                                         <form.Field
                                                             name={`employment.previousEmployers[${index}]`}
-                                                            children={(_) => {
+                                                            children={() => {
                                                                 return (
                                                                     <FieldSetCard key={index}>
                                                                         <FieldSetCardHeader>
-                                                                            <Typography
-                                                                                variant="heading-h4"
-                                                                                render={<strong />}
-                                                                            >
-                                                                                Previous employer within the last 5
-                                                                                years
+                                                                            <Typography variant="heading-h4" render={<strong />}>
+                                                                                Previous employer within the last 5 years
                                                                             </Typography>
 
-                                                                            {(field.state.value?.length as number) >
-                                                                                1 && (
+                                                                            {(field.state.value?.length as number) > 1 && (
                                                                                 <Button
                                                                                     variant="secondary"
                                                                                     size="small"
                                                                                     onClick={() => {
                                                                                         field.handleChange(
-                                                                                            field.state.value?.filter(
-                                                                                                (_, i) => {
-                                                                                                    return i !== index;
-                                                                                                }
-                                                                                            )
+                                                                                            field.state.value?.filter((_, i) => {
+                                                                                                return i !== index;
+                                                                                            })
                                                                                         );
                                                                                     }}
                                                                                 >
@@ -294,76 +265,85 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                         <form.AppField
                                                                             name={`employment.previousEmployers[${index}].employer`}
                                                                             children={(field) => {
-                                                                                return (
-                                                                                    <field.InputField
-                                                                                        name={`employment.previousEmployers[${index}].employer`}
-                                                                                        label={<>Previous employer</>}
-                                                                                        placeholder="Type previous employer name"
-                                                                                        onBlur={field.handleBlur}
-                                                                                    />
-                                                                                );
+                                                                                return <field.InputField name={`employment.previousEmployers[${index}].employer`} label={<>Previous employer</>} placeholder="Type previous employer name" onBlur={field.handleBlur} />;
                                                                             }}
                                                                         />
 
                                                                         <div className={s['inputs-wrapper']}>
-                                                                            <form.AppField
-                                                                                name={`employment.previousEmployers[${index}].from`}
-                                                                                children={(field) => {
-                                                                                    const errorMessage =
-                                                                                        getFieldErrorMessage(
-                                                                                            field.state.meta.errors
-                                                                                        );
+                                                                            <form.Subscribe
+                                                                                selector={(state) => {
+                                                                                    const findTo = state.values.employment.previousEmployers?.[index].to;
+                                                                                    const to = findTo ? parseDate(findTo) : null;
+
+                                                                                    const isOverlapping = overlappingAddressesIndexes.includes(index);
+                                                                                    return {
+                                                                                        maxDate: to ? subDays(new Date(to), 1) : to,
+                                                                                        isOverlapping,
+                                                                                    };
+                                                                                }}
+                                                                            >
+                                                                                {({ maxDate, isOverlapping }) => {
                                                                                     return (
-                                                                                        <FormFieldWrapper
+                                                                                        <form.AppField
                                                                                             name={`employment.previousEmployers[${index}].from`}
-                                                                                            label={<>From</>}
-                                                                                        >
-                                                                                            <DatePicker
-                                                                                                value={parseDate(
-                                                                                                    field.state.value
-                                                                                                )}
-                                                                                                onChange={
-                                                                                                    field.handleChange
-                                                                                                }
-                                                                                                placeholder="MM / DD / YYYY"
-                                                                                                errorMessage={
-                                                                                                    errorMessage
-                                                                                                }
-                                                                                            />
-                                                                                        </FormFieldWrapper>
+                                                                                            children={(field) => {
+                                                                                                const errorMessage = isOverlapping ? 'Date intervals must not overlap' : getFieldErrorMessage(field.state.meta.errors);
+                                                                                                return (
+                                                                                                    <FormFieldWrapper name={`employment.previousEmployers[${index}].from`} label={<>From</>} errorMessage={errorMessage}>
+                                                                                                        <DatePicker
+                                                                                                            maxDate={maxDate}
+                                                                                                            value={parseDate(field.state.value)}
+                                                                                                            onChange={(date) => {
+                                                                                                                field.handleChange(date as Date);
+                                                                                                            }}
+                                                                                                            placeholder="MM / DD / YYYY"
+                                                                                                            errorMessage={errorMessage}
+                                                                                                        />
+                                                                                                    </FormFieldWrapper>
+                                                                                                );
+                                                                                            }}
+                                                                                        />
                                                                                     );
                                                                                 }}
-                                                                            />
+                                                                            </form.Subscribe>
 
-                                                                            <form.AppField
-                                                                                name={`employment.previousEmployers[${index}].to`}
-                                                                                children={(toField) => {
-                                                                                    const errorMessage =
-                                                                                        getFieldErrorMessage(
-                                                                                            toField.state.meta.errors
-                                                                                        );
+                                                                            <form.Subscribe
+                                                                                selector={(state) => {
+                                                                                    const findFrom = state.values.employment.previousEmployers?.[index].from;
+                                                                                    const from = findFrom ? parseDate(findFrom) : null;
+                                                                                    const isOverlapping = overlappingAddressesIndexes.includes(index);
 
+                                                                                    return {
+                                                                                        minDate: from ? addDays(new Date(from), 1) : from,
+                                                                                        isOverlapping,
+                                                                                    };
+                                                                                }}
+                                                                            >
+                                                                                {({ minDate, isOverlapping }) => {
                                                                                     return (
-                                                                                        <FormFieldWrapper
+                                                                                        <form.AppField
                                                                                             name={`employment.previousEmployers[${index}].to`}
-                                                                                            label={<>To</>}
-                                                                                        >
-                                                                                            <DatePicker
-                                                                                                value={parseDate(
-                                                                                                    toField.state.value
-                                                                                                )}
-                                                                                                onChange={
-                                                                                                    toField.handleChange
-                                                                                                }
-                                                                                                placeholder="MM / DD / YYYY"
-                                                                                                errorMessage={
-                                                                                                    errorMessage
-                                                                                                }
-                                                                                            />
-                                                                                        </FormFieldWrapper>
+                                                                                            children={(toField) => {
+                                                                                                const errorMessage = isOverlapping ? 'Date intervals must not overlap' : getFieldErrorMessage(toField.state.meta.errors);
+
+                                                                                                return (
+                                                                                                    <FormFieldWrapper name={`employment.previousEmployers[${index}].to`} label={<>To</>} errorMessage={errorMessage}>
+                                                                                                        <DatePicker
+                                                                                                            minDate={minDate}
+                                                                                                            value={parseDate(toField.state.value)}
+                                                                                                            onChange={(date) => {
+                                                                                                                toField.handleChange(date as Date);
+                                                                                                            }}
+                                                                                                            placeholder="MM / DD / YYYY"
+                                                                                                            errorMessage={errorMessage}
+                                                                                                        />
+                                                                                                    </FormFieldWrapper>
+                                                                                                );
+                                                                                            }}
+                                                                                        />
                                                                                     );
                                                                                 }}
-                                                                            />
+                                                                            </form.Subscribe>
                                                                         </div>
                                                                     </FieldSetCard>
                                                                 );

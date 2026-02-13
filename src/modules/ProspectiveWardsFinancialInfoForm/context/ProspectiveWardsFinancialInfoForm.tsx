@@ -87,11 +87,7 @@ export const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_STEPS = {
     },
 } as const satisfies Record<keyof ProspectiveWardsFinancialInfoForm, ProspectiveWardsFinancialInfoCaseDetailsFormStep>;
 
-const {
-    Provider: BaseProvider,
-    useFormContext,
-    useStepForm,
-} = createMultiStepForm<ProspectiveWardsFinancialInfoForm>(FORM_TYPES.prospectiveWardsFinancialInformation);
+const { Provider: BaseProvider, useFormContext, useStepForm } = createMultiStepForm<ProspectiveWardsFinancialInfoForm>(FORM_TYPES.prospectiveWardsFinancialInformation);
 
 const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_CONFIG = {
     storageKey: 'PROSPECTIVE_WARDS_FINANCIAL_INFO_multi-step-form',

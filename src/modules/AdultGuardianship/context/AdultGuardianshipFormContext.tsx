@@ -1,8 +1,4 @@
-import {
-    adultGuardianshipCaseDetailsStepSchema,
-    adultGuardianshipSafetyServiceStepSchema,
-    adultGuardianshipWardLocationStepSchema,
-} from '@/schemas/formSchemas';
+import { adultGuardianshipCaseDetailsStepSchema, adultGuardianshipSafetyServiceStepSchema, adultGuardianshipWardLocationStepSchema } from '@/schemas/formSchemas';
 import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';
 import { AdultGuardianshipForm, AdultGuardianshipFormStep } from '@/lib/types';
@@ -57,11 +53,7 @@ export const ADULT_GUARDIANSHIP_FORM_STEPS = {
     },
 } as const satisfies Record<keyof AdultGuardianshipForm, AdultGuardianshipFormStep>;
 
-const {
-    Provider: BaseProvider,
-    useFormContext,
-    useStepForm,
-} = createMultiStepForm<AdultGuardianshipForm>(FORM_TYPES.adultGuardianship);
+const { Provider: BaseProvider, useFormContext, useStepForm } = createMultiStepForm<AdultGuardianshipForm>(FORM_TYPES.adultGuardianship);
 
 const ADULT_GUARDIANSHIP_FORM_CONFIG = {
     storageKey: 'ADULT_GUARDIANSHIP_multi-step-form',

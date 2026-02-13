@@ -25,19 +25,7 @@ import { Typography } from '@/components/ui/Typography';
 import { ComponentSection } from './components/ComponentSection';
 import s from './style.module.css';
 
-const TYPOGRAPHY_VARIANTS: TypographyVariant[] = [
-    'heading-h1',
-    'heading-h2',
-    'heading-h3',
-    'heading-h4',
-    'heading-h5',
-    'body-m',
-    'body-s',
-    'body-caption',
-    'button-big',
-    'button-medium',
-    'button-small',
-];
+const TYPOGRAPHY_VARIANTS: TypographyVariant[] = ['heading-h1', 'heading-h2', 'heading-h3', 'heading-h4', 'heading-h5', 'body-m', 'body-s', 'body-caption', 'button-big', 'button-medium', 'button-small'];
 
 const BUTTON_VARIANTS: ButtonVariant[] = ['primary', 'secondary', 'link'];
 
@@ -120,9 +108,7 @@ const UiKit: React.FC = () => {
                                         {variant}
                                     </Typography>
                                     <div className={s['variant-content']}>
-                                        <Typography variant={variant}>
-                                            The quick brown fox jumps over the lazy dog
-                                        </Typography>
+                                        <Typography variant={variant}>The quick brown fox jumps over the lazy dog</Typography>
                                         <Typography variant={variant}>1234567890</Typography>
                                         <Typography variant={variant} render={<strong />}>
                                             Bold text example
@@ -147,12 +133,7 @@ const UiKit: React.FC = () => {
                                                     <Button key={`${variant}-${size}`} variant={variant} size={size}>
                                                         {variant} {size}
                                                     </Button>
-                                                    <Button
-                                                        key={`${variant}-${size}`}
-                                                        variant={variant}
-                                                        size={size}
-                                                        disabled
-                                                    >
+                                                    <Button key={`${variant}-${size}`} variant={variant} size={size} disabled>
                                                         {variant} {size}
                                                     </Button>
                                                 </div>
@@ -170,29 +151,11 @@ const UiKit: React.FC = () => {
                             </Typography>
                             <div className={s['variant-content']}>
                                 <div className={s['button-sizes']}>
-                                    <Checkbox
-                                        checked={checkboxStates.basic1}
-                                        onCheckedChange={createCheckboxChangeHandler('basic1')}
-                                    />
-                                    <Checkbox
-                                        checked={checkboxStates.basic2}
-                                        onCheckedChange={createCheckboxChangeHandler('basic2')}
-                                    />
-                                    <Checkbox
-                                        checked={checkboxStates.basic3}
-                                        onCheckedChange={createCheckboxChangeHandler('basic3')}
-                                        disabled
-                                    />
-                                    <Checkbox
-                                        checked={checkboxStates.basic4}
-                                        onCheckedChange={createCheckboxChangeHandler('basic4')}
-                                        disabled
-                                    />
-                                    <Checkbox
-                                        checked={checkboxStates.indeterminate1}
-                                        onCheckedChange={createCheckboxChangeHandler('indeterminate1')}
-                                        indeterminate
-                                    />
+                                    <Checkbox checked={checkboxStates.basic1} onCheckedChange={createCheckboxChangeHandler('basic1')} />
+                                    <Checkbox checked={checkboxStates.basic2} onCheckedChange={createCheckboxChangeHandler('basic2')} />
+                                    <Checkbox checked={checkboxStates.basic3} onCheckedChange={createCheckboxChangeHandler('basic3')} disabled />
+                                    <Checkbox checked={checkboxStates.basic4} onCheckedChange={createCheckboxChangeHandler('basic4')} disabled />
+                                    <Checkbox checked={checkboxStates.indeterminate1} onCheckedChange={createCheckboxChangeHandler('indeterminate1')} indeterminate />
                                 </div>
                             </div>
                         </div>
@@ -320,8 +283,7 @@ const UiKit: React.FC = () => {
                                             toastManager.add({
                                                 type: 'success',
                                                 title: 'Custom Title',
-                                                description:
-                                                    'This is a custom success message with a longer description to test how the toast handles multiple lines of text.',
+                                                description: 'This is a custom success message with a longer description to test how the toast handles multiple lines of text.',
                                                 timeout: 7000,
                                             });
                                         }}
@@ -335,8 +297,7 @@ const UiKit: React.FC = () => {
                                             toastManager.add({
                                                 type: 'error',
                                                 title: 'Validation Error',
-                                                description:
-                                                    'Please check your input and try again. Make sure all required fields are filled correctly.',
+                                                description: 'Please check your input and try again. Make sure all required fields are filled correctly.',
                                                 timeout: 7000,
                                             });
                                         }}
@@ -354,10 +315,7 @@ const UiKit: React.FC = () => {
                             </Typography>
                             <div className={s['variant-content']}>
                                 <Alert>This is an informational alert message.</Alert>
-                                <Alert>
-                                    This is a longer alert message that demonstrates how the component handles multiple
-                                    lines of text and maintains proper spacing and alignment.
-                                </Alert>
+                                <Alert>This is a longer alert message that demonstrates how the component handles multiple lines of text and maintains proper spacing and alignment.</Alert>
                             </div>
                         </div>
                     </ComponentSection>
@@ -412,45 +370,10 @@ const UiKit: React.FC = () => {
                                 Single (searchable)
                             </Typography>
                             <div className={s['variant-content']}>
-                                <Select
-                                    type="single"
-                                    placeholder="Pick an option"
-                                    options={[...SELECT_OPTIONS]}
-                                    value={undefined}
-                                    onChange={setSelectValue}
-                                    isSearchable
-                                    search={selectSearch}
-                                    onSearchChange={setSelectSearch}
-                                />
-                                <Select
-                                    type="single"
-                                    size="sm"
-                                    placeholder="Pick an option"
-                                    options={[...SELECT_OPTIONS]}
-                                    value={undefined}
-                                    onChange={setSelectValue}
-                                    isSearchable
-                                    search={selectSearch}
-                                    onSearchChange={setSelectSearch}
-                                />
-                                <Select
-                                    type="single"
-                                    placeholder="Pick an option"
-                                    options={[...SELECT_OPTIONS]}
-                                    value={selectValue}
-                                    onChange={setSelectValue}
-                                    isSearchable
-                                    search={selectSearch}
-                                    onSearchChange={setSelectSearch}
-                                />
-                                <Select
-                                    type="single"
-                                    placeholder="Disabled"
-                                    options={[...SELECT_OPTIONS]}
-                                    value={selectValue}
-                                    onChange={setSelectValue}
-                                    disabled
-                                />
+                                <Select type="single" placeholder="Pick an option" options={[...SELECT_OPTIONS]} value={undefined} onChange={setSelectValue} isSearchable search={selectSearch} onSearchChange={setSelectSearch} />
+                                <Select type="single" size="sm" placeholder="Pick an option" options={[...SELECT_OPTIONS]} value={undefined} onChange={setSelectValue} isSearchable search={selectSearch} onSearchChange={setSelectSearch} />
+                                <Select type="single" placeholder="Pick an option" options={[...SELECT_OPTIONS]} value={selectValue} onChange={setSelectValue} isSearchable search={selectSearch} onSearchChange={setSelectSearch} />
+                                <Select type="single" placeholder="Disabled" options={[...SELECT_OPTIONS]} value={selectValue} onChange={setSelectValue} disabled />
                             </div>
                         </div>
                         <div className={s['variant-container']}>
@@ -458,25 +381,8 @@ const UiKit: React.FC = () => {
                                 Multiple
                             </Typography>
                             <div className={s['variant-content']}>
-                                <Select
-                                    type="multiple"
-                                    placeholder="Pick multiple"
-                                    options={[...SELECT_OPTIONS]}
-                                    value={selectMultipleValue}
-                                    onChange={setSelectMultipleValue}
-                                    singularPrefix="item"
-                                    pluralPrefix="items"
-                                />
-                                <Select
-                                    type="multiple"
-                                    placeholder="Error state"
-                                    options={[...SELECT_OPTIONS]}
-                                    value={selectMultipleValue}
-                                    onChange={setSelectMultipleValue}
-                                    singularPrefix="item"
-                                    pluralPrefix="items"
-                                    errorMessage="Please select at least one"
-                                />
+                                <Select type="multiple" placeholder="Pick multiple" options={[...SELECT_OPTIONS]} value={selectMultipleValue} onChange={setSelectMultipleValue} singularPrefix="item" pluralPrefix="items" />
+                                <Select type="multiple" placeholder="Error state" options={[...SELECT_OPTIONS]} value={selectMultipleValue} onChange={setSelectMultipleValue} singularPrefix="item" pluralPrefix="items" errorMessage="Please select at least one" />
                             </div>
                         </div>
                     </ComponentSection>
@@ -487,9 +393,7 @@ const UiKit: React.FC = () => {
                             </Typography>
                             <div className={s['variant-content']}>
                                 <Popover>
-                                    <PopoverTrigger render={<Button variant="primary" size="medium" />}>
-                                        Open popover
-                                    </PopoverTrigger>
+                                    <PopoverTrigger render={<Button variant="primary" size="medium" />}>Open popover</PopoverTrigger>
                                     <PopoverContent style={{ padding: '12px' }}>
                                         <Typography variant="body-s">Popover content</Typography>
                                     </PopoverContent>
@@ -514,9 +418,7 @@ const UiKit: React.FC = () => {
                                             <DrawerHeader>
                                                 <DrawerTitle>Drawer title</DrawerTitle>
                                             </DrawerHeader>
-                                            <Typography variant="body-s">
-                                                This is a basic drawer example for the UI Kit.
-                                            </Typography>
+                                            <Typography variant="body-s">This is a basic drawer example for the UI Kit.</Typography>
                                         </div>
                                     </DrawerContent>
                                 </Drawer>
@@ -553,18 +455,7 @@ const UiKit: React.FC = () => {
                                     value={datePickerValue}
                                     onChange={setDatePickerValue}
                                     placeholder="Select date"
-                                    trigger={
-                                        <Input
-                                            placeholder="Select date"
-                                            value={
-                                                datePickerValue
-                                                    ? `${datePickerValue.getMonth() + 1}/${datePickerValue.getDate()}/${datePickerValue.getFullYear()}`
-                                                    : ''
-                                            }
-                                            readOnly
-                                            leftAddon={<Calendar20Icon />}
-                                        />
-                                    }
+                                    trigger={<Input placeholder="Select date" value={datePickerValue ? `${datePickerValue.getMonth() + 1}/${datePickerValue.getDate()}/${datePickerValue.getFullYear()}` : ''} readOnly leftAddon={<Calendar20Icon />} />}
                                 />
                             </div>
                         </div>
@@ -583,14 +474,7 @@ const UiKit: React.FC = () => {
                                         setDateRangeEnd(end);
                                     }}
                                     placeholder="Select date range"
-                                    trigger={
-                                        <Input
-                                            placeholder="Select date range"
-                                            value={dateRangeInputValue}
-                                            readOnly
-                                            leftAddon={<Calendar20Icon />}
-                                        />
-                                    }
+                                    trigger={<Input placeholder="Select date range" value={dateRangeInputValue} readOnly leftAddon={<Calendar20Icon />} />}
                                 />
                             </div>
                         </div>

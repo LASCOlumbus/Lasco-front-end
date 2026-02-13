@@ -10,12 +10,7 @@ import tseslint from 'typescript-eslint';
 export default tseslint.config({
     ignores: ['**/dist/**', '**/tmp/**', '/src/routeTree.gen.ts'],
     files: ['**/*.{js,ts,tsx,cjs,mjs}'],
-    extends: [
-        eslint.configs.recommended,
-        tseslint.configs.recommended,
-        eslintPluginPrettierRecommended,
-        pluginTanstackQuery.configs['flat/recommended'],
-    ],
+    extends: [eslint.configs.recommended, tseslint.configs.recommended, eslintPluginPrettierRecommended, pluginTanstackQuery.configs['flat/recommended']],
     plugins: {
         react,
         'react-hooks': reactHooksPlugin,
@@ -57,10 +52,7 @@ export default tseslint.config({
         'react/react-in-jsx-scope': ['off'],
         'react/prop-types': ['off'],
         'react/no-unused-prop-types': ['error'],
-        'react/function-component-definition': [
-            2,
-            { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
-        ],
+        'react/function-component-definition': [2, { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' }],
         'react/jsx-no-useless-fragment': ['error'],
         'react/self-closing-comp': [
             'error',
@@ -90,7 +82,7 @@ export default tseslint.config({
         'max-len': [
             'error',
             {
-                code: 120,
+                code: 300,
                 ignoreUrls: true,
                 ignoreRegExpLiterals: true,
                 ignoreStrings: true,

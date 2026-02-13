@@ -4,11 +4,8 @@ import SuccessSection from '@/components/SuccessSection';
 import { useAdultJurisdictionAffidavitFormContext } from '../../context/AdultJurisdictionAffidavitFormContext';
 import { AdultJurisdictionAffidavitFormStepProps } from './types';
 
-const AdultJurisdictionAffidavitFormStep: React.FC<
-    React.PropsWithChildren<AdultJurisdictionAffidavitFormStepProps>
-> = ({ children, id }) => {
-    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } =
-        useAdultJurisdictionAffidavitFormContext();
+const AdultJurisdictionAffidavitFormStep: React.FC<React.PropsWithChildren<AdultJurisdictionAffidavitFormStepProps>> = ({ children, id }) => {
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } = useAdultJurisdictionAffidavitFormContext();
 
     if (currentStep.id !== id) {
         return null;

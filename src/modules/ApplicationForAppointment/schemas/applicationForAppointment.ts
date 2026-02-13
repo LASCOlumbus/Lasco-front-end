@@ -50,9 +50,7 @@ export const applicationForAppointmentWardInformStepSchema = z
     })
     .refine(
         (data) => {
-            return data?.isWardNeedsInterpreterForEnglish
-                ? requiredStringSchema.safeParse(data.wardSpeakLanguage).success
-                : true;
+            return data?.isWardNeedsInterpreterForEnglish ? requiredStringSchema.safeParse(data.wardSpeakLanguage).success : true;
         },
         {
             message: 'This field is required.',
@@ -61,9 +59,7 @@ export const applicationForAppointmentWardInformStepSchema = z
     )
     .refine(
         (data) => {
-            return data?.isWardHasMilitaryService
-                ? militaryServiceSchema.safeParse(data.militaryService).success
-                : true;
+            return data?.isWardHasMilitaryService ? militaryServiceSchema.safeParse(data.militaryService).success : true;
         },
         {
             message: 'This field is required.',
@@ -130,9 +126,7 @@ export const applicationForAppointmentGuardianshipTypeStepSchema = z
     })
     .refine(
         (data) => {
-            return data.typeGuardianship.includes('Limited')
-                ? requiredStringSchema.safeParse(data.limitedPowersRequested).success
-                : true;
+            return data.typeGuardianship.includes('Limited') ? requiredStringSchema.safeParse(data.limitedPowersRequested).success : true;
         },
         {
             message: 'This field is required.',
@@ -141,9 +135,7 @@ export const applicationForAppointmentGuardianshipTypeStepSchema = z
     )
     .refine(
         (data) => {
-            return data.timePeriodRequested.includes('Limited to a specific time period')
-                ? specifyTimePeriodSchema.safeParse(data.specifyTimePeriod).success
-                : true;
+            return data.timePeriodRequested.includes('Limited to a specific time period') ? specifyTimePeriodSchema.safeParse(data.specifyTimePeriod).success : true;
         },
         {
             message: 'This field is required.',

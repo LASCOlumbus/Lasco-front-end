@@ -26,11 +26,7 @@ const CaseDetailsStep: React.FC = () => {
             <div className={s['scroll-container-wrapper']}>
                 <ScrollArea>
                     <div className={s['content-description']}>
-                        <Typography variant="body-m">
-                            You hereby waive the issuing and service of notice, voluntarily enter your appearance
-                            herein, and consent to the appointment of the person named below as guardian of the
-                            above-named person.
-                        </Typography>
+                        <Typography variant="body-m">You hereby waive the issuing and service of notice, voluntarily enter your appearance herein, and consent to the appointment of the person named below as guardian of the above-named person.</Typography>
                     </div>
                     <div className={s.inputs}>
                         <form.Field
@@ -42,9 +38,7 @@ const CaseDetailsStep: React.FC = () => {
                                             In the matter of the guardianship of
                                         </Typography>
                                         <Input
-                                            errorMessage={
-                                                !!field.state.meta.errors?.length && field.state.meta.isBlurred
-                                            }
+                                            errorMessage={!!field.state.meta.errors?.length && field.state.meta.isBlurred}
                                             placeholder="Type your guardianship full name"
                                             value={field.state.value}
                                             onBlur={() => {
@@ -75,9 +69,7 @@ const CaseDetailsStep: React.FC = () => {
                                             Case number
                                         </Typography>
                                         <Input
-                                            errorMessage={
-                                                !!field.state.meta.errors?.length && field.state.meta.isBlurred
-                                            }
+                                            errorMessage={!!field.state.meta.errors?.length && field.state.meta.isBlurred}
                                             placeholder="Type case number"
                                             value={field.state.value}
                                             onBlur={() => {
@@ -108,9 +100,7 @@ const CaseDetailsStep: React.FC = () => {
                                             Name of person asking to be the guardian
                                         </Typography>
                                         <Input
-                                            errorMessage={
-                                                !!field.state.meta.errors?.length && field.state.meta.isBlurred
-                                            }
+                                            errorMessage={!!field.state.meta.errors?.length && field.state.meta.isBlurred}
                                             placeholder="Type full name"
                                             value={field.state.value}
                                             onBlur={() => {

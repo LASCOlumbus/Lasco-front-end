@@ -3,11 +3,7 @@ import { FORM_TYPES } from '@/lib/constants';
 import { createMultiStepForm } from '@/lib/createMultiStepForm';
 import { IWaiverNoticeFormStep, WaiverNoticeForm } from '@/lib/types';
 
-const {
-    Provider: BaseProvider,
-    useFormContext,
-    useStepForm,
-} = createMultiStepForm<WaiverNoticeForm>(FORM_TYPES.waiverOfNotice);
+const { Provider: BaseProvider, useFormContext, useStepForm } = createMultiStepForm<WaiverNoticeForm>(FORM_TYPES.waiverOfNotice);
 const WAIVER_NOTICE_FORM_INITIAL_STATE: WaiverNoticeForm = {
     caseDetailsStep: {
         guardianName: '',

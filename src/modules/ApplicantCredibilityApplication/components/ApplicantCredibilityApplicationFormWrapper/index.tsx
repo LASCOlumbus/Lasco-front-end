@@ -6,11 +6,7 @@ const ApplicantCredibilityApplicationFormWrapper: React.FC<React.PropsWithChildr
     const { currentStepIndex, animationDirection, isLoading } = useApplicantCredibilityApplicationFormContext();
 
     return (
-        <AnimatedFormWrapper
-            currentStepIndex={currentStepIndex}
-            animationDirection={animationDirection}
-            isLoading={isLoading}
-        >
+        <AnimatedFormWrapper currentStepIndex={currentStepIndex} animationDirection={animationDirection} isLoading={isLoading}>
             {children}
         </AnimatedFormWrapper>
     );

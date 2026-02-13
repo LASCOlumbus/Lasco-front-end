@@ -4,13 +4,7 @@ import clsx from 'clsx';
 import { Typography } from '@/components/ui/Typography';
 import s from '../../styles.module.css';
 
-const FormFieldLabelErrorWrapper: React.FC<FormFieldLabelErrorWrapperProps> = ({
-    className,
-    name,
-    label,
-    errorMessage,
-    children,
-}) => {
+const FormFieldLabelErrorWrapper: React.FC<FormFieldLabelErrorWrapperProps> = ({ className, name, label, errorMessage, children }) => {
     return (
         <label className={clsx(s.wrap, className)} htmlFor={name}>
             {label ? (

@@ -1,12 +1,4 @@
-import type {
-    DrawerContentProps,
-    DrawerDescriptionProps,
-    DrawerFooterProps,
-    DrawerHeaderProps,
-    DrawerOverlayProps,
-    DrawerRootProps,
-    DrawerTitleProps,
-} from './types';
+import type { DrawerContentProps, DrawerDescriptionProps, DrawerFooterProps, DrawerHeaderProps, DrawerOverlayProps, DrawerRootProps, DrawerTitleProps } from './types';
 import React from 'react';
 import { Component as Close16Icon } from '@/icons/close_16.svg?svgUse';
 import clsx from 'clsx';
@@ -63,36 +55,13 @@ const DrawerFooter: React.FC<DrawerFooterProps> = ({ className, ...rest }) => {
 DrawerFooter.displayName = 'DrawerFooter';
 
 const DrawerTitle: React.FC<DrawerTitleProps> = ({ className, ...rest }) => {
-    return (
-        <Typography
-            className={clsx(s.title, className)}
-            variant="body-m"
-            render={<DrawerPrimitive.Title {...rest} />}
-        />
-    );
+    return <Typography className={clsx(s.title, className)} variant="body-m" render={<DrawerPrimitive.Title {...rest} />} />;
 };
 DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
 
 const DrawerDescription: React.FC<DrawerDescriptionProps> = ({ className, ...rest }) => {
-    return (
-        <Typography
-            className={clsx(s.description, className)}
-            variant="body-s"
-            render={<DrawerPrimitive.Description {...rest} />}
-        />
-    );
+    return <Typography className={clsx(s.description, className)} variant="body-s" render={<DrawerPrimitive.Description {...rest} />} />;
 };
 DrawerDescription.displayName = DrawerPrimitive.Description.displayName;
 
-export {
-    Drawer,
-    DrawerPortal,
-    DrawerOverlay,
-    DrawerTrigger,
-    DrawerClose,
-    DrawerContent,
-    DrawerHeader,
-    DrawerFooter,
-    DrawerTitle,
-    DrawerDescription,
-};
+export { Drawer, DrawerPortal, DrawerOverlay, DrawerTrigger, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription };

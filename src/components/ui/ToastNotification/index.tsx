@@ -16,9 +16,7 @@ export const ToastNotification: React.FC<ToastNotificationProps> = ({ toast }) =
                     <Icon className={s.icon} />
                     {toast.title && <Toast.Title className={s.title}>{toast.title}</Toast.Title>}
                 </div>
-                {toast.description && (
-                    <Toast.Description className={s.description}>{toast.description}</Toast.Description>
-                )}
+                {toast.description && <Toast.Description className={s.description}>{toast.description}</Toast.Description>}
                 <Toast.Close className={s.close} aria-label="Close">
                     ✕
                 </Toast.Close>

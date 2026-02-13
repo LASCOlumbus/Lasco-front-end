@@ -4,12 +4,8 @@ import SuccessSection from '@/components/SuccessSection';
 import { useApplicationForAppointmentFormContext } from '../../context/ApplicationForAppointmentFormContext';
 import { ApplicationForAppointmentFormStepProps } from './types';
 
-const ApplicationForAppointmentFormStep: React.FC<React.PropsWithChildren<ApplicationForAppointmentFormStepProps>> = ({
-    children,
-    id,
-}) => {
-    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } =
-        useApplicationForAppointmentFormContext();
+const ApplicationForAppointmentFormStep: React.FC<React.PropsWithChildren<ApplicationForAppointmentFormStepProps>> = ({ children, id }) => {
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } = useApplicationForAppointmentFormContext();
 
     if (currentStep.id !== id) {
         return null;

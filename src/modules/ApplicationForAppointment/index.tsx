@@ -3,10 +3,7 @@ import clsx from 'clsx';
 import { Button } from '@/components/ui/Button';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
-import {
-    ApplicationForAppointmentFormProvider,
-    useApplicationForAppointmentFormContext,
-} from './context/ApplicationForAppointmentFormContext';
+import { ApplicationForAppointmentFormProvider, useApplicationForAppointmentFormContext } from './context/ApplicationForAppointmentFormContext';
 import ApplicantInformStep from './components/ApplicantInformStep';
 import ApplicationForAppointmentFormStep from './components/ApplicationForAppointmentFormStep';
 import ApplicationForAppointmentFormWrapper from './components/ApplicationForAppointmentFormWrapper';

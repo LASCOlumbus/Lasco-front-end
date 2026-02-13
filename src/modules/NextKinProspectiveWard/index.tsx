@@ -3,10 +3,7 @@ import clsx from 'clsx';
 import { Button } from '@/components/ui/Button';
 import { ScrollArea } from '@/components/ui/ScrollArea';
 import { Typography } from '@/components/ui/Typography';
-import {
-    NextKinProspectiveWardFormProvider,
-    useNextKinProspectiveWardFormContext,
-} from './context/NextKinProspectiveWardFormContext';
+import { NextKinProspectiveWardFormProvider, useNextKinProspectiveWardFormContext } from './context/NextKinProspectiveWardFormContext';
 import CaseDetailsStep from './components/CaseDetailsStep';
 import NextKinProspectiveWardFormStep from './components/NextKinProspectiveWardFormStep';
 import NextKinProspectiveWardFormWrapper from './components/NextKinProspectiveWardFormWrapper';

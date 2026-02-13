@@ -1,5 +1,8 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
+import { useStore } from '@tanstack/react-form';
+import { addDays, subDays } from 'date-fns';
+import { checkIfDateRangesOverlap } from '@/lib/utils/checkIfDateRangesOverlap';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
@@ -9,15 +12,33 @@ import { Button } from '@/components/ui/Button';
 import DatePicker from '@/components/ui/DatePicker';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { Typography } from '@/components/ui/Typography';
-import {
-    useAdultJurisdictionAffidavitFormContext,
-    useAdultJurisdictionAffidavitFormStepForm,
-} from '../../context/AdultJurisdictionAffidavitFormContext';
+import { useAdultJurisdictionAffidavitFormContext, useAdultJurisdictionAffidavitFormStepForm } from '../../context/AdultJurisdictionAffidavitFormContext';
 import s from './styles.module.css';
 
 const AddressInformStep: React.FC = () => {
     const { form, isLoading } = useAdultJurisdictionAffidavitFormStepForm('addressInformStep');
     const { goToPreviousStep } = useAdultJurisdictionAffidavitFormContext();
+
+    const rootFromToRange = useStore(form.store, (state) => {
+        return {
+            from: state.values.from ? parseDate(state.values.from) : null,
+            to: state.values.to ? parseDate(state.values.to) : null,
+            index: -1,
+        };
+    });
+
+    const previousAddresses = useStore(form.store, (state) => {
+        return (state.values.previousAddresses || []).map((address, index) => {
+            return {
+                ...address,
+                index,
+            };
+        });
+    });
+
+    const overlappingAddressesIndexes = React.useMemo(() => {
+        return checkIfDateRangesOverlap([rootFromToRange, ...previousAddresses]);
+    }, [previousAddresses, rootFromToRange]);
 
     if (isLoading) {
         return <ResponsiveLoader />;
@@ -34,10 +55,7 @@ const AddressInformStep: React.FC = () => {
         >
             <div className={s['scroll-container-wrapper']}>
                 <div className={s['content-description']}>
-                    <Typography variant="body-m">
-                        Affiant, being first duly sworn, states the present address of the alleged incompetent, the
-                        names of the person(s) with whom they are living, and any former addresses
-                    </Typography>
+                    <Typography variant="body-m">Affiant, being first duly sworn, states the present address of the alleged incompetent, the names of the person(s) with whom they are living, and any former addresses</Typography>
                 </div>
 
                 <div className={s.inputs}>
@@ -45,65 +63,104 @@ const AddressInformStep: React.FC = () => {
                         <form.AppField
                             name="currentAddress"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="currentAddress"
-                                        label={<>Current address</>}
-                                        placeholder="Type street, city, state"
-                                        onBlur={field.handleBlur}
-                                    />
-                                );
+                                return <field.InputField name="currentAddress" label={<>Current address</>} placeholder="Type street, city, state" onBlur={field.handleBlur} />;
                             }}
                         />
 
                         <div className={s['inputs-wrapper']}>
-                            <form.AppField
-                                name="from"
-                                children={(field) => {
-                                    const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                            <form.Subscribe
+                                selector={(state) => {
+                                    const to = state.values.to ? parseDate(state.values.to) : null;
+                                    const dates = [
+                                        ...(state.values.previousAddresses || []),
+                                        {
+                                            to: state.values.to,
+                                        },
+                                    ];
 
+                                    return { maxDate: to ? subDays(new Date(to), 1) : to, dates };
+                                }}
+                            >
+                                {({ maxDate }) => {
                                     return (
-                                        <FormFieldWrapper name="from" label={<>From</>}>
-                                            <DatePicker
-                                                value={parseDate(field.state.value)}
-                                                placeholder="MM / DD / YYYY"
-                                                errorMessage={errorMessage}
-                                                onChange={field.handleChange}
-                                            />
-                                        </FormFieldWrapper>
+                                        <form.AppField
+                                            name="from"
+                                            validators={{
+                                                onChangeListenTo: ['to'],
+                                            }}
+                                            children={(field) => {
+                                                const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
+                                                return (
+                                                    <FormFieldWrapper name="from" label={<>From</>}>
+                                                        <DatePicker
+                                                            value={parseDate(field.state.value)}
+                                                            placeholder="MM / DD / YYYY"
+                                                            errorMessage={errorMessage}
+                                                            maxDate={maxDate}
+                                                            onChange={(date) => {
+                                                                field.handleChange(date as Date);
+                                                                form.validateField('previousAddresses', 'change');
+                                                            }}
+                                                        />
+                                                    </FormFieldWrapper>
+                                                );
+                                            }}
+                                        />
                                     );
                                 }}
-                            />
-                            <form.AppField
-                                name="to"
-                                children={(field) => {
-                                    const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                            </form.Subscribe>
 
+                            <form.Subscribe
+                                selector={(state) => {
+                                    const from = state.values.from ? parseDate(state.values.from) : null;
+                                    const dates = [
+                                        ...(state.values.previousAddresses || []),
+                                        {
+                                            address: 'test',
+                                            from: state.values.from,
+                                            to: state.values.to,
+                                        },
+                                    ];
+
+                                    return { minDate: from ? addDays(new Date(from), 1) : from, dates };
+                                }}
+                            >
+                                {({ minDate }) => {
                                     return (
-                                        <FormFieldWrapper name="to" label={<>To</>}>
-                                            <DatePicker
-                                                value={parseDate(field.state.value)}
-                                                placeholder="MM / DD / YYYY"
-                                                errorMessage={errorMessage}
-                                                onChange={field.handleChange}
-                                            />
-                                        </FormFieldWrapper>
+                                        <form.AppField
+                                            name="to"
+                                            validators={{
+                                                onChangeListenTo: ['from'],
+                                            }}
+                                            children={(field) => {
+                                                const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
+                                                return (
+                                                    <FormFieldWrapper name="to" label={<>To</>}>
+                                                        <DatePicker
+                                                            value={parseDate(field.state.value)}
+                                                            placeholder="MM / DD / YYYY"
+                                                            errorMessage={errorMessage}
+                                                            onChange={(date) => {
+                                                                field.handleChange(date as Date);
+                                                                form.validateField('previousAddresses', 'change');
+                                                            }}
+                                                            minDate={minDate}
+                                                        />
+                                                    </FormFieldWrapper>
+                                                );
+                                            }}
+                                        />
                                     );
                                 }}
-                            />
+                            </form.Subscribe>
                         </div>
 
                         <form.AppField
                             name="withWhom"
                             children={(field) => {
-                                return (
-                                    <field.InputField
-                                        name="withWhom"
-                                        label={<>With whom</>}
-                                        placeholder="People living at this address"
-                                        onBlur={field.handleBlur}
-                                    />
-                                );
+                                return <field.InputField name="withWhom" label={<>With whom</>} placeholder="People living at this address" onBlur={field.handleBlur} />;
                             }}
                         />
 
@@ -113,12 +170,7 @@ const AddressInformStep: React.FC = () => {
                                 const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                                 return (
-                                    <FormFieldLabelErrorWrapper
-                                        className={s['field-wrap']}
-                                        name="isSameAddressLast2Years"
-                                        label={<>Have you lived at this address for the last 2 years?</>}
-                                        errorMessage={errorMessage}
-                                    >
+                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isSameAddressLast2Years" label={<>Have you lived at this address for the last 2 years?</>} errorMessage={errorMessage}>
                                         <RadioGroup
                                             className={s['checkbox-group']}
                                             value={field.state.value}
@@ -149,19 +201,16 @@ const AddressInformStep: React.FC = () => {
                                                     return (
                                                         <form.Field
                                                             name={`previousAddresses[${index}]`}
-                                                            children={(_) => {
+                                                            key={`previous-addresses-${index}`}
+                                                            children={() => {
                                                                 return (
                                                                     <div className={s['relative-card']} key={index}>
                                                                         <div className={s['relative-card-header']}>
-                                                                            <Typography
-                                                                                variant="heading-h4"
-                                                                                render={<strong />}
-                                                                            >
+                                                                            <Typography variant="heading-h4" render={<strong />}>
                                                                                 Applicant previous address
                                                                             </Typography>
 
-                                                                            {(field.state.value?.length as number) >
-                                                                                1 && (
+                                                                            {(field.state.value?.length as number) > 1 && (
                                                                                 <Button
                                                                                     variant="secondary"
                                                                                     size="small"
@@ -177,77 +226,85 @@ const AddressInformStep: React.FC = () => {
                                                                         <form.AppField
                                                                             name={`previousAddresses[${index}].address`}
                                                                             children={(field) => {
-                                                                                return (
-                                                                                    <field.InputField
-                                                                                        name={`previousAddresses[${index}].address`}
-                                                                                        label={<>Previous address</>}
-                                                                                        placeholder="Type previous address"
-                                                                                        onBlur={field.handleBlur}
-                                                                                    />
-                                                                                );
+                                                                                return <field.InputField name={`previousAddresses[${index}].address`} label={<>Previous address</>} placeholder="Type previous address" onBlur={field.handleBlur} />;
                                                                             }}
                                                                         />
 
                                                                         <div className={s['inputs-wrapper']}>
-                                                                            <form.AppField
-                                                                                name={`previousAddresses[${index}].from`}
-                                                                                children={(field) => {
-                                                                                    const errorMessage =
-                                                                                        getFieldErrorMessage(
-                                                                                            field.state.meta.errors
-                                                                                        );
+                                                                            <form.Subscribe
+                                                                                selector={(state) => {
+                                                                                    const findTo = state.values.previousAddresses?.[index].to;
+                                                                                    const to = findTo ? parseDate(findTo) : null;
 
+                                                                                    const isOverlapping = overlappingAddressesIndexes.includes(index);
+                                                                                    return {
+                                                                                        maxDate: to ? subDays(new Date(to), 1) : to,
+                                                                                        isOverlapping,
+                                                                                    };
+                                                                                }}
+                                                                            >
+                                                                                {({ maxDate, isOverlapping }) => {
                                                                                     return (
-                                                                                        <FormFieldWrapper
+                                                                                        <form.AppField
                                                                                             name={`previousAddresses[${index}].from`}
-                                                                                            label={<>From</>}
-                                                                                        >
-                                                                                            <DatePicker
-                                                                                                value={parseDate(
-                                                                                                    field.state.value
-                                                                                                )}
-                                                                                                onChange={
-                                                                                                    field.handleChange
-                                                                                                }
-                                                                                                placeholder="MM / DD / YYYY"
-                                                                                                errorMessage={
-                                                                                                    errorMessage
-                                                                                                }
-                                                                                            />
-                                                                                        </FormFieldWrapper>
+                                                                                            children={(field) => {
+                                                                                                const errorMessage = isOverlapping ? 'Date intervals must not overlap' : getFieldErrorMessage(field.state.meta.errors);
+
+                                                                                                return (
+                                                                                                    <FormFieldWrapper name={`previousAddresses[${index}].from`} label={<>From</>} errorMessage={errorMessage}>
+                                                                                                        <DatePicker
+                                                                                                            maxDate={maxDate}
+                                                                                                            value={parseDate(field.state.value)}
+                                                                                                            onChange={(date) => {
+                                                                                                                field.handleChange(date as Date);
+                                                                                                            }}
+                                                                                                            placeholder="MM / DD / YYYY"
+                                                                                                            errorMessage={errorMessage}
+                                                                                                        />
+                                                                                                    </FormFieldWrapper>
+                                                                                                );
+                                                                                            }}
+                                                                                        />
                                                                                     );
                                                                                 }}
-                                                                            />
+                                                                            </form.Subscribe>
+                                                                            <form.Subscribe
+                                                                                selector={(state) => {
+                                                                                    const findFrom = state.values.previousAddresses?.[index].from;
+                                                                                    const from = findFrom ? parseDate(findFrom) : null;
+                                                                                    const isOverlapping = overlappingAddressesIndexes.includes(index);
 
-                                                                            <form.AppField
-                                                                                name={`previousAddresses[${index}].to`}
-                                                                                children={(field) => {
-                                                                                    const errorMessage =
-                                                                                        getFieldErrorMessage(
-                                                                                            field.state.meta.errors
-                                                                                        );
-
+                                                                                    return {
+                                                                                        minDate: from ? addDays(new Date(from), 1) : from,
+                                                                                        isOverlapping,
+                                                                                    };
+                                                                                }}
+                                                                            >
+                                                                                {({ minDate, isOverlapping }) => {
                                                                                     return (
-                                                                                        <FormFieldWrapper
+                                                                                        <form.AppField
                                                                                             name={`previousAddresses[${index}].to`}
-                                                                                            label={<>To</>}
-                                                                                        >
-                                                                                            <DatePicker
-                                                                                                value={parseDate(
-                                                                                                    field.state.value
-                                                                                                )}
-                                                                                                onChange={
-                                                                                                    field.handleChange
-                                                                                                }
-                                                                                                placeholder="MM / DD / YYYY"
-                                                                                                errorMessage={
-                                                                                                    errorMessage
-                                                                                                }
-                                                                                            />
-                                                                                        </FormFieldWrapper>
+                                                                                            children={(field) => {
+                                                                                                const errorMessage = isOverlapping ? 'Date intervals must not overlap' : getFieldErrorMessage(field.state.meta.errors);
+
+                                                                                                return (
+                                                                                                    <FormFieldWrapper name={`previousAddresses[${index}].to`} label={<>To</>} errorMessage={errorMessage}>
+                                                                                                        <DatePicker
+                                                                                                            minDate={minDate}
+                                                                                                            value={parseDate(field.state.value)}
+                                                                                                            onChange={(date) => {
+                                                                                                                field.handleChange(date as Date);
+                                                                                                            }}
+                                                                                                            placeholder="MM / DD / YYYY"
+                                                                                                            errorMessage={errorMessage}
+                                                                                                        />
+                                                                                                    </FormFieldWrapper>
+                                                                                                );
+                                                                                            }}
+                                                                                        />
                                                                                     );
                                                                                 }}
-                                                                            />
+                                                                            </form.Subscribe>
                                                                         </div>
                                                                     </div>
                                                                 );

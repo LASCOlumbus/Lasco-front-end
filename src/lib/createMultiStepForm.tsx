@@ -9,9 +9,7 @@ import { AnimationDirection, MultiStepFormConfig } from '@/lib/types';
 import { generatePdfMutationOptions } from '@/services/pdf/queries';
 import { useAppForm } from '@/components/Forms/hooks/useAppForm';
 
-export function createMultiStepForm<TForm extends Record<string, unknown>>(
-    type: (typeof FORM_TYPES)[keyof typeof FORM_TYPES]
-) {
+export function createMultiStepForm<TForm extends Record<string, unknown>>(type: (typeof FORM_TYPES)[keyof typeof FORM_TYPES]) {
     type Step<K extends keyof TForm = keyof TForm> = {
         id: K;
         label: string;
@@ -78,10 +76,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(
             },
         });
         const { value: formData, set: setFormData } = useLocalStorageValue(config.storageKey, {
-            defaultValue:
-                typeof window === 'undefined'
-                    ? JSON.stringify(config.initialState)
-                    : (localStorage.getItem(config.storageKey) ?? JSON.stringify(config.initialState)),
+            defaultValue: typeof window === 'undefined' ? JSON.stringify(config.initialState) : (localStorage.getItem(config.storageKey) ?? JSON.stringify(config.initialState)),
             initializeWithValue: false,
         });
 
@@ -212,16 +207,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(
             }
             toggleIsInitialStepSet(true);
             toggleIsLoading(false);
-        }, [
-            formData,
-            isInitialStepSet,
-            parsedFormData,
-            setLastPassedStepIndex,
-            setStep,
-            stepsArray,
-            toggleIsInitialStepSet,
-            toggleIsLoading,
-        ]);
+        }, [formData, isInitialStepSet, parsedFormData, setLastPassedStepIndex, setStep, stepsArray, toggleIsInitialStepSet, toggleIsLoading]);
 
         React.useEffect(() => {
             if (currentStepIndex > lastPassedStepIndex) {
@@ -301,10 +287,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(
             toggleIsLoading(true);
 
             Object.keys(formData[stepId] ?? {}).forEach((key) => {
-                form.setFieldValue(
-                    key as DeepKeys<TForm[K]>,
-                    formData[stepId][key as keyof TForm[K]] as Updater<DeepValue<TForm[K], DeepKeys<TForm[K]>>>
-                );
+                form.setFieldValue(key as DeepKeys<TForm[K]>, formData[stepId][key as keyof TForm[K]] as Updater<DeepValue<TForm[K], DeepKeys<TForm[K]>>>);
             });
 
             toggleIsLoading(false);

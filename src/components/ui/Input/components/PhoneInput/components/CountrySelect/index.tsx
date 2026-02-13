@@ -93,15 +93,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                         </DrawerTitle>
                     </DrawerHeader>
                     <div className={s['search-wrap']}>
-                        <Input
-                            className={s.input}
-                            placeholder="Search"
-                            type="search"
-                            size="default"
-                            value={search}
-                            leftAddon={<Search16Icon className={s.icon} />}
-                            onChange={searchChangeHandler}
-                        />
+                        <Input className={s.input} placeholder="Search" type="search" size="default" value={search} leftAddon={<Search16Icon className={s.icon} />} onChange={searchChangeHandler} />
                     </div>
                     {filteredOptions.length ? (
                         <ScrollArea className={s.list} viewportRef={selectListRef}>
@@ -139,18 +131,8 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                                                     toggleIsPopoverOpened(false);
                                                 }}
                                             >
-                                                <Typography
-                                                    className={clsx(s.label, 'truncate')}
-                                                    variant="body-s"
-                                                    render={<span />}
-                                                >
-                                                    {option.value ? (
-                                                        <FlagComponent
-                                                            country={option.value}
-                                                            countryName={value}
-                                                            aria-hidden
-                                                        />
-                                                    ) : null}
+                                                <Typography className={clsx(s.label, 'truncate')} variant="body-s" render={<span />}>
+                                                    {option.value ? <FlagComponent country={option.value} countryName={value} aria-hidden /> : null}
                                                     {option.label}&nbsp;
                                                     {option.value ? `+${getCountryCallingCode(option.value)}` : ''}
                                                 </Typography>
@@ -184,15 +166,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                 }}
             >
                 <div className={s['search-wrap']}>
-                    <Input
-                        className={s.input}
-                        placeholder="Search"
-                        type="search"
-                        size="sm"
-                        value={search}
-                        leftAddon={<Search16Icon className={s.icon} />}
-                        onChange={searchChangeHandler}
-                    />
+                    <Input className={s.input} placeholder="Search" type="search" size="sm" value={search} leftAddon={<Search16Icon className={s.icon} />} onChange={searchChangeHandler} />
                 </div>
                 {filteredOptions.length ? (
                     <ScrollArea viewportRef={selectListRef} className={s.list}>
@@ -229,18 +203,8 @@ const CountrySelect: React.FC<CountrySelectProps> = ({ value, onChange, disabled
                                                 toggleIsPopoverOpened(false);
                                             }}
                                         >
-                                            <Typography
-                                                className={clsx(s.label, 'truncate')}
-                                                variant="body-s"
-                                                render={<span />}
-                                            >
-                                                {option.value ? (
-                                                    <FlagComponent
-                                                        country={option.value}
-                                                        countryName={value}
-                                                        aria-hidden
-                                                    />
-                                                ) : null}
+                                            <Typography className={clsx(s.label, 'truncate')} variant="body-s" render={<span />}>
+                                                {option.value ? <FlagComponent country={option.value} countryName={value} aria-hidden /> : null}
                                                 <span className="truncate">{option.label}</span>
                                                 {option.value ? `+${getCountryCallingCode(option.value)}` : ''}
                                             </Typography>

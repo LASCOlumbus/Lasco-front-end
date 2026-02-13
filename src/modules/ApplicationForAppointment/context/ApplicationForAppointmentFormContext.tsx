@@ -118,11 +118,7 @@ const APPLICATION_FOR_APPOINTMENT_FORM_INITIAL_STATE: ApplicationForAppointmentF
     },
 };
 
-const {
-    Provider: BaseProvider,
-    useFormContext,
-    useStepForm,
-} = createMultiStepForm<ApplicationForAppointmentForm>(FORM_TYPES.applicationForAppointmentOfGuardian);
+const { Provider: BaseProvider, useFormContext, useStepForm } = createMultiStepForm<ApplicationForAppointmentForm>(FORM_TYPES.applicationForAppointmentOfGuardian);
 
 const APPLICATION_FOR_APPOINTMENT_FORM_CONFIG = {
     storageKey: 'APPLICATION_FOR_APPOINTMENT_multi-step-form',

@@ -1,4 +1,5 @@
 import { requiredStringSchema } from '@/schemas/formSchemas';
+import { isWithinInterval } from 'date-fns';
 import { z } from 'zod';
 
 export const booleanAnswer = z
@@ -42,8 +43,18 @@ export const previousAddressOptionalSchema = z.object({
 export const adultJurisdictionAffidavitAddressInformStepSchema = z
     .object({
         currentAddress: requiredStringSchema,
-        from: z.union([z.date(), z.string()]).nullable(),
-        to: z.union([z.date(), z.string()]).nullable(),
+        from: z
+            .union([z.date(), z.string()])
+            .nullable()
+            .refine((value) => {
+                return value !== null;
+            }, 'This field is required.'),
+        to: z
+            .union([z.date(), z.string()])
+            .nullable()
+            .refine((value) => {
+                return value !== null;
+            }, 'This field is required.'),
         withWhom: requiredStringSchema,
         isSameAddressLast2Years: booleanAnswer,
         previousAddresses: z.array(previousAddressOptionalSchema).optional(),
@@ -51,8 +62,43 @@ export const adultJurisdictionAffidavitAddressInformStepSchema = z
     .refine(
         (data) => {
             return data?.isSameAddressLast2Years === false
-                ? z.array(previousAddressSchema).min(1, 'This field is required.').safeParse(data.previousAddresses)
-                      .success
+                ? z
+                      .array(previousAddressSchema)
+                      .min(1, 'This field is required.')
+                      .superRefine((intervals, ctx) => {
+                          const sorted = [...intervals, { from: data.from, to: data.to }].sort((a, b) => {
+                              return new Date(a.from).getTime() - new Date(b.from).getTime();
+                          });
+
+                          for (let i = 0; i < sorted.length - 1; i++) {
+                              const current = sorted[i];
+                              const next = sorted?.[i + 1];
+
+                              if (
+                                  isWithinInterval(next?.from, {
+                                      start: current.from,
+                                      end: current.to,
+                                  }) ||
+                                  isWithinInterval(next?.to, {
+                                      start: current.from,
+                                      end: current.to,
+                                  })
+                              ) {
+                                  ctx.addIssue({
+                                      code: z.ZodIssueCode.custom,
+                                      message: 'Date intervals must not overlap',
+                                      path: [i],
+                                  });
+
+                                  ctx.addIssue({
+                                      code: z.ZodIssueCode.custom,
+                                      message: 'Date intervals must not overlap',
+                                      path: [i + 1],
+                                  });
+                              }
+                          }
+                      })
+                      .safeParse(data.previousAddresses).success
                 : true;
         },
         {

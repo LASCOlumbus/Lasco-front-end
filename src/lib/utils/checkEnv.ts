@@ -1,10 +1,7 @@
 import type { ZodObject, ZodRawShape } from 'zod';
 import { z, ZodError } from 'zod';
 
-export const checkEnv = <T extends ZodRawShape>(
-    envSchema: ZodObject<T>,
-    buildEnv: Record<string, string | undefined> = import.meta.env
-) => {
+export const checkEnv = <T extends ZodRawShape>(envSchema: ZodObject<T>, buildEnv: Record<string, string | undefined> = import.meta.env) => {
     try {
         envSchema.parse(buildEnv);
     } catch (error) {

@@ -11,10 +11,7 @@ import { Checkbox } from '@/components/ui/Checkbox';
 import DatePicker from '@/components/ui/DatePicker';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { Typography } from '@/components/ui/Typography';
-import {
-    useApplicationForAppointmentFormContext,
-    useApplicationForAppointmentFormStepForm,
-} from '../../context/ApplicationForAppointmentFormContext';
+import { useApplicationForAppointmentFormContext, useApplicationForAppointmentFormStepForm } from '../../context/ApplicationForAppointmentFormContext';
 import s from './styles.module.css';
 
 const LegalDeclarationsStep: React.FC = () => {
@@ -47,12 +44,7 @@ const LegalDeclarationsStep: React.FC = () => {
                                 <FormFieldLabelErrorWrapper
                                     className={s['field-wrap']}
                                     name="isApplicantHasBeenChargedWithViolence"
-                                    label={
-                                        <>
-                                            Has the applicant been charged with or convicted of a crime involving theft,
-                                            physical violence, sexual abuse, alcohol abuse, or substance abuse?
-                                        </>
-                                    }
+                                    label={<>Has the applicant been charged with or convicted of a crime involving theft, physical violence, sexual abuse, alcohol abuse, or substance abuse?</>}
                                     errorMessage={errorMessage}
                                 >
                                     <RadioGroup
@@ -80,34 +72,17 @@ const LegalDeclarationsStep: React.FC = () => {
                                         <form.AppField
                                             name="conviction.convictionName"
                                             children={(field) => {
-                                                return (
-                                                    <field.InputField
-                                                        name="conviction.convictionName"
-                                                        label={<>Charge or conviction</>}
-                                                        placeholder="Type full legal name"
-                                                        onBlur={field.handleBlur}
-                                                    />
-                                                );
+                                                return <field.InputField name="conviction.convictionName" label={<>Charge or conviction</>} placeholder="Type full legal name" onBlur={field.handleBlur} />;
                                             }}
                                         />
                                         <form.AppField
                                             name="conviction.convictionDate"
                                             children={(convictionDateField) => {
-                                                const errorMessage = getFieldErrorMessage(
-                                                    convictionDateField.state.meta.errors
-                                                );
+                                                const errorMessage = getFieldErrorMessage(convictionDateField.state.meta.errors);
 
                                                 return (
-                                                    <FormFieldWrapper
-                                                        name="conviction.convictionDate"
-                                                        label={<>Date of conviction</>}
-                                                    >
-                                                        <DatePicker
-                                                            value={parseDate(convictionDateField.state.value)}
-                                                            placeholder="MM / DD / YYYY"
-                                                            errorMessage={errorMessage}
-                                                            onChange={convictionDateField.handleChange}
-                                                        />
+                                                    <FormFieldWrapper name="conviction.convictionDate" label={<>Date of conviction</>}>
+                                                        <DatePicker value={parseDate(convictionDateField.state.value)} placeholder="MM / DD / YYYY" errorMessage={errorMessage} onChange={convictionDateField.handleChange} />
                                                     </FormFieldWrapper>
                                                 );
                                             }}
@@ -117,14 +92,7 @@ const LegalDeclarationsStep: React.FC = () => {
                                     <form.AppField
                                         name="conviction.convictionPlace"
                                         children={(field) => {
-                                            return (
-                                                <field.InputField
-                                                    name="conviction.convictionPlace"
-                                                    label={<>Place of conviction</>}
-                                                    placeholder="Type conviction place name"
-                                                    onBlur={field.handleBlur}
-                                                />
-                                            );
+                                            return <field.InputField name="conviction.convictionPlace" label={<>Place of conviction</>} placeholder="Type conviction place name" onBlur={field.handleBlur} />;
                                         }}
                                     />
                                 </>
@@ -138,14 +106,7 @@ const LegalDeclarationsStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isGuardianHasBeenNominatedInWriting"
-                                    label={
-                                        <>Has a guardian been nominated in writing, in a will or power of attorney?</>
-                                    }
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isGuardianHasBeenNominatedInWriting" label={<>Has a guardian been nominated in writing, in a will or power of attorney?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -169,14 +130,7 @@ const LegalDeclarationsStep: React.FC = () => {
                                 <form.AppField
                                     name="nominatedPersonName"
                                     children={(field) => {
-                                        return (
-                                            <field.InputField
-                                                name="nominatedPersonName"
-                                                label={<>Name of nominated person</>}
-                                                placeholder="Type name of nominated person"
-                                                onBlur={field.handleBlur}
-                                            />
-                                        );
+                                        return <field.InputField name="nominatedPersonName" label={<>Name of nominated person</>} placeholder="Type name of nominated person" onBlur={field.handleBlur} />;
                                     }}
                                 />
                             );
@@ -191,10 +145,7 @@ const LegalDeclarationsStep: React.FC = () => {
                                 <FormFieldWrapper name="isNominatedPersonContactInfoListedOnForm15">
                                     <label className={s['checkbox-input']}>
                                         <Checkbox checked={!!field.state.value} onCheckedChange={field.handleChange} />
-                                        <Typography variant="body-s">
-                                            The nominated person&apos;s contact information is listed on Form 15.0 -
-                                            Next of Kin.
-                                        </Typography>
+                                        <Typography variant="body-s">The nominated person&apos;s contact information is listed on Form 15.0 - Next of Kin.</Typography>
                                     </label>
                                 </FormFieldWrapper>
                             );
@@ -208,9 +159,7 @@ const LegalDeclarationsStep: React.FC = () => {
                                 <FormFieldWrapper name="isGuardianNominatedDocumentAttached">
                                     <label className={s['checkbox-input']}>
                                         <Checkbox checked={!!field.state.value} onCheckedChange={field.handleChange} />
-                                        <Typography variant="body-s">
-                                            A copy of the document which nominates the guardian is attached.
-                                        </Typography>
+                                        <Typography variant="body-s">A copy of the document which nominates the guardian is attached.</Typography>
                                     </label>
                                 </FormFieldWrapper>
                             );
@@ -224,10 +173,7 @@ const LegalDeclarationsStep: React.FC = () => {
                                 <FormFieldWrapper name="isNotAdmin">
                                     <label className={s['checkbox-input']}>
                                         <Checkbox checked={!!field.state.value} onCheckedChange={field.handleChange} />
-                                        <Typography variant="body-s">
-                                            I am not an administrator, executor, or fiduciary of an estate in which the
-                                            Prospective Ward is interested.
-                                        </Typography>
+                                        <Typography variant="body-s">I am not an administrator, executor, or fiduciary of an estate in which the Prospective Ward is interested.</Typography>
                                     </label>
                                 </FormFieldWrapper>
                             );
@@ -242,20 +188,14 @@ const LegalDeclarationsStep: React.FC = () => {
                                     <label className={s['checkbox-input']}>
                                         <Checkbox checked={!!field.state.value} onCheckedChange={field.handleChange} />
                                         <Typography variant="body-s">
-                                            I (applicant) represents that the address provided below is the Applicant's
-                                            permanent address and acknowledges the requirement that the Court be
-                                            notified of any change of address. Removal may result from failure to comply
-                                            with this requirement.
+                                            I (applicant) represents that the address provided below is the Applicant's permanent address and acknowledges the requirement that the Court be notified of any change of address. Removal may result from failure to comply with this requirement.
                                         </Typography>
                                     </label>
                                 </FormFieldWrapper>
                             );
                         }}
                     />
-                    <Alert>
-                        Confirmation of the applicant&apos;s permanent address is required for the court to accept the
-                        application.
-                    </Alert>
+                    <Alert>Confirmation of the applicant&apos;s permanent address is required for the court to accept the application.</Alert>
                 </div>
             </div>
             <div className={s.footer}>

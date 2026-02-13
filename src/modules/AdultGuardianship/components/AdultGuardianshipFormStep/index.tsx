@@ -4,12 +4,8 @@ import FailureSection from '@/components/FailureSection';
 import SuccessSection from '@/components/SuccessSection';
 import { useAdultGuardianshipFormContext } from '../../context/AdultGuardianshipFormContext';
 
-const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardianshipFormStepProps>> = ({
-    children,
-    id,
-}) => {
-    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } =
-        useAdultGuardianshipFormContext();
+const AdultGuardianshipFormStep: React.FC<React.PropsWithChildren<AdultGuardianshipFormStepProps>> = ({ children, id }) => {
+    const { currentStep, isSuccessful, isSubmitted, toggleIsSubmitted, goToSelectStep, printPdf, downloadPdf } = useAdultGuardianshipFormContext();
 
     if (currentStep.id !== id) {
         return null;

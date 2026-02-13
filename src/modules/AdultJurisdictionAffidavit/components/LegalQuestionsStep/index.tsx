@@ -6,10 +6,7 @@ import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Alert } from '@/components/ui/Alert';
 import { Button } from '@/components/ui/Button';
 import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
-import {
-    useAdultJurisdictionAffidavitFormContext,
-    useAdultJurisdictionAffidavitFormStepForm,
-} from '../../context/AdultJurisdictionAffidavitFormContext';
+import { useAdultJurisdictionAffidavitFormContext, useAdultJurisdictionAffidavitFormStepForm } from '../../context/AdultJurisdictionAffidavitFormContext';
 import s from './styles.module.css';
 
 const LegalQuestionsStep: React.FC = () => {
@@ -43,13 +40,7 @@ const LegalQuestionsStep: React.FC = () => {
                                     <FormFieldLabelErrorWrapper
                                         className={s['field-wrap']}
                                         name="isAffiantHaveInfoAboutAnyGuardianship"
-                                        label={
-                                            <>
-                                                Does the affiant have information about any guardianship,
-                                                conservatorship, or similar proceeding involving the alleged incompetent
-                                                in any court?
-                                            </>
-                                        }
+                                        label={<>Does the affiant have information about any guardianship, conservatorship, or similar proceeding involving the alleged incompetent in any court?</>}
                                         errorMessage={errorMessage}
                                     >
                                         <RadioGroup
@@ -71,25 +62,15 @@ const LegalQuestionsStep: React.FC = () => {
                             name="infoAboutCourtProceeding"
                             children={(field) => {
                                 return (
-                                    <FormFieldLabelErrorWrapper
-                                        className={s['field-wrap']}
-                                        name="infoAboutCourtProceeding"
-                                        label={<>Describe the information you have about this court proceeding</>}
-                                    >
-                                        <field.TextAreaField
-                                            name="infoAboutCourtProceeding"
-                                            placeholder="Provide details about any guardianship, conservatorship, or similar proceeding you are aware of."
-                                        />
+                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="infoAboutCourtProceeding" label={<>Describe the information you have about this court proceeding</>}>
+                                        <field.TextAreaField name="infoAboutCourtProceeding" placeholder="Provide details about any guardianship, conservatorship, or similar proceeding you are aware of." />
                                     </FormFieldLabelErrorWrapper>
                                 );
                             }}
                         />
                     </div>
 
-                    <Alert>
-                        The affiant has a continuing duty to inform the court of any proceeding concerning the alleged
-                        incompetent that becomes known during this matter.
-                    </Alert>
+                    <Alert>The affiant has a continuing duty to inform the court of any proceeding concerning the alleged incompetent that becomes known during this matter.</Alert>
 
                     <form.Field
                         name="isAllegedIncompetentDivorced"
@@ -97,12 +78,7 @@ const LegalQuestionsStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isAllegedIncompetentDivorced"
-                                    label={<>Is the alleged incompetent divorced?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isAllegedIncompetentDivorced" label={<>Is the alleged incompetent divorced?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -123,12 +99,7 @@ const LegalQuestionsStep: React.FC = () => {
                         children={(field) => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isDivorcePending"
-                                    label={<>Are there any divorce proceedings currently pending?</>}
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isDivorcePending" label={<>Are there any divorce proceedings currently pending?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -152,13 +123,7 @@ const LegalQuestionsStep: React.FC = () => {
                                     <form.AppField
                                         name="courtName"
                                         children={(field) => {
-                                            return (
-                                                <field.InputField
-                                                    name={field.name}
-                                                    label={<>Court where the divorce case is pending</>}
-                                                    placeholder="Please type information about court"
-                                                />
-                                            );
+                                            return <field.InputField name={field.name} label={<>Court where the divorce case is pending</>} placeholder="Please type information about court" />;
                                         }}
                                     />
                                 )
@@ -172,17 +137,7 @@ const LegalQuestionsStep: React.FC = () => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
                             return (
-                                <FormFieldLabelErrorWrapper
-                                    className={s['field-wrap']}
-                                    name="isAllegedIncompetentCurrently"
-                                    label={
-                                        <>
-                                            Is the alleged incompetent currently subject to a continuing custody order
-                                            issued in their parents’ divorce?
-                                        </>
-                                    }
-                                    errorMessage={errorMessage}
-                                >
+                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isAllegedIncompetentCurrently" label={<>Is the alleged incompetent currently subject to a continuing custody order issued in their parents’ divorce?</>} errorMessage={errorMessage}>
                                     <RadioGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
@@ -201,12 +156,7 @@ const LegalQuestionsStep: React.FC = () => {
                     <form.AppField
                         name="additionalInfo"
                         children={(field) => {
-                            return (
-                                <field.TextAreaField
-                                    name="additionalInfo"
-                                    placeholder="Please type any additional information"
-                                />
-                            );
+                            return <field.TextAreaField name="additionalInfo" placeholder="Please type any additional information" />;
                         }}
                     />
                 </div>
