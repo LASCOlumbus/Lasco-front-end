@@ -35,6 +35,10 @@ const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_INITIAL_STATE: ProspectiveWardsFinan
         otherPension: {
             description: '',
         },
+        other: {
+            describeOtherPension: 0,
+            sourceOfOtherPension: '',
+        },
     },
     financialAccountStep: {
         accounts: [{ institution: '', type: '', estimatedBalance: 0 }],

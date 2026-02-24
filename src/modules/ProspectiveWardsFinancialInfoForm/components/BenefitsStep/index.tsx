@@ -139,6 +139,35 @@ const BenefitsStep: React.FC = () => {
                                             }}
                                         />
                                     )}
+                                    {field.state.value.includes('other') && (
+                                        <div className={s['inputs-wrapper']}>
+                                            <form.AppField
+                                                name="other.describeOtherPension"
+                                                children={(field) => {
+                                                    return (
+                                                        <field.InputField
+                                                            name="other.describeOtherPension"
+                                                            label={<>Describe other pension(s)</>}
+                                                            type="number"
+                                                            numericFormatProps={{
+                                                                prefix: '$',
+                                                                thousandSeparator: true,
+                                                                allowLeadingZeros: false,
+                                                            }}
+                                                            placeholder="$0.00"
+                                                            onBlur={field.handleBlur}
+                                                        />
+                                                    );
+                                                }}
+                                            />
+                                            <form.AppField
+                                                name="other.sourceOfOtherPension"
+                                                children={(field) => {
+                                                    return <field.InputField name="other.sourceOfOtherPension" label={<>Source of other pension(s)</>} placeholder="Enter source of other pension(s)" onBlur={field.handleBlur} />;
+                                                }}
+                                            />
+                                        </div>
+                                    )}
                                     {field.state.value.includes('otherInsuranceBenefits') && (
                                         <form.AppField
                                             name="otherInsuranceBenefits.description"

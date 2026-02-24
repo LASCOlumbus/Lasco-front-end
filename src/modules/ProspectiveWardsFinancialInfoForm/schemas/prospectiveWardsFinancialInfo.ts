@@ -22,9 +22,10 @@ export const BENEFITS_LABELS = {
     medicaid: 'Medicaid',
     otherInsuranceBenefits: 'Other insurance benefits',
     otherPension: 'Other pension(s)',
+    other: 'Other',
 };
 
-export const BENEFIT_KEYS = ['socialSecurity', 'PERS', 'VABenefits', 'railroadRetirement', 'medicaid', 'otherInsuranceBenefits', 'otherPension'] as const;
+export const BENEFIT_KEYS = ['socialSecurity', 'PERS', 'VABenefits', 'railroadRetirement', 'medicaid', 'otherInsuranceBenefits', 'otherPension', 'other'] as const;
 
 export type BenefitKey = (typeof BENEFIT_KEYS)[number];
 
@@ -69,6 +70,12 @@ export const prospectiveWardsFinancialInfoBenefitsStepSchema = z
         otherPension: z
             .object({
                 description: z.string(),
+            })
+            .partial(),
+        other: z
+            .object({
+                describeOtherPension: optionalNumberSchema,
+                sourceOfOtherPension: z.string(),
             })
             .partial(),
     })

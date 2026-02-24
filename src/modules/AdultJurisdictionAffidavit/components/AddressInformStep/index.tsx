@@ -229,6 +229,12 @@ const AddressInformStep: React.FC = () => {
                                                                                 return <field.InputField name={`previousAddresses[${index}].address`} label={<>Previous address</>} placeholder="Type previous address" onBlur={field.handleBlur} />;
                                                                             }}
                                                                         />
+                                                                        <form.AppField
+                                                                            name={`previousAddresses[${index}].withWhom`}
+                                                                            children={(field) => {
+                                                                                return <field.InputField name={`previousAddresses[${index}].withWhom`} label={<>With whom did you live?</>} placeholder="Spouse and one child" onBlur={field.handleBlur} />;
+                                                                            }}
+                                                                        />
 
                                                                         <div className={s['inputs-wrapper']}>
                                                                             <form.Subscribe
@@ -317,6 +323,7 @@ const AddressInformStep: React.FC = () => {
                                                     size="small"
                                                     onClick={() => {
                                                         field.pushValue({
+                                                            withWhom: '',
                                                             address: '',
                                                             from: null,
                                                             to: null,

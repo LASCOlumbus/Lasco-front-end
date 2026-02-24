@@ -39,6 +39,7 @@ const ADULT_JURISDICTION_AFFIDAVIT_FORM_INITIAL_STATE: AdultJurisdictionAffidavi
         isSameAddressLast2Years: null,
         previousAddresses: [
             {
+                withWhom: '',
                 address: '',
                 from: null,
                 to: null,

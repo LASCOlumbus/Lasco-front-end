@@ -35,7 +35,8 @@ export const previousAddressSchema = z.object({
 });
 
 export const previousAddressOptionalSchema = z.object({
-    address: z.string().optional(),
+    withWhom: z.string(),
+    address: z.string(),
     from: z.union([z.date(), z.string()]).nullable(),
     to: z.union([z.date(), z.string()]).nullable(),
 });
