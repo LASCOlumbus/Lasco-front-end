@@ -67,6 +67,7 @@ export default defineConfig(({ mode }) => {
         // Extra free PORTS if you need them (9199, 9889, 9521, 9836, 9713, 9407, 9491)
         server: {
             port: 9777,
+            allowedHosts: ['guardianship.lasco.org'],
         },
         preview: {
             port: 9111,
