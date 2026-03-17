@@ -9,7 +9,7 @@ import WebcheckWaiverStep from './components/WebcheckWaiverStep';
 import s from './style.module.css';
 
 const ContentComponent = () => {
-    const { downloadPdf, printPdf } = useWebcheckWaiverFormContext();
+    const { downloadPdf, printPdf, downloadLoading, printLoading } = useWebcheckWaiverFormContext();
     return (
         <div className={s.inner}>
             <header className={s.header}>
@@ -22,10 +22,24 @@ const ContentComponent = () => {
                     </Typography>
                 </div>
                 <div className={s['header-buttons']}>
-                    <Button variant="secondary" size="small" onClick={printPdf}>
+                    <Button
+                        disabled={printLoading}
+                        variant="secondary"
+                        size="small"
+                        onClick={() => {
+                            return printPdf(true);
+                        }}
+                    >
                         Print
                     </Button>
-                    <Button variant="secondary" size="small" onClick={downloadPdf}>
+                    <Button
+                        variant="secondary"
+                        size="small"
+                        disabled={downloadLoading}
+                        onClick={() => {
+                            return downloadPdf(true);
+                        }}
+                    >
                         Download
                     </Button>
                 </div>

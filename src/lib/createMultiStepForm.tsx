@@ -40,8 +40,10 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
         generatedFile: Blob | null;
         setGeneratedFile: (_file: Blob | null) => void;
         generateIfNeeded: () => void;
-        printPdf: () => void;
-        downloadPdf: () => void;
+        printPdf: (_headerPrint?: boolean) => void;
+        downloadPdf: (_headerDownload?: boolean) => void;
+        printLoading?: boolean;
+        downloadLoading?: boolean;
     };
 
     const Context = React.createContext<ContextType>({} as ContextType);
@@ -59,21 +61,6 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
         }, [config.steps]);
         const mutation = useMutation({
             ...generatePdfMutationOptions<TForm>(),
-            onMutate: () => {
-                toggleIsLoading(true);
-                toggleIsSuccessful(false);
-            },
-            onSuccess: (blob) => {
-                setGeneratedFile(blob);
-                toggleIsSuccessful(true);
-                toggleIsSubmitted(true);
-            },
-            onError: () => {
-                toggleIsSuccessful(false);
-            },
-            onSettled: () => {
-                toggleIsLoading(false);
-            },
         });
         const { value: formData, set: setFormData } = useLocalStorageValue(config.storageKey, {
             defaultValue: typeof window === 'undefined' ? JSON.stringify(config.initialState) : (localStorage.getItem(config.storageKey) ?? JSON.stringify(config.initialState)),
@@ -91,6 +78,8 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
         });
 
         const [isLoading, toggleIsLoading] = useToggle(true);
+        const [printLoading, togglePrintLoading] = useToggle(false);
+        const [downloadLoading, toggleDownloadLoading] = useToggle(false);
         const [isInitialStepSet, toggleIsInitialStepSet] = useToggle();
         const [animationDirection, setAnimationDirection] = React.useState<AnimationDirection>('next');
 
@@ -106,22 +95,59 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
             return formData ? (JSON.parse(formData) as TForm) : config.initialState;
         }, [formData, config.initialState]);
 
-        const generateIfNeeded = () => {
+        const generateIfNeeded = ({ headerPrint, headerDownload, onGenerate }: { headerPrint?: boolean; headerDownload?: boolean; onGenerate?: (_blob: Blob, _type: string) => void } = {}) => {
             if (generatedFile) return;
+            if (!headerPrint && !headerDownload) toggleIsLoading(true);
 
-            mutation.mutate({
-                type,
-                data: parsedFormData,
-                meta: 'extra metadata',
-            });
+            if (headerPrint) {
+                togglePrintLoading(true);
+            }
+            if (headerDownload) {
+                toggleDownloadLoading(true);
+            }
+            mutation.mutate(
+                {
+                    type,
+                    data: parsedFormData,
+                    meta: 'extra metadata',
+                },
+                {
+                    onSuccess: (blob) => {
+                        setGeneratedFile(blob);
+                        onGenerate?.(blob, type);
+                        if (headerPrint) {
+                            togglePrintLoading(false);
+                        }
+                        if (headerDownload) {
+                            toggleDownloadLoading(false);
+                        }
+                        if (!headerPrint && !headerDownload) {
+                            toggleIsSuccessful(true);
+                            toggleIsSubmitted(true);
+                        }
+                    },
+                    onError: () => {
+                        if (!headerPrint && !headerDownload) {
+                            toggleIsSuccessful(false);
+                        }
+                    },
+                    onSettled: () => {
+                        if (!headerPrint && !headerDownload) {
+                            toggleIsLoading(false);
+                            toggleIsLoading(false);
+                        }
+                        if (headerPrint) {
+                            togglePrintLoading(false);
+                        }
+                        if (headerDownload) {
+                            toggleDownloadLoading(false);
+                        }
+                    },
+                }
+            );
         };
 
-        const print = () => {
-            if (!generatedFile) {
-                generateIfNeeded();
-                return;
-            }
-
+        const printAction = (generatedFile: Blob) => {
             const url = URL.createObjectURL(generatedFile);
             const iframe = document.createElement('iframe');
 
@@ -134,12 +160,15 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
             };
         };
 
-        const download = () => {
+        const print = (headerPrint?: boolean) => {
             if (!generatedFile) {
-                generateIfNeeded();
+                generateIfNeeded({ headerPrint, onGenerate: printAction });
                 return;
             }
+            printAction(generatedFile);
+        };
 
+        const downloadAction = (generatedFile: Blob, type: string) => {
             const url = URL.createObjectURL(generatedFile);
             const a = document.createElement('a');
 
@@ -148,6 +177,13 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
             a.click();
 
             URL.revokeObjectURL(url);
+        };
+        const download = (headerDownload?: boolean) => {
+            if (!generatedFile) {
+                generateIfNeeded({ headerDownload, onGenerate: downloadAction });
+                return;
+            }
+            downloadAction(generatedFile, type);
         };
 
         const goToNextStep = () => {
@@ -243,6 +279,8 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
                     generateIfNeeded,
                     printPdf: print,
                     downloadPdf: download,
+                    printLoading,
+                    downloadLoading,
                 }}
             >
                 {children}
