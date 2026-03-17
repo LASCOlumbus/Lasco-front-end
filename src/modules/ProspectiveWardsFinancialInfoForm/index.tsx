@@ -15,7 +15,7 @@ import { ProspectiveWardsFinancialInfoFormProvider, useProspectiveWardsFinancial
 import s from './style.module.css';
 
 const ContentComponent = () => {
-    const { downloadPdf, printPdf } = useProspectiveWardsFinancialInfoFormContext();
+    const { downloadPdf, printPdf, printLoading, downloadLoading } = useProspectiveWardsFinancialInfoFormContext();
 
     return (
         <div className={s.inner}>
@@ -29,10 +29,24 @@ const ContentComponent = () => {
                     </Typography>
                 </div>
                 <div className={s['header-buttons']}>
-                    <Button variant="secondary" size="small" onClick={printPdf}>
+                    <Button
+                        disabled={printLoading}
+                        variant="secondary"
+                        size="small"
+                        onClick={() => {
+                            return printPdf(true);
+                        }}
+                    >
                         Print
                     </Button>
-                    <Button variant="secondary" size="small" onClick={downloadPdf}>
+                    <Button
+                        variant="secondary"
+                        size="small"
+                        disabled={downloadLoading}
+                        onClick={() => {
+                            return downloadPdf(true);
+                        }}
+                    >
                         Download
                     </Button>
                 </div>
