@@ -9,13 +9,15 @@ import { RadioGroupItem } from '@/components/ui/RadioGroupItem';
 import { useApplicantCredibilityApplicationFormContext, useApplicantCredibilityApplicationFormStepForm } from '../../context/ApplicantCredibilityApplicationFormContext';
 import s from './styles.module.css';
 
+const YES_FIELDS = ['isApplicantEverFiledBankruptcy', 'isApplicantEverBeenGarnished', 'isApplicantEverBeenInReceivership', 'isApplicantEverBeenConvictedFelony', 'isApplicantHadExperienceHandlingInvestments'] as const;
+
 const LegalAndFinancialHistoryStep: React.FC = () => {
     const { form, isLoading } = useApplicantCredibilityApplicationFormStepForm('legalAndFinancialHistoryStep');
     const { goToPreviousStep, toggleIsSuccessful } = useApplicantCredibilityApplicationFormContext();
 
     const isSomeValuesChecked = useStore(form.store, (state) => {
-        return Object.values(state).some((value) => {
-            return value === true;
+        return YES_FIELDS.some((field) => {
+            return state.values[field] === true;
         });
     });
 
@@ -84,6 +86,7 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                         name="isApplicantEverBeenInReceivership"
                         children={(field) => {
                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
                             return (
                                 <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isApplicantEverBeenInReceivership" label={<>Has applicant ever been in receivership?</>} errorMessage={errorMessage}>
                                     <RadioGroup
@@ -144,10 +147,12 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                             );
                         }}
                     />
+
                     <form.AppField
                         name="explanation"
                         children={(field) => {
                             if (!isSomeValuesChecked) return null;
+
                             return (
                                 <FormFieldLabelErrorWrapper className={s['field-wrap']} name="explanation" label={<>Explanation of any item checked "Yes" above</>}>
                                     <field.TextAreaField name="explanation" placeholder="Please explain in detail" />
@@ -157,10 +162,12 @@ const LegalAndFinancialHistoryStep: React.FC = () => {
                     />
                 </div>
             </div>
+
             <div className={s.footer}>
                 <Button variant="secondary" size="big" onClick={goToPreviousStep} type="button">
                     Back
                 </Button>
+
                 <form.Subscribe
                     selector={(state) => {
                         const isValid = state.isFieldsValid && state.isFormValid;

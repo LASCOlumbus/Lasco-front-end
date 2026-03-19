@@ -309,8 +309,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
         const form = useAppForm({
             defaultValues: formData[stepId],
             validators: {
-                onMount: stepSchema,
-                onChange: stepSchema,
+                // onMount: stepSchema,
                 onSubmit: stepSchema,
             },
             onSubmit: (data) => {

@@ -139,7 +139,7 @@ const BenefitsStep: React.FC = () => {
                                             }}
                                         />
                                     )}
-                                    {field.state.value.includes('other') && (
+                                    {field.state.value.includes('otherPension') && (
                                         <div className={s['inputs-wrapper']}>
                                             <form.AppField
                                                 name="other.describeOtherPension"
@@ -176,7 +176,7 @@ const BenefitsStep: React.FC = () => {
                                             }}
                                         />
                                     )}
-                                    {field.state.value.includes('otherPension') && (
+                                    {field.state.value.includes('other') && (
                                         <form.AppField
                                             name="otherPension.description"
                                             children={(field) => {

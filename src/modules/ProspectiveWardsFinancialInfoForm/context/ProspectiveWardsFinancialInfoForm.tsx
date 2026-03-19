@@ -53,7 +53,7 @@ const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_INITIAL_STATE: ProspectiveWardsFinan
         prospectiveWardBeneficiaryOf: [],
         identifyingInformation: '',
         sourceOfIncomeOrAsset: '',
-        amountOfIncomeOrAsset: 0,
+        amountOfIncomeOrAsset: '0',
         hasSufficientFundsToPayCourtCosts: false,
         doesNotHaveSufficientFundsToPayCourtCosts: false,
     },

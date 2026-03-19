@@ -147,7 +147,7 @@ export const prospectiveWardsFinancialInfoAssetsInterestsSchema = z
         prospectiveWardBeneficiaryOf: z.array(z.enum(BENEFICIARY_KEYS)),
         identifyingInformation: z.string().optional(),
         sourceOfIncomeOrAsset: z.string().optional(),
-        amountOfIncomeOrAsset: z.number().optional().nullable(),
+        amountOfIncomeOrAsset: z.string().optional().nullable(),
         hasSufficientFundsToPayCourtCosts: z.boolean(),
         doesNotHaveSufficientFundsToPayCourtCosts: z.boolean(),
     })
