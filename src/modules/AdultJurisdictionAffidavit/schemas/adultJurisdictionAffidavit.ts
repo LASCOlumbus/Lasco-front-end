@@ -13,9 +13,9 @@ export const booleanAnswer = z
     }, 'This field is required.');
 
 export const adultJurisdictionAffidavitCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema,
+    guardianName: requiredStringSchema.min(4, 'This field is required'),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema,
+    applicantName: requiredStringSchema.min(4, 'This field is required'),
 });
 
 export const previousAddressSchema = z.object({

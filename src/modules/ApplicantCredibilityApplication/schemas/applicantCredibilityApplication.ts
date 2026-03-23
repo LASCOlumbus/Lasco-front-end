@@ -3,7 +3,7 @@ import { addMinutes, isWithinInterval } from 'date-fns';
 import { z } from 'zod';
 
 export const applicantCredibilityApplicationCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema,
+    guardianName: requiredStringSchema.min(4, 'This field is required'),
     caseNumber: requiredStringSchema,
 });
 
@@ -35,7 +35,7 @@ export const previousAddressOptionalSchema = z.object({
 });
 
 export const applicantCredibilityApplicationApplicantInformStepSchema = z.object({
-    applicantName: requiredStringSchema,
+    applicantName: requiredStringSchema.min(4, 'This field is required'),
     dob: z
         .union([z.date(), z.string()])
         .nullable()

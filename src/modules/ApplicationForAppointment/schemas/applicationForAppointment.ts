@@ -2,7 +2,7 @@ import { booleanAnswer, phoneSchema, positiveNumberSchema, requiredStringSchema 
 import { z } from 'zod';
 
 export const applicationForAppointmentCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema,
+    guardianName: requiredStringSchema.min(4, 'This field is required'),
     caseNumber: requiredStringSchema,
     relationshipToWard: requiredStringSchema,
 });
@@ -145,7 +145,7 @@ export const applicationForAppointmentGuardianshipTypeStepSchema = z
 
 export const applicationForAppointmentApplicantInformStepSchema = z
     .object({
-        applicantName: requiredStringSchema,
+        applicantName: requiredStringSchema.min(4, 'This field is required'),
         applicantDob: z
             .union([z.date(), z.string()])
             .nullable()

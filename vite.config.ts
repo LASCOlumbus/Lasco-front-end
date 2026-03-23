@@ -68,6 +68,11 @@ export default defineConfig(({ mode }) => {
         server: {
             port: 9777,
             allowedHosts: ['guardianship.lasco.org'],
+            hmr: {
+                host: 'guardianship.lasco.org',
+                protocol: 'wss',
+                port: 443,
+            },
         },
         preview: {
             port: 9111,
