@@ -20,7 +20,9 @@ export const zipCodeSchema = requiredStringSchema.regex(ZIP_CODE_REGEX, 'Invalid
 export const numberSchema = z.number().min(0, { message: 'This field must be a valid number ' });
 export const optionalNumberSchema = z.number().optional().nullable();
 export const positiveNumberSchema = z.number().min(1, { message: 'This field must be a positive number' });
-
+export const generateRequiredStringWithLimitsSchema = (min = 4, max = 100) => {
+    return requiredStringSchema.min(min, `Minimum ${min} characters required`).max(max, `Maximum ${max} characters allowed`);
+};
 export const phoneSchema = requiredStringSchema
     .nullable()
     .refine((value) => {
@@ -37,17 +39,17 @@ export const phoneSchema = requiredStringSchema
 // Webcheck Waiver Form
 
 export const webcheckWaiverStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    guardianName: generateRequiredStringWithLimitsSchema(4, 100),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    applicantName: generateRequiredStringWithLimitsSchema(4, 100),
 });
 
 // Waiver of Notice Form
 
 export const waiverNoticeCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    guardianName: generateRequiredStringWithLimitsSchema(4, 100),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    applicantName: generateRequiredStringWithLimitsSchema(4, 100),
 });
 
 export const waiverNoticeWaiversListStepSchema = z.object({
@@ -57,14 +59,14 @@ export const waiverNoticeWaiversListStepSchema = z.object({
 // Adult Guardianship
 
 export const adultGuardianshipCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    guardianName: generateRequiredStringWithLimitsSchema(4, 100),
     caseNumber: requiredStringSchema,
     contactName: requiredStringSchema,
     contactPhone: phoneSchema,
 });
 
 export const adultGuardianshipWardLocationStepSchema = z.object({
-    streetAddress: requiredStringSchema.min(5, 'Minimum 5 characters required').max(100, 'Maximum 100 characters allowed'),
+    streetAddress: generateRequiredStringWithLimitsSchema(5, 100),
     city: requiredStringSchema.min(2, 'Minimum 2 characters required').max(50, 'Maximum 50 characters allowed'),
     state: requiredStringSchema,
     zip: zipCodeSchema,

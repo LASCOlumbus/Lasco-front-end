@@ -1,8 +1,8 @@
-import { booleanAnswer, phoneSchema, positiveNumberSchema, requiredStringSchema } from '@/schemas/formSchemas';
+import { booleanAnswer, generateRequiredStringWithLimitsSchema, phoneSchema, positiveNumberSchema, requiredStringSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
 
 export const applicationForAppointmentCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    guardianName: generateRequiredStringWithLimitsSchema(4, 100),
     caseNumber: requiredStringSchema,
     relationshipToWard: requiredStringSchema,
 });
@@ -145,7 +145,7 @@ export const applicationForAppointmentGuardianshipTypeStepSchema = z
 
 export const applicationForAppointmentApplicantInformStepSchema = z
     .object({
-        applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+        applicantName: generateRequiredStringWithLimitsSchema(4, 100),
         applicantDob: z
             .union([z.date(), z.string()])
             .nullable()

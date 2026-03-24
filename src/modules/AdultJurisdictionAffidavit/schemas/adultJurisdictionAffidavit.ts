@@ -1,4 +1,4 @@
-import { requiredStringSchema } from '@/schemas/formSchemas';
+import { generateRequiredStringWithLimitsSchema, requiredStringSchema } from '@/schemas/formSchemas';
 import { isWithinInterval } from 'date-fns';
 import { z } from 'zod';
 
@@ -13,9 +13,9 @@ export const booleanAnswer = z
     }, 'This field is required.');
 
 export const adultJurisdictionAffidavitCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    guardianName: generateRequiredStringWithLimitsSchema(4, 100),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    applicantName: generateRequiredStringWithLimitsSchema(4, 100),
 });
 
 export const previousAddressSchema = z.object({
@@ -43,7 +43,7 @@ export const previousAddressOptionalSchema = z.object({
 
 export const adultJurisdictionAffidavitAddressInformStepSchema = z
     .object({
-        currentAddress: requiredStringSchema.min(5, 'Minimum 5 characters required').max(100, 'Maximum 100 characters allowed'),
+        currentAddress: generateRequiredStringWithLimitsSchema(5, 100),
         from: z
             .union([z.date(), z.string()])
             .nullable()
@@ -56,7 +56,7 @@ export const adultJurisdictionAffidavitAddressInformStepSchema = z
             .refine((value) => {
                 return value !== null;
             }, 'This field is required.'),
-        withWhom: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100, 'Maximum 100 characters allowed'),
+        withWhom: generateRequiredStringWithLimitsSchema(4, 100),
         isSameAddressLast2Years: booleanAnswer,
         previousAddresses: z.array(previousAddressOptionalSchema).optional(),
     })

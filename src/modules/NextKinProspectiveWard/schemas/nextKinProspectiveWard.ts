@@ -1,10 +1,10 @@
-import { maybeDateSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
+import { generateRequiredStringWithLimitsSchema, maybeDateSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
 
 export const nextKinProspectiveWardCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    guardianName: generateRequiredStringWithLimitsSchema(4, 100),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
+    applicantName: generateRequiredStringWithLimitsSchema(4, 100),
 });
 
 export const relativePersonSchema = z

@@ -1,7 +1,8 @@
+import type { DeepKeys, DeepValue, FormValidateOrFn, Updater } from '@tanstack/react-form';
 import React from 'react';
 import { flushSync } from 'react-dom';
 import { useCounter, useDebouncedCallback, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
-import { DeepKeys, DeepValue, FormValidateOrFn, Updater, useStore } from '@tanstack/react-form';
+import { useStore } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
 import { ZodType } from 'zod';
 import { FORM_TYPES } from '@/lib/constants';
@@ -9,7 +10,7 @@ import { AnimationDirection, MultiStepFormConfig } from '@/lib/types';
 import { generatePdfMutationOptions } from '@/services/pdf/queries';
 import { useAppForm } from '@/components/Forms/hooks/useAppForm';
 
-function trimValues<T>(obj: T): T {
+const trimValues = <T,>(obj: T): T => {
     if (typeof obj === 'string') {
         return obj.trim() as T;
     }
@@ -27,7 +28,7 @@ function trimValues<T>(obj: T): T {
     }
 
     return obj;
-}
+};
 
 export function createMultiStepForm<TForm extends Record<string, unknown>>(type: (typeof FORM_TYPES)[keyof typeof FORM_TYPES]) {
     type Step<K extends keyof TForm = keyof TForm> = {

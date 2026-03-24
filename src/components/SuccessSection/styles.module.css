@@ -53,7 +53,7 @@
     width: 100%;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 479px) {
     .buttons {
         flex-direction: column-reverse;
         align-items: stretch;
