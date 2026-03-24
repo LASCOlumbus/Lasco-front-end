@@ -21,13 +21,8 @@ const router = createRouter({
     scrollRestoration: true,
     defaultPendingMs: 100,
     defaultPendingMinMs: 500,
-    // TODO: Add when UI designs are ready
-    // defaultNotFoundComponent: NotFound,
-    // defaultErrorComponent: ErrorComponent,
-    // defaultPendingComponent() {
-    //     return <Loader className="size-16 m-auto" />;
-    // },
 });
+
 declare module '@tanstack/react-router' {
     interface Register {
         router: typeof router;
@@ -41,13 +36,37 @@ const svgUseConfig: Config = {
     runtimeChecksEnabled: import.meta.env.DEV,
 };
 
-checkEnv(envSchema);
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <React.StrictMode>
+// 👇 винесли в компонент для коректного lifecycle
+const App = () => {
+    React.useEffect(() => {
+        const setVh = () => {
+            document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+        };
+
+        setVh();
+
+        window.addEventListener('resize', setVh);
+        window.addEventListener('orientationchange', setVh);
+
+        return () => {
+            window.removeEventListener('resize', setVh);
+            window.removeEventListener('orientationchange', setVh);
+        };
+    }, []);
+
+    return (
         <SvgUseConfigContext.Provider value={svgUseConfig}>
             <QueryClientProvider client={queryClient}>
                 <RouterProvider router={router} />
             </QueryClientProvider>
         </SvgUseConfigContext.Provider>
+    );
+};
+
+checkEnv(envSchema);
+
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+    <React.StrictMode>
+        <App />
     </React.StrictMode>
 );

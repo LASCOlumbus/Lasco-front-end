@@ -1,5 +1,6 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
+import { subMonths } from 'date-fns';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
@@ -101,10 +102,9 @@ const WaiversListStep: React.FC = () => {
                                                                         name={`relatives[${index}].dob`}
                                                                         children={(dobField) => {
                                                                             const errorMessage = getFieldErrorMessage(dobField.state.meta.errors);
-
                                                                             return (
                                                                                 <FormFieldWrapper name={dobField.name} label={<>Date of birth of relative</>}>
-                                                                                    <DatePicker value={parseDate(dobField.state.value)} errorMessage={errorMessage} placeholder="MM / DD / YYYY" onChange={dobField.handleChange} />
+                                                                                    <DatePicker value={parseDate(dobField.state.value)} errorMessage={errorMessage} minDate={subMonths(new Date(Date.now()), 18 * 12)} maxDate={new Date()} placeholder="MM / DD / YYYY" onChange={dobField.handleChange} />
                                                                                 </FormFieldWrapper>
                                                                             );
                                                                         }}
@@ -199,7 +199,7 @@ const WaiversListStep: React.FC = () => {
                     selector={(state) => {
                         const isValid = state.isFieldsValid && state.isFormValid;
                         const canSubmit = state.isValid && !state.isPristine;
-
+                        console.info({ state });
                         return [canSubmit, isValid, state.isSubmitting];
                     }}
                     children={([canSubmit, isValid, isSubmitting]) => {

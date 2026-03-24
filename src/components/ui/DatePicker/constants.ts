@@ -1,3 +1,3 @@
-export const YEARS_FOR_DROPDOWN = Array.from({ length: new Date().getFullYear() - 1970 + 1 }, (_, idx) => {
-    return 1970 + idx;
+export const YEARS_FOR_DROPDOWN = Array.from({ length: new Date().getFullYear() - 1920 + 1 }, (_, idx) => {
+    return 1920 + idx;
 }).reverse();

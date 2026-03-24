@@ -18,7 +18,13 @@ export const relativePersonSchema = z
     })
     .refine(
         (data) => {
-            return data?.isRelativeUnder18 ? z.date().safeParse(data.dob).success : true;
+            if (!data.isRelativeUnder18) return true;
+
+            if (!data.dob) return false;
+
+            const date = data.dob instanceof Date ? data.dob : new Date(data.dob);
+
+            return !isNaN(date.getTime());
         },
         {
             message: 'This field is required.',
