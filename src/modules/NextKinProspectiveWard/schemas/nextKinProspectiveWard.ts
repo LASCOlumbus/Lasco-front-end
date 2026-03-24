@@ -1,10 +1,10 @@
-import { maybeDateSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
+import { generateRequiredStringWithLimitsSchema, maybeDateSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
 
 export const nextKinProspectiveWardCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema,
+    guardianName: generateRequiredStringWithLimitsSchema(4, 100),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema,
+    applicantName: generateRequiredStringWithLimitsSchema(4, 100),
 });
 
 export const relativePersonSchema = z

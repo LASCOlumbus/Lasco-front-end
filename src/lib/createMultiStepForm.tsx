@@ -1,13 +1,34 @@
 import type { DeepKeys, DeepValue, FormValidateOrFn, Updater } from '@tanstack/react-form';
 import React from 'react';
 import { flushSync } from 'react-dom';
-import { useCounter, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
+import { useCounter, useDebouncedCallback, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
+import { useStore } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
 import { ZodType } from 'zod';
 import { FORM_TYPES } from '@/lib/constants';
 import { AnimationDirection, MultiStepFormConfig } from '@/lib/types';
 import { generatePdfMutationOptions } from '@/services/pdf/queries';
 import { useAppForm } from '@/components/Forms/hooks/useAppForm';
+
+const trimValues = <T,>(obj: T): T => {
+    if (typeof obj === 'string') {
+        return obj.trim() as T;
+    }
+
+    if (Array.isArray(obj)) {
+        return obj.map(trimValues) as T;
+    }
+
+    if (obj && typeof obj === 'object') {
+        return Object.fromEntries(
+            Object.entries(obj).map(([key, value]) => {
+                return [key, trimValues(value)];
+            })
+        ) as T;
+    }
+
+    return obj;
+};
 
 export function createMultiStepForm<TForm extends Record<string, unknown>>(type: (typeof FORM_TYPES)[keyof typeof FORM_TYPES]) {
     type Step<K extends keyof TForm = keyof TForm> = {
@@ -44,6 +65,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
         downloadPdf: (_headerDownload?: boolean) => void;
         printLoading?: boolean;
         downloadLoading?: boolean;
+        updateCurrentStepValues: <K extends keyof TForm>(_key: K, _data: TForm[K]) => void;
     };
 
     const Context = React.createContext<ContextType>({} as ContextType);
@@ -113,7 +135,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
                 },
                 {
                     onSuccess: (blob) => {
-                        setGeneratedFile(blob);
+                        if (isSubmitted && isSuccessful) setGeneratedFile(blob);
                         onGenerate?.(blob, type);
                         if (headerPrint) {
                             togglePrintLoading(false);
@@ -219,9 +241,19 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
                 return prev
                     ? JSON.stringify({
                           ...JSON.parse(prev),
-                          [key]: data,
+                          [key]: trimValues(data),
                       })
                     : '';
+            });
+        };
+        const updateCurrentStepValues = <K extends keyof TForm>(key: K, data: TForm[K]) => {
+            setFormData((prev) => {
+                const parsed = prev ? JSON.parse(prev) : config.initialState;
+
+                return JSON.stringify({
+                    ...parsed,
+                    [key]: trimValues(data),
+                });
             });
         };
 
@@ -281,6 +313,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
                     downloadPdf: download,
                     printLoading,
                     downloadLoading,
+                    updateCurrentStepValues,
                 }}
             >
                 {children}
@@ -293,7 +326,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
     };
 
     const useStepForm = <K extends keyof TForm>(stepId: K) => {
-        const { formData, steps, setFormStepData, goToNextStep } = useFormContext();
+        const { formData, steps, setFormStepData, goToNextStep, updateCurrentStepValues } = useFormContext();
         const [isLoading, toggleIsLoading] = useToggle(true);
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -309,7 +342,6 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
         const form = useAppForm({
             defaultValues: formData[stepId],
             validators: {
-                // onMount: stepSchema,
                 onSubmit: stepSchema,
             },
             onSubmit: (data) => {
@@ -319,6 +351,21 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
                 }
             },
         });
+        const values = useStore(form.store, (state) => {
+            return state.values;
+        });
+
+        const debouncedUpdate = useDebouncedCallback(
+            (vals: TForm[K]) => {
+                updateCurrentStepValues(stepId, vals);
+            },
+            [stepId, updateCurrentStepValues],
+            300
+        );
+
+        React.useEffect(() => {
+            debouncedUpdate(values);
+        }, [values, debouncedUpdate]);
 
         React.useEffect(() => {
             toggleIsLoading(true);
