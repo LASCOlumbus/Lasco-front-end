@@ -37,17 +37,17 @@ export const phoneSchema = requiredStringSchema
 // Webcheck Waiver Form
 
 export const webcheckWaiverStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'This field is required'),
+    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema.min(4, 'This field is required'),
+    applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
 });
 
 // Waiver of Notice Form
 
 export const waiverNoticeCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'This field is required'),
+    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema.min(4, 'This field is required'),
+    applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
 });
 
 export const waiverNoticeWaiversListStepSchema = z.object({
@@ -57,15 +57,15 @@ export const waiverNoticeWaiversListStepSchema = z.object({
 // Adult Guardianship
 
 export const adultGuardianshipCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'This field is required'),
+    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
     caseNumber: requiredStringSchema,
     contactName: requiredStringSchema,
     contactPhone: phoneSchema,
 });
 
 export const adultGuardianshipWardLocationStepSchema = z.object({
-    streetAddress: requiredStringSchema,
-    city: requiredStringSchema,
+    streetAddress: requiredStringSchema.min(5, 'Minimum 5 characters required').max(100, 'Maximum 100 characters allowed'),
+    city: requiredStringSchema.min(2, 'Minimum 2 characters required').max(50, 'Maximum 50 characters allowed'),
     state: requiredStringSchema,
     zip: zipCodeSchema,
     wardPhone: phoneSchema,
@@ -79,7 +79,7 @@ export const answerWithExplanationSchema = z
             .refine((value) => {
                 return value !== null;
             }, 'This field is required.'),
-        explanation: z.string().optional(),
+        explanation: z.string().trim().min(1, 'Minimum 1 character required').max(300, 'Maximum 300 characters allowed').optional(),
     })
     .refine(
         (data) => {

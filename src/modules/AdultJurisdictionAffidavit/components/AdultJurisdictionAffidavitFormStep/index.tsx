@@ -16,7 +16,7 @@ const AdultJurisdictionAffidavitFormStep: React.FC<React.PropsWithChildren<Adult
             <SuccessSection
                 handlePrint={printPdf}
                 handleDownload={downloadPdf}
-                title="Guardianship credibility application form has been submitted"
+                title="Adult jurisdiction affidavit form has been submitted"
                 description="To finish your filing, please download the generated document, print it, and sign it. The court requires a physical signature. Unsigned documents cannot be processed."
             />
         );
@@ -25,7 +25,7 @@ const AdultJurisdictionAffidavitFormStep: React.FC<React.PropsWithChildren<Adult
     if (isSubmitted && !isSuccessful) {
         return (
             <FailureSection
-                title="Guardianship credibility application form has not been submitted"
+                title="Adult jurisdiction affidavit form has not been submitted"
                 description="Something went wrong while submitting your form. Your answers are saved. Please try again."
                 handleTryAgain={() => {
                     goToSelectStep(0);

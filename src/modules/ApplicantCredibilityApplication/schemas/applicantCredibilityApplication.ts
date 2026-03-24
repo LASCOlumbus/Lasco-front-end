@@ -3,8 +3,9 @@ import { addMinutes, isWithinInterval } from 'date-fns';
 import { z } from 'zod';
 
 export const applicantCredibilityApplicationCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'This field is required'),
+    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
     caseNumber: requiredStringSchema,
+    nameOfProspectiveWard: requiredStringSchema,
 });
 
 export const previousAddressSchema = z.object({
@@ -35,12 +36,12 @@ export const previousAddressOptionalSchema = z.object({
 });
 
 export const applicantCredibilityApplicationApplicantInformStepSchema = z.object({
-    applicantName: requiredStringSchema.min(4, 'This field is required'),
+    applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
     dob: z
         .union([z.date(), z.string()])
         .nullable()
         .refine((value) => {
-            return value !== null;
+            return Boolean(value);
         }, 'This field is required.'),
     applicantAddress: z
         .object({
@@ -52,7 +53,7 @@ export const applicantCredibilityApplicationApplicantInformStepSchema = z.object
                 .union([z.date(), z.string()])
                 .nullable()
                 .refine((value) => {
-                    return value !== null;
+                    return Boolean(value);
                 }, 'This field is required.'),
             isSameAddressLast5Years: booleanAnswer,
             previousAddresses: z.array(previousAddressOptionalSchema).optional(),

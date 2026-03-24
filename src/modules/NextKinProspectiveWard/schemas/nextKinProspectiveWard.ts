@@ -2,9 +2,9 @@ import { maybeDateSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/
 import { z } from 'zod';
 
 export const nextKinProspectiveWardCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'This field is required'),
+    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema.min(4, 'This field is required'),
+    applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
 });
 
 export const relativePersonSchema = z

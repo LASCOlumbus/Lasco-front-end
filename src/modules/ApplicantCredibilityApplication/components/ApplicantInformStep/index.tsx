@@ -192,7 +192,7 @@ const ApplicantInformStep: React.FC = () => {
                             <form.AppField
                                 name="applicantAddress.streetAddress"
                                 children={(field) => {
-                                    return <field.InputField name="applicantAddress.streetAddress" label={<>Street address of prospective ward</>} placeholder="Type your street address" onBlur={field.handleBlur} />;
+                                    return <field.InputField name="applicantAddress.streetAddress" label={<>Current street address</>} placeholder="Type your street address" onBlur={field.handleBlur} />;
                                 }}
                             />
                             <form.AppField

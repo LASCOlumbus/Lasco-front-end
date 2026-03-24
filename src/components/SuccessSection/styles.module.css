@@ -52,3 +52,14 @@
     max-width: 191px;
     width: 100%;
 }
+
+@media (max-width: 480px) {
+    .buttons {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .buttons button {
+        max-width: unset;
+    }
+}

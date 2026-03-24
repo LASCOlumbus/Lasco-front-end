@@ -13,9 +13,9 @@ export const booleanAnswer = z
     }, 'This field is required.');
 
 export const adultJurisdictionAffidavitCaseDetailsStepSchema = z.object({
-    guardianName: requiredStringSchema.min(4, 'This field is required'),
+    guardianName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
     caseNumber: requiredStringSchema,
-    applicantName: requiredStringSchema.min(4, 'This field is required'),
+    applicantName: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100),
 });
 
 export const previousAddressSchema = z.object({
@@ -43,7 +43,7 @@ export const previousAddressOptionalSchema = z.object({
 
 export const adultJurisdictionAffidavitAddressInformStepSchema = z
     .object({
-        currentAddress: requiredStringSchema,
+        currentAddress: requiredStringSchema.min(5, 'Minimum 5 characters required').max(100, 'Maximum 100 characters allowed'),
         from: z
             .union([z.date(), z.string()])
             .nullable()
@@ -56,7 +56,7 @@ export const adultJurisdictionAffidavitAddressInformStepSchema = z
             .refine((value) => {
                 return value !== null;
             }, 'This field is required.'),
-        withWhom: requiredStringSchema,
+        withWhom: requiredStringSchema.min(4, 'Minimum 4 characters required').max(100, 'Maximum 100 characters allowed'),
         isSameAddressLast2Years: booleanAnswer,
         previousAddresses: z.array(previousAddressOptionalSchema).optional(),
     })

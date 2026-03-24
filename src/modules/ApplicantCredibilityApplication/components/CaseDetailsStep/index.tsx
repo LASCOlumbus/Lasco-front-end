@@ -38,6 +38,12 @@ const CaseDetailsStep: React.FC = () => {
                             return <field.InputField name="caseNumber" label={<>Case number</>} placeholder="Type case number" onBlur={field.handleBlur} />;
                         }}
                     />
+                    <form.AppField
+                        name="nameOfProspectiveWard"
+                        children={(field) => {
+                            return <field.InputField name="nameOfProspectiveWard" label={<>Name of prospective ward</>} placeholder="Type case number" onBlur={field.handleBlur} />;
+                        }}
+                    />
                 </div>
             </div>
             <div className={s.footer}>
