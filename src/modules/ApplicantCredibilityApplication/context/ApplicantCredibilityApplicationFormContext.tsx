@@ -45,6 +45,7 @@ const APPLICANT_CREDIBILITY_APPLICATION_FORM_INITIAL_STATE: ApplicantCredibility
     caseDetailsStep: {
         guardianName: '',
         caseNumber: '',
+        nameOfProspectiveWard: '',
     },
     applicantInformStep: {
         applicantName: '',
