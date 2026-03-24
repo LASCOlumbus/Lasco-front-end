@@ -199,7 +199,7 @@ const WaiversListStep: React.FC = () => {
                     selector={(state) => {
                         const isValid = state.isFieldsValid && state.isFormValid;
                         const canSubmit = state.isValid && !state.isPristine;
-                        console.info({ state });
+
                         return [canSubmit, isValid, state.isSubmitting];
                     }}
                     children={([canSubmit, isValid, isSubmitting]) => {
