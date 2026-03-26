@@ -184,7 +184,7 @@ const AddressInformStep: React.FC = () => {
                                         children={(field) => {
                                             const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
-                                            if (typeof isSameAddressLast2Years === 'boolean' && field.state.value !== isSameAddressLast2Years) {
+                                            if (isSameAddressLast2Years !== undefined && field.state.value !== isSameAddressLast2Years) {
                                                 field.handleChange(isSameAddressLast2Years);
                                             }
 

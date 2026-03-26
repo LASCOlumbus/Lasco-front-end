@@ -23,14 +23,11 @@ const isDateLike = (value: unknown) => {
 };
 
 const trimValues = <T,>(obj: T): T => {
-    if (typeof obj === 'string') {
-        if (isDateLike(obj)) return obj as T;
-
-        return obj.trim() as T;
+    if (isDateLike(obj)) {
+        return obj as T;
     }
-
-    if (obj instanceof Date) {
-        return obj;
+    if (typeof obj === 'string') {
+        return obj.trim() as T;
     }
 
     if (Array.isArray(obj)) {

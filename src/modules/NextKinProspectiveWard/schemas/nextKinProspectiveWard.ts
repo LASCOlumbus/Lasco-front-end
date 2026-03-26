@@ -1,4 +1,5 @@
 import { generateRequiredStringWithLimitsSchema, maybeDateSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
+import { isValid } from 'date-fns';
 import { z } from 'zod';
 
 export const nextKinProspectiveWardCaseDetailsStepSchema = z.object({
@@ -18,13 +19,17 @@ export const relativePersonSchema = z
     })
     .refine(
         (data) => {
-            if (!data.isRelativeUnder18) return true;
+            if (!data.isRelativeUnder18) {
+                return true;
+            }
 
-            if (!data.dob) return false;
+            if (!data.dob) {
+                return false;
+            }
 
             const date = data.dob instanceof Date ? data.dob : new Date(data.dob);
 
-            return !isNaN(date.getTime());
+            return isValid(date);
         },
         {
             message: 'This field is required.',
