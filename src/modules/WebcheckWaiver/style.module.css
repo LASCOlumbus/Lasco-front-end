@@ -1,8 +1,5 @@
 .container {
     background-color: var(--surface-card-bg);
-    min-height: 100vh;
-    height: 100vh;
-    max-height: 100vh;
     padding: 1rem;
 }
 

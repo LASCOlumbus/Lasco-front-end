@@ -1,7 +1,7 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import { useStore } from '@tanstack/react-form';
-import { addDays, subDays } from 'date-fns';
+import { addDays, differenceInYears, subDays } from 'date-fns';
 import { checkIfDateRangesOverlap } from '@/lib/utils/checkIfDateRangesOverlap';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
@@ -66,7 +66,6 @@ const AddressInformStep: React.FC = () => {
                                 return <field.InputField name="currentAddress" label={<>Current address</>} placeholder="Type street, city, state" onBlur={field.handleBlur} />;
                             }}
                         />
-
                         <div className={s['inputs-wrapper']}>
                             <form.Subscribe
                                 selector={(state) => {
@@ -97,7 +96,7 @@ const AddressInformStep: React.FC = () => {
                                                             value={parseDate(field.state.value)}
                                                             placeholder="MM / DD / YYYY"
                                                             errorMessage={errorMessage}
-                                                            maxDate={maxDate}
+                                                            maxDate={maxDate || new Date()}
                                                             onChange={(date) => {
                                                                 field.handleChange(date as Date);
                                                                 form.validateField('previousAddresses', 'change');
@@ -142,6 +141,7 @@ const AddressInformStep: React.FC = () => {
                                                             value={parseDate(field.state.value)}
                                                             placeholder="MM / DD / YYYY"
                                                             errorMessage={errorMessage}
+                                                            maxDate={new Date()}
                                                             onChange={(date) => {
                                                                 field.handleChange(date as Date);
                                                                 form.validateField('previousAddresses', 'change');
@@ -156,35 +156,57 @@ const AddressInformStep: React.FC = () => {
                                 }}
                             </form.Subscribe>
                         </div>
-
                         <form.AppField
                             name="withWhom"
                             children={(field) => {
                                 return <field.InputField name="withWhom" label={<>With whom</>} placeholder="People living at this address" onBlur={field.handleBlur} />;
                             }}
                         />
+                        <form.Subscribe
+                            selector={(state) => {
+                                const from = state.values.from ? parseDate(state.values.from) : null;
+                                const to = state.values.to ? parseDate(state.values.to) : null;
 
-                        <form.Field
-                            name="isSameAddressLast2Years"
-                            children={(field) => {
-                                const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                                let isSameAddressLast2Years: boolean | undefined;
 
+                                if (from && to) {
+                                    const years = differenceInYears(to, from);
+                                    isSameAddressLast2Years = years >= 2;
+                                }
+
+                                return { isSameAddressLast2Years };
+                            }}
+                        >
+                            {({ isSameAddressLast2Years }) => {
                                 return (
-                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isSameAddressLast2Years" label={<>Have you lived at this address for the last 2 years?</>} errorMessage={errorMessage}>
-                                        <RadioGroup
-                                            className={s['checkbox-group']}
-                                            value={field.state.value}
-                                            onValueChange={(value) => {
-                                                field.handleChange(value as boolean);
-                                            }}
-                                        >
-                                            <RadioGroupItem label="Yes" value={true} />
-                                            <RadioGroupItem label="No" value={false} />
-                                        </RadioGroup>
-                                    </FormFieldLabelErrorWrapper>
+                                    <form.Field
+                                        name="isSameAddressLast2Years"
+                                        children={(field) => {
+                                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
+                                            if (isSameAddressLast2Years !== undefined && field.state.value !== isSameAddressLast2Years) {
+                                                field.handleChange(isSameAddressLast2Years);
+                                            }
+
+                                            return (
+                                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isSameAddressLast2Years" label={<>Have you lived at this address for the last 2 years?</>} errorMessage={errorMessage}>
+                                                    <RadioGroup
+                                                        className={s['checkbox-group']}
+                                                        value={field.state.value}
+                                                        onValueChange={(value) => {
+                                                            field.handleChange(value as boolean);
+                                                        }}
+                                                    >
+                                                        <RadioGroupItem label="Yes" value={true} />
+                                                        <RadioGroupItem label="No" value={false} />
+                                                    </RadioGroup>
+                                                </FormFieldLabelErrorWrapper>
+                                            );
+                                        }}
+                                    />
                                 );
                             }}
-                        />
+                        </form.Subscribe>
                     </div>
 
                     <form.Field
@@ -259,7 +281,7 @@ const AddressInformStep: React.FC = () => {
                                                                                                 return (
                                                                                                     <FormFieldWrapper name={`previousAddresses[${index}].from`} label={<>From</>} errorMessage={errorMessage}>
                                                                                                         <DatePicker
-                                                                                                            maxDate={maxDate}
+                                                                                                            maxDate={maxDate || new Date()}
                                                                                                             value={parseDate(field.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 field.handleChange(date as Date);
@@ -297,6 +319,7 @@ const AddressInformStep: React.FC = () => {
                                                                                                     <FormFieldWrapper name={`previousAddresses[${index}].to`} label={<>To</>} errorMessage={errorMessage}>
                                                                                                         <DatePicker
                                                                                                             minDate={minDate}
+                                                                                                            maxDate={new Date()}
                                                                                                             value={parseDate(field.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 field.handleChange(date as Date);

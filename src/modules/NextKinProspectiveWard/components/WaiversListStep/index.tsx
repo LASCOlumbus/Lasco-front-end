@@ -1,5 +1,6 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
+import { subYears } from 'date-fns';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
@@ -101,10 +102,9 @@ const WaiversListStep: React.FC = () => {
                                                                         name={`relatives[${index}].dob`}
                                                                         children={(dobField) => {
                                                                             const errorMessage = getFieldErrorMessage(dobField.state.meta.errors);
-
                                                                             return (
                                                                                 <FormFieldWrapper name={dobField.name} label={<>Date of birth of relative</>}>
-                                                                                    <DatePicker value={parseDate(dobField.state.value)} errorMessage={errorMessage} placeholder="MM / DD / YYYY" onChange={dobField.handleChange} />
+                                                                                    <DatePicker value={parseDate(dobField.state.value)} errorMessage={errorMessage} minDate={subYears(new Date(), 18)} maxDate={new Date()} placeholder="MM / DD / YYYY" onChange={dobField.handleChange} />
                                                                                 </FormFieldWrapper>
                                                                             );
                                                                         }}

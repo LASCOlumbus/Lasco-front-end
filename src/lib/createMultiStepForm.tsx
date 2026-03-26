@@ -4,13 +4,28 @@ import { flushSync } from 'react-dom';
 import { useCounter, useDebouncedCallback, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { useStore } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
+import { isValid, parseISO } from 'date-fns';
 import { ZodType } from 'zod';
 import { FORM_TYPES } from '@/lib/constants';
 import { AnimationDirection, MultiStepFormConfig } from '@/lib/types';
 import { generatePdfMutationOptions } from '@/services/pdf/queries';
 import { useAppForm } from '@/components/Forms/hooks/useAppForm';
 
+const isDateLike = (value: unknown) => {
+    if (value instanceof Date) return true;
+
+    if (typeof value === 'string') {
+        const parsed = parseISO(value);
+        return isValid(parsed);
+    }
+
+    return false;
+};
+
 const trimValues = <T,>(obj: T): T => {
+    if (isDateLike(obj)) {
+        return obj as T;
+    }
     if (typeof obj === 'string') {
         return obj.trim() as T;
     }
