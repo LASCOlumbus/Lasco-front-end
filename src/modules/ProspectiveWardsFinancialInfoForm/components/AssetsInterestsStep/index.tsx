@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
+import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { useProspectiveWardsFinancialInfoForm, useProspectiveWardsFinancialInfoFormContext } from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
 import { BENEFICIARY_KEYS, BENEFICIARY_LABELS, BeneficiaryKey } from '@/modules/ProspectiveWardsFinancialInfoForm/schemas/prospectiveWardsFinancialInfo';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
@@ -89,41 +90,85 @@ const AssetsInterestsStep: React.FC = () => {
                     </div>
 
                     <Typography variant="body-m">Application to Determine Indigent Status. (Request to Avoid Court Costs for Prospective Ward)</Typography>
+
                     <Typography variant="body-s">Based on the financial information above, I believe that the prospective ward:</Typography>
-                    <form.AppField
-                        name="hasSufficientFundsToPayCourtCosts"
-                        children={(field) => {
+
+                    <form.Subscribe
+                        selector={(state) => {
+                            return {
+                                values: {
+                                    doesNotHave: state.values.doesNotHaveSufficientFundsToPayCourtCosts,
+                                    has: state.values.hasSufficientFundsToPayCourtCosts,
+                                },
+                            };
+                        }}
+                    >
+                        {({ values }) => {
                             return (
-                                <label className={s['checkbox-wrapper']}>
-                                    <Checkbox
-                                        checked={field.state.value}
-                                        onCheckedChange={(checked) => {
-                                            field.handleChange(checked);
+                                <>
+                                    <form.AppField
+                                        name="hasSufficientFundsToPayCourtCosts"
+                                        children={(field) => {
+                                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                                            return (
+                                                <>
+                                                    <label className={s['checkbox-wrapper']}>
+                                                        <Checkbox
+                                                            checked={field.state.value}
+                                                            onCheckedChange={(checked) => {
+                                                                if (values.doesNotHave) {
+                                                                    form.setFieldValue('doesNotHaveSufficientFundsToPayCourtCosts', false);
+                                                                }
+                                                                field.handleChange(checked);
+                                                            }}
+                                                            onBlur={field.handleBlur}
+                                                        />
+                                                        <Typography variant="body-s">Has enough funds available in their own name to pay court costs.</Typography>
+                                                    </label>
+
+                                                    {errorMessage && (
+                                                        <Typography variant="body-s" className={s.error}>
+                                                            {errorMessage}
+                                                        </Typography>
+                                                    )}
+                                                </>
+                                            );
                                         }}
-                                        onBlur={field.handleBlur}
                                     />
-                                    <Typography variant="body-s">Has enough funds available in their own name to pay court costs.</Typography>
-                                </label>
+
+                                    <form.AppField
+                                        name="doesNotHaveSufficientFundsToPayCourtCosts"
+                                        children={(field) => {
+                                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                                            return (
+                                                <>
+                                                    <label className={s['checkbox-wrapper']}>
+                                                        <Checkbox
+                                                            checked={field.state.value}
+                                                            onCheckedChange={(checked) => {
+                                                                if (values.has) {
+                                                                    form.setFieldValue('hasSufficientFundsToPayCourtCosts', false);
+                                                                }
+                                                                field.handleChange(checked);
+                                                            }}
+                                                            onBlur={field.handleBlur}
+                                                        />
+                                                        <Typography variant="body-s">Does not have enough funds in their own name to pay court costs.</Typography>
+                                                    </label>
+
+                                                    {errorMessage && (
+                                                        <Typography variant="body-s" className={s.error}>
+                                                            {errorMessage}
+                                                        </Typography>
+                                                    )}
+                                                </>
+                                            );
+                                        }}
+                                    />
+                                </>
                             );
                         }}
-                    />
-                    <form.AppField
-                        name="doesNotHaveSufficientFundsToPayCourtCosts"
-                        children={(field) => {
-                            return (
-                                <label className={s['checkbox-wrapper']}>
-                                    <Checkbox
-                                        checked={field.state.value}
-                                        onCheckedChange={(checked) => {
-                                            field.handleChange(checked);
-                                        }}
-                                        onBlur={field.handleBlur}
-                                    />
-                                    <Typography variant="body-s">Does not have enough funds in their own name to pay court costs. The court should consider whether the proposed ward can be considered indigent.</Typography>
-                                </label>
-                            );
-                        }}
-                    />
+                    </form.Subscribe>
                 </div>
             </div>
             <div className={s.footer}>

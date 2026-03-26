@@ -26,8 +26,16 @@ const trimValues = <T,>(obj: T): T => {
     if (isDateLike(obj)) {
         return obj as T;
     }
+
     if (typeof obj === 'string') {
-        return obj.trim() as T;
+        const leadingSpaces = obj.match(/^ */)?.[0].length ?? 0;
+        const trailingSpaces = obj.match(/ *$/)?.[0].length ?? 0;
+
+        if (leadingSpaces > 1 || trailingSpaces > 1) {
+            return obj.trim() as T;
+        }
+
+        return obj as T;
     }
 
     if (Array.isArray(obj)) {

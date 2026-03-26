@@ -5,6 +5,7 @@ export type DatePickerProps = {
     value?: Date | null;
     onChange?: (_date: Date | null) => void;
     placeholder?: string;
+    label?: string;
     disabled?: boolean;
     className?: string;
     contentProps?: PopoverContentProps;

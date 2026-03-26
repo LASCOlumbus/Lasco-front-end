@@ -69,20 +69,19 @@ export const prospectiveWardsFinancialInfoBenefitsStepSchema = z
 
         otherPension: z
             .object({
-                description: z.string(),
+                describeOtherPensionSize: optionalNumberSchema,
+                sourceOfOtherPension: z.string(),
             })
             .partial(),
         other: z
             .object({
-                describeOtherPension: optionalNumberSchema,
-                sourceOfOtherPension: z.string(),
+                description: z.string(),
             })
             .partial(),
     })
     .superRefine((data, ctx) => {
         data.benefit.forEach((key) => {
             const value = data[key as BenefitKey];
-
             Object.entries(value).forEach(([k, v]) => {
                 const isSizeField = k.toLowerCase().includes('size');
                 if (((!isSizeField && (v === '' || v === undefined)) || (k.toLowerCase().includes('size') && !positiveNumberSchema.safeParse(v).success)) && k !== 'representativePayeeName') {
@@ -160,5 +159,19 @@ export const prospectiveWardsFinancialInfoAssetsInterestsSchema = z
                     code: 'custom',
                 });
             }
+        }
+
+        if (!data.hasSufficientFundsToPayCourtCosts && !data.doesNotHaveSufficientFundsToPayCourtCosts) {
+            ctx.addIssue({
+                path: ['hasSufficientFundsToPayCourtCosts'],
+                message: 'Select at least one option.',
+                code: 'custom',
+            });
+
+            ctx.addIssue({
+                path: ['doesNotHaveSufficientFundsToPayCourtCosts'],
+                message: 'Select at least one option.',
+                code: 'custom',
+            });
         }
     });

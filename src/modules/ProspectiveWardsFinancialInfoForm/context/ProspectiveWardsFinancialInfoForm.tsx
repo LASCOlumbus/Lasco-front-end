@@ -33,11 +33,11 @@ const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_INITIAL_STATE: ProspectiveWardsFinan
             description: '',
         },
         otherPension: {
-            description: '',
+            describeOtherPensionSize: 0,
+            sourceOfOtherPension: '',
         },
         other: {
-            describeOtherPension: 0,
-            sourceOfOtherPension: '',
+            description: '',
         },
     },
     financialAccountStep: {
