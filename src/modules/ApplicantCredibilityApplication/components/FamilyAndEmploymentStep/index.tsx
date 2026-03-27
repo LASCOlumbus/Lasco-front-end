@@ -6,6 +6,7 @@ import { US_STATES_SELECT_OPTIONS } from '@/lib/constants';
 import { checkIfDateRangesOverlap } from '@/lib/utils/checkIfDateRangesOverlap';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
+import { getMaxDate } from '@/lib/utils/parseDatePickerValue';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
@@ -307,17 +308,8 @@ const FamilyAndEmploymentStep: React.FC = () => {
 
                                                                                     const isOverlapping = overlappingAddressesIndexes.includes(index);
 
-                                                                                    const getMaxDate = () => {
-                                                                                        if (to) {
-                                                                                            return subDays(new Date(to), 1);
-                                                                                        } else if (prevFrom) {
-                                                                                            return prevFrom;
-                                                                                        } else {
-                                                                                            return to;
-                                                                                        }
-                                                                                    };
                                                                                     return {
-                                                                                        maxDate: getMaxDate(),
+                                                                                        maxDate: getMaxDate(to, prevFrom),
                                                                                         minDate: prevTo ? subDays(new Date(prevTo), 1) : prevTo,
                                                                                         isOverlapping,
                                                                                     };
