@@ -13,6 +13,8 @@ import s from './styles.module.css';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { useIsMobile } from '@/hooks/useIsMobile';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/Drawer';
 import { SELECT_CONTENT_OFFSET } from '../Select/constants';
 import { YEARS_FOR_DROPDOWN } from './constants';
 import { Button } from '../Button';
@@ -182,9 +184,9 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({ value, on
     );
 };
 
-const DatePicker: React.FC<DatePickerProps> = ({ value, onChange, placeholder = 'MM / DD / YYYY', disabled, className, contentProps, minDate, maxDate, selectsRange, startDate, errorMessage, endDate, onRangeChange }) => {
+const DatePicker: React.FC<DatePickerProps> = ({ value, onChange, placeholder = 'MM / DD / YYYY', disabled, className, contentProps, minDate, maxDate, selectsRange, startDate, errorMessage, endDate, onRangeChange, label = 'Select Date' }) => {
     const [isOpen, toggleIsOpen] = useToggle();
-
+    const isMobile = useIsMobile();
     const formatDate = (date: Date | null): string => {
         return date ? format(date, 'MM/dd/yyyy') : placeholder;
     };
@@ -200,6 +202,42 @@ const DatePicker: React.FC<DatePickerProps> = ({ value, onChange, placeholder = 
             return placeholder;
         }
     };
+
+    if (isMobile) {
+        return (
+            <Drawer open={isOpen} onOpenChange={toggleIsOpen}>
+                <DrawerTrigger
+                    className={clsx(s.trigger, 'focus-primary', className, {
+                        [s.error]: !!errorMessage,
+                    })}
+                    disabled={disabled}
+                >
+                    <Calendar20Icon />
+                    {selectsRange ? formatDateRange(startDate ?? null, endDate ?? null) : formatDate(value ?? null)}
+                </DrawerTrigger>
+                <DrawerContent className={clsx(s.content, 'datepicker-drawer-content')}>
+                    <DrawerHeader className={clsx(s.header, s.drawerHeader)}>
+                        <DrawerTitle>{label}</DrawerTitle>
+                    </DrawerHeader>
+                    <div className={s.contentWrapper}>
+                        <DatePickerContent
+                            value={value ?? null}
+                            onChange={onChange}
+                            minDate={minDate}
+                            maxDate={maxDate}
+                            selectsRange={selectsRange}
+                            startDate={startDate ?? null}
+                            endDate={endDate ?? null}
+                            onRangeChange={onRangeChange}
+                            onClose={() => {
+                                return toggleIsOpen(false);
+                            }}
+                        />
+                    </div>
+                </DrawerContent>
+            </Drawer>
+        );
+    }
 
     return (
         <div className={s.wrap}>

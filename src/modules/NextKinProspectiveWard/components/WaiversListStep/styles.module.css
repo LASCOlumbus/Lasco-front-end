@@ -70,6 +70,7 @@
 
 .checkbox-group {
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
     width: 100%;
 }

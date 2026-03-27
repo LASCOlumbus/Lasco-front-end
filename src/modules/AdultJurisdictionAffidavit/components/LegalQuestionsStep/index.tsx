@@ -69,96 +69,97 @@ const LegalQuestionsStep: React.FC = () => {
                             }}
                         />
                     </div>
+                    <div className={s['flex-container']}>
+                        <Alert>The affiant has a continuing duty to inform the court of any proceeding concerning the alleged incompetent that becomes known during this matter.</Alert>
 
-                    <Alert>The affiant has a continuing duty to inform the court of any proceeding concerning the alleged incompetent that becomes known during this matter.</Alert>
+                        <form.Field
+                            name="isAllegedIncompetentDivorced"
+                            children={(field) => {
+                                const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
-                    <form.Field
-                        name="isAllegedIncompetentDivorced"
-                        children={(field) => {
-                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                                return (
+                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isAllegedIncompetentDivorced" label={<>Is the alleged incompetent divorced?</>} errorMessage={errorMessage}>
+                                        <RadioGroup
+                                            className={s['checkbox-group']}
+                                            value={field.state.value}
+                                            onValueChange={(value) => {
+                                                field.handleChange(value as boolean);
+                                            }}
+                                        >
+                                            <RadioGroupItem label="Yes" value={true} />
+                                            <RadioGroupItem label="No" value={false} />
+                                        </RadioGroup>
+                                    </FormFieldLabelErrorWrapper>
+                                );
+                            }}
+                        />
 
-                            return (
-                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isAllegedIncompetentDivorced" label={<>Is the alleged incompetent divorced?</>} errorMessage={errorMessage}>
-                                    <RadioGroup
-                                        className={s['checkbox-group']}
-                                        value={field.state.value}
-                                        onValueChange={(value) => {
-                                            field.handleChange(value as boolean);
-                                        }}
-                                    >
-                                        <RadioGroupItem label="Yes" value={true} />
-                                        <RadioGroupItem label="No" value={false} />
-                                    </RadioGroup>
-                                </FormFieldLabelErrorWrapper>
-                            );
-                        }}
-                    />
+                        <form.Field
+                            name="isDivorcePending"
+                            children={(field) => {
+                                const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                                return (
+                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isDivorcePending" label={<>Are there any divorce proceedings currently pending?</>} errorMessage={errorMessage}>
+                                        <RadioGroup
+                                            className={s['checkbox-group']}
+                                            value={field.state.value}
+                                            onValueChange={(value) => {
+                                                field.handleChange(value as boolean);
+                                            }}
+                                        >
+                                            <RadioGroupItem label="Yes" value={true} />
+                                            <RadioGroupItem label="No" value={false} />
+                                        </RadioGroup>
+                                    </FormFieldLabelErrorWrapper>
+                                );
+                            }}
+                        />
 
-                    <form.Field
-                        name="isDivorcePending"
-                        children={(field) => {
-                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
-                            return (
-                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isDivorcePending" label={<>Are there any divorce proceedings currently pending?</>} errorMessage={errorMessage}>
-                                    <RadioGroup
-                                        className={s['checkbox-group']}
-                                        value={field.state.value}
-                                        onValueChange={(value) => {
-                                            field.handleChange(value as boolean);
-                                        }}
-                                    >
-                                        <RadioGroupItem label="Yes" value={true} />
-                                        <RadioGroupItem label="No" value={false} />
-                                    </RadioGroup>
-                                </FormFieldLabelErrorWrapper>
-                            );
-                        }}
-                    />
+                        <form.AppField
+                            name="isDivorcePending"
+                            children={(field) => {
+                                return (
+                                    field.state.value && (
+                                        <form.AppField
+                                            name="courtName"
+                                            children={(field) => {
+                                                return <field.InputField name={field.name} label={<>Court where the divorce case is pending</>} placeholder="Please type information about court" />;
+                                            }}
+                                        />
+                                    )
+                                );
+                            }}
+                        />
 
-                    <form.AppField
-                        name="isDivorcePending"
-                        children={(field) => {
-                            return (
-                                field.state.value && (
-                                    <form.AppField
-                                        name="courtName"
-                                        children={(field) => {
-                                            return <field.InputField name={field.name} label={<>Court where the divorce case is pending</>} placeholder="Please type information about court" />;
-                                        }}
-                                    />
-                                )
-                            );
-                        }}
-                    />
+                        <form.Field
+                            name="isAllegedIncompetentCurrently"
+                            children={(field) => {
+                                const errorMessage = getFieldErrorMessage(field.state.meta.errors);
 
-                    <form.Field
-                        name="isAllegedIncompetentCurrently"
-                        children={(field) => {
-                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                                return (
+                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isAllegedIncompetentCurrently" label={<>Is the alleged incompetent currently subject to a continuing custody order issued in their parents’ divorce?</>} errorMessage={errorMessage}>
+                                        <RadioGroup
+                                            className={s['checkbox-group']}
+                                            value={field.state.value}
+                                            onValueChange={(value) => {
+                                                field.handleChange(value as boolean);
+                                            }}
+                                        >
+                                            <RadioGroupItem label="Yes" value={true} />
+                                            <RadioGroupItem label="No" value={false} />
+                                        </RadioGroup>
+                                    </FormFieldLabelErrorWrapper>
+                                );
+                            }}
+                        />
 
-                            return (
-                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="isAllegedIncompetentCurrently" label={<>Is the alleged incompetent currently subject to a continuing custody order issued in their parents’ divorce?</>} errorMessage={errorMessage}>
-                                    <RadioGroup
-                                        className={s['checkbox-group']}
-                                        value={field.state.value}
-                                        onValueChange={(value) => {
-                                            field.handleChange(value as boolean);
-                                        }}
-                                    >
-                                        <RadioGroupItem label="Yes" value={true} />
-                                        <RadioGroupItem label="No" value={false} />
-                                    </RadioGroup>
-                                </FormFieldLabelErrorWrapper>
-                            );
-                        }}
-                    />
-
-                    <form.AppField
-                        name="additionalInfo"
-                        children={(field) => {
-                            return <field.TextAreaField name="additionalInfo" placeholder="Please type any additional information" />;
-                        }}
-                    />
+                        <form.AppField
+                            name="additionalInfo"
+                            children={(field) => {
+                                return <field.TextAreaField name="additionalInfo" placeholder="Please type any additional information" />;
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
             <div className={s.footer}>

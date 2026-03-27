@@ -103,7 +103,7 @@ const AccountAndRealEstateStep: React.FC = () => {
                                         field.pushValue({ institution: '', type: '', estimatedBalance: 0 });
                                     }}
                                 >
-                                    Add another relative
+                                    Add another account
                                 </Button>
                             </>
                         );

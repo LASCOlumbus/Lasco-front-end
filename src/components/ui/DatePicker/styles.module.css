@@ -50,6 +50,18 @@
 
 .content {
     padding: 0.4375rem;
+
+    @media (max-width: 479px) {
+        padding-bottom: 2rem;
+    }
+}
+
+.contentWrapper {
+    width: max-content;
+    margin: 0 auto;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border-secondary);
 }
 
 .calendar {
@@ -64,6 +76,13 @@
     justify-content: space-between;
     gap: 0.5rem;
     margin-bottom: 1rem;
+}
+
+.drawerHeader {
+    padding-top: 1.25rem;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    margin-bottom: 0;
 }
 
 .month-year {

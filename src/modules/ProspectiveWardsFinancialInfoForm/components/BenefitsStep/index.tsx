@@ -142,11 +142,11 @@ const BenefitsStep: React.FC = () => {
                                     {field.state.value.includes('otherPension') && (
                                         <div className={s['inputs-wrapper']}>
                                             <form.AppField
-                                                name="other.describeOtherPension"
+                                                name="otherPension.describeOtherPensionSize"
                                                 children={(field) => {
                                                     return (
                                                         <field.InputField
-                                                            name="other.describeOtherPension"
+                                                            name="other.describeOtherPensionSize"
                                                             label={<>Describe other pension(s)</>}
                                                             type="number"
                                                             numericFormatProps={{
@@ -161,7 +161,7 @@ const BenefitsStep: React.FC = () => {
                                                 }}
                                             />
                                             <form.AppField
-                                                name="other.sourceOfOtherPension"
+                                                name="otherPension.sourceOfOtherPension"
                                                 children={(field) => {
                                                     return <field.InputField name="other.sourceOfOtherPension" label={<>Source of other pension(s)</>} placeholder="Enter source of other pension(s)" onBlur={field.handleBlur} />;
                                                 }}
@@ -178,7 +178,7 @@ const BenefitsStep: React.FC = () => {
                                     )}
                                     {field.state.value.includes('other') && (
                                         <form.AppField
-                                            name="otherPension.description"
+                                            name="other.description"
                                             children={(field) => {
                                                 return <field.InputField name="otherPension.description" label={<>Describe other benefits</>} placeholder="Enter details" onBlur={field.handleBlur} />;
                                             }}

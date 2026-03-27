@@ -16,7 +16,7 @@ const ApplicationForAppointmentFormStep: React.FC<React.PropsWithChildren<Applic
             <SuccessSection
                 handlePrint={printPdf}
                 handleDownload={downloadPdf}
-                title="Applicant's credibility application form has been submitted"
+                title="Application for appointment of guardian of alleged incompetent form has been submitted"
                 description="To finish your filing, please download the generated document, print it, and sign it. The court requires a physical signature. Unsigned documents cannot be processed."
             />
         );
