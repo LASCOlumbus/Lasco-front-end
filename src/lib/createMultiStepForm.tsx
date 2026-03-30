@@ -4,7 +4,7 @@ import { flushSync } from 'react-dom';
 import { useCounter, useDebouncedCallback, useLocalStorageValue, useToggle, useUnmountEffect } from '@react-hookz/web';
 import { useStore } from '@tanstack/react-form';
 import { useMutation } from '@tanstack/react-query';
-import { isValid, parseISO } from 'date-fns';
+import { format, isValid, parseISO } from 'date-fns'; // ✅ додано format
 import { ZodType } from 'zod';
 import { FORM_TYPES } from '@/lib/constants';
 import { AnimationDirection, MultiStepFormConfig } from '@/lib/types';
@@ -46,6 +46,34 @@ const trimValues = <T,>(obj: T): T => {
         return Object.fromEntries(
             Object.entries(obj).map(([key, value]) => {
                 return [key, trimValues(value)];
+            })
+        ) as T;
+    }
+
+    return obj;
+};
+
+const formatDates = <T,>(obj: T): T => {
+    if (obj instanceof Date) {
+        return format(obj, 'MM / dd / yyyy') as T;
+    }
+
+    if (typeof obj === 'string') {
+        const parsed = parseISO(obj);
+        if (isValid(parsed)) {
+            return format(parsed, 'MM / dd / yyyy') as T;
+        }
+        return obj as T;
+    }
+
+    if (Array.isArray(obj)) {
+        return obj.map(formatDates) as T;
+    }
+
+    if (obj && typeof obj === 'object') {
+        return Object.fromEntries(
+            Object.entries(obj).map(([key, value]) => {
+                return [key, formatDates(value)];
             })
         ) as T;
     }
@@ -153,7 +181,7 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
             mutation.mutate(
                 {
                     type,
-                    data: parsedFormData,
+                    data: formatDates(parsedFormData),
                     meta: 'extra metadata',
                 },
                 {
