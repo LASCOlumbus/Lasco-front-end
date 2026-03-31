@@ -122,7 +122,7 @@ const ApplicantInformStep: React.FC = () => {
                                                     ...LANGUAGES.map((state) => {
                                                         return {
                                                             label: state.label,
-                                                            value: state.value,
+                                                            value: state.label,
                                                         };
                                                     }),
                                                 ]}

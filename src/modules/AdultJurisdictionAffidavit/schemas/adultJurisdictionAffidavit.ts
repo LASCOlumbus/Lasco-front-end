@@ -20,6 +20,7 @@ export const adultJurisdictionAffidavitCaseDetailsStepSchema = z.object({
 
 export const previousAddressSchema = z.object({
     address: requiredStringSchema,
+    withWhom: requiredStringSchema,
     from: z
         .union([z.date(), z.string()])
         .nullable()
@@ -44,69 +45,118 @@ export const previousAddressOptionalSchema = z.object({
 export const adultJurisdictionAffidavitAddressInformStepSchema = z
     .object({
         currentAddress: generateRequiredStringWithLimitsSchema(5, 100),
-        from: z
-            .union([z.date(), z.string()])
-            .nullable()
-            .refine((value) => {
-                return value !== null;
-            }, 'This field is required.'),
-        to: z
-            .union([z.date(), z.string()])
-            .nullable()
-            .refine((value) => {
-                return value !== null;
-            }, 'This field is required.'),
+        from: z.union([z.date(), z.string()]).refine((value) => {
+            return value !== '';
+        }, 'This field is required.'),
+        to: z.union([z.date(), z.string()]).refine((value) => {
+            return value !== '';
+        }, 'This field is required.'),
         withWhom: generateRequiredStringWithLimitsSchema(4, 100),
         isSameAddressLast2Years: booleanAnswer,
         previousAddresses: z.array(previousAddressOptionalSchema).optional(),
     })
-    .refine(
-        (data) => {
-            return data?.isSameAddressLast2Years === false
-                ? z
-                      .array(previousAddressSchema)
-                      .min(1, 'This field is required.')
-                      .superRefine((intervals, ctx) => {
-                          const sorted = [...intervals, { from: data.from, to: data.to }].sort((a, b) => {
-                              return new Date(a.from).getTime() - new Date(b.from).getTime();
-                          });
+    .superRefine((data, ctx) => {
+        if (data.isSameAddressLast2Years !== false) return;
 
-                          for (let i = 0; i < sorted.length - 1; i++) {
-                              const current = sorted[i];
-                              const next = sorted?.[i + 1];
-
-                              if (
-                                  isWithinInterval(next?.from, {
-                                      start: current.from,
-                                      end: current.to,
-                                  }) ||
-                                  isWithinInterval(next?.to, {
-                                      start: current.from,
-                                      end: current.to,
-                                  })
-                              ) {
-                                  ctx.addIssue({
-                                      code: z.ZodIssueCode.custom,
-                                      message: 'Date intervals must not overlap',
-                                      path: [i],
-                                  });
-
-                                  ctx.addIssue({
-                                      code: z.ZodIssueCode.custom,
-                                      message: 'Date intervals must not overlap',
-                                      path: [i + 1],
-                                  });
-                              }
-                          }
-                      })
-                      .safeParse(data.previousAddresses).success
-                : true;
-        },
-        {
-            message: 'This field is required.',
-            path: ['previousAddresses.address'],
+        if (!data.previousAddresses || data.previousAddresses.length === 0) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'This field is required.',
+                path: ['previousAddresses'],
+            });
+            return;
         }
-    );
+
+        data.previousAddresses.forEach((item, index) => {
+            if (!item.address) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'This field is required.',
+                    path: ['previousAddresses', index, 'address'],
+                });
+            }
+
+            if (!item.withWhom) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'This field is required.',
+                    path: ['previousAddresses', index, 'withWhom'],
+                });
+            }
+
+            if (!item.from) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'This field is required.',
+                    path: ['previousAddresses', index, 'from'],
+                });
+            }
+
+            if (!item.to) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'This field is required.',
+                    path: ['previousAddresses', index, 'to'],
+                });
+            }
+        });
+
+        const validIntervals = data.previousAddresses
+            .filter((item) => {
+                return item.from && item.to;
+            })
+            .map((item) => {
+                return {
+                    ...item,
+                };
+            });
+
+        const intervals = [...validIntervals, { from: data.from, to: data.to }];
+
+        const sorted = intervals.sort((a, b) => {
+            return new Date(a.from || '').getTime() - new Date(b.from || '').getTime();
+        });
+
+        for (let i = 0; i < sorted.length - 1; i++) {
+            const current = sorted[i];
+            const next = sorted[i + 1];
+
+            if (
+                isWithinInterval(new Date(next.from || ''), {
+                    start: new Date(current.from || ''),
+                    end: new Date(current.to || ''),
+                }) ||
+                isWithinInterval(new Date(next.to || ''), {
+                    start: new Date(current.from || ''),
+                    end: new Date(current.to || ''),
+                })
+            ) {
+                const currentIndex = data.previousAddresses.findIndex((item) => {
+                    return item.from === current.from && item.to === current.to;
+                });
+
+                const nextIndex = data.previousAddresses.findIndex((item) => {
+                    return item.from === next.from && item.to === next.to;
+                });
+
+                if (currentIndex !== -1) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: 'Date intervals must not overlap',
+                        path: ['previousAddresses', currentIndex, 'from'],
+                    });
+                }
+
+                if (nextIndex !== -1) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: 'Date intervals must not overlap',
+                        path: ['previousAddresses', nextIndex, 'from'],
+                    });
+                }
+            }
+        }
+    });
 
 export const adultJurisdictionAffidavitLegalQuestionsStepSchema = z
     .object({

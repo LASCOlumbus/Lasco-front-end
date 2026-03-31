@@ -96,15 +96,17 @@ const AccountAndRealEstateStep: React.FC = () => {
                                         />
                                     );
                                 })}
-                                <Button
-                                    variant="secondary"
-                                    size="medium"
-                                    onClick={() => {
-                                        field.pushValue({ institution: '', type: '', estimatedBalance: 0 });
-                                    }}
-                                >
-                                    Add another account
-                                </Button>
+                                {field.state?.value?.length < 4 && (
+                                    <Button
+                                        variant="secondary"
+                                        size="medium"
+                                        onClick={() => {
+                                            field.pushValue({ institution: '', type: '', estimatedBalance: 0 });
+                                        }}
+                                    >
+                                        Add another account
+                                    </Button>
+                                )}
                             </>
                         );
                     }}

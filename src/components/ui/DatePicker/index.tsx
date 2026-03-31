@@ -26,7 +26,7 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({ value, on
     const [selectedYear, setSelectedYear] = React.useState(currentYear);
     const [currentDisplayMonth, setCurrentDisplayMonth] = React.useState(value ? value.getMonth() : today.getMonth());
     const [isYearDropdownOpen, toggleYearDropdown] = useToggle();
-
+    const isMobile = useIsMobile();
     React.useEffect(() => {
         if (value) {
             setCurrentDisplayMonth(value.getMonth());
@@ -37,7 +37,6 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({ value, on
     const handleYearSelect = (selectedYearValue: number) => {
         setSelectedYear(selectedYearValue);
         const dayToUse = value?.getDate() ?? 1;
-        // Ensure the date is valid (e.g., Feb 30 becomes Feb 28/29)
         const lastDayOfMonth = new Date(selectedYearValue, currentDisplayMonth + 1, 0).getDate();
         const validDay = Math.min(dayToUse, lastDayOfMonth);
         const finalDate = new Date(selectedYearValue, currentDisplayMonth, validDay);
@@ -63,7 +62,6 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({ value, on
     const handleRangeChange = (dates: [Date | null, Date | null] | null) => {
         if (dates) {
             onRangeChange?.(dates);
-            // Close when both dates are selected
             if (dates[0] && dates[1]) {
                 onClose?.();
             }
@@ -78,46 +76,90 @@ const DatePickerContent: React.FC<DatePickerContentInternalProps> = ({ value, on
     const renderCustomHeader = ({ date, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }: ReactDatePickerCustomHeaderProps) => {
         return (
             <div className={s.header}>
-                <Button className={clsx(s.cta, s.nav)} type="button" variant="secondary" size="small" isIcon onClick={decreaseMonth} disabled={prevMonthButtonDisabled} aria-label="Previous month">
+                <Button className={clsx(s.cta, s.nav)} type="button" variant="secondary" size="small" isIcon onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
                     <ChevronUp20Icon className={clsx(s.icon, s.prev)} />
                 </Button>
-                <Popover open={isYearDropdownOpen} onOpenChange={toggleYearDropdown}>
-                    <PopoverTrigger className={s['month-year']}>
-                        {format(date, 'MMMM yyyy')}
-                        <ChevronUp20Icon className={s.icon} />
-                    </PopoverTrigger>
-                    <PopoverContent
-                        className={clsx(s.dropdown, s.year)}
-                        positionerProps={{
-                            align: 'end',
-                            sideOffset: 4,
-                        }}
-                    >
-                        <ScrollArea className={s.scroll}>
-                            {YEARS_FOR_DROPDOWN.map((yearValue) => {
-                                const isSelected = yearValue === selectedYear;
-                                const isFuture = yearValue > today.getFullYear();
 
-                                return (
-                                    <button
-                                        key={yearValue}
-                                        type="button"
-                                        className={s.option}
-                                        data-selected={isSelected}
-                                        data-future={isFuture}
-                                        onClick={() => {
-                                            handleYearSelect(yearValue);
-                                            toggleYearDropdown(false);
-                                        }}
-                                    >
-                                        {yearValue}
-                                    </button>
-                                );
-                            })}
-                        </ScrollArea>
-                    </PopoverContent>
-                </Popover>
-                <Button className={clsx(s.cta, s.nav)} type="button" variant="secondary" size="small" isIcon onClick={increaseMonth} disabled={nextMonthButtonDisabled} aria-label="Next month">
+                {isMobile ? (
+                    <div className={s['month-year-wrapper']}>
+                        <div
+                            className={s['month-year']}
+                            onClick={() => {
+                                return toggleYearDropdown();
+                            }}
+                        >
+                            {format(date, 'MMMM yyyy')}
+                            <ChevronUp20Icon className={s.icon} />
+                        </div>
+
+                        {isYearDropdownOpen && (
+                            <div className={clsx(s.dropdown, s.year, s.mobileDropdown)}>
+                                <ScrollArea className={s.scroll}>
+                                    {YEARS_FOR_DROPDOWN.map((yearValue) => {
+                                        const isSelected = yearValue === selectedYear;
+                                        const isFuture = yearValue > today.getFullYear();
+
+                                        return (
+                                            <button
+                                                key={yearValue}
+                                                type="button"
+                                                className={s.option}
+                                                data-selected={isSelected}
+                                                data-future={isFuture}
+                                                onClick={() => {
+                                                    handleYearSelect(yearValue);
+                                                    toggleYearDropdown(false);
+                                                }}
+                                            >
+                                                {yearValue}
+                                            </button>
+                                        );
+                                    })}
+                                </ScrollArea>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <Popover open={isYearDropdownOpen} onOpenChange={toggleYearDropdown}>
+                        <PopoverTrigger className={s['month-year']}>
+                            {format(date, 'MMMM yyyy')}
+                            <ChevronUp20Icon className={s.icon} />
+                        </PopoverTrigger>
+
+                        <PopoverContent
+                            className={clsx(s.dropdown, s.year)}
+                            positionerProps={{
+                                align: 'end',
+                                sideOffset: 4,
+                            }}
+                        >
+                            <ScrollArea className={s.scroll}>
+                                {YEARS_FOR_DROPDOWN.map((yearValue) => {
+                                    const isSelected = yearValue === selectedYear;
+                                    const isFuture = yearValue > today.getFullYear();
+
+                                    return (
+                                        <button
+                                            key={yearValue}
+                                            type="button"
+                                            className={s.option}
+                                            data-selected={isSelected}
+                                            data-future={isFuture}
+                                            onClick={() => {
+                                                handleYearSelect(yearValue);
+                                                toggleYearDropdown(false);
+                                            }}
+                                        >
+                                            {yearValue}
+                                        </button>
+                                    );
+                                })}
+                            </ScrollArea>
+                        </PopoverContent>
+                    </Popover>
+                )}
+
+                <Button className={clsx(s.cta, s.nav)} type="button" variant="secondary" size="small" isIcon onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
                     <ChevronUp20Icon className={clsx(s.icon, s.next)} />
                 </Button>
             </div>
