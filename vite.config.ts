@@ -1,7 +1,6 @@
 /// <reference  types="@svg-use/vite/client"  />
 import { fileURLToPath } from 'node:url';
 import svgUse from '@svg-use/vite';
-import { devtools } from '@tanstack/devtools-vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -13,7 +12,6 @@ import { createHtmlPlugin } from 'vite-plugin-html';
 export default defineConfig(({ mode }) => {
     return {
         plugins: [
-            ...(mode === 'development' ? [devtools()] : []),
             tanstackRouter({
                 target: 'react',
                 autoCodeSplitting: true,

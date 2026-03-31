@@ -1,5 +1,5 @@
 import { booleanAnswer, generateRequiredStringWithLimitsSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
-import { addMinutes, isWithinInterval } from 'date-fns';
+import { addMinutes, isWithinInterval, subYears } from 'date-fns';
 import { z } from 'zod';
 
 export const applicantCredibilityApplicationCaseDetailsStepSchema = z.object({
@@ -25,7 +25,7 @@ export const previousAddressSchema = z.object({
 });
 
 export const previousAddressOptionalSchema = z.object({
-    address: z.string().optional(),
+    address: generateRequiredStringWithLimitsSchema(5, 100).optional(),
     from: z
         .union([z.date(), z.string()])
         .nullable()
@@ -58,55 +58,141 @@ export const applicantCredibilityApplicationApplicantInformStepSchema = z.object
             isSameAddressLast5Years: booleanAnswer,
             previousAddresses: z.array(previousAddressOptionalSchema).optional(),
         })
-        .refine(
-            (data) => {
-                return data?.isSameAddressLast5Years === false
-                    ? z
-                          .array(previousAddressSchema)
-                          .min(1, 'This field is required.')
-                          .superRefine((intervals, ctx) => {
-                              const sorted = [...intervals, { from: data.from as Date, to: addMinutes(new Date(data.from as Date), 1) }].sort((a, b) => {
-                                  return new Date(a.from).getTime() - new Date(b.from).getTime();
-                              });
+        .superRefine((data, ctx) => {
+            if (data.isSameAddressLast5Years !== false) return;
 
-                              for (let i = 0; i < sorted.length - 1; i++) {
-                                  const current = sorted[i];
-                                  const next = sorted?.[i + 1];
-
-                                  if (
-                                      isWithinInterval(next?.from, {
-                                          start: current.from,
-                                          end: current.to,
-                                      }) ||
-                                      isWithinInterval(next?.to, {
-                                          start: current.from,
-                                          end: current.to,
-                                      })
-                                  ) {
-                                      ctx.addIssue({
-                                          code: z.ZodIssueCode.custom,
-                                          message: 'Date intervals must not overlap',
-                                          path: [i],
-                                      });
-
-                                      ctx.addIssue({
-                                          code: z.ZodIssueCode.custom,
-                                          message: 'Date intervals must not overlap',
-                                          path: [i + 1],
-                                      });
-                                  }
-                              }
-                          })
-                          .safeParse(data.previousAddresses).success
-                    : true;
-            },
-            {
-                message: 'This field is required.',
-                path: ['previousAddresses.address'],
+            if (!data.previousAddresses || data.previousAddresses.length === 0) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'This field is required.',
+                    path: ['previousAddresses'],
+                });
+                return;
             }
-        ),
-});
 
+            data.previousAddresses.forEach((item, index) => {
+                if (!item.address) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: 'This field is required.',
+                        path: ['previousAddresses', index, 'address'],
+                    });
+                }
+
+                if (!item.from) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: 'This field is required.',
+                        path: ['previousAddresses', index, 'from'],
+                    });
+                }
+
+                if (!item.to) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: 'This field is required.',
+                        path: ['previousAddresses', index, 'to'],
+                    });
+                }
+            });
+
+            const validIntervals = data.previousAddresses
+                .filter((item) => {
+                    return item.from && item.to;
+                })
+                .map((item) => {
+                    return {
+                        ...item,
+                    };
+                });
+
+            const rootInterval =
+                data.from !== null
+                    ? {
+                          from: data.from as Date,
+                          to: addMinutes(new Date(data.from as Date), 1),
+                      }
+                    : null;
+
+            const intervals = rootInterval ? [...validIntervals, rootInterval] : validIntervals;
+
+            const sorted = intervals.sort((a, b) => {
+                return new Date(a.from || '').getTime() - new Date(b.from || '').getTime();
+            });
+
+            for (let i = 0; i < sorted.length - 1; i++) {
+                const current = sorted[i];
+                const next = sorted[i + 1];
+
+                if (
+                    isWithinInterval(new Date(next.from || ''), {
+                        start: new Date(current.from || ''),
+                        end: new Date(current.to || ''),
+                    }) ||
+                    isWithinInterval(new Date(next.to || ''), {
+                        start: new Date(current.from || ''),
+                        end: new Date(current.to || ''),
+                    })
+                ) {
+                    const currentIndex = data.previousAddresses.findIndex((item) => {
+                        return item.from === current.from && item.to === current.to;
+                    });
+
+                    const nextIndex = data.previousAddresses.findIndex((item) => {
+                        return item.from === next.from && item.to === next.to;
+                    });
+
+                    if (currentIndex !== -1) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: 'Date intervals must not overlap',
+                            path: ['previousAddresses', currentIndex, 'from'],
+                        });
+                    }
+
+                    if (nextIndex !== -1) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: 'Date intervals must not overlap',
+                            path: ['previousAddresses', nextIndex, 'from'],
+                        });
+                    }
+                }
+            }
+
+            const allFromDates = [
+                data.from,
+                ...data.previousAddresses.map((item) => {
+                    return item.from;
+                }),
+            ]
+                .filter((date) => {
+                    return !!date;
+                })
+                .map((date) => {
+                    return new Date(date as Date);
+                });
+
+            if (allFromDates.length > 0) {
+                const oldestFrom = new Date(
+                    Math.min(
+                        ...allFromDates.map((d) => {
+                            return d.getTime();
+                        })
+                    )
+                );
+                const fiveYearsAgo = subYears(new Date(), 5);
+
+                if (oldestFrom > fiveYearsAgo) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: 'Address history must cover at least 5 years.',
+                        path: ['previousAddresses'],
+                    });
+                }
+            }
+        }),
+});
 export const previousEmployerSchema = z.object({
     employer: requiredStringSchema,
     from: z
@@ -132,6 +218,7 @@ export const previousEmployerOptionalSchema = z.object({
 export const applicantCredibilityApplicationFamilyAndEmploymentStepSchema = z
     .object({
         isMarried: booleanAnswer,
+
         marriage: z
             .object({
                 spouseName: z.string().optional(),
@@ -142,86 +229,218 @@ export const applicantCredibilityApplicationFamilyAndEmploymentStepSchema = z
                 zip: z.string().optional(),
             })
             .optional(),
+
         employment: z
             .object({
                 currentEmployer: requiredStringSchema,
+
                 from: z
                     .union([z.date(), z.string()])
                     .nullable()
                     .refine((value) => {
                         return value !== null;
                     }, 'This field is required.'),
+
                 isSameEmployerLast5Years: booleanAnswer,
+
                 previousEmployers: z.array(previousEmployerOptionalSchema).optional(),
             })
-            .refine(
-                (data) => {
-                    return data?.isSameEmployerLast5Years === false
-                        ? z
-                              .array(previousEmployerSchema)
-                              .min(1, 'This field is required.')
-                              .superRefine((intervals, ctx) => {
-                                  const sorted = [...intervals, { from: data.from as Date, to: addMinutes(new Date(data.from as Date), 1) }].sort((a, b) => {
-                                      return new Date(a.from).getTime() - new Date(b.from).getTime();
-                                  });
+            .superRefine((data, ctx) => {
+                if (data.isSameEmployerLast5Years !== false) return;
 
-                                  for (let i = 0; i < sorted.length - 1; i++) {
-                                      const current = sorted[i];
-                                      const next = sorted?.[i + 1];
-
-                                      if (
-                                          isWithinInterval(next?.from, {
-                                              start: current.from,
-                                              end: current.to,
-                                          }) ||
-                                          isWithinInterval(next?.to, {
-                                              start: current.from,
-                                              end: current.to,
-                                          })
-                                      ) {
-                                          ctx.addIssue({
-                                              code: z.ZodIssueCode.custom,
-                                              message: 'Date intervals must not overlap',
-                                              path: [i],
-                                          });
-
-                                          ctx.addIssue({
-                                              code: z.ZodIssueCode.custom,
-                                              message: 'Date intervals must not overlap',
-                                              path: [i + 1],
-                                          });
-                                      }
-                                  }
-                              })
-                              .safeParse(data.previousEmployers).success
-                        : true;
-                },
-                {
-                    message: 'This field is required.',
-                    path: ['previousEmployers'],
+                if (!data.previousEmployers || data.previousEmployers.length === 0) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: 'This field is required.',
+                        path: ['previousEmployers'],
+                    });
+                    return;
                 }
-            ),
+
+                data.previousEmployers.forEach((item, index) => {
+                    if (!item.employer) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: 'This field is required.',
+                            path: ['previousEmployers', index, 'employer'],
+                        });
+                    }
+
+                    if (!item.from) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: 'This field is required.',
+                            path: ['previousEmployers', index, 'from'],
+                        });
+                    }
+
+                    if (!item.to) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: 'This field is required.',
+                            path: ['previousEmployers', index, 'to'],
+                        });
+                    }
+                });
+
+                const validIntervals = data.previousEmployers
+                    .filter((item) => {
+                        return item.from && item.to;
+                    })
+                    .map((item) => {
+                        return { ...item };
+                    });
+
+                const rootInterval =
+                    data.from !== null
+                        ? {
+                              from: data.from as Date,
+                              to: addMinutes(new Date(data.from as Date), 1),
+                          }
+                        : null;
+
+                const intervals = rootInterval ? [...validIntervals, rootInterval] : validIntervals;
+
+                const sorted = intervals.sort((a, b) => {
+                    return new Date(a.from || '').getTime() - new Date(b.from || '').getTime();
+                });
+
+                for (let i = 0; i < sorted.length - 1; i++) {
+                    const current = sorted[i];
+                    const next = sorted[i + 1];
+
+                    if (
+                        isWithinInterval(new Date(next.from || ''), {
+                            start: new Date(current.from || ''),
+                            end: new Date(current.to || ''),
+                        }) ||
+                        isWithinInterval(new Date(next.to || ''), {
+                            start: new Date(current.from || ''),
+                            end: new Date(current.to || ''),
+                        })
+                    ) {
+                        const currentIndex = data.previousEmployers.findIndex((item) => {
+                            return item.from === current.from && item.to === current.to;
+                        });
+
+                        const nextIndex = data.previousEmployers.findIndex((item) => {
+                            return item.from === next.from && item.to === next.to;
+                        });
+
+                        if (currentIndex !== -1) {
+                            ctx.addIssue({
+                                code: z.ZodIssueCode.custom,
+                                message: 'Date intervals must not overlap',
+                                path: ['previousEmployers', currentIndex, 'from'],
+                            });
+                        }
+
+                        if (nextIndex !== -1) {
+                            ctx.addIssue({
+                                code: z.ZodIssueCode.custom,
+                                message: 'Date intervals must not overlap',
+                                path: ['previousEmployers', nextIndex, 'from'],
+                            });
+                        }
+                    }
+                }
+
+                const allFromDates = [
+                    data.from,
+                    ...data.previousEmployers.map((item) => {
+                        return item.from;
+                    }),
+                ]
+                    .filter((date) => {
+                        return !!date;
+                    })
+                    .map((date) => {
+                        return new Date(date as Date);
+                    });
+
+                if (allFromDates.length > 0) {
+                    const oldestFrom = new Date(
+                        Math.min(
+                            ...allFromDates.map((d) => {
+                                return d.getTime();
+                            })
+                        )
+                    );
+                    const fiveYearsAgo = subYears(new Date(), 5);
+
+                    if (oldestFrom > fiveYearsAgo) {
+                        ctx.addIssue({
+                            code: z.ZodIssueCode.custom,
+                            message: 'Employment history must cover at least 5 years.',
+                            path: ['previousEmployers'],
+                        });
+                    }
+                }
+            }),
     })
-    .refine(
-        (data) => {
-            return data.isMarried
-                ? z
-                      .object({
-                          spouseName: requiredStringSchema,
-                          yearMarried: requiredStringSchema,
-                          spouseStreetAddress: requiredStringSchema,
-                          city: requiredStringSchema,
-                          state: requiredStringSchema,
-                          zip: zipCodeSchema,
-                      })
-                      .safeParse(data.marriage).success
-                : true;
-        },
-        {
-            message: 'This field is required.',
-            path: ['marriage'],
+    .superRefine((data, ctx) => {
+        // 🔥 MARRIAGE REQUIRED LOGIC
+        if (!data.isMarried) return;
+
+        const marriage = data.marriage;
+
+        if (!marriage) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'This field is required.',
+                path: ['marriage'],
+            });
+            return;
         }
-    );
+
+        if (!marriage.spouseName) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'This field is required.',
+                path: ['marriage', 'spouseName'],
+            });
+        }
+
+        if (!marriage.yearMarried) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'This field is required.',
+                path: ['marriage', 'yearMarried'],
+            });
+        }
+
+        if (!marriage.spouseStreetAddress) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'This field is required.',
+                path: ['marriage', 'spouseStreetAddress'],
+            });
+        }
+
+        if (!marriage.city) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'This field is required.',
+                path: ['marriage', 'city'],
+            });
+        }
+
+        if (!marriage.state) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'This field is required.',
+                path: ['marriage', 'state'],
+            });
+        }
+
+        if (!marriage.zip) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'This field is required.',
+                path: ['marriage', 'zip'],
+            });
+        }
+    });
 
 export const applicantCredibilityApplicationBankingInformStepSchema = z.object({
     bankName: requiredStringSchema,

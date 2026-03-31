@@ -1,7 +1,7 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
 import { useStore } from '@tanstack/react-form';
-import { addDays, addMinutes, subDays } from 'date-fns';
+import { addDays, addMinutes, differenceInYears, subDays } from 'date-fns';
 import { US_STATES_SELECT_OPTIONS } from '@/lib/constants';
 import { checkIfDateRangesOverlap } from '@/lib/utils/checkIfDateRangesOverlap';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
@@ -95,6 +95,7 @@ const ApplicantInformStep: React.FC = () => {
                                                     value={parseDate(previousAddressFromField.state.value)}
                                                     onChange={(date) => {
                                                         previousAddressFromField.handleChange(date as Date);
+                                                        form.validateAllFields('change');
                                                     }}
                                                     placeholder="MM / DD / YYYY"
                                                     errorMessage={errorMessage}
@@ -133,9 +134,10 @@ const ApplicantInformStep: React.FC = () => {
                                                 <DatePicker
                                                     minDate={minDate}
                                                     maxDate={maxDate}
-                                                    value={previousAddressToField.state.value ? parseDate(previousAddressToField.state.value) : parseDate(maxDate)}
+                                                    value={parseDate(previousAddressToField.state.value)}
                                                     onChange={(date) => {
                                                         previousAddressToField.handleChange(date as Date);
+                                                        form.validateAllFields('change');
                                                     }}
                                                     placeholder="MM / DD / YYYY"
                                                     errorMessage={errorMessage}
@@ -205,7 +207,7 @@ const ApplicantInformStep: React.FC = () => {
                             <form.AppField
                                 name="applicantAddress.streetAddress"
                                 children={(field) => {
-                                    return <field.InputField name="applicantAddress.streetAddress" label={<>Current street address</>} placeholder="Type your street address" onBlur={field.handleBlur} />;
+                                    return <field.InputField name="applicantAddress.streetAddress" label={<>Current street address</>} placeholder="Type street, city, state." onBlur={field.handleBlur} />;
                                 }}
                             />
                             <form.AppField
@@ -260,6 +262,7 @@ const ApplicantInformStep: React.FC = () => {
                                             errorMessage={errorMessage}
                                             onChange={(value) => {
                                                 fromField.handleChange(value as Date);
+                                                form.validateAllFields('change');
                                             }}
                                         />
                                     </FormFieldWrapper>
@@ -267,31 +270,53 @@ const ApplicantInformStep: React.FC = () => {
                             }}
                         />
 
-                        <form.Field
-                            name="applicantAddress.isSameAddressLast5Years"
-                            children={(field) => {
-                                const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                        <form.Subscribe
+                            selector={(state) => {
+                                const from = state.values.applicantAddress.from ? parseDate(state.values.applicantAddress.from) : '';
+                                const to = parseDate(new Date());
 
+                                let isSameAddressLast5Years: boolean | undefined;
+
+                                if (from && to) {
+                                    const years = differenceInYears(to, from);
+                                    isSameAddressLast5Years = years >= 5;
+                                }
+
+                                if (isSameAddressLast5Years) {
+                                    form.setFieldValue('applicantAddress.previousAddresses', [{ address: '', from: null, to: null }]);
+                                }
+
+                                return { isSameAddressLast5Years };
+                            }}
+                        >
+                            {({ isSameAddressLast5Years }) => {
                                 return (
-                                    <FormFieldLabelErrorWrapper className={s['field-wrap']} name="applicantAddress.isSameAddressLast5Years" label={<>Have you lived at this address for the last 5 years?</>} errorMessage={errorMessage}>
-                                        <RadioGroup
-                                            className={s['checkbox-group']}
-                                            value={field.state.value}
-                                            onValueChange={(value) => {
-                                                if (value) {
-                                                    form.setFieldValue('applicantAddress.previousAddresses', [{ address: '', from: null, to: null }]);
-                                                }
-
-                                                field.handleChange(value as boolean);
-                                            }}
-                                        >
-                                            <RadioGroupItem label="Yes" value={true} />
-                                            <RadioGroupItem label="No" value={false} />
-                                        </RadioGroup>
-                                    </FormFieldLabelErrorWrapper>
+                                    <form.Field
+                                        name="applicantAddress.isSameAddressLast5Years"
+                                        children={(field) => {
+                                            const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+                                            if (isSameAddressLast5Years !== undefined && field.state.value !== isSameAddressLast5Years) {
+                                                field.handleChange(isSameAddressLast5Years);
+                                            }
+                                            return (
+                                                <FormFieldLabelErrorWrapper className={s['field-wrap']} name="applicantAddress.isSameAddressLast5Years" label={<>Have you lived at this address for the last 5 years?</>} errorMessage={errorMessage}>
+                                                    <RadioGroup
+                                                        className={s['checkbox-group']}
+                                                        value={field.state.value}
+                                                        onValueChange={(value) => {
+                                                            field.handleChange(value as boolean);
+                                                        }}
+                                                    >
+                                                        <RadioGroupItem label="Yes" value={true} />
+                                                        <RadioGroupItem label="No" value={false} />
+                                                    </RadioGroup>
+                                                </FormFieldLabelErrorWrapper>
+                                            );
+                                        }}
+                                    />
                                 );
                             }}
-                        />
+                        </form.Subscribe>
                     </FieldSetCard>
 
                     <form.Field
@@ -301,6 +326,8 @@ const ApplicantInformStep: React.FC = () => {
                                 <form.Field
                                     name="applicantAddress.previousAddresses"
                                     children={(field) => {
+                                        const errorMessage = getFieldErrorMessage(field.state.meta.errors);
+
                                         return (
                                             <>
                                                 {field.state?.value?.map((_, index) => {
@@ -328,6 +355,7 @@ const ApplicantInformStep: React.FC = () => {
                                                                                 </Button>
                                                                             )}
                                                                         </FieldSetCardHeader>
+
                                                                         {renderFormAppFields(index)}
                                                                     </FieldSetCard>
                                                                 );
@@ -335,6 +363,13 @@ const ApplicantInformStep: React.FC = () => {
                                                         />
                                                     );
                                                 })}
+
+                                                {errorMessage && (
+                                                    <Typography variant="body-s" className={s.error}>
+                                                        {errorMessage}
+                                                    </Typography>
+                                                )}
+
                                                 <Button
                                                     variant="secondary"
                                                     size="small"

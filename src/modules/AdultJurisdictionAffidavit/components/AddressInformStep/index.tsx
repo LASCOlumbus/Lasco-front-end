@@ -175,6 +175,17 @@ const AddressInformStep: React.FC = () => {
                                     isSameAddressLast2Years = years >= 2;
                                 }
 
+                                if (isSameAddressLast2Years) {
+                                    form.setFieldValue('previousAddresses', [
+                                        {
+                                            from: '',
+                                            to: '',
+                                            withWhom: '',
+                                            address: '',
+                                        },
+                                    ]);
+                                }
+
                                 return { isSameAddressLast2Years };
                             }}
                         >
