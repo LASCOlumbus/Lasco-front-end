@@ -198,6 +198,7 @@ const AddressInformStep: React.FC = () => {
 
                                             if (isSameAddressLast2Years !== undefined && field.state.value !== isSameAddressLast2Years) {
                                                 field.handleChange(isSameAddressLast2Years);
+                                                form.validateAllFields('change');
                                             }
 
                                             return (
@@ -229,6 +230,7 @@ const AddressInformStep: React.FC = () => {
                                     name="previousAddresses"
                                     mode="array"
                                     children={(field) => {
+                                        const errorMessage = getFieldErrorMessage(field.state.meta.errors);
                                         return (
                                             <>
                                                 {field.state?.value?.map((_, index) => {
@@ -303,6 +305,7 @@ const AddressInformStep: React.FC = () => {
                                                                                                             value={parseDate(field.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 field.handleChange(date as Date);
+                                                                                                                form.validateAllFields('change');
                                                                                                             }}
                                                                                                             placeholder="MM / DD / YYYY"
                                                                                                             errorMessage={errorMessage}
@@ -345,6 +348,7 @@ const AddressInformStep: React.FC = () => {
                                                                                                             value={parseDate(field.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 field.handleChange(date as Date);
+                                                                                                                form.validateAllFields('change');
                                                                                                             }}
                                                                                                             placeholder="MM / DD / YYYY"
                                                                                                             errorMessage={errorMessage}
@@ -363,6 +367,11 @@ const AddressInformStep: React.FC = () => {
                                                         />
                                                     );
                                                 })}
+                                                {errorMessage && (
+                                                    <Typography variant="body-s" className={s.error}>
+                                                        {errorMessage}
+                                                    </Typography>
+                                                )}
                                                 <Button
                                                     variant="secondary"
                                                     size="small"

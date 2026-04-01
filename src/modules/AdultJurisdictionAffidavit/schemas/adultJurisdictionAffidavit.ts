@@ -1,5 +1,5 @@
 import { generateRequiredStringWithLimitsSchema, requiredStringSchema } from '@/schemas/formSchemas';
-import { isWithinInterval } from 'date-fns';
+import { isWithinInterval, subYears } from 'date-fns';
 import { z } from 'zod';
 
 export const booleanAnswer = z
@@ -154,6 +154,39 @@ export const adultJurisdictionAffidavitAddressInformStepSchema = z
                         path: ['previousAddresses', nextIndex, 'from'],
                     });
                 }
+            }
+        }
+
+        const allFromDates = [
+            data.from,
+            ...data.previousAddresses.map((item) => {
+                return item.from;
+            }),
+        ]
+            .filter((date) => {
+                return !!date;
+            })
+            .map((date) => {
+                return new Date(date as Date);
+            });
+
+        if (allFromDates.length > 0) {
+            const oldestFrom = new Date(
+                Math.min(
+                    ...allFromDates.map((d) => {
+                        return d.getTime();
+                    })
+                )
+            );
+
+            const twoYearsAgo = subYears(new Date(), 2);
+
+            if (oldestFrom > twoYearsAgo) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: 'Address history must cover at least 2 years.',
+                    path: ['previousAddresses'],
+                });
             }
         }
     });

@@ -194,7 +194,6 @@
 
 .day-other-month {
     color: var(--text-secondary);
-    opacity: 0.5;
 }
 
 .day-selected {
