@@ -9,7 +9,7 @@ import {
     prospectiveWardsFinancialInfoPropertyStepSchema,
 } from '@/modules/ProspectiveWardsFinancialInfoForm/schemas/prospectiveWardsFinancialInfo';
 
-const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_INITIAL_STATE: ProspectiveWardsFinancialInfoForm = {
+export const PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_INITIAL_STATE: ProspectiveWardsFinancialInfoForm = {
     caseDetailsStep: {
         inTheMatterOfTheGuardianshipOf: '',
         caseNumber: '',

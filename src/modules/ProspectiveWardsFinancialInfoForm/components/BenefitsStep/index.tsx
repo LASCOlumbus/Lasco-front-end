@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckboxGroup } from '@base-ui/react/checkbox-group';
-import { useProspectiveWardsFinancialInfoForm, useProspectiveWardsFinancialInfoFormContext } from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
+import { PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_INITIAL_STATE, useProspectiveWardsFinancialInfoForm, useProspectiveWardsFinancialInfoFormContext } from '@/modules/ProspectiveWardsFinancialInfoForm/context/ProspectiveWardsFinancialInfoForm';
 import { BENEFIT_KEYS, BenefitKey, BENEFITS_LABELS } from '@/modules/ProspectiveWardsFinancialInfoForm/schemas/prospectiveWardsFinancialInfo';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
 import { Button } from '@/components/ui/Button';
@@ -39,8 +39,13 @@ const BenefitsStep: React.FC = () => {
                                     <CheckboxGroup
                                         className={s['checkbox-group']}
                                         value={field.state.value}
-                                        onValueChange={(value) => {
+                                        onValueChange={(value, eventDetails) => {
                                             field.handleChange(value as BenefitKey[]);
+                                            form.validateAllFields('change');
+                                            const eventTarget = eventDetails.event.target as HTMLInputElement;
+                                            if (!eventTarget?.checked) {
+                                                form.setFieldValue(eventTarget?.defaultValue as BenefitKey, PROSPECTIVE_WARDS_FINANCIAL_INFO_FORM_INITIAL_STATE.benefitsStep[eventTarget?.defaultValue as BenefitKey]);
+                                            }
                                         }}
                                     >
                                         {BENEFIT_KEYS.map((key) => {
