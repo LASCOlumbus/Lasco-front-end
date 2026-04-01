@@ -334,6 +334,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                                                             value={parseDate(field.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 field.handleChange(date as Date);
+                                                                                                                form.validateAllFields('change');
                                                                                                             }}
                                                                                                             placeholder="MM / DD / YYYY"
                                                                                                             errorMessage={errorMessage}
@@ -376,6 +377,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                                                                             value={parseDate(toField.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 toField.handleChange(date as Date);
+                                                                                                                form.validateAllFields('change');
                                                                                                             }}
                                                                                                             placeholder="MM / DD / YYYY"
                                                                                                             errorMessage={errorMessage}
