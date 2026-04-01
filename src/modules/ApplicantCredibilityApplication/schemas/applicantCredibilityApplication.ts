@@ -25,7 +25,9 @@ export const previousAddressSchema = z.object({
 });
 
 export const previousAddressOptionalSchema = z.object({
-    address: generateRequiredStringWithLimitsSchema(5, 100).optional(),
+    address: z.preprocess((value) => {
+        return value === '' ? undefined : value;
+    }, generateRequiredStringWithLimitsSchema(5, 100).optional()),
     from: z
         .union([z.date(), z.string()])
         .nullable()
