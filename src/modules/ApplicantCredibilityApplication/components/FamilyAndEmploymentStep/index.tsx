@@ -193,7 +193,8 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                 placeholder="MM / DD / YYYY"
                                                 errorMessage={errorMessage}
                                                 onChange={(date) => {
-                                                    return fromField.handleChange(date as Date);
+                                                    fromField.handleChange(date as Date);
+                                                    form.validateAllFields('change');
                                                 }}
                                             />
                                         </FormFieldWrapper>
@@ -213,6 +214,9 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                     isSameEmployerLast5Years = years >= 5;
                                 }
 
+                                if (isSameEmployerLast5Years) {
+                                    form.setFieldValue('employment.previousEmployers', [{ employer: '', from: null, to: null }]);
+                                }
                                 return { isSameEmployerLast5Years };
                             }}
                         >
@@ -256,6 +260,7 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                     name="employment.previousEmployers"
                                     mode="array"
                                     children={(field) => {
+                                        const errorMessage = getFieldErrorMessage(field.state.meta.errors);
                                         return (
                                             <>
                                                 {field.state?.value?.map((_, index) => {
@@ -389,28 +394,16 @@ const FamilyAndEmploymentStep: React.FC = () => {
                                                         />
                                                     );
                                                 })}
+                                                {errorMessage && (
+                                                    <Typography variant="body-s" className={s.error}>
+                                                        {errorMessage}
+                                                    </Typography>
+                                                )}
                                                 <Button
                                                     variant="secondary"
                                                     size="small"
                                                     onClick={() => {
-                                                        field.handleChange(
-                                                            field.state.value?.length
-                                                                ? [
-                                                                      ...field.state.value,
-                                                                      {
-                                                                          employer: '',
-                                                                          from: null,
-                                                                          to: null,
-                                                                      },
-                                                                  ]
-                                                                : [
-                                                                      {
-                                                                          employer: '',
-                                                                          from: null,
-                                                                          to: null,
-                                                                      },
-                                                                  ]
-                                                        );
+                                                        field.pushValue({ employer: '', from: null, to: null });
                                                     }}
                                                 >
                                                     Add previous employer

@@ -5,6 +5,7 @@ import { addDays, differenceInYears, subDays } from 'date-fns';
 import { checkIfDateRangesOverlap } from '@/lib/utils/checkIfDateRangesOverlap';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
+import { getMaxDate } from '@/lib/utils/parseDatePickerValue';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
 import FormFieldLabelErrorWrapper from '@/components/Forms/components/FormFieldWrapper/components/FormFieldLabelErrorWrapper';
 import ResponsiveLoader from '@/components/ResponsiveLoader';
@@ -99,7 +100,7 @@ const AddressInformStep: React.FC = () => {
                                                             maxDate={maxDate || new Date()}
                                                             onChange={(date) => {
                                                                 field.handleChange(date as Date);
-                                                                form.validateField('previousAddresses', 'change');
+                                                                form.validateAllFields('change');
                                                             }}
                                                         />
                                                     </FormFieldWrapper>
@@ -144,7 +145,7 @@ const AddressInformStep: React.FC = () => {
                                                             maxDate={new Date()}
                                                             onChange={(date) => {
                                                                 field.handleChange(date as Date);
-                                                                form.validateField('previousAddresses', 'change');
+                                                                form.validateAllFields('change');
                                                             }}
                                                             minDate={minDate}
                                                         />
@@ -164,14 +165,25 @@ const AddressInformStep: React.FC = () => {
                         />
                         <form.Subscribe
                             selector={(state) => {
-                                const from = state.values.from ? parseDate(state.values.from) : null;
-                                const to = state.values.to ? parseDate(state.values.to) : null;
+                                const from = state.values.from ? parseDate(state.values.from) : '';
+                                const to = state.values.to ? parseDate(state.values.to) : '';
 
                                 let isSameAddressLast2Years: boolean | undefined;
 
                                 if (from && to) {
                                     const years = differenceInYears(to, from);
                                     isSameAddressLast2Years = years >= 2;
+                                }
+
+                                if (isSameAddressLast2Years) {
+                                    form.setFieldValue('previousAddresses', [
+                                        {
+                                            from: '',
+                                            to: '',
+                                            withWhom: '',
+                                            address: '',
+                                        },
+                                    ]);
                                 }
 
                                 return { isSameAddressLast2Years };
@@ -262,16 +274,21 @@ const AddressInformStep: React.FC = () => {
                                                                             <form.Subscribe
                                                                                 selector={(state) => {
                                                                                     const findTo = state.values.previousAddresses?.[index].to;
+                                                                                    const findPrevFrom = index === 0 ? state.values.from : state.values.previousAddresses?.[index - 1].from;
+                                                                                    const findPrevTo = state.values.previousAddresses?.[index + 1]?.to;
                                                                                     const to = findTo ? parseDate(findTo) : null;
+                                                                                    const prevTo = findPrevTo ? parseDate(findPrevTo) : null;
+                                                                                    const prevFrom = findPrevFrom ? parseDate(findPrevFrom) : null;
 
                                                                                     const isOverlapping = overlappingAddressesIndexes.includes(index);
                                                                                     return {
-                                                                                        maxDate: to ? subDays(new Date(to), 1) : to,
+                                                                                        maxDate: getMaxDate(to, prevFrom),
+                                                                                        minDate: prevTo ? subDays(new Date(prevTo), 1) : prevTo,
                                                                                         isOverlapping,
                                                                                     };
                                                                                 }}
                                                                             >
-                                                                                {({ maxDate, isOverlapping }) => {
+                                                                                {({ maxDate, minDate, isOverlapping }) => {
                                                                                     return (
                                                                                         <form.AppField
                                                                                             name={`previousAddresses[${index}].from`}
@@ -281,7 +298,8 @@ const AddressInformStep: React.FC = () => {
                                                                                                 return (
                                                                                                     <FormFieldWrapper name={`previousAddresses[${index}].from`} label={<>From</>} errorMessage={errorMessage}>
                                                                                                         <DatePicker
-                                                                                                            maxDate={maxDate || new Date()}
+                                                                                                            minDate={minDate}
+                                                                                                            maxDate={maxDate}
                                                                                                             value={parseDate(field.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 field.handleChange(date as Date);
@@ -300,15 +318,19 @@ const AddressInformStep: React.FC = () => {
                                                                                 selector={(state) => {
                                                                                     const findFrom = state.values.previousAddresses?.[index].from;
                                                                                     const from = findFrom ? parseDate(findFrom) : null;
+                                                                                    const findPrevFrom = index === 0 ? state.values.from : state.values.previousAddresses?.[index - 1].from;
+                                                                                    const prevFrom = findPrevFrom ? parseDate(findPrevFrom) : null;
                                                                                     const isOverlapping = overlappingAddressesIndexes.includes(index);
 
                                                                                     return {
                                                                                         minDate: from ? addDays(new Date(from), 1) : from,
+                                                                                        maxDate: prevFrom ? subDays(new Date(prevFrom), 1) : prevFrom,
+
                                                                                         isOverlapping,
                                                                                     };
                                                                                 }}
                                                                             >
-                                                                                {({ minDate, isOverlapping }) => {
+                                                                                {({ minDate, maxDate, isOverlapping }) => {
                                                                                     return (
                                                                                         <form.AppField
                                                                                             name={`previousAddresses[${index}].to`}
@@ -319,7 +341,7 @@ const AddressInformStep: React.FC = () => {
                                                                                                     <FormFieldWrapper name={`previousAddresses[${index}].to`} label={<>To</>} errorMessage={errorMessage}>
                                                                                                         <DatePicker
                                                                                                             minDate={minDate}
-                                                                                                            maxDate={new Date()}
+                                                                                                            maxDate={maxDate}
                                                                                                             value={parseDate(field.state.value)}
                                                                                                             onChange={(date) => {
                                                                                                                 field.handleChange(date as Date);
@@ -348,8 +370,8 @@ const AddressInformStep: React.FC = () => {
                                                         field.pushValue({
                                                             withWhom: '',
                                                             address: '',
-                                                            from: null,
-                                                            to: null,
+                                                            from: '',
+                                                            to: '',
                                                         });
                                                     }}
                                                 >
