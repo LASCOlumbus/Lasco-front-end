@@ -54,7 +54,7 @@ const ApplicantInformStep: React.FC = () => {
                 <form.AppField
                     name={`applicantAddress.previousAddresses[${index}].address`}
                     children={(field) => {
-                        return <field.InputField name={`applicantAddress.previousAddresses[${index}].address`} label={<>Previous address</>} placeholder="Type previous address" onBlur={field.handleBlur} />;
+                        return <field.InputField name={`applicantAddress.previousAddresses[${index}].address`} label={<>Previous address</>} placeholder="Type street, city, state." onBlur={field.handleBlur} />;
                     }}
                 />
                 <div className={s['inputs-wrapper']}>
@@ -207,7 +207,7 @@ const ApplicantInformStep: React.FC = () => {
                             <form.AppField
                                 name="applicantAddress.streetAddress"
                                 children={(field) => {
-                                    return <field.InputField name="applicantAddress.streetAddress" label={<>Current street address</>} placeholder="Type street, city, state." onBlur={field.handleBlur} />;
+                                    return <field.InputField name="applicantAddress.streetAddress" label={<>Current street address</>} placeholder="Type street." onBlur={field.handleBlur} />;
                                 }}
                             />
                             <form.AppField
