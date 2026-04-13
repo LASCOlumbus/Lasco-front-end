@@ -1,9 +1,9 @@
-import { booleanAnswer, generateRequiredStringWithLimitsSchema, phoneSchema, positiveNumberSchema, requiredStringSchema } from '@/schemas/formSchemas';
+import { booleanAnswer, generateRequiredStringWithLimitsSchema, optionalStringSchema, phoneSchema, positiveNumberSchema, requiredStringSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
 
 export const applicationForAppointmentCaseDetailsStepSchema = z.object({
     guardianName: generateRequiredStringWithLimitsSchema(4, 100),
-    caseNumber: requiredStringSchema,
+    caseNumber: optionalStringSchema,
     relationshipToWard: requiredStringSchema,
 });
 
