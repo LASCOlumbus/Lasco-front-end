@@ -1,10 +1,10 @@
-import { generateRequiredStringWithLimitsSchema, maybeDateSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
+import { generateRequiredStringWithLimitsSchema, maybeDateSchema, optionalStringSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
 import { isValid } from 'date-fns';
 import { z } from 'zod';
 
 export const nextKinProspectiveWardCaseDetailsStepSchema = z.object({
     guardianName: generateRequiredStringWithLimitsSchema(4, 100),
-    caseNumber: requiredStringSchema,
+    caseNumber: optionalStringSchema,
     applicantName: generateRequiredStringWithLimitsSchema(4, 100),
 });
 

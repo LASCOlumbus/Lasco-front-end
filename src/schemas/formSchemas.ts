@@ -16,6 +16,7 @@ export const booleanAnswer = z
 
 export const maybeDateSchema = z.union([z.date(), z.string()]).nullable().optional();
 export const requiredStringSchema = z.string().trim().min(1, 'This field is required');
+export const optionalStringSchema = z.string().trim().optional();
 export const zipCodeSchema = requiredStringSchema.regex(ZIP_CODE_REGEX, 'Invalid zip code');
 export const numberSchema = z.number().min(0, { message: 'This field must be a valid number ' });
 export const optionalNumberSchema = z.number().optional().nullable();
@@ -40,7 +41,7 @@ export const phoneSchema = requiredStringSchema
 
 export const webcheckWaiverStepSchema = z.object({
     guardianName: generateRequiredStringWithLimitsSchema(4, 100),
-    caseNumber: requiredStringSchema,
+    caseNumber: optionalStringSchema,
     applicantName: generateRequiredStringWithLimitsSchema(4, 100),
 });
 
@@ -48,7 +49,7 @@ export const webcheckWaiverStepSchema = z.object({
 
 export const waiverNoticeCaseDetailsStepSchema = z.object({
     guardianName: generateRequiredStringWithLimitsSchema(4, 100),
-    caseNumber: requiredStringSchema,
+    caseNumber: optionalStringSchema,
     applicantName: generateRequiredStringWithLimitsSchema(4, 100),
 });
 
@@ -60,7 +61,7 @@ export const waiverNoticeWaiversListStepSchema = z.object({
 
 export const adultGuardianshipCaseDetailsStepSchema = z.object({
     guardianName: generateRequiredStringWithLimitsSchema(4, 100),
-    caseNumber: requiredStringSchema,
+    caseNumber: optionalStringSchema,
     contactName: requiredStringSchema,
     contactPhone: phoneSchema,
 });

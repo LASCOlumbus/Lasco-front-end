@@ -1,10 +1,10 @@
-import { booleanAnswer, generateRequiredStringWithLimitsSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
+import { booleanAnswer, generateRequiredStringWithLimitsSchema, optionalStringSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
 import { addMinutes, isWithinInterval, subYears } from 'date-fns';
 import { z } from 'zod';
 
 export const applicantCredibilityApplicationCaseDetailsStepSchema = z.object({
     guardianName: generateRequiredStringWithLimitsSchema(4, 100),
-    caseNumber: requiredStringSchema,
+    caseNumber: optionalStringSchema,
     nameOfProspectiveWard: requiredStringSchema,
 });
 

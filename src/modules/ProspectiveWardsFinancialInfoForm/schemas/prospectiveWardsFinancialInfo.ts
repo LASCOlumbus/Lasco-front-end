@@ -1,4 +1,4 @@
-import { optionalNumberSchema, positiveNumberSchema, requiredStringSchema } from '@/schemas/formSchemas';
+import { optionalNumberSchema, optionalStringSchema, positiveNumberSchema, requiredStringSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
 
 export const booleanAnswer = z
@@ -12,7 +12,7 @@ export const booleanAnswer = z
     }, 'This field is required.');
 export const prospectiveWardsFinancialInfoFormCaseDetailsStepSchema = z.object({
     inTheMatterOfTheGuardianshipOf: requiredStringSchema,
-    caseNumber: requiredStringSchema,
+    caseNumber: optionalStringSchema,
 });
 export const BENEFITS_LABELS = {
     socialSecurity: 'Social security',
