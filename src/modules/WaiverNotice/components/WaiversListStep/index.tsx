@@ -82,15 +82,17 @@ const WaiversListStep: React.FC = () => {
                                                 </form.Field>
                                             );
                                         })}
-                                        <Button
-                                            variant="secondary"
-                                            size="small"
-                                            onClick={() => {
-                                                field.handleChange([...field.state.value, '']);
-                                            }}
-                                        >
-                                            Add person
-                                        </Button>
+                                        {field?.state?.value.length < 8 && (
+                                            <Button
+                                                variant="secondary"
+                                                size="small"
+                                                onClick={() => {
+                                                    field.handleChange([...field.state.value, '']);
+                                                }}
+                                            >
+                                                Add person
+                                            </Button>
+                                        )}
                                     </>
                                 );
                             }}
