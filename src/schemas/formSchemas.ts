@@ -82,11 +82,15 @@ export const answerWithExplanationSchema = z
             .refine((value) => {
                 return value !== null;
             }, 'This field is required.'),
-        explanation: z.string().trim().min(1, 'Minimum 1 character required').max(300, 'Maximum 300 characters allowed').optional(),
+
+        explanation: z.string().optional(), // без trim/min/max тут
     })
     .refine(
         (data) => {
-            return data?.answer ? requiredStringSchema.safeParse(data.explanation).success : true;
+            if (data.answer === true) {
+                return z.string().trim().min(1, 'Minimum 1 character required').max(300, 'Maximum 300 characters allowed').safeParse(data.explanation).success;
+            }
+            return true;
         },
         {
             message: 'This field is required.',

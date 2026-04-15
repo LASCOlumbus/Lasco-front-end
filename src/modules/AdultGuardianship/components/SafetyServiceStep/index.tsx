@@ -48,6 +48,7 @@ const SafetyServiceStep: React.FC = () => {
                                         onValueChange={(value) => {
                                             field.handleChange(value as boolean);
                                             form.setFieldValue('isProspectiveWardLeaveDuringDay.explanation', '');
+                                            form.validateAllFields('change');
                                         }}
                                     >
                                         <RadioGroupItem label="Yes" value={true} />
@@ -82,6 +83,7 @@ const SafetyServiceStep: React.FC = () => {
                                         onValueChange={(value) => {
                                             field.handleChange(value as boolean);
                                             form.setFieldValue('specialCircumstances.explanation', '');
+                                            form.validateAllFields('change');
                                         }}
                                     >
                                         <RadioGroupItem label="Yes" value={true} />
@@ -115,6 +117,7 @@ const SafetyServiceStep: React.FC = () => {
                                         value={field.state.value}
                                         onValueChange={(value) => {
                                             field.handleChange(value as boolean);
+                                            form.validateAllFields('change');
                                         }}
                                     >
                                         <RadioGroupItem label="Yes" value={true} />
