@@ -52,7 +52,7 @@ export default defineConfig(async ({ mode }) => {
         ],
         build: {
             target: ['es2022', 'edge100', 'firefox100', 'chrome100', 'safari15.4', 'opera90'],
-            assetsInlineLimit(filePath) {
+            assetsInlineLimit(filePath: string) {
                 return !filePath.endsWith('.svg');
             },
         },
