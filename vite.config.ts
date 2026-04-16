@@ -1,7 +1,7 @@
-/// <reference  types="@svg-use/vite/client"  />
+/// <reference types="@svg-use/vite/client" />
+
 import { fileURLToPath } from 'node:url';
 import svgUse from '@svg-use/vite';
-import { devtools } from '@tanstack/devtools-vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -9,11 +9,15 @@ import { defineConfig } from 'vite';
 import eslint from 'vite-plugin-eslint2';
 import { createHtmlPlugin } from 'vite-plugin-html';
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
+    const isDev = mode === 'development';
+
+    const devtoolsPlugin = isDev ? (await import('@tanstack/devtools-vite')).devtools() : null;
+
     return {
         plugins: [
-            ...(process.env.NODE_ENV === 'development' ? [devtools()] : []),
+            ...(devtoolsPlugin ? [devtoolsPlugin] : []),
+
             tanstackRouter({
                 target: 'react',
                 autoCodeSplitting: true,

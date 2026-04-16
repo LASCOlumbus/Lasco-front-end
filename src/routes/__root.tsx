@@ -1,48 +1,44 @@
+import type { TanStackDevtoolsReactInit } from '@tanstack/react-devtools';
 import React from 'react';
-import { TanStackDevtoolsReactInit } from '@tanstack/react-devtools';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { ToastNotificationContext } from '@/context/ToastNotificationContext';
 
-let TanStackDevtools: React.ComponentType<TanStackDevtoolsReactInit> = () => {
+type DevtoolsComponent = React.ComponentType<TanStackDevtoolsReactInit>;
+type PanelComponent = React.ComponentType<Record<string, never>>;
+
+let TanStackDevtools: DevtoolsComponent = () => {
+    return null;
+};
+let TanStackRouterPanel: PanelComponent = () => {
+    return null;
+};
+let ReactQueryPanel: PanelComponent = () => {
     return null;
 };
 
-let TanStackRouterDevtoolsPanel: React.ComponentType<Record<string, never>> = () => {
-    return null;
-};
-
-let ReactQueryDevtoolsPanel: React.ComponentType<Record<string, never>> = () => {
-    return null;
-};
-
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
     TanStackDevtools = React.lazy(async () => {
         const res = await import('@tanstack/react-devtools');
         return { default: res.TanStackDevtools };
     });
 
-    TanStackRouterDevtoolsPanel = React.lazy(async () => {
+    TanStackRouterPanel = React.lazy(async () => {
         const res = await import('@tanstack/router-devtools');
         return { default: res.TanStackRouterDevtoolsPanel };
     });
 
-    ReactQueryDevtoolsPanel = React.lazy(async () => {
+    ReactQueryPanel = React.lazy(async () => {
         const res = await import('@tanstack/react-query-devtools');
         return { default: res.ReactQueryDevtoolsPanel };
     });
 }
+
 export const Route = createRootRoute({
     head() {
         return {
             meta: [
-                {
-                    name: 'title',
-                    content: 'Lasco',
-                },
-                {
-                    name: 'description',
-                    content: 'Lasco',
-                },
+                { name: 'title', content: 'Lasco' },
+                { name: 'description', content: 'Lasco' },
             ],
         };
     },
@@ -51,21 +47,19 @@ export const Route = createRootRoute({
             <ToastNotificationContext>
                 <Outlet />
 
-                {process.env.NODE_ENV === 'development' && (
-                    <React.Suspense>
+                {import.meta.env.DEV && (
+                    <React.Suspense fallback={null}>
                         <TanStackDevtools
-                            config={{
-                                position: 'bottom-right',
-                            }}
+                            config={{ position: 'bottom-right' }}
                             plugins={[
                                 {
                                     name: 'TanStack Query',
-                                    render: <ReactQueryDevtoolsPanel />,
+                                    render: <ReactQueryPanel />,
                                     defaultOpen: true,
                                 },
                                 {
                                     name: 'TanStack Router',
-                                    render: <TanStackRouterDevtoolsPanel />,
+                                    render: <TanStackRouterPanel />,
                                     defaultOpen: false,
                                 },
                             ]}
