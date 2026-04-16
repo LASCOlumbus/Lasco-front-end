@@ -13,7 +13,7 @@ import { createHtmlPlugin } from 'vite-plugin-html';
 export default defineConfig(({ mode }) => {
     return {
         plugins: [
-            ...(mode === 'development' ? [devtools()] : []),
+            ...(process.env.NODE_ENV === 'development' ? [devtools()] : []),
             tanstackRouter({
                 target: 'react',
                 autoCodeSplitting: true,

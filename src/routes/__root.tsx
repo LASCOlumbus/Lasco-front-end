@@ -15,7 +15,7 @@ let ReactQueryDevtoolsPanel: React.ComponentType<Record<string, never>> = () => 
     return null;
 };
 
-if (import.meta.env.MODE === 'development') {
+if (process.env.NODE_ENV === 'development') {
     TanStackDevtools = React.lazy(async () => {
         const res = await import('@tanstack/react-devtools');
         return { default: res.TanStackDevtools };
@@ -51,7 +51,7 @@ export const Route = createRootRoute({
             <ToastNotificationContext>
                 <Outlet />
 
-                {import.meta.env.MODE === 'development' && (
+                {process.env.NODE_ENV === 'development' && (
                     <React.Suspense>
                         <TanStackDevtools
                             config={{
