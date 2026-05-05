@@ -1,6 +1,6 @@
 import React from 'react';
 import { RadioGroup } from '@base-ui/react/radio-group';
-import { LANGUAGES } from '@/lib/constants';
+import { LANGUAGES, US_STATES_SELECT_OPTIONS } from '@/lib/constants';
 import { getFieldErrorMessage } from '@/lib/utils/getFieldErrorMessage';
 import { parseDate } from '@/lib/utils/parseDate';
 import FormFieldWrapper from '@/components/Forms/components/FormFieldWrapper';
@@ -51,7 +51,6 @@ const ApplicantInformStep: React.FC = () => {
                             }}
                         />
                     </div>
-
                     <div className={s['inputs-wrapper']}>
                         <form.AppField
                             name="applicantPhone"
@@ -66,13 +65,50 @@ const ApplicantInformStep: React.FC = () => {
                             }}
                         />
                     </div>
-
-                    <form.AppField
-                        name="applicantAddress"
-                        children={(field) => {
-                            return <field.InputField name="applicantAddress" label={<>Applicant&apos;s current address</>} placeholder="Type street, city, state" onBlur={field.handleBlur} />;
-                        }}
-                    />
+                    <div className={s['inputs-wrapper']}>
+                        <form.AppField
+                            name="applicantAddress"
+                            children={(field) => {
+                                return <field.InputField name="applicantAddress" label={<>Applicant&apos;s current address</>} placeholder="Type street, city, state" onBlur={field.handleBlur} />;
+                            }}
+                        />
+                        <form.AppField
+                            name="city"
+                            children={(field) => {
+                                return <field.InputField name="applicantAddress.city" label={<>City</>} placeholder="Type city" onBlur={field.handleBlur} />;
+                            }}
+                        />
+                    </div>
+                    <div className={s['inputs-wrapper']}>
+                        <form.AppField
+                            name="state"
+                            children={(field) => {
+                                return (
+                                    <field.SelectField
+                                        name="applicantAddress.state"
+                                        type="single"
+                                        label={<>State</>}
+                                        placeholder="Select state"
+                                        isSearchable
+                                        options={[
+                                            ...US_STATES_SELECT_OPTIONS.map((state) => {
+                                                return {
+                                                    label: `${state.value} - ${state.label}`,
+                                                    value: state.value,
+                                                };
+                                            }),
+                                        ]}
+                                    />
+                                );
+                            }}
+                        />
+                        <form.AppField
+                            name="zip"
+                            children={(field) => {
+                                return <field.InputField name="applicantAddress.zip" label={<>ZIP code...</>} placeholder="Ex. 43215" onBlur={field.handleBlur} />;
+                            }}
+                        />
+                    </div>
 
                     <form.AppField
                         name="applicantRelationshipToWard"
@@ -80,7 +116,6 @@ const ApplicantInformStep: React.FC = () => {
                             return <field.InputField name="applicantRelationshipToWard" label={<>Applicant’s relationship to the prospective ward</>} placeholder="Example: daughter, brother, niece" onBlur={field.handleBlur} />;
                         }}
                     />
-
                     <form.AppField
                         name="isApplicantRequiringInterpreter"
                         children={(field) => {
@@ -102,7 +137,6 @@ const ApplicantInformStep: React.FC = () => {
                             );
                         }}
                     />
-
                     <form.AppField
                         name="isApplicantRequiringInterpreter"
                         children={(field) => {
