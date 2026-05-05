@@ -126,10 +126,10 @@ const WaiversListStep: React.FC = () => {
                                                                                     relationshipField.handleChange(value as string);
                                                                                 }}
                                                                             >
-                                                                                <RadioGroupItem label="Spouse" value="spouse" />
-                                                                                <RadioGroupItem label="Living children" value="living_children" />
-                                                                                <RadioGroupItem label="Current guardian" value="current_guardian" />
-                                                                                <RadioGroupItem label="Other next of keen" value="other_next_of_keen" />
+                                                                                <RadioGroupItem label="Spouse" value="Spouse" />
+                                                                                <RadioGroupItem label="Living children" value="Living children" />
+                                                                                <RadioGroupItem label="Current guardian" value="Current guardian" />
+                                                                                <RadioGroupItem label="Other next of kin" value="Other next of kin" />
                                                                             </RadioGroup>
                                                                         </FormFieldLabelErrorWrapper>
                                                                     );

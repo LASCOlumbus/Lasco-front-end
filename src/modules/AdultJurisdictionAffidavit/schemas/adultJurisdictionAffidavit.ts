@@ -194,12 +194,12 @@ export const adultJurisdictionAffidavitAddressInformStepSchema = z
 export const adultJurisdictionAffidavitLegalQuestionsStepSchema = z
     .object({
         isAffiantHaveInfoAboutAnyGuardianship: booleanAnswer,
-        infoAboutCourtProceeding: requiredStringSchema,
+        infoAboutCourtProceeding: optionalStringSchema,
         isAllegedIncompetentDivorced: booleanAnswer,
         isDivorcePending: booleanAnswer,
-        courtName: z.string().optional(),
+        courtName: optionalStringSchema,
         isAllegedIncompetentCurrently: booleanAnswer,
-        additionalInfo: requiredStringSchema,
+        additionalInfo: optionalStringSchema,
     })
     .refine(
         (data) => {
@@ -212,5 +212,18 @@ export const adultJurisdictionAffidavitLegalQuestionsStepSchema = z
         {
             message: 'This field is required.',
             path: ['courtName'],
+        }
+    )
+    .refine(
+        (data) => {
+            if (data?.isAffiantHaveInfoAboutAnyGuardianship) {
+                return requiredStringSchema.safeParse(data.infoAboutCourtProceeding).success;
+            }
+
+            return true;
+        },
+        {
+            message: 'This field is required.',
+            path: ['infoAboutCourtProceeding'],
         }
     );

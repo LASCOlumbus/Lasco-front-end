@@ -1,4 +1,4 @@
-import { booleanAnswer, generateRequiredStringWithLimitsSchema, optionalStringSchema, phoneSchema, positiveNumberSchema, requiredStringSchema } from '@/schemas/formSchemas';
+import { booleanAnswer, generateRequiredStringWithLimitsSchema, numberSchema, optionalStringSchema, phoneSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
 import { z } from 'zod';
 
 export const applicationForAppointmentCaseDetailsStepSchema = z.object({
@@ -69,11 +69,11 @@ export const applicationForAppointmentWardInformStepSchema = z
 
 export const applicationForAppointmentAssetsAndIncomeStepSchema = z
     .object({
-        estimatedValuePersonalProperty: positiveNumberSchema,
-        estimatedValueRealEstate: positiveNumberSchema,
-        annualRentsReceived: positiveNumberSchema,
-        otherAnnualIncome: positiveNumberSchema,
-        bondAmount: positiveNumberSchema,
+        estimatedValuePersonalProperty: numberSchema,
+        estimatedValueRealEstate: numberSchema,
+        annualRentsReceived: numberSchema,
+        otherAnnualIncome: numberSchema,
+        bondAmount: numberSchema,
         publicPrivateAssistance: requiredStringSchema,
         isWardHasRepresentativePayee: booleanAnswer,
         payeeName: z.string().optional(),
@@ -155,6 +155,9 @@ export const applicationForAppointmentApplicantInformStepSchema = z
         applicantPhone: phoneSchema,
         applicantEmail: z.email(),
         applicantAddress: requiredStringSchema,
+        city: requiredStringSchema,
+        state: requiredStringSchema,
+        zip: zipCodeSchema,
         applicantRelationshipToWard: requiredStringSchema,
         isApplicantRequiringInterpreter: booleanAnswer,
         applicantSpeakLanguage: z.string().optional(),
