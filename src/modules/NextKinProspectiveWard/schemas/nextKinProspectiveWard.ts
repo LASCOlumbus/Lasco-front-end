@@ -1,21 +1,21 @@
-import { generateRequiredStringWithLimitsSchema, maybeDateSchema, optionalStringSchema, requiredStringSchema, zipCodeSchema } from '@/schemas/formSchemas';
+import { maybeDateSchema, optionalStringSchema, optionalZipCodeSchema } from '@/schemas/formSchemas';
 import { isValid } from 'date-fns';
 import { z } from 'zod';
 
 export const nextKinProspectiveWardCaseDetailsStepSchema = z.object({
-    guardianName: generateRequiredStringWithLimitsSchema(4, 100),
+    guardianName: optionalStringSchema,
     caseNumber: optionalStringSchema,
-    applicantName: generateRequiredStringWithLimitsSchema(4, 100),
+    applicantName: optionalStringSchema,
 });
 
 export const relativePersonSchema = z
     .object({
-        fullName: requiredStringSchema,
-        isRelativeUnder18: z.boolean(),
-        dob: maybeDateSchema,
-        relationship: requiredStringSchema,
-        address: requiredStringSchema,
-        zip: zipCodeSchema,
+        fullName: optionalStringSchema,
+        isRelativeUnder18: z.boolean().optional(),
+        dob: maybeDateSchema.optional(),
+        relationship: optionalStringSchema,
+        address: optionalStringSchema,
+        zip: optionalZipCodeSchema,
     })
     .refine(
         (data) => {
@@ -38,5 +38,5 @@ export const relativePersonSchema = z
     );
 
 export const nextKinProspectiveWardWaiversListStepSchema = z.object({
-    relatives: z.array(relativePersonSchema).min(1, 'This field is required.'),
+    relatives: z.array(relativePersonSchema).min(1, 'This field is required.').optional(),
 });

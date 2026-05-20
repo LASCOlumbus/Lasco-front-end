@@ -18,6 +18,12 @@ export const maybeDateSchema = z.union([z.date(), z.string()]).nullable().option
 export const requiredStringSchema = z.string().trim().min(1, 'This field is required');
 export const optionalStringSchema = z.string().trim().optional();
 export const zipCodeSchema = requiredStringSchema.regex(ZIP_CODE_REGEX, 'Invalid zip code');
+export const optionalZipCodeSchema = z
+    .string()
+    .optional()
+    .refine((value) => {
+        return !value || ZIP_CODE_REGEX.test(value);
+    }, 'Invalid zip code');
 export const numberSchema = z.number().min(0, { message: 'This field must be a valid number ' });
 export const optionalNumberSchema = z.number().optional().nullable();
 export const positiveNumberSchema = z.number().min(1, { message: 'This field must be a positive number' });
