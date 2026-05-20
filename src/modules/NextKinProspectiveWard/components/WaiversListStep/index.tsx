@@ -59,7 +59,7 @@ const WaiversListStep: React.FC = () => {
                                                                     Relative {index + 1}
                                                                 </Typography>
 
-                                                                {field.state.value?.length > 1 && (
+                                                                {field.state.value?.length && field.state.value?.length > 1 && (
                                                                     <Button
                                                                         variant="secondary"
                                                                         size="small"

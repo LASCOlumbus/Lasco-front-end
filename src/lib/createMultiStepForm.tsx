@@ -312,22 +312,59 @@ export function createMultiStepForm<TForm extends Record<string, unknown>>(type:
             if (!formData || isInitialStepSet) return;
 
             toggleIsLoading(true);
-            const firstInvalidIndex = stepsArray.findIndex((step) => {
-                const result = step.schema.safeParse(parsedFormData[step.id]);
-                return !result.success;
-            });
 
-            if (firstInvalidIndex === -1) {
-                setLastPassedStepIndex(stepsArray.length - 1);
-                setStep(stepsArray.length - 1);
-            } else {
-                setLastPassedStepIndex(firstInvalidIndex);
-                setStep(firstInvalidIndex);
+            const hasValuesDeep = (obj: unknown): boolean => {
+                if (obj === null || obj === undefined) {
+                    return false;
+                }
+
+                if (typeof obj === 'string') {
+                    return obj.trim() !== '';
+                }
+
+                if (typeof obj === 'number') {
+                    return true;
+                }
+
+                if (typeof obj === 'boolean') {
+                    return obj;
+                }
+
+                if (Array.isArray(obj)) {
+                    return obj.some(hasValuesDeep);
+                }
+
+                if (typeof obj === 'object') {
+                    return Object.values(obj).some(hasValuesDeep);
+                }
+
+                return false;
+            };
+
+            let nextStepIndex = 0;
+
+            for (let i = 0; i < stepsArray.length; i++) {
+                const step = stepsArray[i];
+                const stepData = parsedFormData[step.id];
+
+                const hasData = hasValuesDeep(stepData);
+                const isValid = step.schema.safeParse(stepData).success;
+
+                // якщо step валідний і має дані —
+                // відкриваємо наступний
+                if (hasData && isValid) {
+                    nextStepIndex = Math.min(i + 1, stepsArray.length - 1);
+                } else {
+                    break;
+                }
             }
+
+            setLastPassedStepIndex(nextStepIndex);
+            setStep(nextStepIndex);
+
             toggleIsInitialStepSet(true);
             toggleIsLoading(false);
         }, [formData, isInitialStepSet, parsedFormData, setLastPassedStepIndex, setStep, stepsArray, toggleIsInitialStepSet, toggleIsLoading]);
-
         React.useEffect(() => {
             if (currentStepIndex > lastPassedStepIndex) {
                 setLastPassedStepIndex(currentStepIndex);
