@@ -29,7 +29,6 @@ const ADULT_JURISDICTION_AFFIDAVIT_FORM_INITIAL_STATE: AdultJurisdictionAffidavi
     caseDetailsStep: {
         guardianName: '',
         caseNumber: '',
-        applicantName: '',
     },
     addressInformStep: {
         currentAddress: '',

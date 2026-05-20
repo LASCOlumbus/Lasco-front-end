@@ -15,7 +15,6 @@ export const booleanAnswer = z
 export const adultJurisdictionAffidavitCaseDetailsStepSchema = z.object({
     guardianName: generateRequiredStringWithLimitsSchema(4, 100),
     caseNumber: optionalStringSchema,
-    applicantName: generateRequiredStringWithLimitsSchema(4, 100),
 });
 
 export const previousAddressSchema = z.object({
